@@ -1,0 +1,13 @@
+---
+title: "Actividad 2.2. Intervalos de confianza y de predicción"
+author: "Alicia Bernadez"
+format: pdf
+editor: visual
+---
+
+## Sección 1
+
+```{r}
+x= c(1,2,3,4,5)
+y= c(1.64,2.30,3.68,4.69,3.89)
+```

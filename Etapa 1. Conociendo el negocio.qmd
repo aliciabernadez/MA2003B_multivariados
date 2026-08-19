@@ -43,14 +43,20 @@ Sin embargo, es importante señalar que las directrices de la OMS no son normas 
 
 En México, los límites de concentración utilizados para proteger la salud de la población se establecen mediante Normas Oficiales Mexicanas. Para los principales contaminantes se encuentran la NOM-020-SSA1-2021, correspondiente al ozono; la NOM-021-SSA1-2021 para el monóxido de carbono; la NOM-022-SSA1-2019 para el dióxido de azufre; la NOM-023-SSA1-2021 para el dióxido de nitrogeno y la NOM-025-SSA1-2021 correspondiente a las partículas suspendidas. Estas normas establecen valores máximos permisibles y criterios específicos para detrminar su las concentraciones registradas representan condiciones adecuadas para la protección de la salud (DOF, 2019; DOF,2021).
 
-A estas normas se suma la NOM-172-SEMARNAT-2023, cuyo objetivo es establecer los lineamientos para obtener y comunicar el Índice de Calidad del Aire y Riesgos a la Salud. A través de este índice, las concentraciones registradas pueden comunicarse mediante categorías como buena, aceptable, mala, muy mala y extremadamente mala, acompañadas de diferentes niveles de reiesgo y recomendaciones a la población. De esta forma, la normatividad no solamente permite evaluar las concentraciones, sino también traducir los resultados del monitoreo a información que pueda ser utilizada por la ciudadanía.
+A estas normas se suma la NOM-172-SEMARNAT-2023, cuyo objetivo es establecer los lineamientos para obtener y comunicar el Índice de Calidad del Aire y Riesgos a la Salud. A través de este índice, las concentraciones registradas pueden comunicarse mediante categorías como buena, aceptable, mala, muy mala y extremadamente mala, acompañadas de diferentes niveles de reiesgo y recomendaciones a la población. De esta forma, la normatividad no solamente permite evaluar las concentraciones, sino también traducir los resultados del monitoreo a información que pueda ser utilizada por la ciudadanía (SEMARNAT,2023).
+
+Una de las principales porblemáticas relacionadas con la regulación de la calidad del aire es que los valores establecidos por las normas nacionales y las recomendaciones internacionales no siempre coinciden. la directrices de la OMS están diseñadas como niveles de referencia orientados a disminuir los efectos sobre la salud, mientras que cada país determina los valores que serán legalmente obligatorios (OMS, 2021). Incluso las propias normas mexicanas han sido actualizadas conforme ha aparecido nueva evidencia científica; por ejemplo, la actualización de la norma para el monóxido de carbono señala que el límite de la norma anterior era superior a referencias internacionales y que esta diferencia fue una de las razones para modificarla (DOF, 2021).
 
 #### Objetivo de trabajo
 
-Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad y forma urbana sobre los niveles de contaminantes como NO₂/NOx, PM10, PM2.5, SO₂, O₃ y CO. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de aislar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
+Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad/forma urbana sobre los niveles de contaminantes como $NO_{2}$/$NO_{x}$, $PM_{10}$, $PM_{2.5}$, $SO_{2}$, $0_{3}$ y $CO$. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de aislar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
 
 #### Antecedentes relacionados con el objetivo del trabajo
 La infraestructura verde y áreas verdes 
+
+
+
+#### Antecedentes realcionados con el objetivo del trabajo
 
 
 ## Parte 2: Comprensión y preparación de los datos

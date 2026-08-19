@@ -23,4 +23,10 @@ El material particulado representa uno de los contaminantes de mayor interés pa
 
 A nivel internacional no existe una sola clasificación universal de la calidad del aire; sin embargo, la OMS establece valore guía y objetivos intermedios para los principales contaminantes como referencia para la protección de la salud. En México, estos valores se complementan con el Índice Aire y Salud, que comunica las condiciones de contaminación mediante cinco categorías: buena, aceptable, mala, muy mala y extremadamente mala, relacionadas respectivamente con niveles de riesgo desde bajo a extremadamente alto.
 
+**Medición de la calidad del aire y variables relacionadas**
+
+La calidad del aire se evalúa de manera cuantitativa mediante la medición de las concentraciones de los contaminantes presentes en la atmósfera. Para ello se utilizan redes de monitoreo equipadas con instrumentos diseñados para detectar contaminantes específicos. Algunos equipos, por ejemplo, utilizan métodos ópticos para determinar la cantidad de partículas presentes en un volumen de aire, mientras que las mediciones terrestres también pueden complementarse con información obtenida mediante satélites. Este tipo de monitoreo permite conocer cómo varía la contaminación a través del tiempo y entre distintas zonas, admeás de identificar episodios en los que las concentraciones pueden representar un riesgo para la población (PNUMA, 2022).
+
+En México, el Sistema Nacional de Información de la Calidad del Aire (SINAICA), administrado por el Instituto Nacional de Ecología y Cambio Climático (INECC), integra información proveniente de los diferentes sistemas de monitoreo del país. A partir de los datos validados de las estaciones es posible evaluar el cumplimiento de las Normas Oficioales Mexicanas, analizar estadísticas descriptivas y estudiar el comportamiento temporal de los contaminantes. Entre la información disponible se encuentran concentraciones horarias, promedios móviles de ocho horas, promedios de 24 horas y otros indicadores utilizados dependiendo del contaminante que se quiera evaluar (INECC, s.f.).
+
 ## Parte 2: Comprensión y preparación de los datos

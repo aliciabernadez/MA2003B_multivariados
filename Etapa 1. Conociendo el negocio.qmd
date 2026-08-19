@@ -60,9 +60,8 @@ Otra dificultas corresponde a la calidad y disponibilidad de los registros. Los 
 Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad/forma urbana sobre los niveles de contaminantes como $NO_{2}$/$NO_{x}$, $PM_{10}$, $PM_{2.5}$, $SO_{2}$, $0_{3}$ y $CO$. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de aislar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
 
 #### Antecedentes relacionados con el objetivo del trabajo
+La infraestructura verde y áreas verdes han demostrado contribuir a la calidad del aire al reducir la concentración de contaminantes y mejorar la salud ambiental (Oliveira et al., 2025; Akaraci et al., 2022). Esto debido a su capacidad para mitigar concentraciones de PM, con estudios que demuestran una capacidad para reducir $PM_{2.5}$ en un 15-20% en su entorno inmediato (Oliveira et al., 2025). De igual manera, las zonas verdes también se asocian a mitigar islas de calor urbanas (Oliveira et al., 2025).
 
-La infraestructura verde y áreas verdes
 
-#### Antecedentes realcionados con el objetivo del trabajo
 
 ## Parte 2: Comprensión y preparación de los datos

@@ -47,16 +47,16 @@ A estas normas se suma la NOM-172-SEMARNAT-2023, cuyo objetivo es establecer los
 
 Una de las principales porblemáticas relacionadas con la regulación de la calidad del aire es que los valores establecidos por las normas nacionales y las recomendaciones internacionales no siempre coinciden. la directrices de la OMS están diseñadas como niveles de referencia orientados a disminuir los efectos sobre la salud, mientras que cada país determina los valores que serán legalmente obligatorios (OMS, 2021). Incluso las propias normas mexicanas han sido actualizadas conforme ha aparecido nueva evidencia científica; por ejemplo, la actualización de la norma para el monóxido de carbono señala que el límite de la norma anterior era superior a referencias internacionales y que esta diferencia fue una de las razones para modificarla (DOF, 2021).
 
+Por esta razón, cumplir con una norma Oficial Mexicana no debe interpretarse automáticamente como la ausencia total de riesgo para la salud. La OMS señala que sus recomendaciones se basan en la evidencia disponible sobre los efectos observados incluso a concentraciones relativamente bajas, mientras que las normas nacionales constituyen los criterios obligatorios aplicables dentro del país (OMS, 2021). Esto hace necesario específicar siempre qué referencia se utiliza, qué unidad se está analizando y durante qué perioso se promedió la concentración, especialmente cuando se pretende comparar resultados (INECC, s.f.).
+
 #### Objetivo de trabajo
 
 Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad/forma urbana sobre los niveles de contaminantes como $NO_{2}$/$NO_{x}$, $PM_{10}$, $PM_{2.5}$, $SO_{2}$, $0_{3}$ y $CO$. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de aislar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
 
 #### Antecedentes relacionados con el objetivo del trabajo
-La infraestructura verde y áreas verdes 
 
-
+La infraestructura verde y áreas verdes
 
 #### Antecedentes realcionados con el objetivo del trabajo
-
 
 ## Parte 2: Comprensión y preparación de los datos

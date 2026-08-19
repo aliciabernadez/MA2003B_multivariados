@@ -39,7 +39,11 @@ El comportamiento de los contaminnates tampoco depende únicamente de la cantida
 
 A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire de la Organización Mundial de la Salud, actualizadas en 2021. Estas directrices establecen niveles recomendados y metas intermedias para seis contaminantes considerados especialmente importantes para la salud: $PM_{2.5}$ , $PM_{10}$, $O_3$, $NO_2$, $SO_2$ y $CO$. Los valores recomendados se establecen a partir de la evidencia científica disponible sobre los efectos de la exposición a estos contaminantes y consideran diferentes periodos de exposición dependiendo de cada sustancia (OMS,2021).
 
-S
+Sin embargo, es importante señalar que las directrices de la OMS no son normas legalmente obligatorias. Su función es proporcionar una referencia internacional basada en criterios de salud para que los distintos gobiernos puedan desarrollar o actualizar sus propias normas de calidad del aire. La OMS reconoce que adoptar estos valores puede variar entre países debido a sus condiciones ambientales, sociales, económicas y técnicas. Por lo tanto, un país puede establecer límites legales distintos a los valores guía recomendados internacionalmente.
+
+En México, los límites de concentración utilizados para proteger la salud de la población se establecen mediante Normas Oficiales Mexicanas. Para los principales contaminantes se encuentran la NOM-020-SSA1-2021, correspondiente al ozono; la NOM-021-SSA1-2021 para el monóxido de carbono; la NOM-022-SSA1-2019 para el dióxido de azufre; la NOM-023-SSA1-2021 para el dióxido de nitrogeno y la NOM-025-SSA1-2021 correspondiente a las partículas suspendidas. Estas normas establecen valores máximos permisibles y criterios específicos para detrminar su las concentraciones registradas representan condiciones adecuadas para la protección de la salud (DOF, 2019; DOF,2021).
+
+A estas normas se suma la NOM-172-SEMARNAT-2023, cuyo objetivo es establecer los lineamientos para obtener y comunicar el Índice de Calidad del Aire y Riesgos a la Salud. A través de este índice, las concentraciones registradas pueden comunicarse mediante categorías como buena, aceptable, mala, muy mala y extremadamente mala, acompañadas de diferentes niveles de reiesgo y recomendaciones a la población. De esta forma, la normatividad no solamente permite evaluar las concentraciones, sino también traducir los resultados del monitoreo a información que pueda ser utilizada por la ciudadanía.
 
 #### Objetivo de trabajo
 

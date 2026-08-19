@@ -5,4 +5,6 @@ format: pdf
 editor: visual
 ---
 
-## 
+## Parte 1: Conociendo el negocio
+
+## Parte 2: Comprensión y preparación de los datos

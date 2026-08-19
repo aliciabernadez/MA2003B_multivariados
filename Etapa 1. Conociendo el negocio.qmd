@@ -5,7 +5,7 @@ format: pdf
 editor: visual
 ---
 
-## Parte 1: Conociendo el negocio (hola)
+## Parte 1: Conociendo el negocio (holacomosjsbj)
 
 La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente. De manera general, se refiere a la condición del aire que se respira en función de la presencia y concentración de distintos contaminantes, tanto partículas como gases. Cuando estos contaminantes se encuentran en concentraciones elevadas puedes representar un riesgo para la salud y afectar también a los ecosistemas. Por esta razón, conocer y monitorear la calidad del aire permite identificar condiciones de riesgo y generar información que ayude a establecer acciones para reducir la exposición de la población a la contaminación atmosférica (HOLCIM, s.f.).
 
@@ -14,5 +14,3 @@ La contaminación del aire puede originarse ranto por actividades humanas como p
 El análisis de estos contaminantes resulta de suma importancia debido a los efectos de los mismos sobre la salud. La Organización Mundial de la Salud considera la contaminación del aire como uno de los principales riesgos ambientales para la salud y señala que la exposición a ella se relaciona con enfermedades cardiovasculares y respiratorias, accidentes cerebrovasculares, cancér de pulmón y otras enfermedades (OMS, 2023). En 2019, se estimó que la contaminación del aire exterior estuvo asociada con aproximadamente 4.2 millones de muertes prematuras en el mundo, lo que refleja la magnitud de este porblema de salud pública (OMS,2023). Además, investigaciones recopiladas por el National Institute of Environmental Health Sciences muestran que la contaminación atmosférica puede afectar el desarrollo y funcionamiento de los pulomnes, contribuir a enfermedades como el asma y la enfermedad pulmonar obstructiva crónica y afectar al sistema cardiovascular. El material particulado fino es de especial interés debido a que puede penetrar profundamente el tejido pulmonar y se ha relacionado con diferentes efectos adversos sobre la salud (NIEHS, s.f.).
 
 ## Parte 2: Comprensión y preparación de los datos
-
-hola

@@ -5,7 +5,7 @@ format: pdf
 editor: visual
 ---
 
-## Parte 1: Conociendo el negocio (hola)
+## Parte 1: Conociendo el negocio (holacomoesta)
 
 La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente. De manera general, se refiere a la condición del aire que se respira en función de la presencia y concentración de distintos contaminantes, tanto partículas como gases. Cuando estos contaminantes se encuentran en concentraciones elevadas puedes representar un riesgo para la salud y afectar también a los ecosistemas. Por esta razón, conocer y monitorear la calidad del aire permite identificar condiciones de riesgo y generar información que ayude a establecer acciones para reducir la exposición de la población a la contaminación atmosférica (HOLCIM, s.f.).
 

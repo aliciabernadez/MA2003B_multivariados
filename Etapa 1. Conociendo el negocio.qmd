@@ -41,5 +41,7 @@ El comportamiento de los contaminnates tampoco depende únicamente de la cantida
 A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire
 
 
-HOLA MUCHACHOS
+### Objetivo de trabajo 
+
+### Antecedentes realcionados con el objetivo del trabajo
 ## Parte 2: Comprensión y preparación de los datos

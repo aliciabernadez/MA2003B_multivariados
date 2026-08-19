@@ -37,6 +37,6 @@ El comportamiento de los contaminnates tampoco depende únicamente de la cantida
 
 **Normas y lineamientos para la protección de la salud**
 
-A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire
+A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire de la Organización Mundial de la Salud, actualizadas en 2021. Estas directrices establecen niveles recomendados y metas intermedias para seis contaminantes considerados especialmente importantes para la salud: $PM_{2.5}$ , $PM_{10}$, $O_3$, $NO_2$, $SO_2$ y $CO$. Los valores recomendados se establecen a partir de la evidencia científica disponible sobre los efectos de la exposición a estos contaminantes y consideran diferentes periodos de exposición dependiendo de cada sustancia (OMS,2021).
 
 ## Parte 2: Comprensión y preparación de los datos

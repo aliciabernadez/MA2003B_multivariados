@@ -9,13 +9,13 @@ editor: visual
 
 La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente. De manera general, se refiere a la condición del aire que se respira en función de la presencia y concentración de distintos contaminantes, tanto partículas como gases. Cuando estos contaminantes se encuentran en concentraciones elevadas puedes representar un riesgo para la salud humana y afectar también a los ecosistemas. Por esta razón, conocer y monitorear la calidad del aire permite identificar condiciones de riesgo y generar información que ayude a establecer acciones para reducir la exposición de la población a la contaminación atmosférica (HOLCIM, s.f.).
 
-**Importancia del análisis de la calidad del aire**
+#### **Importancia del análisis de la calidad del aire**
 
 El análisis de la calidad del aire es importante para la ciudadanía debido a que ppermite conocer el nivel de exposición de la población a contaminantes que pueden causar efectos adversos sobre la salud. La Organización Mundial de la Salus estima que la contaminación del aire exterior ocasionó aproximadamente 4.2 millones de muertes prematuras durante 2019 y la relaciona principalmente con enfermedades cardiovasculares, accidentes cerebrovasculares, enfermedades respiratorias y cáncer de pulmón (OMS, 2024). Asimismo, el National Institute od Environmental Health Sciences señala que la contaminación atmosférica puede afectar el desarrollo y funcionamiento pulmonar, contribuir al asma y a la enfermedad pulmonar obstructiva crónica, además de afectar al sistema cardiovascular (NIEHS, s.f.).
 
 Contar con información actualizada sobre la calidad del aire permite también que la ciudadanía tome medidas para disminuir su exposición durante episodios de contaminación elevada. Además, esta información puede ser utilizada por las autoridades para diseñar estrategiad relacionadas con transportem industria, energía, desarrollo urbano y otras fuentes importantes de emisiones. La OMS señala que muchas fuentes de contaminación atmosférica no pueden ser controladas directamente por los individuos, por lo que requieren acciones coordinadas de política pública (OMS, 2024).
 
-**Contaminantes y aspectos considerados para evaluar la calidad del aire**
+#### **Contaminantes y aspectos considerados para evaluar la calidad del aire**
 
 El análisis de la calidad del aire considera principalmente la concentración de contaminantes atmosféricos, su tiempo de exposición, su comportamiento en diferentes lugares y momentos y las condiciones ambientales que pueden influir en su dispersión. Entre los contaminantes de mayor importancia para la salud se encuentran las partículas suspendidas ($PM_{10}$ , $PM_{2.5}$), el ozono ($P0{3}$), el dióxido de nitrógeno ($NO_{2}$), el dióxido de azufre ($SO_{2}$) y el monóxido de carbono ($CO$), los cuales también están incluidos en las Directrices Mundiales sobre la Calidad del Aire de la OMS.
 
@@ -23,7 +23,7 @@ El material particulado representa uno de los contaminantes de mayor interés pa
 
 A nivel internacional no existe una sola clasificación universal de la calidad del aire; sin embargo, la OMS establece valore guía y objetivos intermedios para los principales contaminantes como referencia para la protección de la salud. En México, estos valores se complementan con el Índice Aire y Salud, que comunica las condiciones de contaminación mediante cinco categorías: buena, aceptable, mala, muy mala y extremadamente mala, relacionadas respectivamente con niveles de riesgo desde bajo a extremadamente alto.
 
-**Medición de la calidad del aire y variables relacionadas**
+#### **Medición de la calidad del aire y variables relacionadas**
 
 La calidad del aire se evalúa de manera cuantitativa mediante la medición de las concentraciones de los contaminantes presentes en la atmósfera. Para ello se utilizan redes de monitoreo equipadas con instrumentos diseñados para detectar contaminantes específicos. Algunos equipos, por ejemplo, utilizan métodos ópticos para determinar la cantidad de partículas presentes en un volumen de aire, mientras que las mediciones terrestres también pueden complementarse con información obtenida mediante satélites. Este tipo de monitoreo permite conocer cómo varía la contaminación a través del tiempo y entre distintas zonas, admeás de identificar episodios en los que las concentraciones pueden representar un riesgo para la población (PNUMA, 2022).
 
@@ -35,8 +35,12 @@ También es importante distinguir entre la concentración de un contaminante y u
 
 El comportamiento de los contaminnates tampoco depende únicamente de la cantidad de emisiones producidas. Variables meteorológicas como la temperatura, humedad relativa, velocidad y dirección del viento, presión atmosférica, precipitación y radiación solar pueden modificar su transporte, dispersión y acumulación. Estas variables no pueden controlarse directamente, pero conocerlas permite identificar las condiciones bajo las cuales pueden presentarse mayores concentraciones. En cambio, la mejora d ela calidad del aire depende principalmente de reducir las emisiones generadas por actividades como el transporte, los procesos industriales, la generación de energía y otras fuentes antropogénicas. Por ello, analizar simultáneamente contaminantes, fuentes de emisión y condiciones meteorológicas permite obtener una visión más completa del comportamiento de la calidad del aire.
 
-**Normas y lineamientos para la protección de la salud**
+#### **Normas y lineamientos para la protección de la salud**
 
 A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire de la Organización Mundial de la Salud, actualizadas en 2021. Estas directrices establecen niveles recomendados y metas intermedias para seis contaminantes considerados especialmente importantes para la salud: $PM_{2.5}$ , $PM_{10}$, $O_3$, $NO_2$, $SO_2$ y $CO$. Los valores recomendados se establecen a partir de la evidencia científica disponible sobre los efectos de la exposición a estos contaminantes y consideran diferentes periodos de exposición dependiendo de cada sustancia (OMS,2021).
+
+#### Objetivo de trabajo
+
+#### Antecedentes realcionados con el objetivo del trabajo
 
 ## Parte 2: Comprensión y preparación de los datos

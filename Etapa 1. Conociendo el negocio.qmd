@@ -37,4 +37,6 @@ El comportamiento de los contaminnates tampoco depende únicamente de la cantida
 
 **Normas y lineamientos para la protección de la salud**
 
+A nivel internacional, una de las principales referencias son las Directrices Mundiales sobre la Calidad del Aire
+
 ## Parte 2: Comprensión y preparación de los datos

@@ -21,4 +21,6 @@ El análisis de la calidad del aire considera principalmente la concentración d
 
 El material particulado representa uno de los contaminantes de mayor interés para la salud. La partículas $PM_{10}$ presentan un diámetro aerodinámico menor o igual a 10 micrómetros, mientras que las $PM_{2.5}$ son menores o iguales a 2.5 micrómetros. Debido a su menor tamaño, las partículas finas pueden penetrar profundamente en los pulmones e incluso ingresar al torrente sanguíneo, por lo que se han relacionado con efectos cardiovasculares, cerebrovasculares y respiratorios. La evidencia de sus efectos sobre la salud es especialmente amplia y la exposición tanto a corto como a largo plazo se ha asociado con incrementos en morbilidad y mortalidad (OMS, 2024).
 
+A nivel internacional no existe una sola clasificación universal de la calidad del aire; sin embargo, la OMS establece valore guía y objetivos intermedios para los principales contaminantes como referencia para la protección de la salud. En México, estos valores se complementan con el Índice Aire y Salud, que comunica las condiciones de contaminación mediante cinco categorías: buena, aceptable, mala, muy mala y extremadamente mala, relacionadas respectivamente con niveles de riesgo desde bajo a extremadamente alto.
+
 ## Parte 2: Comprensión y preparación de los datos

@@ -1,11 +1,6 @@
 ---
 title: "Etapa 1. Conociendo el negocio"
-author: 
-"Alicia Bernádez
-Omar Arzaga
-Diego Medrano
-Sebastián Alemán
-Isaac Montaño"
+author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
 format: pdf
 editor: visual
 ---

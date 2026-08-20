@@ -77,4 +77,24 @@ Se busca analizar cómo la presencia de áreas verdes y la forma de urbanizació
 
 La infraestructura verde y áreas verdes han demostrado contribuir a la calidad del aire al reducir la concentración de contaminantes y mejorar la salud ambiental (Oliveira et al., 2025; Akaraci et al., 2022). Esto debido a su capacidad para mitigar concentraciones de PM, con estudios que demuestran una capacidad para reducir $PM_{2.5}$ en un 15-20% en su entorno inmediato (Oliveira et al., 2025). De igual manera, las zonas verdes también se asocian a mitigar islas de calor urbanas (Oliveira et al., 2025).
 
+**Resumen de la metodología**
+
+El estudio utilizó una combinación de datos de teledetección, mediciones de la calidad del aire y técnicas estadísticas avanzadas para analizar la relación entre las áreas verdes urbanas y la contaminación del aire en el Área Metropolitana de São Paulo. Los aspectos clave incluyen:
+
+- Análisis de las concentraciones de PM10 y PM2.5 de 27 estaciones de monitoreo en todo el MASP.12
+
+-  Cálculo del Índice de Vegetación de Diferencia Normalizada (NDVI) y del Índice de Áreas Construidas de Diferencia Normalizada (NDBI) para evaluar las áreas verdes y la urbanización.34
+
+- Aplicación del algoritmo de agrupamiento K-means para identificar patrones regionales y similitudes en la calidad del aire, la urbanización y las características de la vegetación.5
+
+- Utilización del análisis de pendiente de Sen para detectar tendencias temporales en PM2.5, PM10, NDVI y NDBI.6
+
+**Métricas y resultados**
+
+El análisis reveló una disminución general en las concentraciones de PM2.5 y PM10 entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico.78El análisis de la pendiente de Sen confirmó la influencia de las políticas de plantación de árboles en la reducción de los niveles de contaminantes.9
+
+**Limitaciones y relaciones**
+
+Si bien el estudio destaca el papel de las zonas verdes en la mitigación de la contaminación atmosférica, reconoce que otros factores, como el tráfico, las emisiones industriales y las condiciones meteorológicas, también influyen significativamente en las concentraciones de partículas en suspensión.1011La distribución desigual de las estaciones de monitoreo, particularmente en la región sur, introduce incertidumbres espaciales en el análisis.
+
 ## Parte 2: Comprensión y preparación de los datos

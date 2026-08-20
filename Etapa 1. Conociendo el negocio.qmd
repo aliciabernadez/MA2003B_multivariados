@@ -49,26 +49,42 @@ Una de las principales porblemáticas relacionadas con la regulación de la cali
 
 Por esta razón, cumplir con una norma Oficial Mexicana no debe interpretarse automáticamente como la ausencia total de riesgo para la salud. La OMS señala que sus recomendaciones se basan en la evidencia disponible sobre los efectos observados incluso a concentraciones relativamente bajas, mientras que las normas nacionales constituyen los criterios obligatorios aplicables dentro del país (OMS, 2021). Esto hace necesario específicar siempre qué referencia se utiliza, qué unidad se está analizando y durante qué perioso se promedió la concentración, especialmente cuando se pretende comparar resultados (INECC, s.f.).
 
+#### Dificultades en la medición de la calidad del aire
+
+A pesar de la importancia del monitoreo, medir la calidad del aire presenta diferentes dificultades. Una de ellas es la disponibilidad de infraestructura suficiente para representar adecuadamente una región. La estaciones de monitoreo proporcionan información de los lugares en los que están instalados, por lo que una red con pocas estaciones puede no representar completamente las diferencias que existen entre zonas industriales, residenciales, comerciales o cercanas a vialidades. El Programa de las Naciones Unidas para el Medio Ambiente también señala que la cobertura del monitoreo sigue siendo limitada en distintas regiones del mundo y que mejorar la insfraestructura y el acceso a sistemas de vigilancia continúa siendo un reto importante (PNUMA, 2022).
+
+Otra dificultas corresponde a la calidad y disponibilidad de los registros. Los equipos pueden requerir calibración y mantenimiento, y durante su operación puede producirse interrupciones o datos que posteriormente deban ser revisados. Por esta razón, los datos obtenidos directamente de una estación no necesariamente pueden utilizarse de manera inmediata en un análisis. SINAICA distingue entre datos crudos y datos validados, y para sus indicadores utiliza información que previamente ha sido revisada por los responsable de los sistemas de monitoreo (INECC, s.f.).
+
+Además, las concentraciones pueden presentar una gran variabilidad espacial y temporal debido a cambios en las emisiones y en las condiciones metereológicas. Una concentración registrada en determinada estación y hora puede ser diferente a la observada en otra parte de la ciudad, por lo que la ubicación del equipo, el periodo analizado y las características del entorno deben considerarse al interpretar los resultados. Por ello, el análisis de calidad del aire requiere no solamente disponer de mediciones, sino también verificar que exista una cantidad suficiente de datos válidos y considerar las condiciones bajo las cuales fueorn obtenidos (OMS, 2021).
+
+Estas dificultades son especialmente importantes para el presente proyecto, ya que antes de estudiar relaciones entre variables será necesario evaluar la calidad de los datos proporcionados por las estaciones. La presencia de observaciones faltantes, valores atípicos, diferencias entre periodos de medición o estaciones con información incompleta puede afectar los resultados estadísticos. Por esta razón, la revisión, depuración y preparación de los datos constituye una etapa fundamental antes de realizar cualquier análisis posterior.
+
 #### Objetivo de trabajo
 
 Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad/forma urbana sobre los niveles de contaminantes como $NO_{2}$/$NO_{x}$, $PM_{10}$, $PM_{2.5}$, $SO_{2}$, $0_{3}$ y $CO$. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de aislar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
 
 #### Antecedentes relacionados con el objetivo del trabajo
 
-Resumen de la metodología
-El estudio utilizó una combinación de datos de teledetección, mediciones de la calidad del aire y técnicas estadísticas avanzadas para analizar la relación entre las áreas verdes urbanas y la contaminación del aire en el Área Metropolitana de São Paulo (MASP). Los aspectos clave incluyen:
+La infraestructura verde y áreas verdes han demostrado contribuir a la calidad del aire al reducir la concentración de contaminantes y mejorar la salud ambiental (Oliveira et al., 2025; Akaraci et al., 2022). Esto debido a su capacidad para mitigar concentraciones de PM, con estudios que demuestran una capacidad para reducir $PM_{2.5}$ en un 15-20% en su entorno inmediato (Oliveira et al., 2025). De igual manera, las zonas verdes también se asocian a mitigar islas de calor urbanas (Oliveira et al., 2025).
 
-Análisis de las concentraciones de PM10 y PM2.5 de 27 estaciones de monitoreo en todo el MASP.12
-Cálculo del Índice de Vegetación de Diferencia Normalizada (NDVI) y del Índice de Áreas Construidas de Diferencia Normalizada (NDBI) para evaluar las áreas verdes y la urbanización.34
-Aplicación del algoritmo de agrupamiento K-means para identificar patrones regionales y similitudes en la calidad del aire, la urbanización y las características de la vegetación.5
-Utilización del análisis de pendiente de Sen para detectar tendencias temporales en PM2.5, PM10, NDVI y NDBI.6
+**Resumen de la metodología**
 
-Métricas y resultados
+El estudio utilizó una combinación de datos de teledetección, mediciones de la calidad del aire y técnicas estadísticas avanzadas para analizar la relación entre las áreas verdes urbanas y la contaminación del aire en el Área Metropolitana de São Paulo. Los aspectos clave incluyen:
+
+- Análisis de las concentraciones de PM10 y PM2.5 de 27 estaciones de monitoreo en todo el MASP.12
+
+-  Cálculo del Índice de Vegetación de Diferencia Normalizada (NDVI) y del Índice de Áreas Construidas de Diferencia Normalizada (NDBI) para evaluar las áreas verdes y la urbanización.34
+
+- Aplicación del algoritmo de agrupamiento K-means para identificar patrones regionales y similitudes en la calidad del aire, la urbanización y las características de la vegetación.5
+
+- Utilización del análisis de pendiente de Sen para detectar tendencias temporales en PM2.5, PM10, NDVI y NDBI.6
+
+**Métricas y resultados**
+
 El análisis reveló una disminución general en las concentraciones de PM2.5 y PM10 entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico.78El análisis de la pendiente de Sen confirmó la influencia de las políticas de plantación de árboles en la reducción de los niveles de contaminantes.9
 
-Limitaciones y relaciones
+**Limitaciones y relaciones**
+
 Si bien el estudio destaca el papel de las zonas verdes en la mitigación de la contaminación atmosférica, reconoce que otros factores, como el tráfico, las emisiones industriales y las condiciones meteorológicas, también influyen significativamente en las concentraciones de partículas en suspensión.1011La distribución desigual de las estaciones de monitoreo, particularmente en la región sur, introduce incertidumbres espaciales en el análisis.
-
-
 
 ## Parte 2: Comprensión y preparación de los datos

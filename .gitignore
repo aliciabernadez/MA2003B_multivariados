@@ -4,7 +4,6 @@
 renv/library/
 renv/staging/
 output/
-
 /.quarto/
-
 **/*.quarto_ipynb
+.secrets

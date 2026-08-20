@@ -109,6 +109,22 @@ library(googlesheets4)
 ```
 
 ```{r}
+library(googlesheets4)
+library(purrr)
+library(dplyr)
+
+options(
+  gargle_oauth_cache = ".secrets"
+)
+
+gs4_auth(
+  cache = ".secrets",
+  email = TRUE,
+  scopes = "https://www.googleapis.com/auth/spreadsheets.readonly"
+)
+```
+
+```{r}
 #Leer el archivo 
 url <- "https://docs.google.com/spreadsheets/d/1n4Os3KhB_eoNonYgfjjaIDrYEUsL0G4cW1VmVp5TBTA/edit?usp=sharing"
 

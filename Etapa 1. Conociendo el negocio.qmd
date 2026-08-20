@@ -67,6 +67,8 @@ Se busca analizar cómo la presencia de áreas verdes y la forma de urbanizació
 
 La infraestructura verde y áreas verdes han demostrado contribuir a la calidad del aire al reducir la concentración de contaminantes y mejorar la salud ambiental (Oliveira et al., 2025; Akaraci et al., 2022). Esto debido a su capacidad para mitigar concentraciones de PM, con estudios que demuestran una capacidad para reducir $PM_{2.5}$ en un 15-20% en su entorno inmediato (Oliveira et al., 2025). De igual manera, las zonas verdes también se asocian a mitigar islas de calor urbanas (Oliveira et al., 2025).
 
+Como parte de la revisión de literatura relacionada con el objetivo del proyecto, se identificó un estudio realizado en el área metropolitana de São Paulo que analiza la relación entre las áreas verdes urbanas, nivel de urbanización y la concentración de contaminantes atmosféricos. El análisis de dicho estudio es de relevancia ya que se integran variables de vegetación y urbanización, con datos de monitoreo ambiental.
+
 **Resumen de la metodología**
 
 El estudio utilizó una combinación de datos de teledetección, mediciones de la calidad del aire y técnicas estadísticas avanzadas para analizar la relación entre las áreas verdes urbanas y la contaminación del aire en el Área Metropolitana de São Paulo. Los aspectos clave incluyen:

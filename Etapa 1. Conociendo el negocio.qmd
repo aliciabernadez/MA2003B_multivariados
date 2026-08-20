@@ -13,7 +13,7 @@ La calidad del aire es un aspecto fundamental para el bienestar de la población
 
 El análisis de la calidad del aire es importante para la ciudadanía debido a que ppermite conocer el nivel de exposición de la población a contaminantes que pueden causar efectos adversos sobre la salud. La Organización Mundial de la Salus estima que la contaminación del aire exterior ocasionó aproximadamente 4.2 millones de muertes prematuras durante 2019 y la relaciona principalmente con enfermedades cardiovasculares, accidentes cerebrovasculares, enfermedades respiratorias y cáncer de pulmón (OMS, 2024). Asimismo, el National Institute od Environmental Health Sciences señala que la contaminación atmosférica puede afectar el desarrollo y funcionamiento pulmonar, contribuir al asma y a la enfermedad pulmonar obstructiva crónica, además de afectar al sistema cardiovascular (NIEHS, s.f.).
 
-Contar con información actualizada sobre la calidad del aire permite también que la ciudadanía tome medidas para disminuir su exposición durante episodios de contaminación elevada. Además, esta información puede ser utilizada por las autoridades para diseñar estrategiad relacionadas con transportem industria, energía, desarrollo urbano y otras fuentes importantes de emisiones. La OMS señala que muchas fuentes de contaminación atmosférica no pueden ser controladas directamente por los individuos, por lo que requieren acciones coordinadas de política pública (OMS, 2024).
+Contar con información actualizada sobre la calidad del aire permite también que la ciudadanía tome medidas para disminuir su exposición durante episodios de contaminación elevada. Además, esta información puede ser utilizada por las autoridades para diseñar estrategias relacionadas con transporte, industria, energía, desarrollo urbano y otras fuentes importantes de emisiones. La OMS señala que muchas fuentes de contaminación atmosférica no pueden ser controladas directamente por los individuos, por lo que requieren acciones coordinadas de política pública (OMS, 2024).
 
 #### **Contaminantes y aspectos considerados para evaluar la calidad del aire**
 
@@ -69,9 +69,13 @@ Actualmente, la información generada por SIMA puede consultarse mediante su pla
 
 La información generada por SIMA resulta especialmente relevante para este proyecto debido a que permite estudiar simultáneamente diferentes contaminantes y variables meteorológicas dentro de una misma zona urbana. A partir de estos registros será posible delimitar una problemática específica de investigación y posteriormente analizar las relaciones existentes entre las variables seleccionadas, tomando en cuenta tanto la calidad y disponibilidad de los datos como el contexto ambiental de la zona metropolitana de Monterrey (SIMA, s.f.).
 
-#### Objetivo de trabajo
+#### Objetivo general del trabajo
 
-Se busca analizar cómo la presencia de áreas verdes y la forma de urbanización influyen en la calidad del aire local. Esto implica cuantificar el efecto de la cobertura vegetal y la densidad/forma urbana sobre los niveles de contaminantes como $NO_{2}$/$NO_{x}$, $PM_{10}$, $PM_{2.5}$, $SO_{2}$, $0_{3}$ y $CO$. Para ello, se integrarán datos del Sistema Integral de Monitoreo Ambiental (SIMA), métricas de vegetación y datos meteorológicos con el fin de estimar los efectos locales. El resultado esperado incluye la producción de mapas e indicadores que prioricen la infraestructura verde y la planificación urbana para reducir la exposición a contaminantes y mitigar episodios críticos de contaminación.
+Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y SE1 (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
+
+##### Objetivos específicos:
+
+- 
 
 #### Antecedentes relacionados con el objetivo del trabajo
 

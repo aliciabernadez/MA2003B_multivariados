@@ -95,7 +95,6 @@ El estudio utilizó una combinación de datos de teledetección, mediciones de l
 
 El análisis reveló una disminución general en las concentraciones de $PM_{2.5}$ y $PM_{10}$ entre 2014 y 2023, observándose en regiones con un $NDVI$ más alto niveles de $PM$ hasta un 50% inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
 
-
 #### **Limitaciones y relaciones**
 
 Si bien el estudio destaca el papel de las zonas verdes en la mitigación de la contaminación atmosférica, reconoce que otros factores, como el tráfico, las emisiones industriales y las condiciones meteorológicas, también influyen significativamente en las concentraciones de partículas en suspensión.La distribución desigual de las estaciones de monitoreo, particularmente en la región sur, introduce incertidumbres espaciales en el análisis.

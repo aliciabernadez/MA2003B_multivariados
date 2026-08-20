@@ -93,6 +93,18 @@ El estudio utilizó una combinación de datos de teledetección, mediciones de l
 
 - Utilización del análisis de pendiente de Sen para detectar tendencias temporales en PM2.5, PM10, NDVI y NDBI
 
+Datos y procesamiento de la calidad del aire : Se analizaron las concentraciones diarias de PM10 y PM2.5 de 27 estaciones de monitoreo de la calidad del aire en 9 municipios de MASP desde 2014 hasta 2023. Los datos horarios se agregaron para obtener promedios diarios y anuales.12
+
+Datos meteorológicos : Se incluyeron variables meteorológicas como la temperatura, la humedad relativa y la precipitación, procedentes de 13 de las 27 estaciones de monitoreo.3
+
+Análisis de mapas de calor : Se utilizó la interpolación mediante regresión de k vecinos más cercanos para generar mapas de calor de las concentraciones anuales de PM10 y PM2.5 en toda la MASP. La validación cruzada evaluó la fiabilidad de la interpolación.4
+
+Índice de Vegetación de Diferencia Normalizada (NDVI) : El NDVI se calculó diariamente entre 2014 y 2023 utilizando imágenes satelitales de PROBA-V y Sentinel-2 para evaluar la dinámica de las áreas verdes. Se realizó una validación cruzada entre ambos conjuntos de datos.5
+
+Índice de Diferencia Normalizada de Áreas Urbanizadas (NDBI) : El NDBI se calculó diariamente entre 2014 y 2023 utilizando los mismos datos satelitales para evaluar los patrones de urbanización. También se realizó una validación cruzada.6
+
+Análisis de datos : El algoritmo de agrupamiento K-means clasificó las 27 estaciones en 3 grupos según los índices NDVI, NDBI, PM10 y PM2.5. El análisis de pendiente de Sen evaluó las tendencias temporales de estas variables. Las correlaciones de Pearson exploraron las relaciones entre las variables.
+
 **Métricas y resultados**
 
 El análisis reveló una disminución general en las concentraciones de PM2.5 y PM10 entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
@@ -101,6 +113,53 @@ El análisis reveló una disminución general en las concentraciones de PM2.5 y 
 #### **Limitaciones y relaciones**
 
 Si bien el estudio destaca el papel de las zonas verdes en la mitigación de la contaminación atmosférica, reconoce que otros factores, como el tráfico, las emisiones industriales y las condiciones meteorológicas, también influyen significativamente en las concentraciones de partículas en suspensión.1011La distribución desigual de las estaciones de monitoreo, particularmente en la región sur, introduce incertidumbres espaciales en el análisis.
+
+
+
+
+#### Resumen de la metodologia versión 2
+El estudio analizó la relación entre las áreas verdes, la urbanización y la calidad del aire en el Área Metropolitana de São Paulo entre 2014 y 2023. Para ello, combinó información proveniente de estaciones de monitoreo, variables meteorológicas e imágenes satelitales, lo que permitió estudiar tanto la evolución de los contaminantes como las características del entorno urbano.
+
+Las principales variables analizadas fueron las concentraciones de PM₁₀ y PM₂.₅, obtenidas de 27 estaciones de monitoreo distribuidas en 9 municipios. Estas variables se utilizaron como indicadores de la calidad del aire. Los datos horarios fueron procesados para obtener promedios diarios y anuales, facilitando así la comparación entre estaciones y la identificación de tendencias a lo largo del tiempo.
+
+Para representar la presencia de áreas verdes se utilizó el Índice de Vegetación de Diferencia Normalizada (NDVI), calculado a partir de imágenes satelitales de PROBA-V y Sentinel-2. Este índice permitió cuantificar la cantidad y evolución de la vegetación presente en las distintas zonas analizadas. De manera complementaria, se calculó el Índice de Diferencia Normalizada de Áreas Urbanizadas (NDBI), empleado para representar la presencia de superficies construidas y el grado de urbanización. La utilización conjunta de ambos indicadores permitió comparar zonas con mayor cobertura vegetal frente a zonas más urbanizadas.
+
+También se incorporaron variables meteorológicas como temperatura, humedad relativa y precipitación, disponibles en 13 de las 27 estaciones. Estas variables fueron consideradas debido a que las condiciones meteorológicas pueden influir en la acumulación, formación y dispersión de los contaminantes atmosféricos. Su inclusión permite evitar que las variaciones en la calidad del aire sean atribuidas únicamente a la presencia o ausencia de vegetación.
+
+Para analizar conjuntamente las distintas variables, se aplicó el algoritmo de agrupamiento K-means, mediante el cual las 27 estaciones fueron clasificadas en tres grupos de acuerdo con sus valores de PM₁₀, PM₂.₅, NDVI y NDBI. Esto permitió identificar zonas con características similares de contaminación, vegetación y urbanización. Además, se utilizaron correlaciones de Pearson para explorar las relaciones entre las variables y el análisis de pendiente de Sen para detectar tendencias temporales en las concentraciones de contaminantes y en los cambios de vegetación y urbanización.
+
+El estudio también elaboró mapas de las concentraciones anuales de PM₁₀ y PM₂.₅ mediante técnicas de interpolación. Esto permitió visualizar la distribución espacial de la contaminación y estimar las concentraciones en áreas donde no existían estaciones de monitoreo.
+
+Principales resultados
+
+Los resultados mostraron una disminución general en las concentraciones de PM₂.₅ y PM₁₀ durante el periodo 2014–2023. Además, se observó que las regiones con valores más altos de NDVI, es decir, con mayor presencia de vegetación, presentaban concentraciones de material particulado hasta un 50 % inferiores en comparación con zonas industriales o con elevados niveles de tráfico.
+
+Asimismo, el análisis de tendencias mostró una disminución en los niveles de contaminación que coincidió con un aumento de las áreas verdes y con políticas de plantación de árboles implementadas en la región. Sin embargo, los autores señalan que estas relaciones no deben interpretarse de manera aislada, ya que existen otros factores que también pueden modificar los niveles de contaminación.
+
+Relevancia para nuestro estudio
+
+Este estudio se utilizará como guía metodológica debido a que integra variables muy similares a las que se pretende analizar en el Área Metropolitana de Monterrey. En particular, presenta una forma de relacionar calidad del aire, cobertura vegetal, urbanización y condiciones meteorológicas dentro de un mismo análisis.
+
+Las concentraciones de contaminantes registradas por las estaciones del SIMA pueden utilizarse para representar la calidad del aire, mientras que indicadores como el NDVI permitirían cuantificar la cantidad de vegetación presente alrededor de cada estación. De forma complementaria, el NDBI u otros indicadores de urbanización pueden ayudar a caracterizar el entorno construido y diferenciar zonas altamente urbanizadas de aquellas con mayor presencia de áreas verdes.
+
+La incorporación de variables meteorológicas también será importante, ya que permitirá analizar si los cambios en las concentraciones de contaminantes están relacionados con las características del entorno o con condiciones atmosféricas específicas. De esta manera, se busca evitar atribuir cualquier disminución o aumento de los contaminantes únicamente a la vegetación.
+
+Además, las técnicas utilizadas en el estudio ofrecen una guía para estructurar el análisis. El agrupamiento de estaciones puede ayudar a identificar zonas con características similares, las correlaciones permiten explorar relaciones entre variables, el análisis de tendencias permite observar cambios a lo largo del tiempo y los mapas facilitan la identificación de patrones espaciales.
+
+Por lo tanto, el estudio de São Paulo no solo funciona como antecedente, sino como una referencia para definir qué variables analizar, cómo relacionarlas y qué herramientas estadísticas y espaciales pueden utilizarse en el estudio basado en los datos del SIMA.
+
+Limitaciones y consideraciones para nuestro estudio
+
+El estudio reconoce que la relación entre las áreas verdes y la calidad del aire no puede analizarse de manera aislada. Aunque se observaron menores concentraciones de PM₁₀ y PM₂.₅ en zonas con mayor vegetación, también existen otros factores que influyen significativamente en los niveles de contaminación, como el tráfico vehicular, las emisiones industriales y las condiciones meteorológicas.
+
+Esto significa que una mayor cantidad de vegetación no necesariamente provoca por sí sola una disminución de los contaminantes. Por esta razón, en nuestro estudio será importante considerar variables adicionales que permitan diferenciar el posible efecto de las áreas verdes del efecto provocado por otras fuentes de contaminación.
+
+Otra limitación relevante fue la distribución desigual de las estaciones de monitoreo. Algunas zonas del Área Metropolitana de São Paulo contaban con menor cobertura, lo que generó incertidumbre en la representación espacial de la contaminación y obligó a utilizar métodos de interpolación para estimar valores en lugares sin estaciones.
+
+Esta limitación también deberá considerarse al trabajar con los datos del SIMA. Será necesario analizar la ubicación y distribución de las estaciones para determinar qué tan representativas son de las distintas zonas del Área Metropolitana de Monterrey y qué nivel de incertidumbre podría existir al generar mapas o comparar regiones.
+
+En conjunto, estas limitaciones también resultan útiles como guía para nuestro estudio, ya que permiten anticipar posibles dificultades metodológicas y muestran la importancia de interpretar con precaución las relaciones encontradas. El objetivo no será asumir que la vegetación es la única responsable de los cambios en la calidad del aire, sino evaluar su posible influencia considerando simultáneamente la urbanización, las fuentes de emisión y las condiciones meteorológicas.
+
 
 ## Parte 2: Comprensión y preparación de los datos
 

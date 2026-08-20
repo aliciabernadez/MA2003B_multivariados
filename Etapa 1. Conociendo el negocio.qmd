@@ -79,7 +79,6 @@ La infraestructura verde y áreas verdes se han asociado con mejoras en calidad 
 
 Como parte de la revisión de literatura relacionada con el objetivo del proyecto, se identificó un estudio realizado en el área metropolitana de São Paulo que analiza la relación entre las áreas verdes urbanas, grado de urbanización y la concentración de contaminantes atmosféricos. Este estudio es de relevancia para el desarrollo del proyecto, ya que se integran variables de vegetación y urbanización, con datos de monitoreo ambiental.
 
-
 **Resumen de la metodología**
 
 #### **Resumen de la metodología**
@@ -117,8 +116,6 @@ library(dplyr)
 library(googlesheets4)
 ```
 
-
-
 ```{r}
 #Leer el archivo 
 url <- "https://docs.google.com/spreadsheets/d/1n4Os3KhB_eoNonYgfjjaIDrYEUsL0G4cW1VmVp5TBTA/edit?usp=sharing"
@@ -137,7 +134,6 @@ datos25 <- map_dfr(hojas, function(hoja) {
 
 ```
 
-
 ```{r}
 #Ver a grandes rasgos el tibble
 head(datos25)
@@ -155,11 +151,7 @@ colSums(is.na(datos25))
 summary(datos25)
 ```
 
-
-Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de PM2.5 donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son RH, NO y CO.
-Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
-
-
+Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de PM2.5 donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son RH, NO y CO. Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
 Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 

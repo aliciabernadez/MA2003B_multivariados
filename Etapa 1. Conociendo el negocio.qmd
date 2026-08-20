@@ -81,7 +81,7 @@ Como parte de la revisión de literatura relacionada con el objetivo del proyect
 
 
 **Resumen de la metodología**
-=======
+
 #### **Resumen de la metodología**
 
 El estudio utilizó una combinación de datos de teledetección, mediciones de la calidad del aire y técnicas estadísticas avanzadas para analizar la relación entre las áreas verdes urbanas y la contaminación del aire en el Área Metropolitana de São Paulo. Los aspectos clave incluyen:
@@ -99,7 +99,7 @@ El estudio utilizó una combinación de datos de teledetección, mediciones de l
 El análisis reveló una disminución general en las concentraciones de PM2.5 y PM10 entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
 
 **Limitaciones y relaciones**
-=======
+
 #### **Métricas y resultados**
 
 El análisis reveló una disminución general en las concentraciones de PM2.5 y PM10 entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
@@ -137,6 +137,16 @@ datos25 <- map_dfr(hojas, function(hoja) {
 
 ```
 
+
+```{r}
+#Ver a grandes rasgos el tibble
+head(datos25)
+
+#Ver las dimensiones y tipos de datos
+print(dim(datos25))
+str(datos25)
+```
+
 ```{r}
 #Ver cantidad de datos faltantes
 colSums(is.na(datos25))
@@ -149,6 +159,9 @@ summary(datos25)
 Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de PM2.5 donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son RH, NO y CO.
 Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
+
+
+Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 

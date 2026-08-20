@@ -100,3 +100,75 @@ El análisis reveló una disminución general en las concentraciones de PM2.5 y 
 Si bien el estudio destaca el papel de las zonas verdes en la mitigación de la contaminación atmosférica, reconoce que otros factores, como el tráfico, las emisiones industriales y las condiciones meteorológicas, también influyen significativamente en las concentraciones de partículas en suspensión.1011La distribución desigual de las estaciones de monitoreo, particularmente en la región sur, introduce incertidumbres espaciales en el análisis.
 
 ## Parte 2: Comprensión y preparación de los datos
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+#Leer el archivo excel
+hojas <- excel_sheets("C:/Users/isaac/downloads/BD 2025.xlsx")
+
+#Hacer el dataframe
+#Importante notar que las 15 hojas fueron incluidas en una sola, por lo que se tuvo que agregar una columna extra para indicar a que estación pertenecía cada observación
+datos25 <- map_dfr(hojas, function(hoja) {
+  df <- read_excel("C:/Users/isaac/downloads/BD 2025.xlsx", sheet = hoja)
+  df$Estacion <- hoja
+  return(df)
+})
+```
+
+```{r}
+#Ver a grandes rasgos el tibble
+head(datos25)
+
+#Ver las dimensiones y tipos de datos
+print(dim(datos25))
+str(datos25)
+```
+
+```{r}
+#Ver cantidad de datos faltantes
+colSums(is.na(datos25))
+
+#Ver si hay datos atípicos o sesgos
+summary(datos25)
+```
+
+Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de PM2.5 donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son RH, NO y CO.
+
+Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
+
+```{r}
+#Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+datos25F <- datos25 %>%
+  mutate(
+    
+    PM10    = ifelse(PM10 < 0 | PM10 > 820, NA, PM10),
+    `PM2.5` = ifelse(`PM2.5` < 0 | `PM2.5` > 350, NA, `PM2.5`),
+    O3      = ifelse(O3 < 0 | O3 > 185, NA, O3),
+    NO      = ifelse(NO < 0 | NO > 350, NA, NO),
+    NO2     = ifelse(NO2 < 0 | NO2 > 175, NA, NO2),
+    NOX     = ifelse(NOX < 0 | NOX > 400, NA, NOX),
+    SO2     = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
+    CO      = ifelse(CO < 0 | CO > 10, NA, CO),
+    RH      = ifelse(RH < 0 | RH > 100, NA, RH),
+    WSR     = ifelse(WSR < 0 | WSR > 40, NA, WSR),              
+    TOUT    = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),        
+    SR      = ifelse(SR < 0 | SR > 1.2, NA, SR),
+    PRS     = ifelse(PRS < 688 | PRS > 740, NA, PRS),            
+    WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),              
+    RAINF   = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
+  )
+```
+
+```{r}
+#Eliminar duplicados
+datos25F <- distinct(datos25F)
+
+nrow(datos25F)
+```
+
+No se eliminaron filas, por lo que no había filas duplicadas

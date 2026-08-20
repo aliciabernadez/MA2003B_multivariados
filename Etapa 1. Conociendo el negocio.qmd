@@ -95,11 +95,6 @@ El estudio utilizó una combinación de datos de teledetección, mediciones de l
 
 El análisis reveló una disminución general en las concentraciones de $PM_{2.5}$ y $PM_{10}$ entre 2014 y 2023, observándose en regiones con un $NDVI$ más alto niveles de $PM$ hasta un 50% inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
 
-**Limitaciones y relaciones**
-
-#### **Métricas y resultados**
-
-El análisis reveló una disminución general en las concentraciones de $PM_{2.5}$ y $PM_{10}$ entre 2014 y 2023, observándose en regiones con un NDVI más alto niveles de PM hasta un 50 % inferiores en comparación con las zonas industriales y de mucho tráfico. El análisis de la pendiente de Sen mostró una disminución en los niveles de contaminantes que coincide con el aumento de áreas verdes y las políticas de plantación de árboles en la zona.
 
 #### **Limitaciones y relaciones**
 

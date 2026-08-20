@@ -85,7 +85,11 @@ El estudio utilizó una combinación de datos de teledetección, mediciones de l
 
 - Análisis de las concentraciones de PM10 y PM2.5 de 27 estaciones de monitoreo en toda la zona metropolitana de São Paulo
 
+<<<<<<< Updated upstream
 - Cálculo del Índice de Vegetación de Diferencia Normalizada (NDVI) y del Índice de Áreas Construidas de Diferencia Normalizada (NDBI) para evaluar las áreas verdes y la urbanización
+=======
+- Cálculo del Índice de Vegetación de Diferencia Normalizada (NDVI) y del Índice de Áreas Construidas de Diferencia Normalizada (NDBI) para evaluar las áreas verdes y la urbanización.34
+>>>>>>> Stashed changes
 
 - Aplicación del algoritmo de agrupamiento K-means para identificar patrones regionales y similitudes en la calidad del aire, la urbanización y las características de la vegetación
 

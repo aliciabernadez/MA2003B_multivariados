@@ -43,7 +43,11 @@ Analizar y acarcterizar la relación entre las concentraciones de dióxido de az
 
 ##### Objetivos específicos:
 
-- 
+- Describir el comportamiento temporal de las concentraciones de $SO_2$ registradas en las estaciones SE1, SE2 y SE3 durante 2022-2025, identificando su distribución, variación temporal y los periosos en los que se presentan concentraciones elevadas en cada sitio.
+
+- Analizar la relación entre las concentraciones de $SO_2$, la dirección y la velocidad del viento con el fin de identificar los sectores direccionales asociados con una mayor frecuencia de episodios de alta concentración.
+
+- Comparar los patrones direccionales identificados con la ubicación de fuentes industriales relevantes en la Zona Metropolitana de Monterrey, con el propósito de evaluar si las concentraciones elevadas presentan un comportamiento espacial consistente con la influencia de una o múltiples fuentes industriales.
 
 #### Antecedentes relacionados con el objetivo del trabajo
 

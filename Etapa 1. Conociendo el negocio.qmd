@@ -157,7 +157,7 @@ Revisando los valores máximos y mínimos de las variables podemos notar como en
 
 ```{r}
 #Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
-datos25F <- datos25 %>%
+datosF <- datos %>%
   mutate(
     
     PM10    = ifelse(PM10 < 0 | PM10 > 820, NA, PM10),
@@ -169,20 +169,30 @@ datos25F <- datos25 %>%
     SO2     = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
     CO      = ifelse(CO < 0 | CO > 10, NA, CO),
     RH      = ifelse(RH < 0 | RH > 100, NA, RH),
-    WSR     = ifelse(WSR < 0 | WSR > 40, NA, WSR),              
-    TOUT    = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),        
+    WSR     = ifelse(WSR < 0 | WSR > 40, NA, WSR),
+    TOUT    = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
     SR      = ifelse(SR < 0 | SR > 1.2, NA, SR),
-    PRS     = ifelse(PRS < 688 | PRS > 740, NA, PRS),            
-    WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),              
+    PRS     = ifelse(PRS < 688 | PRS > 740, NA, PRS),
+    WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),
     RAINF   = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
   )
 ```
 
 ```{r}
-#Eliminar duplicados
-datos25F <- distinct(datos25F)
+# Eliminar duplicados
+datosF <- distinct(datosF)
 
-nrow(datos25F)
+# Ver cantidad de filas después de eliminar duplicados
+nrow(datosF)
 ```
 
 No se eliminaron filas, por lo que no había filas duplicadas
+
+```{r}
+# Registros por año
+table(datosF$Año)
+
+# Registros por estación y año
+table(datosF$Estacion, datosF$Año)
+```
+

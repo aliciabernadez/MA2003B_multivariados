@@ -164,7 +164,7 @@ round(colMeans(is.na(datos)) * 100, 2)
 
 
 ```{r}
-#Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+# Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
 datosF <- datos %>%
   mutate(
     
@@ -184,6 +184,11 @@ datosF <- datos %>%
     WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),
     RAINF   = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
   )
+
+# Ver cantidad de valores fuera de rango convertidos a NA
+valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))
+
+valores_corregidos
 ```
 
 ```{r}

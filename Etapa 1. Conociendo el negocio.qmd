@@ -397,6 +397,10 @@ La estandarización se aplicó con el fin de llevar las variables a una escala c
 
 - **Responsabilidad:** El equipo revisó todo el contenido y se hace responsable del trabajo final. La IA solo se usó como apoyo, no como reemplazo del análisis del grupo.
 
+## Liga de Github
+
+<https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
+
 ## Referencias
 
 Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.*Atmospheric Environment, 19*(8), 1263–1270.<https://doi.org/10.1016/0004-6981(85)90256-2>

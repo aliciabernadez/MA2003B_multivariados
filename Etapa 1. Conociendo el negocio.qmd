@@ -210,19 +210,19 @@ round(colMeans(is.na(datosF)) * 100, 2)
 
 ##### Descripción de las variables a utilizar a lo largo del poryecto
 
-| Variable   | Descripción                                  | Tipo       |
-|:-----------|:---------------------------------------------|:-----------|
-| `date`     | Fecha y hora del registro                    | Temporal   |
-| `SO2`      | Concentración de dióxido de azufre           | Numérica   |
-| `WDR`      | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
-| `WSR`      | Velocidad del viento                         | Numérica   |
-| `TOUT`     | Temperatura exterior                         | Numérica   |
-| `RH`       | Humedad relativa (%)                         | Numérica   |
-| `PRS`      | Presión atmosférica                          | Numérica   |
-| `SR`       | Radiación solar                              | Numérica   |
-| `RAINF`    | Precipitación registrada                     | Numérica   |
-| `Estacion` | Estación de monitoreo de SIMA                | Categórica |
-| `Año`      | Año correspondient al registro               | Temporal   |
+| Variable       | Descripción                                  | Tipo       |
+|:---------------|:---------------------------------------------|:-----------|
+| `fecha y hora` | Fecha y hora del registro                    | Temporal   |
+| `SO2`          | Concentración de dióxido de azufre           | Numérica   |
+| `WDR`          | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
+| `WSR`          | Velocidad del viento                         | Numérica   |
+| `TOUT`         | Temperatura exterior                         | Numérica   |
+| `RH`           | Humedad relativa (%)                         | Numérica   |
+| `PRS`          | Presión atmosférica                          | Numérica   |
+| `SR`           | Radiación solar                              | Numérica   |
+| `RAINF`        | Precipitación registrada                     | Numérica   |
+| `Estacion`     | Estación de monitoreo de SIMA                | Categórica |
+| `Año`          | Año correspondient al registro               | Temporal   |
 
 ## Referencias
 

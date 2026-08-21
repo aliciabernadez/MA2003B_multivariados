@@ -48,7 +48,7 @@ Analizar y acarcterizar la relación entre las concentraciones de dióxido de az
 
 ##### Pregunta guía:
 
-¿Existe un patrón direccional y meteorológico en las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE2 y NE durante el periodo 2022-2025 que sea consistente con la influencia de una fuente industrial puntual localizada en la zona?
+¿Existe un patrón direccional y meteorológico en las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE3 y NE durante el periodo 2022-2025 que sea consistente con la influencia de una fuente industrial puntual localizada en la zona?
 
 ##### Objetivos específicos:
 
@@ -140,6 +140,22 @@ print(dim(datos))
 str(datos)
 ```
 
+##### Descripción de las variables
+
+| Variable   | Descripción                                  | Tipo       |
+|:-----------|:---------------------------------------------|:-----------|
+| `date`     | Fecha y hora del registro                    | Temporal   |
+| `SO2`      | Concentración de dióxido de azufre           | Numérica   |
+| `WDR`      | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
+| `WSR`      | Velocidad del viento                         | Numérica   |
+| `TOUT`     | Temperatura exterior                         | Numérica   |
+| `RH`       | Humedad relativa (%)                         | Numérica   |
+| `PRS`      | Presión atmosférica                          | Numérica   |
+| `SR`       | Radiación solar                              | Numérica   |
+| `RAINF`    | Precipitación registrada                     | Numérica   |
+| `Estacion` | Estación de monitoreo de SIMA                | Categórica |
+| `Año`      | Año correspondient al registro               | Temporal   |
+
 ```{r}
 # Ver cantidad de datos faltantes
 colSums(is.na(datos))
@@ -151,7 +167,6 @@ summary(datos)
 Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 140,996 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
-
 
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
@@ -209,6 +224,8 @@ colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
+
+
 
 
 ## Referencias

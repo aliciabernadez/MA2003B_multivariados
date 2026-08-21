@@ -133,7 +133,7 @@ colSums(is.na(datos25))
 summary(datos25)
 ```
 
-Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de PM2.5 donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son RH, NO y CO. Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
+Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$. Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
 Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 

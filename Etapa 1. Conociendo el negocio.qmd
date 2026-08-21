@@ -181,9 +181,7 @@ colSums(is.na(datos))
 summary(datos)
 ```
 
-Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de TOUT donde hubo 13,408 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $SO_2$ y RH.
-
-Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
+Se observa una cantidad considerable de datos faltantes, especialmente en la variable TOUT, con 13,408 registros faltantes. Otras variables con una cantidad importante de valores faltantes son RH y SO2. Asimismo, la revisión de los valores mínimos y máximos permitió identificar registros fuera de los rangos considerados válidos, como valores de -9999 en TOUT y RH, valores de humedad relativa superiores a 100 %, así como registros fuera de rango en PRS y SR.
 
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
@@ -320,7 +318,27 @@ Para TOUT, RH, PRS y SR se aplicó imputación mediante KNN con k igual a 5, rea
 
 Tras este proceso, solo se encontró un valor faltante en RAINF, el cual fue eliminado por su impacto despreciable en el conjunto de datos.
 
-##### Estandarización de los datos
+
+##### Datos no imputados
+```{r}
+# Cantidad y porcentaje de registros excluidos
+# por datos faltantes en SO2, WDR o WSR
+registros_iniciales <- nrow(datosF)
+registros_finales <- nrow(datos_imputados)
+
+registros_excluidos <- registros_iniciales - registros_finales
+
+porcentaje_excluido <- round(
+  registros_excluidos / registros_iniciales * 100,
+  2
+)
+
+registros_excluidos
+porcentaje_excluido
+```
+
+
+##### Transformación y estandarización de los datos
 
 ```{r}
 datos_transformados <- datos_imputados %>%

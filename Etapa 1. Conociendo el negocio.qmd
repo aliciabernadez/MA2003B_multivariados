@@ -44,7 +44,7 @@ La información generada por SIMA constituye la principal fuente de datos para e
 
 #### Objetivo general del trabajo
 
-Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
+Analizar y caracterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
 
 ##### Pregunta guía:
 

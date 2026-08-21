@@ -224,6 +224,8 @@ round(colMeans(is.na(datosF)) * 100, 2)
 | `Estacion` | Estación de monitoreo de SIMA | Categórica | Comparar ubicaciones |
 | `Año` | Año correspondiente al registro | Temporal | Comparar periodos |
 
+##### Imputación de datos
+
 ## Referencias
 
 Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.*Atmospheric Environment, 19*(8), 1263–1270.<https://doi.org/10.1016/0004-6981(85)90256-2>

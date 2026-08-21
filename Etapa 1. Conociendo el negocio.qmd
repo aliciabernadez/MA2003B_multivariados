@@ -90,27 +90,41 @@ library(dplyr)
 library(purrr)
 library(stringr)
 
+# Función para leer todas las hojas de cada archivo
+leer_base <- function(archivo, anio) {
+  
+  hojas <- excel_sheets(archivo)
+  
+  map_dfr(hojas, function(hoja) {
+    
+    read_excel(archivo, sheet = hoja) %>%
+      mutate(
+        Estacion = hoja,
+        Año = anio
+      )
+    
+  })
+}
 
-datos22 <- read_excel("BD 2022.xlsx")
-datos23 <- read_excel("BD 2023.xlsx")
-datos24 <- read_excel("BD 2024.xlsx")
-datos25 <- read_excel("BD 2025.xlsx")
+# Leer las bases de cada año
+datos22 <- leer_base("BD 2022.xlsx", 2022)
+datos23 <- leer_base("BD 2023.xlsx", 2023)
+datos24 <- leer_base("BD 2024.xlsx", 2024)
+datos25 <- leer_base("BD 2025.xlsx", 2025)
 
-datos22$Año <- 2022
-datos23$Año <- 2023
-datos24$Año <- 2024
-datos25$Año <- 2025
-
-
+# Unir todos los años en una sola base
 datos <- bind_rows(
   datos22,
   datos23,
   datos24,
   datos25
 )
+
+# Revisar la base final
 dim(datos)
 head(datos)
 table(datos$Año)
+table(datos$Estacion, datos$Año)
 ```
 
 ```{r}
@@ -119,20 +133,20 @@ table(datos$Año)
 
 
 ```{r}
-#Ver a grandes rasgos el tibble
-head(datos25)
+# Ver a grandes rasgos el tibble
+head(datos)
 
-#Ver las dimensiones y tipos de datos
-print(dim(datos25))
-str(datos25)
+# Ver las dimensiones y tipos de datos
+print(dim(datos))
+str(datos)
 ```
 
 ```{r}
-#Ver cantidad de datos faltantes
-colSums(is.na(datos25))
+# Ver cantidad de datos faltantes
+colSums(is.na(datos))
 
-#Ver si hay datos atípicos o sesgos
-summary(datos25)
+# Ver si hay datos atípicos o sesgos
+summary(datos)
 ```
 
 Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$. Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.

@@ -219,7 +219,10 @@ table(datosF$Estacion, datosF$Año)
 
 
 ```{r}
+# Ver cantidad y porcentaje de datos faltantes después de la limpieza
+colSums(is.na(datosF))
 
+round(colMeans(is.na(datosF)) * 100, 2)
 ```
 
 

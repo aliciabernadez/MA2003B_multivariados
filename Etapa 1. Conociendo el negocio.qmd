@@ -39,7 +39,7 @@ La información generada por SIMA constituye la principal fuente de datos para e
 
 #### Objetivo general del trabajo
 
-Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y SE1 (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
+Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
 
 ##### Objetivos específicos:
 
@@ -148,9 +148,7 @@ colSums(is.na(datos))
 summary(datos)
 ```
 
-Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$. Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
-
-Podemos notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 44797 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
+Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 140,996 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
 
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 

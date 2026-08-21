@@ -237,35 +237,79 @@ round(colMeans(is.na(datosF)) * 100, 2)
 ##### Imputación de datos
 
 ```{r}
-datosF <- datosF %>%
+library(VIM)
+
+# Preparación e imputación de datos mediante KNN
+
+# Conservar únicamente registros completos en las variables principales 
+datos_imputados <- datosF %>%
+  filter(
+    !is.na(SO2),
+    !is.na(WDR),
+    !is.na(WSR)
+  ) %>%
   mutate(
+    # Variables temporales
     Mes = month(`Fecha y hora`),
-    Hora = hour(`Fecha y hora`)
+    Hora = hour(`Fecha y hora`),
+
+    # Transformar dirección del viento para respetar
+    # su naturaleza circular
+    WDR_sin = sin(WDR * pi / 180),
+    WDR_cos = cos(WDR * pi / 180),
+
+    # Transformaciones circulares de hora y mes
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin = sin(2 * pi * Mes / 12),
+    Mes_cos = cos(2 * pi * Mes / 12)
   )
 
-#Imputación con mediana por Estación, año, mes y hora
-datos_imputados <- datosF %>%
-  group_by(Estacion, Año, Mes, Hora) %>%
-  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
-  ungroup()
 
-#Imputación sin tomar en cuenta el año para los datos que todavia quedaron faltantes en los que no habia datos para todo un mes durante un año
+# Imputar únicamente las variables meteorológicas secundarias
+# utilizando KNN dentro de cada estación
 datos_imputados <- datos_imputados %>%
-  group_by(Estacion, Mes, Hora) %>%
-  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
-  ungroup()
+  group_split(Estacion, .keep = TRUE) %>%
+  map_dfr(~ VIM::kNN(
+    .x,
 
-#Imputación para los pocos datos faltantes que quedaron ahora sin tomar en cuenta la estación, solo el mes y la hora
+    # Variables que se van a imputar
+    variable = c("TOUT", "RH", "PRS", "SR"),
+
+    # Variables utilizadas para buscar observaciones similares
+    dist_var = c(
+      "WSR",
+      "WDR_sin", "WDR_cos",
+      "Año",
+      "Hora_sin", "Hora_cos",
+      "Mes_sin", "Mes_cos",
+      "TOUT", "RH", "PRS", "SR"
+    ),
+
+    k = 5,
+    imp_var = FALSE,
+    useImputedDist = FALSE,
+    methodStand = "iqr"
+  )) %>%
+  arrange(Estacion, `Fecha y hora`) %>%
+
+  # Eliminar solamente las variables auxiliares
+  select(
+    -WDR_sin, -WDR_cos,
+    -Hora_sin, -Hora_cos,
+    -Mes_sin, -Mes_cos
+  )
+
+
+# Revisar datos faltantes después de la preparación
+colSums(is.na(datos_imputados))
+```
+```{r}
+# Eliminar el único registro faltante de precipitación
 datos_imputados <- datos_imputados %>%
-  mutate(
-    Mes = month(`Fecha y hora`),
-    Hora = hour(`Fecha y hora`)
-  ) %>%
-  group_by(Año, Mes, Hora) %>%
-  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
-  ungroup() %>%
-  select(-Mes, -Hora)
+  filter(!is.na(RAINF))
 
+# Verificar que ya no existan datos faltantes
 colSums(is.na(datos_imputados))
 ```
 

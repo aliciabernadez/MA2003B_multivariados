@@ -178,11 +178,21 @@ datosF <- datos %>%
 ```
 
 ```{r}
+# Guardar cantidad de filas antes de eliminar duplicados
+filas_antes <- nrow(datosF)
+
 # Eliminar duplicados
 datosF <- distinct(datosF)
 
 # Ver cantidad de filas después de eliminar duplicados
-nrow(datosF)
+filas_despues <- nrow(datosF)
+
+# Calcular duplicados eliminados
+duplicados_eliminados <- filas_antes - filas_despues
+
+filas_antes
+filas_despues
+duplicados_eliminados
 ```
 
 No se eliminaron filas, por lo que no había filas duplicadas

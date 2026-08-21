@@ -72,6 +72,22 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 ## Parte 2: Comprensión y preparación de los datos
 
+##### Descripción de las variables a utilizar a lo largo del proyecto
+
+| Variable | Descripción | Tipo | Justificación |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
+| `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
+| `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
+| `WSR` | Velocidad del viento | Numérica | Evaluar dispersión y transporte |
+| `TOUT` | Temperatura exterior | Numérica | Caracterizar condiciones atmosféricas |
+| `RH` | Humedad relativa (%) | Numérica | Caracterizar condiciones meteorológicas |
+| `PRS` | Presión atmosférica | Numérica | Complementar análisis meteorológico |
+| `SR` | Radiación solar | Numérica | Analizar variación diurna |
+| `RAINF` | Precipitación registrada | Numérica | Evaluar efecto de la lluvia |
+| `Estacion` | Estación de monitoreo de SIMA | Categórica | Comparar ubicaciones |
+| `Año` | Año correspondiente al registro | Temporal | Comparar periodos |
+
 ```{r}
 library(readxl)
 library(dplyr)
@@ -221,22 +237,6 @@ colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
-
-##### Descripción de las variables a utilizar a lo largo del proyecto
-
-| Variable | Descripción | Tipo | Justificación |
-|:-----------------|:-----------------|:-----------------|:-----------------|
-| `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
-| `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
-| `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
-| `WSR` | Velocidad del viento | Numérica | Evaluar dispersión y transporte |
-| `TOUT` | Temperatura exterior | Numérica | Caracterizar condiciones atmosféricas |
-| `RH` | Humedad relativa (%) | Numérica | Caracterizar condiciones meteorológicas |
-| `PRS` | Presión atmosférica | Numérica | Complementar análisis meteorológico |
-| `SR` | Radiación solar | Numérica | Analizar variación diurna |
-| `RAINF` | Precipitación registrada | Numérica | Evaluar efecto de la lluvia |
-| `Estacion` | Estación de monitoreo de SIMA | Categórica | Comparar ubicaciones |
-| `Año` | Año correspondiente al registro | Temporal | Comparar periodos |
 
 ##### Imputación de datos
 

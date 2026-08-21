@@ -77,7 +77,7 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
 
 | Variable | Descripción | Tipo | Justificación |
-|:-----------------|:-----------------|:-----------------|:-----------------|
+|:---|:---|:---|:---|
 | `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
 | `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
 | `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
@@ -353,6 +353,7 @@ summary(
     )
 )
 ```
+
 La estandarización se aplicó con el fin de llevar las variables a una escala comparable, ya que presentan unidades y rangos diferentes. Este procedimiento facilita su uso conjunto en análisis estadísticos y evita que una variable tenga mayor peso únicamente por la magnitud de sus valores. Se conservaron también las variables originales para mantener una interpretación directa de los resultados.
 
 ## Referencias

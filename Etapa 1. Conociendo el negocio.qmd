@@ -304,6 +304,14 @@ datos_imputados <- datos_imputados %>%
 # Revisar datos faltantes después de la preparación
 colSums(is.na(datos_imputados))
 ```
+```{r}
+# Eliminar el único registro faltante de precipitación
+datos_imputados <- datos_imputados %>%
+  filter(!is.na(RAINF))
+
+# Verificar que ya no existan datos faltantes
+colSums(is.na(datos_imputados))
+```
 
 ## Referencias
 

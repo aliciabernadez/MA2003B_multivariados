@@ -126,6 +126,8 @@ table(datos$Año)
 table(datos$Estacion, datos$Año)
 ```
 
+Después de unir las bases correspondientes a los años 2022–2025, se obtuvo un conjunto de datos compuesto por 517872 registros y 18 variables, distribuidos entre 13 estaciones de monitoreo.
+
 ```{r}
 names(datos22)
 names(datos23)

@@ -72,7 +72,7 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 #### Justificación del proyecto
 
-### Justificación
+Se seleccionaron las estaciones NE (San Nicolás), SE2 (Juárez) y SE3 (Cadereyta) porque permiten analizar el comportamiento del SO₂ en distintos puntos del área metropolitana y, al mismo tiempo, comparar cómo cambian las concentraciones en función de la dirección y velocidad del viento. Su ubicación resulta especialmente útil para identificar patrones espaciales y direccionales asociados con posibles fuentes industriales de la región.
 
 Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las variables meteorológicas puede utilizarse para identificar patrones asociados con posibles fuentes de emisión. Métodos como el análisis direccional y la función de probabilidad bivariada condicional han sido aplicados en distintos contextos industriales para relacionar concentraciones elevadas con la dirección y velocidad del viento.
 

@@ -1,26 +1,13 @@
 ---
 title: "Etapa 2: Conociendo los datos"
+author:
+  - name: "Alicia Bernádez A01562634"
+  - name: "Omar Arzaga A01569294"
+  - name: "Diego Medrano A01254882"
+  - name: "Sebastián Alemán A00841034"
+  - name: "Isaac Montaño A00841681"
 format: pdf
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+## 

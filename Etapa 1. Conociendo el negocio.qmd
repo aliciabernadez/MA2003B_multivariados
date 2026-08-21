@@ -157,6 +157,9 @@ Revisando los valores máximos y mínimos de las variables podemos notar como en
 ```{r}
 # Ver cantidad de datos faltantes por variable
 colSums(is.na(datos))
+
+# Ver porcentaje de datos faltantes por variable
+round(colMeans(is.na(datos)) * 100, 2)
 ```
 
 
@@ -209,7 +212,15 @@ table(datosF$Año)
 
 # Registros por estación y año
 table(datosF$Estacion, datosF$Año)
+
 ```
+
+
+
+```{r}
+
+```
+
 
 ## Referencias
 

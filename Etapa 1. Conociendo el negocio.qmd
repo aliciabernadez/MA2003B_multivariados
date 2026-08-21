@@ -151,7 +151,16 @@ Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 
 ```{r}
-#Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+# Ver cantidad de datos faltantes por variable
+colSums(is.na(datos))
+
+# Ver porcentaje de datos faltantes por variable
+round(colMeans(is.na(datos)) * 100, 2)
+```
+
+
+```{r}
+# Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
 datosF <- datos %>%
   mutate(
     
@@ -171,6 +180,11 @@ datosF <- datos %>%
     WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),
     RAINF   = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
   )
+
+# Ver cantidad de valores fuera de rango convertidos a NA
+valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))
+
+valores_corregidos
 ```
 
 ```{r}
@@ -199,7 +213,15 @@ table(datosF$Año)
 
 # Registros por estación y año
 table(datosF$Estacion, datosF$Año)
+
 ```
+
+
+
+```{r}
+
+```
+
 
 ## Referencias
 

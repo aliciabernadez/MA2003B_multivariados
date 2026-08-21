@@ -74,8 +74,10 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 ##### Descripción de las variables a utilizar a lo largo del proyecto
 
+A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
+
 | Variable | Descripción | Tipo | Justificación |
-|:-----------------|:-----------------|:-----------------|:-----------------|
+|:-----------------|:-----------------|:-----------------|:------------------|
 | `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
 | `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
 | `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
@@ -153,7 +155,7 @@ table(datos$Año)
 table(datos$Estacion, datos$Año)
 ```
 
-Después de unir las bases correspondientes a los años 2022–2025, se obtuvo un conjunto de datos compuesto por 517872 registros y 18 variables, distribuidos entre 13 estaciones de monitoreo.
+Después de unir las bases correspondientes a los años 2022–2025, se obtuvo un conjunto de datos compuesto por 105177 registros y 11 variables, distribuidos entre 3 estaciones de monitoreo.
 
 ```{r}
 names(datos22)
@@ -179,7 +181,7 @@ colSums(is.na(datos))
 summary(datos)
 ```
 
-Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 140,996 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
+Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de TOUT donde hubo 13,408 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $SO_2$ y RH.
 
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 

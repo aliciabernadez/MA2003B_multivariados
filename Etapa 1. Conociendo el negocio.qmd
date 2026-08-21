@@ -72,7 +72,6 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 ## Parte 2: Comprensión y preparación de los datos
 
-
 ```{r}
 library(readxl)
 library(dplyr)
@@ -202,17 +201,12 @@ duplicados_eliminados
 
 No se eliminaron filas, por lo que no había filas duplicadas
 
-
-
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
 colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
-
-
-
 
 ##### Descripción de las variables a utilizar a lo largo del poryecto
 

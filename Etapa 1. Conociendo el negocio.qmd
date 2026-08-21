@@ -111,6 +111,10 @@ datos23 <- leer_base("BD 2023.xlsx", 2023)
 datos24 <- leer_base("BD 2024.xlsx", 2024)
 datos25 <- leer_base("BD 2025.xlsx", 2025)
 
+# Unificar el nombre de la columna de fecha de 2025
+datos25 <- datos25 %>%
+  rename(`Fecha y hora` = date)
+
 # Unir todos los años en una sola base
 datos <- bind_rows(
   datos22,
@@ -127,7 +131,10 @@ table(datos$Estacion, datos$Año)
 ```
 
 ```{r}
-
+names(datos22)
+names(datos23)
+names(datos24)
+names(datos25)
 ```
 
 ```{r}

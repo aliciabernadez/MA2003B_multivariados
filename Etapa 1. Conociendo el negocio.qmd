@@ -187,28 +187,22 @@ Revisando los valores máximos y mínimos de las variables podemos notar como en
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
 datosF <- datos %>%
   mutate(
-    
-    PM10    = ifelse(PM10 < 0 | PM10 > 820, NA, PM10),
-    `PM2.5` = ifelse(`PM2.5` < 0 | `PM2.5` > 350, NA, `PM2.5`),
-    O3      = ifelse(O3 < 0 | O3 > 185, NA, O3),
-    NO      = ifelse(NO < 0 | NO > 350, NA, NO),
-    NO2     = ifelse(NO2 < 0 | NO2 > 175, NA, NO2),
-    NOX     = ifelse(NOX < 0 | NOX > 400, NA, NOX),
-    SO2     = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
-    CO      = ifelse(CO < 0 | CO > 10, NA, CO),
-    RH      = ifelse(RH < 0 | RH > 100, NA, RH),
-    WSR     = ifelse(WSR < 0 | WSR > 40, NA, WSR),
-    TOUT    = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
-    SR      = ifelse(SR < 0 | SR > 1.2, NA, SR),
-    PRS     = ifelse(PRS < 688 | PRS > 740, NA, PRS),
-    WDR     = ifelse(WDR < 0 | WDR > 360, NA, WDR),
-    RAINF   = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
+    SO2   = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
+    WDR   = ifelse(WDR < 0 | WDR > 360, NA, WDR),
+    WSR   = ifelse(WSR < 0 | WSR > 40, NA, WSR),
+    TOUT  = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
+    RH    = ifelse(RH < 0 | RH > 100, NA, RH),
+    PRS   = ifelse(PRS < 688 | PRS > 740, NA, PRS),
+    SR    = ifelse(SR < 0 | SR > 1.2, NA, SR),
+    RAINF = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
   )
 
 # Ver cantidad de valores fuera de rango convertidos a NA
 valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))
 
 valores_corregidos
+
+
 ```
 
 ```{r}

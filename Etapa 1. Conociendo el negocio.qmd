@@ -208,7 +208,7 @@ colSums(is.na(datosF))
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
 
-##### Descripción de las variables a utilizar a lo largo del poryecto
+##### Descripción de las variables a utilizar a lo largo del proyecto
 
 | Variable | Descripción | Tipo | Justificación |
 |:---|:---|:---|:---|

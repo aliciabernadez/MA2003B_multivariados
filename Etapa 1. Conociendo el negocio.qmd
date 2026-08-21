@@ -170,7 +170,6 @@ Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la
 
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 
-
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
 datosF <- datos %>%
@@ -234,6 +233,7 @@ colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
+
 ```{r}
 # Seleccionar las estaciones de interés de acuerdo con el objetivo
 datosE <- datos %>%

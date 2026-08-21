@@ -48,7 +48,7 @@ Analizar y acarcterizar la relación entre las concentraciones de dióxido de az
 
 ##### Pregunta guía:
 
-¿Existe un patrón direccional y meteorológico en las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE2 y NE durante el periodo 2022-2025 que sea consistente con la influencia de una fuente industrial puntual localizada en la zona?
+¿Existe un patrón direccional y meteorológico en las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE3 y NE durante el periodo 2022-2025 que sea consistente con la influencia de una fuente industrial puntual localizada en la zona?
 
 ##### Objetivos específicos:
 
@@ -141,6 +141,22 @@ head(datos)
 print(dim(datos))
 str(datos)
 ```
+
+##### Descripción de las variables
+
+| Variable   | Descripción                                  | Tipo       |
+|:-----------|:---------------------------------------------|:-----------|
+| `date`     | Fecha y hora del registro                    | Temporal   |
+| `SO2`      | Concentración de dióxido de azufre           | Numérica   |
+| `WDR`      | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
+| `WSR`      | Velocidad del viento                         | Numérica   |
+| `TOUT`     | Temperatura exterior                         | Numérica   |
+| `RH`       | Humedad relativa (%)                         | Numérica   |
+| `PRS`      | Presión atmosférica                          | Numérica   |
+| `SR`       | Radiación solar                              | Numérica   |
+| `RAINF`    | Precipitación registrada                     | Numérica   |
+| `Estacion` | Estación de monitoreo de SIMA                | Categórica |
+| `Año`      | Año correspondient al registro               | Temporal   |
 
 ```{r}
 # Ver cantidad de datos faltantes

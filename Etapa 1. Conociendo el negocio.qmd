@@ -8,6 +8,10 @@ author:
   - name: "Isaac Montaño A00841681"
 format: pdf
 editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
 ## Parte 1: Conociendo el negocio

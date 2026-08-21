@@ -79,7 +79,7 @@ library(purrr)
 library(stringr)
 library(tidyverse)
 
-# Función para leer únicamente las estaciones de interés de cada archivo
+# Función para leer únicamente las estaciones y variables de interés
 leer_base <- function(archivo, anio) {
   
   hojas <- excel_sheets(archivo)
@@ -93,6 +93,19 @@ leer_base <- function(archivo, anio) {
       mutate(
         Estacion = hoja,
         Año = anio
+      ) %>%
+      select(
+        any_of(c("Fecha y hora", "date")),
+        SO2,
+        WDR,
+        WSR,
+        TOUT,
+        RH,
+        PRS,
+        SR,
+        RAINF,
+        Estacion,
+        Año
       )
     
   })

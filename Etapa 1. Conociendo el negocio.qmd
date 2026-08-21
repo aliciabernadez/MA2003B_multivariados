@@ -225,7 +225,7 @@ filas_despues
 duplicados_eliminados
 ```
 
-No se eliminaron filas, por lo que no había filas duplicadas
+No se eliminaron filas, por lo que no había filas duplicadas en el dataset original.
 
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza

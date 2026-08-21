@@ -78,6 +78,7 @@ library(dplyr)
 library(purrr)
 library(stringr)
 library(tidyverse)
+library(lubridate)
 
 # Función para leer únicamente las estaciones y variables de interés
 leer_base <- function(archivo, anio) {
@@ -230,6 +231,41 @@ round(colMeans(is.na(datosF)) * 100, 2)
 | `RAINF` | Precipitación registrada | Numérica | Evaluar efecto de la lluvia |
 | `Estacion` | Estación de monitoreo de SIMA | Categórica | Comparar ubicaciones |
 | `Año` | Año correspondiente al registro | Temporal | Comparar periodos |
+
+##### Imputación de datos
+
+```{r}
+datosF <- datosF %>%
+  mutate(
+    Mes = month(`Fecha y hora`),
+    Hora = hour(`Fecha y hora`)
+  )
+
+#Imputación con mediana por Estación, año, mes y hora
+datos_imputados <- datosF %>%
+  group_by(Estacion, Año, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup()
+
+#Imputación sin tomar en cuenta el año para los datos que todavia quedaron faltantes en los que no habia datos para todo un mes durante un año
+datos_imputados <- datos_imputados %>%
+  group_by(Estacion, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup()
+
+#Imputación para los pocos datos faltantes que quedaron ahora sin tomar en cuenta la estación, solo el mes y la hora
+datos_imputados <- datos_imputados %>%
+  mutate(
+    Mes = month(`Fecha y hora`),
+    Hora = hour(`Fecha y hora`)
+  ) %>%
+  group_by(Año, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup() %>%
+  select(-Mes, -Hora)
+
+colSums(is.na(datos_imputados))
+```
 
 ## Referencias
 

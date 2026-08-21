@@ -381,6 +381,7 @@ summary(
 
 La estandarización se aplicó con el fin de llevar las variables a una escala comparable, ya que presentan unidades y rangos diferentes. Este procedimiento facilita su uso conjunto en análisis estadísticos y evita que una variable tenga mayor peso únicamente por la magnitud de sus valores. Se conservaron también las variables originales para mantener una interpretación directa de los resultados.
 
+
 ## Referencias
 
 Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.*Atmospheric Environment, 19*(8), 1263–1270.<https://doi.org/10.1016/0004-6981(85)90256-2>

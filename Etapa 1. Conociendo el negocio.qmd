@@ -72,8 +72,6 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 #### Justificación del proyecto
 
-### Justificación
-
 Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las variables meteorológicas puede utilizarse para identificar patrones asociados con posibles fuentes de emisión. Métodos como el análisis direccional y la función de probabilidad bivariada condicional han sido aplicados en distintos contextos industriales para relacionar concentraciones elevadas con la dirección y velocidad del viento.
 
 Por ello, resulta relevante aplicar este tipo de análisis a los registros históricos de SIMA, particularmente a las concentraciones de $SO_2$ observadas en las estaciones seleccionadas. El proyecto permitirá evaluar si los episodios de mayor concentración presentan patrones meteorológicos y direccionales consistentes con zonas industriales de la región. Esto puede contribuir a comprender mejor el comportamiento espacial y temporal del $SO_2$ y generar información útil para análisis posteriores sobre la calidad del aire en Nuevo León.
@@ -381,6 +379,19 @@ summary(
 
 La estandarización se aplicó con el fin de llevar las variables a una escala comparable, ya que presentan unidades y rangos diferentes. Este procedimiento facilita su uso conjunto en análisis estadísticos y evita que una variable tenga mayor peso únicamente por la magnitud de sus valores. Se conservaron también las variables originales para mantener una interpretación directa de los resultados.
 
+## Declaratoria de uso de IA
+
+**Opción B. Se utilizó Inteligencia Artificial durante el desarrollo del trabajo de la siguiente forma:**
+
+- **Herramienta:** ChatGPT.
+
+- **Uso realizado:** Se usó principalmente como apoyo para el brainstorming y la definición del objetivo del proyecto, ayudando a pasar de una idea general sobre contaminación del aire a una pregunta de investigación más clara. También se utilizó para orientar la imputación de datos faltantes y la preparación de los datos, como la creación de variables y el tratamiento de la dirección del viento.
+
+- **Secciones donde se utilizó:** Definición del objetivo, limpieza de datos, imputación y transformación de variables.
+
+- **Validación:** Todo lo sugerido por la herramienta fue revisado con lo visto en clase y con la base de datos de SIMA. Además, se comprobó que los resultados del código fueran coherentes antes de usarlos.
+
+- **Responsabilidad:** El equipo revisó todo el contenido y se hace responsable del trabajo final. La IA solo se usó como apoyo, no como reemplazo del análisis del grupo.
 
 ## Referencias
 

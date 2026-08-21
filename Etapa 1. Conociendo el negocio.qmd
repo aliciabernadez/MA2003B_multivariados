@@ -131,7 +131,6 @@ table(datos$Estacion, datos$Año)
 
 ```
 
-
 ```{r}
 # Ver a grandes rasgos el tibble
 head(datos)
@@ -195,4 +194,3 @@ table(datosF$Año)
 # Registros por estación y año
 table(datosF$Estacion, datosF$Año)
 ```
-

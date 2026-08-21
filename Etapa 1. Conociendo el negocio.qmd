@@ -1,6 +1,11 @@
 ---
 title: "Etapa 1. Conociendo el negocio"
-author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
+author:
+  - name: "Alicia Bernádez"
+  - name: "Omar Arzaga"
+  - name: "Diego Medrano"
+  - name: "Sebastián Alemán"
+  - name: "Isaac Montaño"
 format: pdf
 editor: visual
 ---
@@ -53,26 +58,17 @@ Analizar y acarcterizar la relación entre las concentraciones de dióxido de az
 
 Diversos estudios han analizado la relación entre las concentraciones de contaminantes atmosféricos, las condiciones meteorológicas y la ubicación de fuentes de emisión con el propósito de determinar el posible origen de episodios de contaminación. Para el presente proyecto resultan especialmente relevantes los trabajos de Uria-Tellaetxe y Carslaw (2014), Clarke et al. (2014) y Xue et al. (2023), ya que presentan metodologías y aplicaciones relacionadas con la identificación de fuentes mediante información de calidad del aire, dirección y velocidad del viento.
 
-Uria-Tellaetxe y Carslaw (2014) desarrollaron la Función de probabilidad bivariada condicional como una extensión de la función de probabilidad condicional. Esta metodología permite relacionar las concentraciones registradas de un contaminante con la dirección y velocidad del viento, de manera que sea posible identificar los sectores y condiciones meteorológicas asociados con concentraciones elevadas. Los autores describen su propuesta como “un nuevo método de modelación de receptor para identificar y caracterizar fuentes de emisión” (Uria-Tellaetxe & Carslaw, 2014, p. 1). La principal ventaja de incorporar la velocidad del viento es que proporciona información adicional sobre las características de dispersión de las fuentes y no únicamente sobre su dirección. Además, los autores comprobaron el funcionamiento de la técnica mediante simulaciones de dispersión e incorporaron el procedimiento al paquete `openair` de R.
+Uria-Tellaetxe y Carslaw (2014) desarrollaron la Función de probabilidad bivariada condicional como una extensión de la función de probabilidad condicional. Esta metodología permite relacionar las concentraciones registradas de un contaminante con la dirección y velocidad del viento, de manera que sea posible identificar los sectores y condiciones meteorológicas asociados con concentraciones elevadas. Los autores describen su propuesta como “un nuevo método de modelación de receptor para identificar y caracterizar fuentes de emisión” (Uria-Tellaetxe & Carslaw, 2014, p. 1). La principal ventaja de incorporar la velocidad del viento es que proporciona información adicional sobre las características de dispersión de las fuentes y no únicamente sobre su dirección. Además, los autores comprobaron el funcionamiento de la técnica mediante simulaciones de dispersión e incorporaron el procedimiento al paquete openair de R.
 
-Esta metodología resulta relevante para el análisis de las estaciones Cadereyta, Juárez y San Nicolás, debido a que permite estudiar si los episodios elevados de SO₂ aparecen repetidamente bajo determinadas combinaciones de dirección y velocidad del viento. De esta forma, en lugar de analizar solamente una correlación entre SO₂ y variables meteorológicas, es posible determinar si existe un patrón direccional consistente con la ubicación de una posible fuente industrial.
+Esta metodología resulta relevante para el análisis de las estaciones Cadereyta, Juárez y San Nicolás, debido a que permite estudiar si los episodios elevados de $SO_2$ aparecen repetidamente bajo determinadas combinaciones de dirección y velocidad del viento. De esta forma, en lugar de analizar solamente una correlación entre $SO_2$ y variables meteorológicas, es posible determinar si existe un patrón direccional consistente con la ubicación de una posible fuente industrial.
 
-Por otra parte, Clarke et al. (2014) aplicaron un enfoque de identificación de fuentes en Ulsan, Corea del Sur, una ciudad caracterizada por una importante actividad industrial. Los autores utilizaron concentraciones horarias de SO₂, CO, O₃, NO₂ y PM₁₀ registradas durante un año en 13 estaciones automáticas de monitoreo. El análisis consideró las variaciones diarias y estacionales, la distribución espacial de los contaminantes y la dirección del viento. Los resultados mostraron una relación particularmente clara para el dióxido de azufre, pues señalan que “la contaminación por SO₂ en Ulsan se originó principalmente en áreas industriales locales” (Clarke et al., 2014, p. 239).
+Por otra parte, Clarke et al. (2014) aplicaron un enfoque de identificación de fuentes en Ulsan, Corea del Sur, una ciudad caracterizada por una importante actividad industrial. Los autores utilizaron concentraciones horarias de $SO_2$, $CO$, $O_3$, $NO_2$ y $PM_{10}$ registradas durante un año en 13 estaciones automáticas de monitoreo. El análisis consideró las variaciones diarias y estacionales, la distribución espacial de los contaminantes y la dirección del viento. Los resultados mostraron una relación particularmente clara para el dióxido de azufre, pues señalan que “la contaminación por $SO_2$ en Ulsan se originó principalmente en áreas industriales locales” (Clarke et al., 2014, p. 239).
 
-Este estudio constituye un antecedente directo para el proyecto debido a que demuestra que los registros generados rutinariamente por estaciones automáticas pueden utilizarse no solo para conocer las concentraciones de contaminantes, sino también para estudiar relaciones entre las fuentes y los receptores. Asimismo, los investigadores analizaron de manera individual episodios de concentraciones elevadas, lo cual respalda el interés por estudiar específicamente las horas de mayor SO₂ en Cadereyta y las condiciones de viento presentes durante esos eventos.
+Este estudio constituye un antecedente directo para el proyecto debido a que demuestra que los registros generados rutinariamente por estaciones automáticas pueden utilizarse no solo para conocer las concentraciones de contaminantes, sino también para estudiar relaciones entre las fuentes y los receptores. Asimismo, los investigadores analizaron de manera individual episodios de concentraciones elevadas, lo cual respalda el interés por estudiar específicamente las horas de mayor $SO_2$ en Cadereyta, Juárez y San Nicolás y las condiciones de viento presentes durante esos eventos.
 
-Finalmente, Xue et al. (2023) estudiaron episodios recurrentes de contaminación por SO₂ dentro de un parque industrial químico. A partir de las mediciones de una estación identificaron 68 eventos de contaminación y posteriormente realizaron un análisis retrospectivo para determinar su posible fuente. Una característica especialmente importante del trabajo es que los autores reconocen que “los datos de apoyo disponibles correspondían únicamente a las mediciones de un solo monitor” (Xue et al., 2023). A pesar de esta limitación, combinaron las observaciones con información meteorológica y modelos de dispersión para aumentar la certeza de la localización de las fuentes. Finalmente, asociaron los episodios estudiados con una unidad industrial de craqueo catalítico.
+Finalmente, Xue et al. (2023) estudiaron episodios recurrentes de contaminación por $SO_2$ dentro de un parque industrial químico. A partir de las mediciones de una estación identificaron 68 eventos de contaminación y posteriormente realizaron un análisis retrospectivo para determinar su posible fuente. Una característica especialmente importante del trabajo es que los autores reconocen que “los datos de apoyo disponibles correspondían únicamente a las mediciones de un solo monitor” (Xue et al., 2023). A pesar de esta limitación, combinaron las observaciones con información meteorológica y modelos de dispersión para aumentar la certeza de la localización de las fuentes. Finalmente, asociaron los episodios estudiados con una unidad industrial de craqueo catalítico.
 
-En conjunto, los tres estudios muestran que las concentraciones de SO₂ pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al. (2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al. (2023) muestran la importancia de estudiar individualmente los episodios elevados de SO₂ y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de SO₂ presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.
-
-### Referencias
-
-Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city. *Atmospheric Environment, 95*, 239–248. https://doi.org/10.1016/j.atmosenv.2014.06.040
-
-Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1–9. https://doi.org/10.1016/j.envsoft.2014.05.002
-
-Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. https://doi.org/10.1016/j.atmosenv.2022.119564
-
+En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al. (2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al. (2023) muestran la importancia de estudiar individualmente los episodios elevados de $SO_2$ y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de $SO_2$ presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.
 
 ## Parte 2: Comprensión y preparación de los datos
 
@@ -208,3 +204,37 @@ table(datosF$Año)
 # Registros por estación y año
 table(datosF$Estacion, datosF$Año)
 ```
+
+## Referencias
+
+Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.*Atmospheric Environment, 19*(8), 1263–1270.<https://doi.org/10.1016/0004-6981(85)90256-2>
+
+Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport.*Atmospheric Environment, 40*(28), 5424–5434.<https://doi.org/10.1016/j.atmosenv.2006.04.062>
+
+Carslaw, D. C., & Ropkins, K. (2012). Openair—An R package for air quality data analysis. *Environmental Modelling & Software, 27–28*, 52–61. [https://doi.org/10.1016/j.envsoft.2011.09.008](#0){.uri}
+
+Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city.*Atmospheric Environment, 95*, 239–248. [https://doi.org/10.1016/j.atmosenv.2014.06.040](#0){.uri}
+
+Comisión Federal para la Protección contra Riesgos Sanitarios. (s. f.).*Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México.<https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente>
+
+Gobierno del Estado de Nuevo León. (s. f.).*Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental.<https://aire.nl.gob.mx/icars2020/map_calidad_icars.php>
+
+Holcim España. (s. f.).*¿Qué es la calidad del aire? Importancia y medición*.<https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion>
+
+Instituto Nacional de Ecología y Cambio Climático. (s. f.).*Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México.<https://sinaica.inecc.gob.mx/scica/>
+
+National Environmental Satellite, Data, and Information Service. (s. f.).*How is air quality measured?*National Oceanic and Atmospheric Administration.<https://www.nesdis.noaa.gov/about/k-12-education/dust-ash-fire-smoke/how-air-quality-measured>
+
+National Institute of Environmental Health Sciences. (s. f.).*La contaminación del aire y su salud*. National Institutes of Health. [https://www.niehs.nih.gov/health/topics/enfermedades/contaminacion](#0){.uri}
+
+Organización Mundial de la Salud. (2021).*Directrices mundiales de la OMS sobre la calidad del aire: Partículas en suspensión (PM2.5 y PM10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono*.<https://www.who.int/es/news-room/questions-and-answers/item/who-global-air-quality-guidelines>
+
+Organización Mundial de la Salud. (2024).*Contaminación del aire ambiente (exterior) y salud*.<https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health>
+
+Programa de las Naciones Unidas para el Medio Ambiente. (2022).*¿Cómo se mide la calidad del aire?*<https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire>
+
+Secretaría de Medio Ambiente y Recursos Naturales. (2023).*Proyecto de Norma Oficial Mexicana PROY-NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. *Diario Oficial de la Federación*. [https://www.diariooficial.gob.mx/normasOficiales/9314/semarnat_1_C/semarnat_1_C.html](#0){.uri}
+
+Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification.*Environmental Modelling & Software, 59*, 1-9. <https://doi.org/10.1016/j.envsoft.2014.05.002>
+
+Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park.*Atmospheric Environment, 296*, 119564.<https://doi.org/10.1016/j.atmosenv.2022.119564>

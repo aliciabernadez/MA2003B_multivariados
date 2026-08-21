@@ -325,19 +325,33 @@ Tras este proceso, solo se encontró un valor faltante en RAINF, el cual fue eli
 ```{r}
 datos_transformados <- datos_imputados %>%
   mutate(
-    #Transformación para variables cíclicas como el viento ya que va de 0 a 360°
+    # Transformación circular de la dirección del viento
     WDR_sin = sin(2 * pi * WDR / 360),
     WDR_cos = cos(2 * pi * WDR / 360),
-    
-    #Transformación logarítmica para suavizar picos extremos en los niveles de azufre
-    across(c(SO2), ~log1p(.)),
-    
-    #Estandarizar al valor z todas las variables
-    across(c(SO2, RH, WSR, TOUT, SR, PRS, RAINF), 
-           ~as.numeric(scale(.)))
-  ) %>%
-  
-  select(-WDR)
+
+    # Transformación logarítmica de SO2
+    SO2_log = log1p(SO2),
+
+    # Variables estandarizadas
+    SO2_z  = as.numeric(scale(SO2_log)),
+    RH_z   = as.numeric(scale(RH)),
+    WSR_z  = as.numeric(scale(WSR)),
+    TOUT_z = as.numeric(scale(TOUT)),
+    SR_z   = as.numeric(scale(SR)),
+    PRS_z  = as.numeric(scale(PRS)),
+    RAINF_z = as.numeric(scale(RAINF))
+  )
+
+names(datos_transformados)
+
+summary(
+  datos_transformados %>%
+    select(
+      SO2, SO2_log, SO2_z,
+      WDR, WDR_sin, WDR_cos,
+      WSR, WSR_z
+    )
+)
 ```
 
 

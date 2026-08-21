@@ -211,8 +211,8 @@ round(colMeans(is.na(datosF)) * 100, 2)
 ##### Descripción de las variables a utilizar a lo largo del proyecto
 
 | Variable | Descripción | Tipo | Justificación |
-|:---|:---|:---|:---|
-| `date` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
 | `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
 | `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
 | `WSR` | Velocidad del viento | Numérica | Evaluar dispersión y transporte |

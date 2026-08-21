@@ -85,36 +85,38 @@ library(googlesheets4)
 ```
 
 ```{r}
-library(googlesheets4)
-library(purrr)
+library(readxl)
 library(dplyr)
+library(purrr)
+library(stringr)
 
-options(
-  gargle_oauth_cache = ".secrets"
-)
 
-gs4_auth(
-  cache = ".secrets",
-  email = TRUE,
-  scopes = "https://www.googleapis.com/auth/spreadsheets.readonly"
+datos22 <- read_excel("BD 2022.xlsx")
+datos23 <- read_excel("BD 2023.xlsx")
+datos24 <- read_excel("BD 2024.xlsx")
+datos25 <- read_excel("BD 2025.xlsx")
+
+datos22$Año <- 2022
+datos23$Año <- 2023
+datos24$Año <- 2024
+datos25$Año <- 2025
+
+
+datos <- bind_rows(
+  datos22,
+  datos23,
+  datos24,
+  datos25
 )
+dim(datos)
+head(datos)
+table(datos$Año)
 ```
 
 ```{r}
-#Leer el archivo 
-url <- "https://docs.google.com/spreadsheets/d/1n4Os3KhB_eoNonYgfjjaIDrYEUsL0G4cW1VmVp5TBTA/edit?usp=sharing"
 
-# Obtener nombres de las hojas
-hojas <- sheet_names(url)
-
-# Unir las hojas en un solo dataframe
-#Importante notar que las 15 hojas fueron incluidas en una sola, por lo que se tuvo que agregar una columna extra para indicar a que estación pertenecía cada observación
-datos25 <- map_dfr(hojas, function(hoja) {
-  df <- read_sheet(url, sheet = hoja)
-  df$Estacion <- hoja
-  return(df)
-})
 ```
+
 
 ```{r}
 #Ver a grandes rasgos el tibble

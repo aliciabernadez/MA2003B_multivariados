@@ -70,6 +70,14 @@ Finalmente, Xue et al. (2023) estudiaron episodios recurrentes de contaminación
 
 En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al. (2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al. (2023) muestran la importancia de estudiar individualmente los episodios elevados de $SO_2$ y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de $SO_2$ presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.
 
+#### Justificación del proyecto
+
+### Justificación
+
+Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las variables meteorológicas puede utilizarse para identificar patrones asociados con posibles fuentes de emisión. Métodos como el análisis direccional y la función de probabilidad bivariada condicional han sido aplicados en distintos contextos industriales para relacionar concentraciones elevadas con la dirección y velocidad del viento.
+
+Por ello, resulta relevante aplicar este tipo de análisis a los registros históricos de SIMA, particularmente a las concentraciones de $SO_2$ observadas en las estaciones seleccionadas. El proyecto permitirá evaluar si los episodios de mayor concentración presentan patrones meteorológicos y direccionales consistentes con zonas industriales de la región. Esto puede contribuir a comprender mejor el comportamiento espacial y temporal del $SO_2$ y generar información útil para análisis posteriores sobre la calidad del aire en Nuevo León.
+
 ## Parte 2: Comprensión y preparación de los datos
 
 ##### Descripción de las variables a utilizar a lo largo del proyecto
@@ -77,7 +85,7 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
 
 | Variable | Descripción | Tipo | Justificación |
-|:---|:---|:---|:---|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
 | `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
 | `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
@@ -318,8 +326,8 @@ Para TOUT, RH, PRS y SR se aplicó imputación mediante KNN con k igual a 5, rea
 
 Tras este proceso, solo se encontró un valor faltante en RAINF, el cual fue eliminado por su impacto despreciable en el conjunto de datos.
 
-
 ##### Datos no imputados
+
 ```{r}
 # Cantidad y porcentaje de registros excluidos
 # por datos faltantes en SO2, WDR o WSR
@@ -336,7 +344,6 @@ porcentaje_excluido <- round(
 registros_excluidos
 porcentaje_excluido
 ```
-
 
 ##### Transformación y estandarización de los datos
 

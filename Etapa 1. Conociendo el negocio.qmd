@@ -82,19 +82,19 @@ Por ello, resulta relevante aplicar este tipo de análisis a los registros hist�
 
 A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
 
-| Variable | Descripción | Tipo | Dominio / Unidad | % Nulos | Justificación |
+| Variable | Descripción | Tipo | Dominio / Unidad | \% Nulos | Justificación |
 |:---|:---|:---|:---|---:|:---|
-| `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | `r round(mean(is.na(datos$`Fecha y hora`))*100, 2)`% | Analizar patrones temporales |
-| `SO2` | Concentración de dióxido de azufre | Numérica | 0–405 ppb | `r round(mean(is.na(datos$SO2))*100, 2)`% | Variable principal |
-| `WDR` | Dirección del viento | Numérica | $0^\circ$–$360^\circ$ | `r round(mean(is.na(datos$WDR))*100, 2)`% | Identificar dirección de origen |
-| `WSR` | Velocidad del viento | Numérica | 0–40 | `r round(mean(is.na(datos$WSR))*100, 2)`% | Evaluar dispersión y transporte |
-| `TOUT` | Temperatura exterior | Numérica | -4.5–45 °C | `r round(mean(is.na(datos$TOUT))*100, 2)`% | Caracterizar condiciones atmosféricas |
-| `RH` | Humedad relativa | Numérica | 0–100 % | `r round(mean(is.na(datos$RH))*100, 2)`% | Caracterizar condiciones meteorológicas |
-| `PRS` | Presión atmosférica | Numérica | 688–740 | `r round(mean(is.na(datos$PRS))*100, 2)`% | Complementar análisis meteorológico |
-| `SR` | Radiación solar | Numérica | 0–1.2 | `r round(mean(is.na(datos$SR))*100, 2)`% | Analizar variación diurna |
-| `RAINF` | Precipitación registrada | Numérica | 0–25 | `r round(mean(is.na(datos$RAINF))*100, 2)`% | Evaluar efecto de la lluvia |
-| `Estacion` | Estación de monitoreo | Categórica | NE, SE2, SE3 | `r round(mean(is.na(datos$Estacion))*100, 2)`% | Comparar ubicaciones |
-| `Año` | Año del registro | Temporal | 2022–2025 | `r round(mean(is.na(datos$Año))*100, 2)`% | Comparar periodos |
+| `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Analizar patrones temporales |
+| `SO2` | Concentración de dióxido de azufre | Numérica | 0–405 ppb | 3.45% | Variable principal |
+| `WDR` | Dirección del viento | Numérica | $0^\circ$–$360^\circ$ | 2.17% | Identificar dirección de origen |
+| `WSR` | Velocidad del viento | Numérica | 0–40 | 2.50% | Evaluar dispersión y transporte |
+| `TOUT` | Temperatura exterior | Numérica | -4.5–45 °C | 12.77% | Caracterizar condiciones atmosféricas |
+| `RH` | Humedad relativa | Numérica | 0–100% | 4.25% | Caracterizar condiciones meteorológicas |
+| `PRS` | Presión atmosférica | Numérica | 688–740 | 3.27% | Complementar análisis meteorológico |
+| `SR` | Radiación solar | Numérica | 0–1.2 | 1.07% | Analizar variación diurna |
+| `RAINF` | Precipitación registrada | Numérica | 0–25 | 1.11% | Evaluar efecto de la lluvia |
+| `Estacion` | Estación de monitoreo | Categórica | NE, SE2, SE3 | 0.00% | Comparar ubicaciones |
+| `Año` | Año correspondiente al registro | Temporal | 2022–2025 | 0.00% | Comparar periodos |
 
 ```{r}
 library(readxl)

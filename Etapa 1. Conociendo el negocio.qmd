@@ -345,6 +345,8 @@ registros_excluidos
 porcentaje_excluido
 ```
 
+Se eliminaron 4,774 registros (4.54%) debido principalmente a datos faltantes en $SO_2$, WDR y WSR, variables que no fueron imputadas para evitar alterar los patrones de interés. Las variables meteorológicas TOUT, RH, PRS y SR fueron imputadas mediante KNN $k=5$ , mientras que RAINF no se imputó debido a su comportamiento esporádico y predominancia de valores cero.
+
 ##### Transformación y estandarización de los datos
 
 ```{r}

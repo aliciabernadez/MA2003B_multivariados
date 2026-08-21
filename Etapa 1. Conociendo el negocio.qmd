@@ -72,23 +72,21 @@ En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden
 
 ## Parte 2: Comprensión y preparación de los datos
 
-```{r}
-library(readxl)
-library(tidyverse)
-library(dplyr)
-library(googlesheets4)
-```
 
 ```{r}
 library(readxl)
 library(dplyr)
 library(purrr)
 library(stringr)
+library(tidyverse)
 
-# Función para leer todas las hojas de cada archivo
+# Función para leer únicamente las estaciones de interés de cada archivo
 leer_base <- function(archivo, anio) {
   
   hojas <- excel_sheets(archivo)
+  
+  # Seleccionar únicamente las estaciones del estudio
+  hojas <- hojas[hojas %in% c("NE", "SE2", "SE3")]
   
   map_dfr(hojas, function(hoja) {
     
@@ -204,14 +202,7 @@ duplicados_eliminados
 
 No se eliminaron filas, por lo que no había filas duplicadas
 
-```{r}
-# Registros por año
-table(datosF$Año)
 
-# Registros por estación y año
-table(datosF$Estacion, datosF$Año)
-
-```
 
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
@@ -220,15 +211,8 @@ colSums(is.na(datosF))
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
 
-```{r}
-# Seleccionar las estaciones de interés de acuerdo con el objetivo
-datosE <- datos %>%
-  filter(Estacion %in% c("NE", "SE2", "SE3"))
 
-# Revisar la base seleccionada
-dim(datosE)
-table(datosE$Estacion, datosE$Año)
-```
+
 
 ##### Descripción de las variables a utilizar a lo largo del poryecto
 

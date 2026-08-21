@@ -144,22 +144,6 @@ print(dim(datos))
 str(datos)
 ```
 
-##### Descripción de las variables
-
-| Variable   | Descripción                                  | Tipo       |
-|:-----------|:---------------------------------------------|:-----------|
-| `date`     | Fecha y hora del registro                    | Temporal   |
-| `SO2`      | Concentración de dióxido de azufre           | Numérica   |
-| `WDR`      | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
-| `WSR`      | Velocidad del viento                         | Numérica   |
-| `TOUT`     | Temperatura exterior                         | Numérica   |
-| `RH`       | Humedad relativa (%)                         | Numérica   |
-| `PRS`      | Presión atmosférica                          | Numérica   |
-| `SR`       | Radiación solar                              | Numérica   |
-| `RAINF`    | Precipitación registrada                     | Numérica   |
-| `Estacion` | Estación de monitoreo de SIMA                | Categórica |
-| `Año`      | Año correspondient al registro               | Temporal   |
-
 ```{r}
 # Ver cantidad de datos faltantes
 colSums(is.na(datos))
@@ -245,6 +229,22 @@ datosE <- datos %>%
 dim(datosE)
 table(datosE$Estacion, datosE$Año)
 ```
+
+##### Descripción de las variables a utilizar a lo largo del poryecto
+
+| Variable   | Descripción                                  | Tipo       |
+|:-----------|:---------------------------------------------|:-----------|
+| `date`     | Fecha y hora del registro                    | Temporal   |
+| `SO2`      | Concentración de dióxido de azufre           | Numérica   |
+| `WDR`      | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica   |
+| `WSR`      | Velocidad del viento                         | Numérica   |
+| `TOUT`     | Temperatura exterior                         | Numérica   |
+| `RH`       | Humedad relativa (%)                         | Numérica   |
+| `PRS`      | Presión atmosférica                          | Numérica   |
+| `SR`       | Radiación solar                              | Numérica   |
+| `RAINF`    | Precipitación registrada                     | Numérica   |
+| `Estacion` | Estación de monitoreo de SIMA                | Categórica |
+| `Año`      | Año correspondient al registro               | Temporal   |
 
 ## Referencias
 

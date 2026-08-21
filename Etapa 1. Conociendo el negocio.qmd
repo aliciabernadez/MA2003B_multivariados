@@ -312,6 +312,11 @@ datos_imputados <- datos_imputados %>%
 # Verificar que ya no existan datos faltantes
 colSums(is.na(datos_imputados))
 ```
+Tras la limpieza inicial se identificaron valores faltantes en varias variables, por lo que se aplicó un tratamiento diferenciado según su relevancia. Las variables SO2, WDR y WSR no fueron imputadas, ya que son centrales para el análisis de contaminación y su estimación podría distorsionar los patrones reales; por ello, se conservaron únicamente registros completos en estas variables.
+
+Para TOUT, RH, PRS y SR se aplicó imputación mediante KNN con k igual a 5, realizada por estación de monitoreo, utilizando variables meteorológicas y temporales como año, mes y hora junto con variables de viento para definir la similitud entre observaciones. La dirección del viento, el mes y la hora se transformaron mediante representaciones seno y coseno para respetar su naturaleza cíclica. La variable SO2 no se incluyó en el cálculo de vecinos con el fin de evitar sesgos en la imputación, y RAINF no se imputó debido a su comportamiento altamente esporádico y a la presencia predominante de valores cero.
+
+Tras este proceso, solo se encontró un valor faltante en RAINF, el cual fue eliminado por su impacto despreciable en el conjunto de datos.
 
 ## Referencias
 

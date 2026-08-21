@@ -46,6 +46,10 @@ La información generada por SIMA constituye la principal fuente de datos para e
 
 Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
 
+##### Pregunta guía:
+
+¿Existe un patrón direccional y meteorológico en las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE2 y NE durante el periodo 2022-2025 que sea consistente con la influencia de una fuente industrial puntual localizada en la zona?
+
 ##### Objetivos específicos:
 
 - Describir el comportamiento temporal de las concentraciones de $SO_2$ registradas en las estaciones NE, SE2 y SE3 durante 2022-2025, identificando su distribución, variación temporal y los periosos en los que se presentan concentraciones elevadas en cada sitio.
@@ -151,7 +155,6 @@ Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la
 Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 
 
-
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
 datosF <- datos %>%
@@ -209,8 +212,6 @@ table(datosF$Estacion, datosF$Año)
 
 ```
 
-
-
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
 colSums(is.na(datosF))
@@ -226,7 +227,6 @@ datosE <- datos %>%
 dim(datosE)
 table(datosE$Estacion, datosE$Año)
 ```
-
 
 ## Referencias
 

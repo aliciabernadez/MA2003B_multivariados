@@ -81,7 +81,6 @@ table(datos$Año)
 table(datos$Estacion, datos$Año)
 ```
 
-
 ```{r}
 names(datos22)
 names(datos23)
@@ -97,7 +96,6 @@ head(datos)
 print(dim(datos))
 str(datos)
 ```
-
 
 ```{r}
 # Ver cantidad de datos faltantes
@@ -129,33 +127,89 @@ valores_corregidos
 
 ```
 
+El siguiente chunk hace lo mismo que al anterior, pero lo despliega más profesionalemnte
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+datosF <- datos %>%
+  mutate(
+    SO2   = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
+    WDR   = ifelse(WDR < 0 | WDR > 360, NA, WDR),
+    WSR   = ifelse(WSR < 0 | WSR > 40, NA, WSR),
+    TOUT  = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
+    RH    = ifelse(RH < 0 | RH > 100, NA, RH),
+    PRS   = ifelse(PRS < 688 | PRS > 740, NA, PRS),
+    SR    = ifelse(SR < 0 | SR > 1.2, NA, SR),
+    RAINF = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
+  )
+
+# Variables a las que se aplicaron los rangos
+variables_estudio <- c(
+  "SO2", "WDR", "WSR", "TOUT",
+  "RH", "PRS", "SR", "RAINF"
+)
+
+# Calcular cantidad de valores fuera de rango convertidos a NA
+valores_corregidos <-
+  colSums(is.na(datosF[variables_estudio])) -
+  colSums(is.na(datos[variables_estudio]))
+
+# Crear tabla para presentar los resultados
+tabla_corregidos <- data.frame(
+  Variable = names(valores_corregidos),
+  "Valores fuera de rango" = as.numeric(valores_corregidos),
+  check.names = FALSE
+)
+
+# Mostrar tabla en el reporte
+knitr::kable(
+  tabla_corregidos,
+  caption = "Valores fuera de los rangos establecidos convertidos a datos faltantes",
+  align = c("l", "c")
+)
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Guardar cantidad de filas antes de eliminar duplicados
 filas_antes <- nrow(datosF)
 
 # Eliminar duplicados
 datosF <- distinct(datosF)
 
-# Ver cantidad de filas después de eliminar duplicados
+# Guardar cantidad de filas después de eliminar duplicados
 filas_despues <- nrow(datosF)
 
-# Calcular duplicados eliminados
+# Calcular cantidad de duplicados eliminados
 duplicados_eliminados <- filas_antes - filas_despues
 
-filas_antes
-filas_despues
-duplicados_eliminados
+# Crear tabla para presentar los resultados
+tabla_duplicados <- data.frame(
+  Indicador = c(
+    "Registros antes de eliminar duplicados",
+    "Registros después de eliminar duplicados",
+    "Duplicados eliminados"
+  ),
+  Cantidad = c(
+    filas_antes,
+    filas_despues,
+    duplicados_eliminados
+  )
+)
+
+# Mostrar tabla en el reporte
+knitr::kable(
+  tabla_duplicados,
+  caption = "Resultado de la eliminación de registros duplicados",
+  align = c("l", "c")
+)
 ```
-
-
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
 colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
 ```
-
 
 ##### Imputación de datos
 
@@ -228,7 +282,6 @@ datos_imputados <- datos_imputados %>%
 colSums(is.na(datos_imputados))
 ```
 
-
 ```{r}
 # Eliminar el único registro faltante de precipitación
 datos_imputados <- datos_imputados %>%
@@ -237,7 +290,6 @@ datos_imputados <- datos_imputados %>%
 # Verificar que ya no existan datos faltantes
 colSums(is.na(datos_imputados))
 ```
-
 
 ##### Datos no imputados
 
@@ -257,7 +309,6 @@ porcentaje_excluido <- round(
 registros_excluidos
 porcentaje_excluido
 ```
-
 
 ##### Transformación y estandarización de los datos
 
@@ -292,4 +343,3 @@ summary(
     )
 )
 ```
-

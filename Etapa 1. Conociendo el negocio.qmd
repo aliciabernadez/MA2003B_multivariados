@@ -216,22 +216,39 @@ valores_corregidos
 
 ```
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Guardar cantidad de filas antes de eliminar duplicados
 filas_antes <- nrow(datosF)
 
 # Eliminar duplicados
 datosF <- distinct(datosF)
 
-# Ver cantidad de filas después de eliminar duplicados
+# Guardar cantidad de filas después de eliminar duplicados
 filas_despues <- nrow(datosF)
 
-# Calcular duplicados eliminados
+# Calcular cantidad de duplicados eliminados
 duplicados_eliminados <- filas_antes - filas_despues
 
-filas_antes
-filas_despues
-duplicados_eliminados
+# Crear tabla para presentar los resultados
+tabla_duplicados <- data.frame(
+  Indicador = c(
+    "Registros antes de eliminar duplicados",
+    "Registros después de eliminar duplicados",
+    "Duplicados eliminados"
+  ),
+  Cantidad = c(
+    filas_antes,
+    filas_despues,
+    duplicados_eliminados
+  )
+)
+
+# Mostrar tabla en el reporte
+knitr::kable(
+  tabla_duplicados,
+  caption = "Resultado de la eliminación de registros duplicados",
+  align = c("l", "c")
+)
 ```
 
 No se eliminaron filas, por lo que no había filas duplicadas en el dataset original.

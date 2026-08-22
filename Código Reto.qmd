@@ -16,17 +16,280 @@ Quarto enables you to weave together content and executable code into a finished
 
 ## Running Code
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(readxl)
+library(dplyr)
+library(purrr)
+library(stringr)
+library(tidyverse)
+library(lubridate)
+
+# Función para leer únicamente las estaciones y variables de interés
+leer_base <- function(archivo, anio) {
+  
+  hojas <- excel_sheets(archivo)
+  
+  # Seleccionar únicamente las estaciones del estudio
+  hojas <- hojas[hojas %in% c("NE", "SE2", "SE3")]
+  
+  map_dfr(hojas, function(hoja) {
+    
+    read_excel(archivo, sheet = hoja) %>%
+      mutate(
+        Estacion = hoja,
+        Año = anio
+      ) %>%
+      select(
+        any_of(c("Fecha y hora", "date")),
+        SO2,
+        WDR,
+        WSR,
+        TOUT,
+        RH,
+        PRS,
+        SR,
+        RAINF,
+        Estacion,
+        Año
+      )
+    
+  })
+}
+
+# Leer las bases de cada año
+datos22 <- leer_base("BD 2022.xlsx", 2022)
+datos23 <- leer_base("BD 2023.xlsx", 2023)
+datos24 <- leer_base("BD 2024.xlsx", 2024)
+datos25 <- leer_base("BD 2025.xlsx", 2025)
+
+# Unificar el nombre de la columna de fecha de 2025
+datos25 <- datos25 %>%
+  rename(`Fecha y hora` = date)
+
+# Unir todos los años en una sola base
+datos <- bind_rows(
+  datos22,
+  datos23,
+  datos24,
+  datos25
+)
+
+# Revisar la base final
+dim(datos)
+head(datos)
+table(datos$Año)
+table(datos$Estacion, datos$Año)
 ```
 
-You can add options to executable code like this
 
 ```{r}
-#| echo: false
-2 * 2
+names(datos22)
+names(datos23)
+names(datos24)
+names(datos25)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+# Ver a grandes rasgos el tibble
+head(datos)
+
+# Ver las dimensiones y tipos de datos
+print(dim(datos))
+str(datos)
+```
+
+
+```{r}
+# Ver cantidad de datos faltantes
+colSums(is.na(datos))
+
+# Ver si hay datos atípicos o sesgos
+summary(datos)
+```
+
+```{r}
+# Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+datosF <- datos %>%
+  mutate(
+    SO2   = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
+    WDR   = ifelse(WDR < 0 | WDR > 360, NA, WDR),
+    WSR   = ifelse(WSR < 0 | WSR > 40, NA, WSR),
+    TOUT  = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
+    RH    = ifelse(RH < 0 | RH > 100, NA, RH),
+    PRS   = ifelse(PRS < 688 | PRS > 740, NA, PRS),
+    SR    = ifelse(SR < 0 | SR > 1.2, NA, SR),
+    RAINF = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
+  )
+
+# Ver cantidad de valores fuera de rango convertidos a NA
+valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))
+
+valores_corregidos
+
+
+```
+
+
+```{r}
+# Guardar cantidad de filas antes de eliminar duplicados
+filas_antes <- nrow(datosF)
+
+# Eliminar duplicados
+datosF <- distinct(datosF)
+
+# Ver cantidad de filas después de eliminar duplicados
+filas_despues <- nrow(datosF)
+
+# Calcular duplicados eliminados
+duplicados_eliminados <- filas_antes - filas_despues
+
+filas_antes
+filas_despues
+duplicados_eliminados
+```
+
+
+```{r}
+# Ver cantidad y porcentaje de datos faltantes después de la limpieza
+colSums(is.na(datosF))
+
+round(colMeans(is.na(datosF)) * 100, 2)
+```
+
+
+##### Imputación de datos
+
+```{r}
+library(VIM)
+
+# Preparación e imputación de datos mediante KNN
+
+# Conservar únicamente registros completos en las variables principales 
+datos_imputados <- datosF %>%
+  filter(
+    !is.na(SO2),
+    !is.na(WDR),
+    !is.na(WSR)
+  ) %>%
+  mutate(
+    # Variables temporales
+    Mes = month(`Fecha y hora`),
+    Hora = hour(`Fecha y hora`),
+
+    # Transformar dirección del viento para respetar
+    # su naturaleza circular
+    WDR_sin = sin(WDR * pi / 180),
+    WDR_cos = cos(WDR * pi / 180),
+
+    # Transformaciones circulares de hora y mes
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin = sin(2 * pi * Mes / 12),
+    Mes_cos = cos(2 * pi * Mes / 12)
+  )
+
+
+# Imputar únicamente las variables meteorológicas secundarias
+# utilizando KNN dentro de cada estación
+datos_imputados <- datos_imputados %>%
+  group_split(Estacion, .keep = TRUE) %>%
+  map_dfr(~ VIM::kNN(
+    .x,
+
+    # Variables que se van a imputar
+    variable = c("TOUT", "RH", "PRS", "SR"),
+
+    # Variables utilizadas para buscar observaciones similares
+    dist_var = c(
+      "WSR",
+      "WDR_sin", "WDR_cos",
+      "Año",
+      "Hora_sin", "Hora_cos",
+      "Mes_sin", "Mes_cos",
+      "TOUT", "RH", "PRS", "SR"
+    ),
+
+    k = 5,
+    imp_var = FALSE,
+    useImputedDist = FALSE,
+    methodStand = "iqr"
+  )) %>%
+  arrange(Estacion, `Fecha y hora`) %>%
+
+  # Eliminar solamente las variables auxiliares
+  select(
+    -WDR_sin, -WDR_cos,
+    -Hora_sin, -Hora_cos,
+    -Mes_sin, -Mes_cos
+  )
+
+
+# Revisar datos faltantes después de la preparación
+colSums(is.na(datos_imputados))
+```
+
+
+```{r}
+# Eliminar el único registro faltante de precipitación
+datos_imputados <- datos_imputados %>%
+  filter(!is.na(RAINF))
+
+# Verificar que ya no existan datos faltantes
+colSums(is.na(datos_imputados))
+```
+
+
+##### Datos no imputados
+
+```{r}
+# Cantidad y porcentaje de registros excluidos
+# por datos faltantes en SO2, WDR o WSR
+registros_iniciales <- nrow(datosF)
+registros_finales <- nrow(datos_imputados)
+
+registros_excluidos <- registros_iniciales - registros_finales
+
+porcentaje_excluido <- round(
+  registros_excluidos / registros_iniciales * 100,
+  2
+)
+
+registros_excluidos
+porcentaje_excluido
+```
+
+
+##### Transformación y estandarización de los datos
+
+```{r}
+datos_transformados <- datos_imputados %>%
+  mutate(
+    # Transformación circular de la dirección del viento
+    WDR_sin = sin(2 * pi * WDR / 360),
+    WDR_cos = cos(2 * pi * WDR / 360),
+
+    # Transformación logarítmica de SO2
+    SO2_log = log1p(SO2),
+
+    # Variables estandarizadas
+    SO2_z  = as.numeric(scale(SO2_log)),
+    RH_z   = as.numeric(scale(RH)),
+    WSR_z  = as.numeric(scale(WSR)),
+    TOUT_z = as.numeric(scale(TOUT)),
+    SR_z   = as.numeric(scale(SR)),
+    PRS_z  = as.numeric(scale(PRS)),
+    RAINF_z = as.numeric(scale(RAINF))
+  )
+
+names(datos_transformados)
+
+summary(
+  datos_transformados %>%
+    select(
+      SO2, SO2_log, SO2_z,
+      WDR, WDR_sin, WDR_cos,
+      WSR, WSR_z
+    )
+)
+```
+

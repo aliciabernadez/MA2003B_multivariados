@@ -1,16 +1,13 @@
 ---
 title: "Etapa 1. Conociendo el negocio"
 author:
-  - name: "Alicia Bernádez A01562634"
-  - name: "Omar Arzaga A01569294"
-  - name: "Diego Medrano A01254882"
-  - name: "Sebastián Alemán A00841034"
-  - name: "Isaac Montaño A00841681"
+  - name: "Alicia Bernádez"
+  - name: "Omar Arzaga"
+  - name: "Diego Medrano"
+  - name: "Sebastián Alemán"
+  - name: "Isaac Montaño"
 format: pdf
 editor: visual
-execute:
-  warning: false
-  message: false
 ---
 
 ## Parte 1: Conociendo el negocio
@@ -47,7 +44,7 @@ La información generada por SIMA constituye la principal fuente de datos para e
 
 #### Objetivo general del trabajo
 
-Analizar y caracterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
+Analizar y acarcterizar la relación entre las concentraciones de dióxido de azufre ($SO_2$) y las condiciones meteorológicas registradas en la estación SE3 (Cadereyta), SE2 (Juárez) y NE (San Nicolás) durante el periodo 2022-2025, con el propósito de identificar patrones direccionales asociados con episodios de concentraciones elevadas y avaluar su posible relación con fuentes industriales localizadas en la región.
 
 ##### Pregunta guía:
 
@@ -73,33 +70,23 @@ Finalmente, Xue et al. (2023) estudiaron episodios recurrentes de contaminación
 
 En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al. (2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al. (2023) muestran la importancia de estudiar individualmente los episodios elevados de $SO_2$ y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de $SO_2$ presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.
 
-#### Justificación del proyecto
-
-Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las variables meteorológicas puede utilizarse para identificar patrones asociados con posibles fuentes de emisión. Métodos como el análisis direccional y la función de probabilidad bivariada condicional han sido aplicados en distintos contextos industriales para relacionar concentraciones elevadas con la dirección y velocidad del viento.
-
-Por ello, resulta relevante aplicar este tipo de análisis a los registros históricos de SIMA, particularmente a las concentraciones de $SO_2$ observadas en las estaciones seleccionadas. El proyecto permitirá evaluar si los episodios de mayor concentración presentan patrones meteorológicos y direccionales consistentes con zonas industriales de la región. Esto puede contribuir a comprender mejor el comportamiento espacial y temporal del $SO_2$ y generar información útil para análisis posteriores sobre la calidad del aire en Nuevo León.
-
-Se seleccionaron las estaciones NE (San Nicolás), SE2 (Juárez) y SE3 (Cadereyta) porque permiten analizar el comportamiento del SO₂ en distintos puntos del área metropolitana y, al mismo tiempo, comparar cómo cambian las concentraciones en función de la dirección y velocidad del viento. Su ubicación resulta especialmente útil para identificar patrones espaciales y direccionales asociados con posibles fuentes industriales de la región.
-
 ## Parte 2: Comprensión y preparación de los datos
 
 ##### Descripción de las variables a utilizar a lo largo del proyecto
 
-A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
-
-| Variable | Descripción | Tipo | Dominio / Unidad | \% Nulos | Justificación |
-|:---|:---|:---|:---|---:|:---|
-| `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Analizar patrones temporales |
-| `SO2` | Concentración de dióxido de azufre | Numérica | 0–405 ppb | 3.45% | Variable principal |
-| `WDR` | Dirección del viento | Numérica | $0^\circ$–$360^\circ$ | 2.17% | Identificar dirección de origen |
-| `WSR` | Velocidad del viento | Numérica | 0–40 | 2.50% | Evaluar dispersión y transporte |
-| `TOUT` | Temperatura exterior | Numérica | -4.5–45 °C | 12.77% | Caracterizar condiciones atmosféricas |
-| `RH` | Humedad relativa | Numérica | 0–100% | 4.25% | Caracterizar condiciones meteorológicas |
-| `PRS` | Presión atmosférica | Numérica | 688–740 | 3.27% | Complementar análisis meteorológico |
-| `SR` | Radiación solar | Numérica | 0–1.2 | 1.07% | Analizar variación diurna |
-| `RAINF` | Precipitación registrada | Numérica | 0–25 | 1.11% | Evaluar efecto de la lluvia |
-| `Estacion` | Estación de monitoreo | Categórica | NE, SE2, SE3 | 0.00% | Comparar ubicaciones |
-| `Año` | Año correspondiente al registro | Temporal | 2022–2025 | 0.00% | Comparar periodos |
+| Variable | Descripción | Tipo | Justificación |
+|:---|:---|:---|:---|
+| `fecha y hora` | Fecha y hora del registro | Temporal | Analizar patrones temporales |
+| `SO2` | Concentración de dióxido de azufre | Numérica | Variable principal |
+| `WDR` | Dirección del viento ($0^\circ$–$360^\circ$) | Numérica | Identificar dirección de origen |
+| `WSR` | Velocidad del viento | Numérica | Evaluar dispersión y transporte |
+| `TOUT` | Temperatura exterior | Numérica | Caracterizar condiciones atmosféricas |
+| `RH` | Humedad relativa (%) | Numérica | Caracterizar condiciones meteorológicas |
+| `PRS` | Presión atmosférica | Numérica | Complementar análisis meteorológico |
+| `SR` | Radiación solar | Numérica | Analizar variación diurna |
+| `RAINF` | Precipitación registrada | Numérica | Evaluar efecto de la lluvia |
+| `Estacion` | Estación de monitoreo de SIMA | Categórica | Comparar ubicaciones |
+| `Año` | Año correspondiente al registro | Temporal | Comparar periodos |
 
 ```{r}
 library(readxl)
@@ -108,8 +95,6 @@ library(purrr)
 library(stringr)
 library(tidyverse)
 library(lubridate)
-library(VIM)
-
 
 # Función para leer únicamente las estaciones y variables de interés
 leer_base <- function(archivo, anio) {
@@ -168,7 +153,7 @@ table(datos$Año)
 table(datos$Estacion, datos$Año)
 ```
 
-Después de unir las bases correspondientes a los años 2022–2025, se obtuvo un conjunto de datos compuesto por 105177 registros y 11 variables, distribuidos entre 3 estaciones de monitoreo.
+Después de unir las bases correspondientes a los años 2022–2025, se obtuvo un conjunto de datos compuesto por 517872 registros y 18 variables, distribuidos entre 13 estaciones de monitoreo.
 
 ```{r}
 names(datos22)
@@ -194,7 +179,9 @@ colSums(is.na(datos))
 summary(datos)
 ```
 
-Se observa una cantidad considerable de datos faltantes, especialmente en la variable TOUT, con 13,408 registros faltantes. Otras variables con una cantidad importante de valores faltantes son RH y SO2. Asimismo, la revisión de los valores mínimos y máximos permitió identificar registros fuera de los rangos considerados válidos, como valores de -9999 en TOUT y RH, valores de humedad relativa superiores a 100 %, así como registros fuera de rango en PRS y SR.
+Se puede notar que hay una gran cantidad de datos faltantes. Especialmente en la columna de $PM_{2.5}$ donde hubo 140,996 valores faltantes. Otras variables con gran cantidad de datos faltantes son $RH$, $NO$ y $CO$.
+
+Revisando los valores máximos y mínimos de las variables podemos notar como en varias de ellas (WDR, WSR, RAINF, etc) tienen un mínimo de -9999 y en otras como RH el máximo es de 725 cuando es una medida que va desde 0 hasta 100.
 
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
@@ -218,42 +205,25 @@ valores_corregidos
 
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
 # Guardar cantidad de filas antes de eliminar duplicados
 filas_antes <- nrow(datosF)
 
 # Eliminar duplicados
 datosF <- distinct(datosF)
 
-# Guardar cantidad de filas después de eliminar duplicados
+# Ver cantidad de filas después de eliminar duplicados
 filas_despues <- nrow(datosF)
 
-# Calcular cantidad de duplicados eliminados
+# Calcular duplicados eliminados
 duplicados_eliminados <- filas_antes - filas_despues
 
-# Crear tabla para presentar los resultados
-tabla_duplicados <- data.frame(
-  Indicador = c(
-    "Registros antes de eliminar duplicados",
-    "Registros después de eliminar duplicados",
-    "Duplicados eliminados"
-  ),
-  Cantidad = c(
-    filas_antes,
-    filas_despues,
-    duplicados_eliminados
-  )
-)
-
-# Mostrar tabla en el reporte
-knitr::kable(
-  tabla_duplicados,
-  caption = "Resultado de la eliminación de registros duplicados",
-  align = c("l", "c")
-)
+filas_antes
+filas_despues
+duplicados_eliminados
 ```
 
-No se eliminaron filas, por lo que no había filas duplicadas en el dataset original.
+No se eliminaron filas, por lo que no había filas duplicadas
 
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
@@ -265,162 +235,37 @@ round(colMeans(is.na(datosF)) * 100, 2)
 ##### Imputación de datos
 
 ```{r}
-
-# Preparación e imputación de datos mediante KNN
-
-# Conservar únicamente registros completos en las variables principales 
-datos_imputados <- datosF %>%
-  filter(
-    !is.na(SO2),
-    !is.na(WDR),
-    !is.na(WSR)
-  ) %>%
+datosF <- datosF %>%
   mutate(
-    # Variables temporales
     Mes = month(`Fecha y hora`),
-    Hora = hour(`Fecha y hora`),
-
-    # Transformar dirección del viento para respetar
-    # su naturaleza circular
-    WDR_sin = sin(WDR * pi / 180),
-    WDR_cos = cos(WDR * pi / 180),
-
-    # Transformaciones circulares de hora y mes
-    Hora_sin = sin(2 * pi * Hora / 24),
-    Hora_cos = cos(2 * pi * Hora / 24),
-    Mes_sin = sin(2 * pi * Mes / 12),
-    Mes_cos = cos(2 * pi * Mes / 12)
+    Hora = hour(`Fecha y hora`)
   )
 
+#Imputación con mediana por Estación, año, mes y hora
+datos_imputados <- datosF %>%
+  group_by(Estacion, Año, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup()
 
-# Imputar únicamente las variables meteorológicas secundarias
-# utilizando KNN dentro de cada estación
+#Imputación sin tomar en cuenta el año para los datos que todavia quedaron faltantes en los que no habia datos para todo un mes durante un año
 datos_imputados <- datos_imputados %>%
-  group_split(Estacion, .keep = TRUE) %>%
-  map_dfr(~ VIM::kNN(
-    .x,
+  group_by(Estacion, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup()
 
-    # Variables que se van a imputar
-    variable = c("TOUT", "RH", "PRS", "SR"),
-
-    # Variables utilizadas para buscar observaciones similares
-    dist_var = c(
-      "WSR",
-      "WDR_sin", "WDR_cos",
-      "Año",
-      "Hora_sin", "Hora_cos",
-      "Mes_sin", "Mes_cos",
-      "TOUT", "RH", "PRS", "SR"
-    ),
-
-    k = 5,
-    imp_var = FALSE,
-    useImputedDist = FALSE,
-    methodStand = "iqr"
-  )) %>%
-  arrange(Estacion, `Fecha y hora`) %>%
-
-  # Eliminar solamente las variables auxiliares
-  select(
-    -WDR_sin, -WDR_cos,
-    -Hora_sin, -Hora_cos,
-    -Mes_sin, -Mes_cos
-  )
-
-
-# Revisar datos faltantes después de la preparación
-colSums(is.na(datos_imputados))
-```
-
-```{r}
-# Eliminar el único registro faltante de precipitación
+#Imputación para los pocos datos faltantes que quedaron ahora sin tomar en cuenta la estación, solo el mes y la hora
 datos_imputados <- datos_imputados %>%
-  filter(!is.na(RAINF))
-
-# Verificar que ya no existan datos faltantes
-colSums(is.na(datos_imputados))
-```
-
-Tras la limpieza inicial se identificaron valores faltantes en varias variables, por lo que se aplicó un tratamiento diferenciado según su relevancia. Las variables SO2, WDR y WSR no fueron imputadas, ya que son centrales para el análisis de contaminación y su estimación podría distorsionar los patrones reales; por ello, se conservaron únicamente registros completos en estas variables.
-
-Para TOUT, RH, PRS y SR se aplicó imputación mediante KNN con k igual a 5, realizada por estación de monitoreo, utilizando variables meteorológicas y temporales como año, mes y hora junto con variables de viento para definir la similitud entre observaciones. La dirección del viento, el mes y la hora se transformaron mediante representaciones seno y coseno para respetar su naturaleza cíclica. La variable SO2 no se incluyó en el cálculo de vecinos con el fin de evitar sesgos en la imputación, y RAINF no se imputó debido a su comportamiento altamente esporádico y a la presencia predominante de valores cero.
-
-Tras este proceso, solo se encontró un valor faltante en RAINF, el cual fue eliminado por su impacto despreciable en el conjunto de datos.
-
-##### Datos no imputados
-
-```{r}
-# Cantidad y porcentaje de registros excluidos
-# por datos faltantes en SO2, WDR o WSR
-registros_iniciales <- nrow(datosF)
-registros_finales <- nrow(datos_imputados)
-
-registros_excluidos <- registros_iniciales - registros_finales
-
-porcentaje_excluido <- round(
-  registros_excluidos / registros_iniciales * 100,
-  2
-)
-
-registros_excluidos
-porcentaje_excluido
-```
-
-Se eliminaron 4,774 registros (4.54%) debido principalmente a datos faltantes en $SO_2$, WDR y WSR, variables que no fueron imputadas para evitar alterar los patrones de interés. Las variables meteorológicas TOUT, RH, PRS y SR fueron imputadas mediante KNN $k=5$ , mientras que RAINF no se imputó debido a su comportamiento esporádico y predominancia de valores cero.
-
-##### Transformación y estandarización de los datos
-
-```{r}
-datos_transformados <- datos_imputados %>%
   mutate(
-    # Transformación circular de la dirección del viento
-    WDR_sin = sin(2 * pi * WDR / 360),
-    WDR_cos = cos(2 * pi * WDR / 360),
+    Mes = month(`Fecha y hora`),
+    Hora = hour(`Fecha y hora`)
+  ) %>%
+  group_by(Año, Mes, Hora) %>%
+  mutate(across(where(is.numeric), ~ifelse(is.na(.), median(., na.rm = TRUE), .))) %>%
+  ungroup() %>%
+  select(-Mes, -Hora)
 
-    # Transformación logarítmica de SO2
-    SO2_log = log1p(SO2),
-
-    # Variables estandarizadas
-    SO2_z  = as.numeric(scale(SO2_log)),
-    RH_z   = as.numeric(scale(RH)),
-    WSR_z  = as.numeric(scale(WSR)),
-    TOUT_z = as.numeric(scale(TOUT)),
-    SR_z   = as.numeric(scale(SR)),
-    PRS_z  = as.numeric(scale(PRS)),
-    RAINF_z = as.numeric(scale(RAINF))
-  )
-
-names(datos_transformados)
-
-summary(
-  datos_transformados %>%
-    select(
-      SO2, SO2_log, SO2_z,
-      WDR, WDR_sin, WDR_cos,
-      WSR, WSR_z
-    )
-)
+colSums(is.na(datos_imputados))
 ```
-
-La estandarización se aplicó con el fin de llevar las variables a una escala comparable, ya que presentan unidades y rangos diferentes. Este procedimiento facilita su uso conjunto en análisis estadísticos y evita que una variable tenga mayor peso únicamente por la magnitud de sus valores. Se conservaron también las variables originales para mantener una interpretación directa de los resultados.
-
-## Declaratoria de uso de IA
-
-**Opción B. Se utilizó Inteligencia Artificial durante el desarrollo del trabajo de la siguiente forma:**
-
-- **Herramienta:** ChatGPT.
-
-- **Uso realizado:** Se usó principalmente como apoyo para el brainstorming y la definición del objetivo del proyecto, ayudando a pasar de una idea general sobre contaminación del aire a una pregunta de investigación más clara. También se utilizó para orientar la imputación de datos faltantes y la preparación de los datos, como la creación de variables y el tratamiento de la dirección del viento.
-
-- **Secciones donde se utilizó:** Definición del objetivo, limpieza de datos, imputación y transformación de variables.
-
-- **Validación:** Todo lo sugerido por la herramienta fue revisado con lo visto en clase y con la base de datos de SIMA. Además, se comprobó que los resultados del código fueran coherentes antes de usarlos.
-
-- **Responsabilidad:** El equipo revisó todo el contenido y se hace responsable del trabajo final. La IA solo se usó como apoyo, no como reemplazo del análisis del grupo.
-
-## Liga de Github
-
-<https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
 
 ## Referencias
 
@@ -455,3 +300,4 @@ Secretaría de Medio Ambiente y Recursos Naturales. (2023).*Proyecto de Norma Of
 Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification.*Environmental Modelling & Software, 59*, 1-9. <https://doi.org/10.1016/j.envsoft.2014.05.002>
 
 Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park.*Atmospheric Environment, 296*, 119564.<https://doi.org/10.1016/j.atmosenv.2022.119564>
+

@@ -262,6 +262,9 @@ datos_imputados <- datos_imputados %>%
 
 # Verificar que ya no existan datos faltantes
 colSums(is.na(datos_imputados))
+
+# Documenta el desbalance del panel (GAR arranca con menos datos en 2022)
+table(datos_imputados$Estacion, datos_imputados$Año)
 ```
 
 ##### Datos no imputados
@@ -309,7 +312,7 @@ datos_transformados <- datos_imputados %>%
     NOX_log  = log1p(NOX),
     O3_log   = log1p(O3),
     PM10_log = log1p(PM10),
-    PM25_log = log1p(`PM2.5`),
+    PM25_log = log1p(`PM2.5`)
   )
 
 names(datos_transformados)

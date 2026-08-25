@@ -144,9 +144,6 @@ valores_corregidos
 
 El siguiente chunk hace lo mismo que al anterior, pero lo despliega más profesionalemnte
 
-```{}
-```
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Guardar cantidad de filas antes de eliminar duplicados
 filas_antes <- nrow(datosF)
@@ -187,17 +184,6 @@ knitr::kable(
 colSums(is.na(datosF))
 
 round(colMeans(is.na(datosF)) * 100, 2)
-```
-
-QUITAR:
-
-```{r}
-nrow(datosF)
-# esperado: 140236
-
-datosF %>% filter(Año == 2024, SO2 > 150) %>% select(`Fecha y hora`, Estacion, SO2)
-# esperado: 0 filas (antes te daba 1)
-nrow(datos_imputados)
 ```
 
 ##### Imputación de datos

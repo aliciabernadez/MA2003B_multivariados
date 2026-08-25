@@ -17,37 +17,37 @@ library(purrr)
 library(stringr)
 library(tidyverse)
 library(lubridate)
+library(VIM)   
+
+# Catálogo de estaciones.
+# la hoja de García se llama "NO2" en los archivos de SIMA, igual que
+# el contaminante. La reetiquetamos como "GAR" para evitar la colisión.
+catalogo <- tribble(
+  ~hoja,  ~est,   ~mun,
+  "SE3",  "SE3",  "Cadereyta",
+  "SE2",  "SE2",  "Juárez",
+  "NE",   "NE",   "San Nicolás",
+  "NO2",  "GAR",  "García"
+)
+
+contaminantes  <- c("CO", "NO", "NO2", "NOX", "O3", "PM10", "PM2.5", "SO2")
+meteorologicas <- c("WDR", "WSR", "TOUT", "RH", "PRS", "SR", "RAINF")
 
 # Función para leer únicamente las estaciones y variables de interés
+leer_estacion <- function(archivo, anio, hoja, est, mun) {
+  x <- read_excel(archivo, sheet = hoja)
+  if ("date" %in% names(x)) x <- rename(x, `Fecha y hora` = date)
+  x %>%
+    mutate(Estacion = est, Municipio = mun, Año = anio) %>%
+    select(`Fecha y hora`,
+           all_of(contaminantes),
+           all_of(meteorologicas),
+           Estacion, Municipio, Año)
+}
+
 leer_base <- function(archivo, anio) {
-  
-  hojas <- excel_sheets(archivo)
-  
-  # Seleccionar únicamente las estaciones del estudio
-  hojas <- hojas[hojas %in% c("NE", "SE2", "SE3")]
-  
-  map_dfr(hojas, function(hoja) {
-    
-    read_excel(archivo, sheet = hoja) %>%
-      mutate(
-        Estacion = hoja,
-        Año = anio
-      ) %>%
-      select(
-        any_of(c("Fecha y hora", "date")),
-        SO2,
-        WDR,
-        WSR,
-        TOUT,
-        RH,
-        PRS,
-        SR,
-        RAINF,
-        Estacion,
-        Año
-      )
-    
-  })
+  pmap_dfr(catalogo, function(hoja, est, mun)
+    leer_estacion(archivo, anio, hoja, est, mun))
 }
 
 # Leer las bases de cada año
@@ -56,9 +56,6 @@ datos23 <- leer_base("BD 2023.xlsx", 2023)
 datos24 <- leer_base("BD 2024.xlsx", 2024)
 datos25 <- leer_base("BD 2025.xlsx", 2025)
 
-# Unificar el nombre de la columna de fecha de 2025
-datos25 <- datos25 %>%
-  rename(`Fecha y hora` = date)
 
 # Unir todos los años en una sola base
 datos <- bind_rows(
@@ -101,17 +98,41 @@ summary(datos)
 
 ```{r}
 # Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+rangos <- tribble(
+  ~Año, ~variable, ~lim_min, ~lim_max,
+  2022, "PM10", 0, 999,   2022, "PM2.5", 0, 450,  2022, "O3", 0, 160,
+  2022, "NO", 0, 400,     2022, "NO2", 0, 175,    2022, "NOX", 0, 420,
+  2022, "SO2", 0, 200,    2022, "CO", 0, 8,       2022, "RH", 0, 100,
+  2022, "WSR", 0, 35,     2022, "TOUT", -5, 45,   2022, "SR", 0, 1.25,
+  2022, "PRS", 700, 740,  2022, "WDR", 0, 360,    2022, "RAINF", 0, 25,
+  
+  2023, "PM10", 0, 900,   2023, "PM2.5", 0, 800,  2023, "O3", 0, 175,
+  2023, "NO", 0, 500,     2023, "NO2", 0, 175,    2023, "NOX", 0, 500,
+  2023, "SO2", 0, 250,    2023, "CO", 0, 14,      2023, "RH", 0, 100,
+  2023, "WSR", 0, 40,     2023, "TOUT", 0, 45,    2023, "SR", 0, 1,
+  2023, "PRS", 690, 740,  2023, "WDR", 0, 360,    2023, "RAINF", 0, 70,
+  
+  2024, "PM10", 0, 999,   2024, "PM2.5", 0, 999,  2024, "O3", 0, 180,
+  2024, "NO", 0, 400,     2024, "NO2", 0, 130,    2024, "NOX", 0, 500,
+  2024, "SO2", 0, 150,    2024, "CO", 0, 18,      2024, "RH", 0, 100,
+  2024, "WSR", 0, 38,     2024, "TOUT", -4, 45.5, 2024, "SR", 0, 1.26,
+  2024, "PRS", 687.5, 740, 2024, "WDR", 0, 360,   2024, "RAINF", 0, 50,
+  
+  2025, "PM10", 0, 820,   2025, "PM2.5", 0, 350,  2025, "O3", 0, 185,
+  2025, "NO", 0, 350,     2025, "NO2", 0, 175,    2025, "NOX", 0, 400,
+  2025, "SO2", 0, 405,    2025, "CO", 0, 10,      2025, "RH", 0, 100,
+  2025, "WSR", 0, 40,     2025, "TOUT", -4.5, 45, 2025, "SR", 0, 1.2,
+  2025, "PRS", 688, 740,  2025, "WDR", 0, 360,    2025, "RAINF", 0, 25
+)
+
 datosF <- datos %>%
-  mutate(
-    SO2   = ifelse(SO2 < 0 | SO2 > 405, NA, SO2),
-    WDR   = ifelse(WDR < 0 | WDR > 360, NA, WDR),
-    WSR   = ifelse(WSR < 0 | WSR > 40, NA, WSR),
-    TOUT  = ifelse(TOUT < -4.5 | TOUT > 45, NA, TOUT),
-    RH    = ifelse(RH < 0 | RH > 100, NA, RH),
-    PRS   = ifelse(PRS < 688 | PRS > 740, NA, PRS),
-    SR    = ifelse(SR < 0 | SR > 1.2, NA, SR),
-    RAINF = ifelse(RAINF < 0 | RAINF > 25, NA, RAINF)
-  )
+  pivot_longer(cols = all_of(c(contaminantes, meteorologicas)),
+               names_to = "variable", values_to = "valor") %>%
+  left_join(rangos, by = c("Año", "variable")) %>%
+  mutate(valor = if_else(!is.na(valor) & (valor < lim_min | valor > lim_max),
+                         NA_real_, valor)) %>%
+  select(-lim_min, -lim_max) %>%
+  pivot_wider(names_from = variable, values_from = valor)
 
 # Ver cantidad de valores fuera de rango convertidos a NA
 valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))

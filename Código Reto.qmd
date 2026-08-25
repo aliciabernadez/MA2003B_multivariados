@@ -135,14 +135,15 @@ datosF <- datos %>%
   pivot_wider(names_from = variable, values_from = valor)
 
 # Ver cantidad de valores fuera de rango convertidos a NA
-valores_corregidos <- colSums(is.na(datosF)) - colSums(is.na(datos))
+# Se restringe a las 15 variables numéricas y se comparan por nombre:
+vars <- c(contaminantes, meteorologicas)
 
-valores_corregidos
+valores_corregidos <- colSums(is.na(datosF[vars])) - colSums(is.na(datos[vars]))
+
+sort(valores_corregidos, decreasing = TRUE)
 
 
 ```
-
-El siguiente chunk hace lo mismo que al anterior, pero lo despliega más profesionalemnte
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Guardar cantidad de filas antes de eliminar duplicados
@@ -189,8 +190,6 @@ round(colMeans(is.na(datosF)) * 100, 2)
 ##### Imputación de datos
 
 ```{r}
-library(VIM)
-
 # Preparación e imputación de datos mediante KNN
 
 # Conservar únicamente registros completos en las variables principales 
@@ -258,7 +257,6 @@ colSums(is.na(datos_imputados))
 ```
 
 ```{r}
-# Eliminar el único registro faltante de precipitación
 datos_imputados <- datos_imputados %>%
   filter(!is.na(RAINF))
 
@@ -304,7 +302,14 @@ datos_transformados <- datos_imputados %>%
     TOUT_z = as.numeric(scale(TOUT)),
     SR_z   = as.numeric(scale(SR)),
     PRS_z  = as.numeric(scale(PRS)),
-    RAINF_z = as.numeric(scale(RAINF))
+    RAINF_z = as.numeric(scale(RAINF)),
+    CO_log   = log1p(CO),
+    NO_log   = log1p(NO),
+    NO2_log  = log1p(NO2),
+    NOX_log  = log1p(NOX),
+    O3_log   = log1p(O3),
+    PM10_log = log1p(PM10),
+    PM25_log = log1p(`PM2.5`),
   )
 
 names(datos_transformados)

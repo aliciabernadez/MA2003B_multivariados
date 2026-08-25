@@ -10,12 +10,6 @@ format: pdf
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
 ```{r}
 library(readxl)
 library(dplyr)
@@ -169,7 +163,6 @@ knitr::kable(
 )
 ```
 
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Guardar cantidad de filas antes de eliminar duplicados
 filas_antes <- nrow(datosF)
@@ -204,6 +197,7 @@ knitr::kable(
   align = c("l", "c")
 )
 ```
+
 ```{r}
 # Ver cantidad y porcentaje de datos faltantes después de la limpieza
 colSums(is.na(datosF))

@@ -88,7 +88,7 @@ Se seleccionaron las estaciones NE (San Nicolás), SE2 (Juárez) y SE3 (Cadereyt
 A partir de este momento se trabajará con las variables de interés para la limpieza e imputación de datos.
 
 | Variable | Descripción | Tipo | Dominio / Unidad | \% Nulos | Justificación |
-|:-----------|:-----------|:-----------|:-----------|-----------:|:-----------|
+|:---|:---|:---|:---|---:|:---|
 | `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Analizar patrones temporales |
 | `SO2` | Concentración de dióxido de azufre | Numérica | 0–405 ppb | 3.45% | Variable principal |
 | `WDR` | Dirección del viento | Numérica | $0^\circ$–$360^\circ$ | 2.17% | Identificar dirección de origen |

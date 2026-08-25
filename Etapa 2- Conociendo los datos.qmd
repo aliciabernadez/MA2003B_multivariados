@@ -11,3 +11,19 @@ editor: visual
 ---
 
 ## 
+
+1.  Escribe, nuevamente, cuál es el objetivo de tu análisis. Si cambiaste de objetivo indica por qué.
+
+2.  Indica cuáles son las tecnicas estadísticas que contestarán tu objetivo (obtenlo de tu indagación bibliográfica previa)
+
+3.  Describe las variables que requieres para lograr tu objetivo y destaca sus principales características estadísticas. La estación de monitoreo es una variable importante.
+
+4.  Concluye con un breve resumen de lo que has logrado hasta ahora, qué falta por hacer, qué camino piensan seguir para lograrlo, cuáles son las preguntas que te han surgido, etc
+
+5.  No debe exceder de 5 páginas (incluyendo gráficas y tablas).
+
+6.  Incluye como anexos gráficos o tablas que creas conveniente mencionar en el texto que realizaste.
+
+7.  Inserta una liga (GitHub) que dé acceso a tu(s) documento(s) de trabajo y tu base de datos limpia (csv)
+
+8.  Incluye la declaratoria de uso de IA durante el desarrollo del trabajo:

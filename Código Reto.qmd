@@ -21,6 +21,7 @@ library(VIM)
 library(e1071)
 library(ggplot2)
 library(ggcorrplot)
+library(openair)
 ```
 
 ```{r}
@@ -408,4 +409,25 @@ ggplot(datos_graf, aes(x = Estacion, y = SO2, fill = Estacion)) +
        x = "Estación (Orden Geográfico)", y = "Concentración de SO2 (ppm)") +
   theme_minimal(base_size = 12) +
   theme(legend.position = "none")
+```
+
+```{r}
+datos_openair <- datos_finales %>%
+  rename(date = Fecha.y.hora, ws = WSR, wd = WDR)
+
+# Gráfico Polar Bivariado por Estación
+polarPlot(datos_openair, 
+          pollutant = "SO2", 
+          type = "Estacion",
+          main = "Concentración S02 vs Dirección y Velocidad del Viento",
+          key.footer = "SO2 (ppm)")
+```
+
+```{r}
+pollutionRose(datos_openair, 
+              pollutant = "SO2", 
+              type = "Estacion",
+              statistic = "prop.count",
+              breaks = c(0, 0.005, 0.01, 0.02, 0.05, 0.1),
+              main = "Rosa de Contaminación de SO2 por Estación")
 ```

@@ -367,8 +367,4 @@ tabla_estadisticas <- datos_finales %>%
   )
 
 view(tabla_estadisticas)
-
-# 3. Distribución de Frecuencia para Variables Cualitativas
-frecuencia_estaciones <- datos %>% count(Estacion) %>% mutate(Porcentaje = n / sum(n) * 100)
-frecuencia_anios <- datos %>% count(Año) %>% mutate(Porcentaje = n / sum(n) * 100)
 ```

@@ -19,6 +19,7 @@ library(tidyverse)
 library(lubridate)
 library(VIM)   
 library(e1071)
+library(ggplot2)
 library(ggcorrplot)
 ```
 
@@ -378,6 +379,7 @@ Gráficas
 datos_long_cont <- datos_finales %>% 
   pivot_longer(cols = all_of(contaminantes), names_to = "Contaminante", values_to = "Valor")
 
+#Histogramas
 ggplot(datos_long_cont, aes(x = Valor, fill = Contaminante)) +
   geom_histogram(bins = 40, alpha = 0.7) +
   facet_wrap(~Contaminante, scales = "free") +
@@ -386,7 +388,24 @@ ggplot(datos_long_cont, aes(x = Valor, fill = Contaminante)) +
 ```
 
 ```{r}
+#Matriz de correlación
 matriz_cor <- cor(datos_finales %>% select(all_of(c(contaminantes, meteorologicas))), use = "complete.obs")
 ggcorrplot(matriz_cor, method = "square", type = "lower", lab = TRUE, lab_size = 2.5,
-           title = "Matriz de Correlación: Contaminantes y Meteorología")
+           title = "Matriz de Correlación")
+```
+
+```{r}
+# Ordenamos geográficamente las estaciones de Oriente a Poniente
+datos_graf <- datos_finales %>%
+  mutate(Estacion = factor(Estacion, levels = c("SE3", "SE2", "NE", "GAR")))
+
+ggplot(datos_graf, aes(x = Estacion, y = SO2, fill = Estacion)) +
+  geom_boxplot(outlier.size = 0.5, outlier.alpha = 0.2) +
+  coord_cartesian(ylim = c(0, quantile(datos$SO2, 0.99, na.rm = TRUE))) + # Cortamos outliers extremos visuales
+  scale_fill_manual(values = c("SE3" = "#d73027", "SE2" = "#fc8d59", "NE" = "#fee090", "GAR" = "#4575b4")) +
+  labs(title = "Gradiente Espacial de SO2: Oriente (Cadereyta) a Poniente (García)",
+       subtitle = "La estación García opera como punto de control / fondo urbano",
+       x = "Estación (Orden Geográfico)", y = "Concentración de SO2 (ppm)") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "none")
 ```

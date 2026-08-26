@@ -331,7 +331,6 @@ summary(
 ```
 
 **ETAPA 2**
-<<<<<<< HEAD
 
 ```{r}
 contaminantes  <- c("CO", "NO", "NO2", "NOX", "O3", "PM10", "PM2.5", "SO2")
@@ -372,5 +371,3 @@ print(tabla_estadisticas)
 frecuencia_estaciones <- datos %>% count(Estacion) %>% mutate(Porcentaje = n / sum(n) * 100)
 frecuencia_anios <- datos %>% count(Año) %>% mutate(Porcentaje = n / sum(n) * 100)
 ```
-=======
->>>>>>> 53a54ce990870e51ed65d5e43242ca8504468ee6

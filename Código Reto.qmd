@@ -428,6 +428,6 @@ pollutionRose(datos_openair,
               pollutant = "SO2", 
               type = "Estacion",
               statistic = "prop.count",
-              breaks = c(0, 0.005, 0.01, 0.02, 0.05, 0.1),
+              breaks = c(0,2.9,3.8,4.9,7.9),
               main = "Rosa de Contaminación de SO2 por Estación")
 ```

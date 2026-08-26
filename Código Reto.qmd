@@ -18,7 +18,10 @@ library(stringr)
 library(tidyverse)
 library(lubridate)
 library(VIM)   
+library(e1071)
+```
 
+```{r}
 # Catálogo de estaciones.
 # la hoja de García se llama "NO2" en los archivos de SIMA, igual que
 # el contaminante. La reetiquetamos como "GAR" para evitar la colisión.
@@ -325,4 +328,46 @@ summary(
       WSR, WSR_z
     )
 )
+```
+
+**ETAPA 2**
+
+```{r}
+contaminantes  <- c("CO", "NO", "NO2", "NOX", "O3", "PM10", "PM2.5", "SO2")
+meteorologicas <- c("WDR", "WSR", "TOUT", "RH", "PRS", "SR", "RAINF")
+
+# 1. Función para calcular la Moda
+obtener_moda <- function(v) {
+  v_limpio <- na.omit(v)
+  if(length(v_limpio) == 0) return(NA)
+  uniqv <- unique(v_limpio)
+  uniqv[which.max(tabulate(match(v_limpio, uniqv)))]
+}
+
+# 2. Resumen Estadístico de Variables Cuantitativas
+tabla_estadisticas <- datos %>%
+  pivot_longer(cols = all_of(c(contaminantes, meteorologicas)), 
+               names_to = "Variable", values_to = "Valor") %>%
+  group_by(Variable) %>%
+  summarise(
+    Promedio = mean(Valor, na.rm = TRUE),
+    Mediana = median(Valor, na.rm = TRUE),
+    Moda = obtener_moda(Valor),
+    Minimo = min(Valor, na.rm = TRUE),
+    Maximo = max(Valor, na.rm = TRUE),
+    Rango = Maximo - Minimo,
+    Varianza = var(Valor, na.rm = TRUE),
+    Desv_Estandar = sd(Valor, na.rm = TRUE),
+    Q1 = quantile(Valor, 0.25, na.rm = TRUE),
+    Q3 = quantile(Valor, 0.75, na.rm = TRUE),
+    IQR = Q3 - Q1,
+    Valores_Nulos = sum(is.na(Valor)),
+    Porcentaje_Nulos = (Valores_Nulos / n()) * 100
+  )
+
+print(tabla_estadisticas)
+
+# 3. Distribución de Frecuencia para Variables Cualitativas
+frecuencia_estaciones <- datos %>% count(Estacion) %>% mutate(Porcentaje = n / sum(n) * 100)
+frecuencia_anios <- datos %>% count(Año) %>% mutate(Porcentaje = n / sum(n) * 100)
 ```

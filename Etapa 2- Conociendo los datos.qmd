@@ -12,7 +12,7 @@ editor: visual
 
 ## Objetivo del análisis
 
-Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$\$SO_2\$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), así como su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales en la zona de Cadereyta.
+Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), así como su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales en la zona de Cadereyta.
 
 ## Técnicas estadísticas
 
@@ -42,9 +42,9 @@ Esta técnica podría contrbuir a identificar y comparar episodios de concentrac
 
 ## Declaratoria de IA
 
-1.  Escribe, nuevamente, cuál es el objetivo de tu análisis. Si cambiaste de objetivo indica por qué.
+1.  Escribe, nuevamente, cuál es el objetivo de tu análisis. Si cambiaste de objetivo indica por qué. LISTO
 
-2.  Indica cuáles son las tecnicas estadísticas que contestarán tu objetivo (obtenlo de tu indagación bibliográfica previa)
+2.  Indica cuáles son las tecnicas estadísticas que contestarán tu objetivo (obtenlo de tu indagación bibliográfica previa) LISTO
 
 3.  Describe las variables que requieres para lograr tu objetivo y destaca sus principales características estadísticas. La estación de monitoreo es una variable importante.
 

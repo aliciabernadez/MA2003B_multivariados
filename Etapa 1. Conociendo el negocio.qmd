@@ -21,7 +21,7 @@ La calidad del aire es un aspecto fundamental para el bienestar de la población
 
 El análisis de la calidad del aire es importante para la ciudadanía debido a sus efectos sobre la salud. La Organización Mundial de la Salud estima que la contaminación del aire exterior ocasionó aproximadamente 4.2 millones de muertes prematuras en 2019 y la relaciona con enfermedades cardiovasculares, respiratorias, accidentes cerebrovasculares y cáncer de pulmón (OMS, 2024). Además, contar con información actualizada permite emitir recomendaciones durante episodios de contaminación, industria y desarrollo urbano.
 
-Entre los contaminantes de mayor importancia se encuentran las partículas suspendidas ($PM_{10}$ y $PM_{2.5}$), el ozono ($O_3$), el dióxido de nitrógeno ($NO_{2}$), el dióxido de azufre ($SO_{2}$) y el monóxido de carbono ($CO$). El material particulado es especialmente relevante debido a que las partículas más pequeñas pueden penetrar profundamente en los pulmones e incluso ingresar al torrente sanguíneo, generando efectos cardiovasculares y respiratorios (OMS, 2024). La OMS establece valores guía internacionales para estos contaminantes; mientras que en México el Índice Aire y Salud comunica las condiciones mediante las categorías buena, aceptable, mala, muy mala y extremadamente mala.
+Entre los contaminantes de mayor importancia se encuentran las partículas suspendidas ($PM_{10}$\$PM\_{10}\$ y $PM_{2.5}$), el ozono ($O_3$), el dióxido de nitrógeno ($NO_{2}$), el dióxido de azufre ($SO_{2}$) y el monóxido de carbono ($CO$). El material particulado es especialmente relevante debido a que las partículas más pequeñas pueden penetrar profundamente en los pulmones e incluso ingresar al torrente sanguíneo, generando efectos cardiovasculares y respiratorios (OMS, 2024). La OMS establece valores guía internacionales para estos contaminantes; mientras que en México el Índice Aire y Salud comunica las condiciones mediante las categorías buena, aceptable, mala, muy mala y extremadamente mala.
 
 #### **Medición de la calidad del aire y variables relacionadas**
 
@@ -94,7 +94,7 @@ La variable principal del estudio es la consentración de $SO_2$. También se co
 #### Tabla de variables
 
 | Variable | Descripción | Tipo | Dominio | \% nulos | Relevancia |
-|:-----------|:-----------|:-----------|:-----------|-----------:|:-----------|
+|:---|:---|:---|:---|---:|:---|
 | `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Análisis temporal |
 | `Estacion` | Estación de monitoreo | Categórica | SE3, SE2, NE, GAR | 0.00% | Comparación espacial |
 | `Municipio` | Municipio de la estación | Categórica | Cadereyta, Juárez, San Nicolás, García | 0.00% | Ubicación geográfica |

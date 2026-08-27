@@ -16,7 +16,23 @@ Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) regis
 
 ## Técnicas estadísticas
 
-## Bariables elegidas
+#### 1. Análisis espacio-temporal de $SO_2$
+
+Esta técnica permitirá estudiar cómo cambian las concentraciones de $SO_2$ a través del tiempo y entre las distintas estaciones de monitoreo. Se analizarán patrones por año, mes y hora, además de comparar el comportamiento de las estaciones seleccionadas. Este tipo de análisis ha sido utilizado en estudios de ciudades industriales para identificar diferencias espaciales y temporales en los niveles de contaminantes y reconocer episodios de concentraciones elevadas (Clarke et al, 2014; Xue et al, 2023). En este proyecto permitirá determinar si los valores altos de $SO_2$ se concentran principalmente en determinadas estaciones o periodos.
+
+#### 2. Gráficos polares bivariados
+
+Los gráficos polares permiten analizar de manera conjunta la concentración de un contaminante, la dirección del viento y su velocidad. De esta forma, es posible identificar las condiciones del viento bajo las cuales se presentan las mayores concentraciones de $SO_2$ y visualizar los sectores desde los que podrían transportarse las emisiones hacia cada estación. Esta metodología ha sido aplicada para diferenciar posibles contribuciones de distintas fuentes de contaminación y se encuentra implementada en el paquete openair de R (Carslaw et al, 2006; Carslaw & Ropkins, 2012). En el presente estudio, los patrones obtenidos podrán compararse con la ubicación geográfica de la zona industrial de Cadereyta.
+
+#### 3. Conditional Bivariate Probability Function (CBPF)
+
+La CBPF permite estimar la probabilidad d eobservar concentraciones elevadas de un contaminante bajo diferentes combinaciones de dirección y velocidad del viento. a diferencia del gráfico polar, que muestra principalmente la magnitud de las concentraciones, esta técnica se enfoca en identificar las condiciones meteorológicas asociadas con una mayor frecuencia de valores elevados. La metodología extiende los enfoques de probabilidad condicional utilizados previamente para la identificación de regiones potencialmente emisoras (Ashbaugh et at, 1985; Uria-Tellaetxe & Carslaw, 2014). Su aplicación permitirá identificar sectores direccionales asociados con una mayor presencia de concentraciones altas de $SO_2$.
+
+#### 4. Caracterización comparativa de episodios elevados
+
+Esta técnica podría contrbuir a identificar y comparar episodios de concentraciones elevadas de $SO_2$ considerando la estación donde ocurren, las condiciones meteorológicas presentes y su posible simultaneidad con otras estaciones. Su aplicación permitiría distinguir entre eventos con un comportamiento más localizado y aquellos que se presentan en varias zonas al mismo tiempo, lo cual podría ser indicativo de fenómenos de mayor escala. Estudios previos han utilizado el análisis individual de episodios de contamiación para explorar posibles fuentes y condiciones asociadas con eventos recurrentes de $SO_2$ (Clarke et al, 2014; Xue et al, 2023). De manera complementaria, durante estos episodios también podría examinarse el comportamiento de otros contaminantes, sin asumir que necesariamente deben presentar incrementos simultáneos.
+
+## Variables elegidas
 
 ## Gráficas
 

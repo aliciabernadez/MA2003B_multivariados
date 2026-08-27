@@ -437,7 +437,56 @@ tabla_SO2_estacion <- datos_finales %>%
 tabla_SO2_estacion
 ```
 
+##### Outliers
+
+```{r}
+outliers_SO2 <- datos_finales %>%
+  group_by(Estacion) %>%
+  summarise(
+    Q1 = quantile(SO2, 0.25, na.rm = TRUE),
+    Q3 = quantile(SO2, 0.75, na.rm = TRUE),
+    IQR = IQR(SO2, na.rm = TRUE),
+    Limite_inferior = Q1 - 1.5 * IQR,
+    Limite_superior = Q3 + 1.5 * IQR,
+    Atipicos = sum(
+      SO2 < Limite_inferior |
+        SO2 > Limite_superior,
+      na.rm = TRUE
+    ),
+    Porcentaje_atipicos =
+      100 * Atipicos / sum(!is.na(SO2))
+  )
+
+outliers_SO2
+```
+
 ##### Gráficas
+
+```{r}
+#FRECUENCIAS DE LA VARIABLE ESTACIÓN
+frecuencia_estaciones <- datos_finales %>%
+  count(Estacion, name = "Frecuencia") %>%
+  mutate(
+    Porcentaje = round(
+      Frecuencia / sum(Frecuencia) * 100,
+      2
+    )
+  )
+
+frecuencia_estaciones
+
+ggplot(
+  frecuencia_estaciones,
+  aes(x = Estacion, y = Frecuencia, fill = Estacion)
+) +
+  geom_col(show.legend = FALSE) +
+  labs(
+    title = "Número de observaciones por estación",
+    x = "Estación",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
 
 ```{r}
 #BOXPLOT POR ESTACIÓN
@@ -475,6 +524,25 @@ ggplot(
 ```
 
 ```{r}
+#HISTOGRAMA DE SO2 SEPARADO POR ESTACIÓN
+ggplot(datos_finales, aes(x = SO2, fill = Estacion)) +
+  geom_histogram(
+    bins = 50,
+    show.legend = FALSE
+  ) +
+  facet_wrap(
+    ~ Estacion,
+    scales = "free_y"
+  ) +
+  labs(
+    title = "Distribución de SO2 por estación",
+    x = "Concentración de SO2",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
 datos_long_cont <- datos_finales %>% 
   pivot_longer(cols = all_of(contaminantes), names_to = "Contaminante", values_to = "Valor")
 
@@ -491,6 +559,50 @@ ggplot(datos_long_cont, aes(x = Valor, fill = Contaminante)) +
 matriz_cor <- cor(datos_finales %>% select(all_of(c(contaminantes, meteorologicas))), use = "complete.obs")
 ggcorrplot(matriz_cor, method = "square", type = "lower", lab = TRUE, lab_size = 2.5,
            title = "Matriz de Correlación")
+```
+
+```{r}
+#HEATMAP CON WDR SENO Y COSENO
+datos_finales <- datos_finales %>%
+  mutate(
+    WDR_sin = sin(2 * pi * WDR / 360),
+    WDR_cos = cos(2 * pi * WDR / 360)
+  )
+
+
+vars_cor <- datos_finales %>%
+  select(
+    SO2,
+    WSR,
+    WDR_sin,
+    WDR_cos,
+    TOUT,
+    RH,
+    PRS,
+    SR,
+    RAINF,
+    CO,
+    NO,
+    NO2,
+    NOX,
+    O3,
+    PM10,
+    PM2.5
+  )
+
+matriz_cor <- cor(
+  vars_cor,
+  use = "pairwise.complete.obs"
+)
+
+ggcorrplot(
+  matriz_cor,
+  method = "square",
+  type = "lower",
+  lab = TRUE,
+  lab_size = 2.5,
+  title = "Matriz de correlación"
+)
 ```
 
 ```{r}

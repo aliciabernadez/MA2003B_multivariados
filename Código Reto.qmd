@@ -335,6 +335,13 @@ summary(
 )
 ```
 
+```{r}
+dim(datos_finales)
+
+cat("Número de registros:", nrow(datos_finales), "\n")
+cat("Número de variables:", ncol(datos_finales))
+```
+
 ## **ETAPA 2**
 
 ##### Análisis de medidas
@@ -376,7 +383,96 @@ tabla_estadisticas <- datos_finales %>%
 view(tabla_estadisticas)
 ```
 
+##### Estadísticos de SO2 por estación
+
+Observaciones por estación
+
+```{r}
+datos_finales %>%
+  group_by(Estacion) %>%
+  summarise(
+    Horas_validas = sum(!is.na(SO2))
+  )
+```
+
+Tabla descriptiva de SO2 por estación
+
+```{r}
+moda <- function(x) {
+  x <- x[!is.na(x)]
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+tabla_SO2_estacion <- datos_finales %>%
+  group_by(Estacion) %>%
+  summarise(
+    n = sum(!is.na(SO2)),
+    
+    Media = mean(SO2, na.rm = TRUE),
+    Mediana = median(SO2, na.rm = TRUE),
+    Moda = moda(SO2),
+    
+    Minimo = min(SO2, na.rm = TRUE),
+    Maximo = max(SO2, na.rm = TRUE),
+    Rango = Maximo - Minimo,
+    
+    Varianza = var(SO2, na.rm = TRUE),
+    Desv_Estandar = sd(SO2, na.rm = TRUE),
+    
+    Q1 = quantile(SO2, 0.25, na.rm = TRUE),
+    Q3 = quantile(SO2, 0.75, na.rm = TRUE),
+    IQR = IQR(SO2, na.rm = TRUE),
+    
+    P90 = quantile(SO2, 0.90, na.rm = TRUE),
+    P95 = quantile(SO2, 0.95, na.rm = TRUE),
+    P99 = quantile(SO2, 0.99, na.rm = TRUE)
+  ) %>%
+  mutate(
+    across(
+      where(is.numeric),
+      ~ round(.x, 3)
+    )
+  )
+
+tabla_SO2_estacion
+```
+
 ##### Gráficas
+
+```{r}
+#BOXPLOT POR ESTACIÓN
+limite99 <- quantile(
+  datos_finales$SO2,
+  0.99,
+  na.rm = TRUE
+)
+
+ggplot(
+  datos_finales,
+  aes(
+    x = Estacion,
+    y = SO2,
+    fill = Estacion
+  )
+) +
+  geom_boxplot(
+    outlier.size = 0.5,
+    outlier.alpha = 0.2
+  ) +
+  coord_cartesian(
+    ylim = c(0, limite99)
+  ) +
+  labs(
+    title = "Distribución de SO2 por estación",
+    subtitle = "Visualización hasta el percentil 99 para facilitar la comparación",
+    x = "Estación",
+    y = "Concentración de SO2"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "none"
+  )
+```
 
 ```{r}
 datos_long_cont <- datos_finales %>% 

@@ -85,6 +85,55 @@ Además, se analizará de manera complementaria el comportamiento de otros conta
 
 ## Parte 2: Comprensión y preparación de los datos
 
+#### Descripción y selección del conjunto de datos
+
+Para el desarrollo del proyecto se integraron las bases de datos de SIMA correspondientes al periodo 2022-2025. Se seleccionaron las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), obteniendo una base inicial de 140,236 registros y 19 variables. La estación de García aparece identificada como NO2 en los archivos originales de SIMA, por lo que se renombró como GAR para avitar confusión con la variable correspondiente al dióxido de nitrógeno.
+
+La variable principal del estudio es la consentración de $SO_2$. También se conservaron la dirección y velocidad del viento y las variables meteorológicas necesarias para analizar las condiciones de transporte y dispersión. Adicionalmentel se incluyeron los demás contaminantes disponibles como variables complementarias para caracterizar los episodios elevados de $SO_2$ sin asumir que todos los incrementso observados corresponden a una misma fuente.
+
+#### Tabla de variables
+
+| Variable | Descripción | Tipo | Dominio | \% nulos | Relevancia |
+|:-----------|:-----------|:-----------|:-----------|-----------:|:-----------|
+| `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Análisis temporal |
+| `Estacion` | Estación de monitoreo | Categórica | SE3, SE2, NE, GAR | 0.00% | Comparación espacial |
+| `Municipio` | Municipio de la estación | Categórica | Cadereyta, Juárez, San Nicolás, García | 0.00% | Ubicación geográfica |
+| `Año` | Año del registro | Temporal | 2022–2025 | 0.00% | Comparación anual |
+| `SO2` | Dióxido de azufre | Numérica | Rango válido SIMA por año | 4.37% | Variable principal |
+| `CO` | Monóxido de carbono | Numérica | Rango válido SIMA por año | 7.02% | Contaminante complementario |
+| `NO` | Óxido nítrico | Numérica | Rango válido SIMA por año | 5.64% | Contaminante complementario |
+| `NO2` | Dióxido de nitrógeno | Numérica | Rango válido SIMA por año | 4.88% | Contaminante complementario |
+| `NOX` | Óxidos de nitrógeno | Numérica | Rango válido SIMA por año | 4.68% | Contaminante complementario |
+| `O3` | Ozono | Numérica | Rango válido SIMA por año | 4.60% | Contaminante complementario |
+| `PM2.5` | Partículas menores a 2.5 µm | Numérica | Rango válido SIMA por año | 10.70% | Contaminante complementario |
+| `WDR` | Dirección del viento | Numérica circular | $0^\circ$–$360^\circ$ | 2.00% | Dirección de transporte |
+| `WSR` | Velocidad del viento | Numérica | Rango válido SIMA por año | 2.24% | Dispersión y transporte |
+| `TOUT` | Temperatura exterior | Numérica | Rango válido SIMA por año | 9.94% | Condición meteorológica |
+| `RH` | Humedad relativa | Numérica | 0–100% | 4.34% | Condición meteorológica |
+| `PRS` | Presión atmosférica | Numérica | Rango válido SIMA por año | 5.40% | Condición meteorológica |
+| `SR` | Radiación solar | Numérica | Rango válido SIMA por año | 8.19% | Condición meteorológica |
+| `RAINF` | Precipitación | Numérica | Rango válido SIMA por año | 1.20% | Condición meteorológica |
+
+Los rangos de validación utilizados varían entre años y corresponden a los límites establecidos en los archivos de SIMA. Los valores que se encontraron fuera de estos intervalos fueron considerados registros inválidos y se trataron como datos faltantes.
+
+#### Calidad y limpieza de los datos
+
+Se revisaron los valores faltantes, registros duplicados y valores fuera de los rangos considerados válidos pro SIMA para cada variable y año. Los valores fuera de rango fueron convertidos en datos faltantes para evitar incorporar mediciones inválidas al análisis.
+
+La mayor cantidad de valores inválidos se identificó en la presión atmosférica (PRS), con 4,496 registros fuera de rango. También se corrigieron 58 valores de radiación solar, 20 de temperatura, 12 de humedad relativa y algunos casos aislados de $CO$, $NO$, $O_3$, y $SO_2$. No se encontraron registros duplicados, por lo que la base mantuvo inicialmente sus 140,236 observaciones.
+
+Los valores extremos que permanecieron dentro de los rangos válidos de SIMA no fueron emilinados únicamente por considerarse atípicos, ya que pueden representar episodios reales de contaminación y son relevantes para el objetivo del proyecto.
+
+#### Datos faltantes e imputación
+
+El tratamiento de los datos faltantes se realizó de manera diferenciada de acuerdo con la función de cada variable dentro del proyecto. Las variables $SO_2$, WDR y WSR se consideraron indispensables para el análisis principal, debido a que pemriten estudiar conjuntamente la concentración del contaminante y las condiicones de trasnporte asociadas con el viento. Por esta razón, estas variables no fueron imputadas; los registros que no contaban con alguna de estas mediciones fueron excluidos para evitar generar artificialmente concentraciones o patrones direccionales.
+
+##### Imputación mediante KNN
+
+Para las variables meteorológicas secundrias TOUT, RH, PRS y SR se utilizó imputación mediante K vecinos más cercanos (KNN), con $k=5$. Este método estima los valores faltantes a partir de las observaciones similares en lugar de sustituirlos por una media o mediana general, por lo que resulta adecuado para variables meteorológicas cuyo comportamiento depende de condiciones temporales, del viento y de la ubicación de la estación. La imputación se realizó de manera independiente dentro de cada estación de monitoreo para evitar mezclar condiciones ambientales de zonas distintas. Para identificar observaciones semejantes se utilizaron variables como velocidad y dirección del viento, año, hora, mes y las demás variables meteorológicas disponibles.
+
+Debido a que la dirección del viento, la hora y el mes presentan un comportamiento cíclico, estas variables se representaron mediante funciones seno y coseno durante el proceso de imputación, evitando así separaciones artificiales entre valores cercanos como $359°$ y $1°$, o entre las 23:00 y las 00:00 horas. El $SO_2$ no se utilizó para determinar los vecinos del método KNN, con el propósito de evitar que la variable principal del estudio influyera en la estimación de las condiciones meteorológicas. Asimismo, los demás contaminantes no fueron imputados, ya que estimar artificialmente sus concentraciones podría generar relaciones entre contaminantes que no ocurrieron realmente; por ello, se conservaron únicamente sus mediciones observadas para los análisis posteriores.
+
 ## Declaratoria de uso de IA
 
 **Opción B. Se utilizó Inteligencia Artificial durante el desarrollo del trabajo de la siguiente forma:**

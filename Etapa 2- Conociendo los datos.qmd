@@ -7,7 +7,7 @@ author:
   - name: "Sebastián Alemán A00841034"
   - name: "Isaac Montaño A00841681"
 editor: visual
-format:
+format: 
   pdf:
     keep-tex: true
 

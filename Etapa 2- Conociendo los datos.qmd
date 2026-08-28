@@ -269,7 +269,13 @@ El comportamiento anual muestra una disminución general de las concentraciones 
 
 ## Resumen
 
+Hasta esta etapa se logró integrar, limpiar y explorar la información de las estaciones seleccionadas para el periodo 2022-2025, obteniendo una base final de 132,936 registros. El análisis descriptivo permitió identificar diferencias entre estaciones en las concentraciones de $SO_2$, destacando SE3 por presentar los valores medios y medianos más altos, así como una mayor variabilidad. También se observó una distribución asimétrica hacia valores altos y asociaciones lineales generalmente débiles entre $SO_2$, meteorología y otros contaminantes. Además, el comportamiento anual mostró variaciones temporales y diferencias persistentes entre estaciones.
+
+Aún falta determinar qué técnica estadística resulta más adecuada para profundizar estos patrones y evaluar la posible relación entre las concentraciones de dióxido de azufre, la dirección y velocidad del viento y la ubicación de las estaciones. Con base en la revisión bibliográfica, en las siguientes etapas se plantea evaluar métodos de análisis espacio-temporal, gráficos polares bivariados, CBPF y caracterización de episodios elevados. Entre las principales preguntas que surgen se encuentran si las concentraciones elevadas observadas en SE3 presentan una dirección de viento predominante, si estos eventos ocurren también en otras estaciones y si las diferencias encontradas se mantienen al considerar conjuntamente las condiciones meteorológicas. Estos análisis permitirán avanzar hacia una interpretación más sólida de los patrones observados sin atribuir todavía las concentraciones a una fuente específica.
+
 ## Liga Github
+
+<https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
 
 ## Declaratoria de IA
 
@@ -277,7 +283,7 @@ El comportamiento anual muestra una disminución general de las concentraciones 
 
 2.  Indica cuáles son las tecnicas estadísticas que contestarán tu objetivo (obtenlo de tu indagación bibliográfica previa) LISTO
 
-3.  Describe las variables que requieres para lograr tu objetivo y destaca sus principales características estadísticas. La estación de monitoreo es una variable importante.
+3.  Describe las variables que requieres para lograr tu objetivo y destaca sus principales características estadísticas. La estación de monitoreo es una variable importante. LISTO
 
 4.  Concluye con un breve resumen de lo que has logrado hasta ahora, qué falta por hacer, qué camino piensan seguir para lograrlo, cuáles son las preguntas que te han surgido, etc
 

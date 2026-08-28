@@ -6,8 +6,13 @@ author:
   - name: "Diego Medrano A01254882"
   - name: "Sebastián Alemán A00841034"
   - name: "Isaac Montaño A00841681"
-format: pdf
 editor: visual
+format:
+  pdf:
+    keep-tex: true
+
+header-includes:
+  - \usepackage{float}
 ---
 
 ## Objetivo del análisis
@@ -34,7 +39,36 @@ Esta técnica podría contrbuir a identificar y comparar episodios de concentrac
 
 ## Variables elegidas
 
+Para responder al objetivo del proyecto se consideran como variables principales la concentración de $SO_2$, la dirección del viento (WDR), la velocidad del viento (WSR) y la estación de monitoreo. También se incluyen como variables meteorológicas complementarias la temperatura exterior (TOUT), humedad relatica (RH), presión atmosférica (PRS), radiación solar (SR) y precipitación (RAINF). Los demás contaminantes se conservan como variables complementarias para caracterizar el contexto de los registros de $SO_2$.
+
+```{=latex}
+\begin{table}[H]
+\centering
+\caption{Características descriptivas de SO$_2$ por estación}
+\begin{tabular}{lrrrrr}
+\hline
+\textbf{Estación} & \textbf{Horas válidas} & \textbf{Media} & \textbf{Mediana} & \textbf{Desv. estándar} & \textbf{Máximo} \\
+\hline
+GAR & 32,534 & 3.48 & 3.30 & 1.25 & 22.80 \\
+NE  & 33,185 & 4.35 & 3.80 & 2.96 & 163.60 \\
+SE2 & 33,240 & 4.98 & 3.80 & 5.32 & 178.30 \\
+SE3 & 33,977 & 7.25 & 4.40 & 11.00 & 404.70 \\
+\hline
+\end{tabular}
+\end{table}
+```
+
+Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica.
+
 ## Gráficas
+
+#### Boxplot de $SO_2$ por estación
+
+#### Histogramas de $SO_2$ por estación
+
+#### Matriz de correlación
+
+#### Comportamiento anual de $SO_2$ por estación
 
 ## Resumen
 

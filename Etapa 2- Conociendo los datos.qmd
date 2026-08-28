@@ -222,7 +222,7 @@ ggcorrplot(
 )
 ```
 
-En general, el $SO_2$ presenta correlaciones lineales bajas con las variables meteorológicas y con los demás contaminantes. Las asociaciones positivas más visibles son con $O_3$, radiación solar y presión atmosférica,aunque sus magnitudes continúan siendo débiles. Esto indica que ninguna de estas variables, de manera individual y mediante una regresión lineal simple, explica claramente el comportamiento del $SO_2$. Además, una correlación baja con las variables relacionadas con el viento no necesariamente implica ausencia de relación, ya que los efectos de dirección y velocidad pueden presentar patrones no lineales que deberán explorarse posteriormente con técnicas más adecuadas.
+En general, el $SO_2$ presenta correlaciones lineales bajas con las variables meteorológicas y con los demás contaminantes. Las asociaciones positivas más visibles son con $O_3$, radiación solar y presión atmosférica,aunque sus magnitudes continúan siendo débiles. Esto indica que ninguna de estas variables, de manera individual y mediante una relación lineal simple, explica claramente el comportamiento del $SO_2$. Además, una correlación baja con las variables relacionadas con el viento no necesariamente implica ausencia de relación, ya que los efectos de dirección y velocidad pueden presentar patrones no lineales que deberán explorarse posteriormente con técnicas más adecuadas.
 
 #### Comportamiento anual de $SO_2$ por estación
 

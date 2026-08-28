@@ -58,7 +58,7 @@ SE3 & 33,977 & 7.25 & 4.40 & 11.00 & 404.70 \\
 \end{table}
 ```
 
-Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica.
+Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica. La estación de monitoreo funciona como la principal variable de comparación espacial, ya que permite identificar si el comportamiento del $SO_2$ cambia entre Cadereyta, Juárez, San Nicolás y García. Por su parte, WDR y WSR permiten incorporar la dirección y velocidad del viento al análisis, variables necesarias para evaluar posteriormente si las concentraciones elevadas de $SO_2$ presentan patrones direccionales específicos.
 
 ## Gráficas
 
@@ -279,18 +279,14 @@ Aún falta determinar qué técnica estadística resulta más adecuada para prof
 
 ## Declaratoria de IA
 
-1.  Escribe, nuevamente, cuál es el objetivo de tu análisis. Si cambiaste de objetivo indica por qué. LISTO
+**Opción B. Se utilizó IA de la siguiente forma:**
 
-2.  Indica cuáles son las tecnicas estadísticas que contestarán tu objetivo (obtenlo de tu indagación bibliográfica previa) LISTO
+- **Herramienta:** ChatGPT
 
-3.  Describe las variables que requieres para lograr tu objetivo y destaca sus principales características estadísticas. La estación de monitoreo es una variable importante. LISTO
+- **Uso realizado:** Se utilizó principalmente como apoyo para la construcción, revisión y corrección de códigos en R relacionados con la limpieza, transformación y análisis exploratorio de los datos. También se utilizó como guía para organizar algunos análisis descriptivos, corregir errores durante el renderizado en Quarto y discutir el papel de los contaminantes distintos al SO2, concluyendo que era más adecuado utilizarlos como variables complementarias de contexto y no como variables de control experimental.
 
-4.  Concluye con un breve resumen de lo que has logrado hasta ahora, qué falta por hacer, qué camino piensan seguir para lograrlo, cuáles son las preguntas que te han surgido, etc
+- **Secciones donde se utilizó:** Preparación y limpieza de la base de datos, cálculo de estadísticas descriptivas, análisis de SO2 por estación, identificación de valores atípicos, histogramas, boxplots, matriz de correlación, gráfica temporal y revisión de posibles técnicas estadísticas para etapas posteriores.
 
-5.  No debe exceder de 5 páginas (incluyendo gráficas y tablas).
+- **Validación realizada por los estudiantes:** Los códigos sugeridos fueron revisados, ejecutados y ajustados por los integrantes del equipo en RStudio utilizando la base de datos del proyecto. Los resultados obtenidos fueron comparados con la estructura y características de los datos originales y las interpretaciones fueron revisadas para evitar conclusiones que no estuvieran sustentadas por la información disponible.
 
-6.  Incluye como anexos gráficos o tablas que creas conveniente mencionar en el texto que realizaste.
-
-7.  Inserta una liga (GitHub) que dé acceso a tu(s) documento(s) de trabajo y tu base de datos limpia (csv)
-
-8.  Incluye la declaratoria de uso de IA durante el desarrollo del trabajo:
+- **Confirmación de responsabilidad:** Se confirma que el contenido generado con apoyo de IA fue revisado y verificado por los integrantes del equipo, quienes asumen la responsabilidad del contenido final entregado.

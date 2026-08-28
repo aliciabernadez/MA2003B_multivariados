@@ -296,6 +296,15 @@ estación}{Boxplot de SO\_2 por estación}}\label{boxplot-de-so_2-por-estaciuxf3
 
 \end{figure}%
 
+Se observan diferencias en la distribución de \(SO_2\) entre las
+estaciones. SE3 presenta la mediana más alta y una mayor dispersión de
+las concentraciones, seguida por SE2 y NE, mientras que GAR muestra los
+valores más bajos y estables. También se identifican numerosos valores
+atípicos, principalmente en SE3; sin embargo, estos no se eliminaron, ya
+que pueden representar episodios reales de concentraciones elevadas. La
+visualización se limita al percentil 99 únicamente para facilitar la
+comparación entre estaciones, sin excluir observaciones del análisis.
+
 \paragraph{\texorpdfstring{Histogramas de \(SO_2\) por
 estación}{Histogramas de SO\_2 por estación}}\label{histogramas-de-so_2-por-estaciuxf3n}
 
@@ -309,6 +318,14 @@ estación}{Histogramas de SO\_2 por estación}}\label{histogramas-de-so_2-por-es
 
 \end{figure}%
 
+Las cuatro estaciones presentan distribuciones asimétricas hacia la
+derecha, con una mayor concentración de observaciones en los valores
+bajos de \(SO_2\) y una cola formada por concentraciones más elevadas.
+Esta asimetría es especialmente evidente en SE3, donde se presentan
+valores extremos con mayor magnitud. Por lo tanto, la mediana resulta
+útil como medida representativa del comportamiento típico de \(SO_2\),
+ya que es menos sensible a estos valores elevados que el promedio.
+
 \paragraph{Matriz de correlación}\label{matriz-de-correlaciuxf3n}
 
 \begin{figure}[H]
@@ -321,6 +338,17 @@ estación}{Histogramas de SO\_2 por estación}}\label{histogramas-de-so_2-por-es
 meteorológicas.}
 
 \end{figure}%
+
+En general, el \(SO_2\) presenta correlaciones lineales bajas con las
+variables meteorológicas y con los demás contaminantes. Las asociaciones
+positivas más visibles son con \(O_3\), radiación solar y presión
+atmosférica,aunque sus magnitudes continúan siendo débiles. Esto indica
+que ninguna de estas variables, de manera individual y mediante una
+regresión lineal simple, explica claramente el comportamiento del
+\(SO_2\). Además, una correlación baja con las variables relacionadas
+con el viento no necesariamente implica ausencia de relación, ya que los
+efectos de dirección y velocidad pueden presentar patrones no lineales
+que deberán explorarse posteriormente con técnicas más adecuadas.
 
 \paragraph{\texorpdfstring{Comportamiento anual de \(SO_2\) por
 estación}{Comportamiento anual de SO\_2 por estación}}\label{comportamiento-anual-de-so_2-por-estaciuxf3n}
@@ -336,40 +364,84 @@ estación.}
 
 \end{figure}%
 
+El comportamiento anual muestra una disminución general de las
+concentraciones medianas de \(SO_2\) entre 2022-2023, seguida de un
+incremento durante 2024 y 2025. SE3 mantiene la mediana más alta durante
+todo el periodo analizado, mientras que GAR presenta generalmente los
+valores más bajos. Para 2025 se observa una mayor similitud entre las
+estaciones, aunque SE3 continúa ligeramente por encima de las demás.
+Estos resultados sugieren que existen tanto diferencias espaciales como
+variaciones temporales en las concentraciones de \(SO_2\) que será
+necesario analizar con mayor profundidad en las siguientes etapas.
+
 \subsection{Resumen}\label{resumen}
+
+Hasta esta etapa se logró integrar, limpiar y explorar la información de
+las estaciones seleccionadas para el periodo 2022-2025, obteniendo una
+base final de 132,936 registros. El análisis descriptivo permitió
+identificar diferencias entre estaciones en las concentraciones de
+\(SO_2\), destacando SE3 por presentar los valores medios y medianos más
+altos, así como una mayor variabilidad. También se observó una
+distribución asimétrica hacia valores altos y asociaciones lineales
+generalmente débiles entre \(SO_2\), meteorología y otros contaminantes.
+Además, el comportamiento anual mostró variaciones temporales y
+diferencias persistentes entre estaciones.
+
+Aún falta determinar qué técnica estadística resulta más adecuada para
+profundizar estos patrones y evaluar la posible relación entre las
+concentraciones de dióxido de azufre, la dirección y velocidad del
+viento y la ubicación de las estaciones. Con base en la revisión
+bibliográfica, en las siguientes etapas se plantea evaluar métodos de
+análisis espacio-temporal, gráficos polares bivariados, CBPF y
+caracterización de episodios elevados. Entre las principales preguntas
+que surgen se encuentran si las concentraciones elevadas observadas en
+SE3 presentan una dirección de viento predominante, si estos eventos
+ocurren también en otras estaciones y si las diferencias encontradas se
+mantienen al considerar conjuntamente las condiciones meteorológicas.
+Estos análisis permitirán avanzar hacia una interpretación más sólida de
+los patrones observados sin atribuir todavía las concentraciones a una
+fuente específica.
 
 \subsection{Liga Github}\label{liga-github}
 
+\url{https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk}
+
 \subsection{Declaratoria de IA}\label{declaratoria-de-ia}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
+\textbf{Opción B. Se utilizó IA de la siguiente forma:}
+
+\begin{itemize}
 \item
-  Escribe, nuevamente, cuál es el objetivo de tu análisis. Si cambiaste
-  de objetivo indica por qué. LISTO
+  \textbf{Herramienta:} ChatGPT
 \item
-  Indica cuáles son las tecnicas estadísticas que contestarán tu
-  objetivo (obtenlo de tu indagación bibliográfica previa) LISTO
+  \textbf{Uso realizado:} Se utilizó principalmente como apoyo para la
+  construcción, revisión y corrección de códigos en R relacionados con
+  la limpieza, transformación y análisis exploratorio de los datos.
+  También se utilizó como guía para organizar algunos análisis
+  descriptivos, corregir errores durante el renderizado en Quarto y
+  discutir el papel de los contaminantes distintos al SO2, concluyendo
+  que era más adecuado utilizarlos como variables complementarias de
+  contexto y no como variables de control experimental.
 \item
-  Describe las variables que requieres para lograr tu objetivo y destaca
-  sus principales características estadísticas. La estación de monitoreo
-  es una variable importante.
+  \textbf{Secciones donde se utilizó:} Preparación y limpieza de la base
+  de datos, cálculo de estadísticas descriptivas, análisis de SO2 por
+  estación, identificación de valores atípicos, histogramas, boxplots,
+  matriz de correlación, gráfica temporal y revisión de posibles
+  técnicas estadísticas para etapas posteriores.
 \item
-  Concluye con un breve resumen de lo que has logrado hasta ahora, qué
-  falta por hacer, qué camino piensan seguir para lograrlo, cuáles son
-  las preguntas que te han surgido, etc
+  \textbf{Validación realizada por los estudiantes:} Los códigos
+  sugeridos fueron revisados, ejecutados y ajustados por los integrantes
+  del equipo en RStudio utilizando la base de datos del proyecto. Los
+  resultados obtenidos fueron comparados con la estructura y
+  características de los datos originales y las interpretaciones fueron
+  revisadas para evitar conclusiones que no estuvieran sustentadas por
+  la información disponible.
 \item
-  No debe exceder de 5 páginas (incluyendo gráficas y tablas).
-\item
-  Incluye como anexos gráficos o tablas que creas conveniente mencionar
-  en el texto que realizaste.
-\item
-  Inserta una liga (GitHub) que dé acceso a tu(s) documento(s) de
-  trabajo y tu base de datos limpia (csv)
-\item
-  Incluye la declaratoria de uso de IA durante el desarrollo del
-  trabajo:
-\end{enumerate}
+  \textbf{Confirmación de responsabilidad:} Se confirma que el contenido
+  generado con apoyo de IA fue revisado y verificado por los integrantes
+  del equipo, quienes asumen la responsabilidad del contenido final
+  entregado.
+\end{itemize}
 
 
 

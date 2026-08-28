@@ -342,6 +342,29 @@ cat("Número de registros:", nrow(datos_finales), "\n")
 cat("Número de variables:", ncol(datos_finales))
 ```
 
+```{r}
+# VERIFICACIÓN FINAL DE CALIDAD DE LOS DATOS
+
+# Valores faltantes
+faltantes_finales <- data.frame(
+  Variable = names(datos_finales),
+  Nulos = colSums(is.na(datos_finales)),
+  Porcentaje = round(colMeans(is.na(datos_finales)) * 100, 2)
+)
+
+faltantes_finales
+
+# Registros duplicados
+sum(duplicated(datos_finales))
+
+# Revisar posibles inconsistencias de escritura
+unique(datos_finales$Estacion)
+unique(datos_finales$Municipio)
+
+# Verificar años disponibles
+sort(unique(datos_finales$Año))
+```
+
 ## **ETAPA 2**
 
 ##### Análisis de medidas
@@ -555,13 +578,6 @@ ggplot(datos_long_cont, aes(x = Valor, fill = Contaminante)) +
 ```
 
 ```{r}
-#Matriz de correlación
-matriz_cor <- cor(datos_finales %>% select(all_of(c(contaminantes, meteorologicas))), use = "complete.obs")
-ggcorrplot(matriz_cor, method = "square", type = "lower", lab = TRUE, lab_size = 2.5,
-           title = "Matriz de Correlación")
-```
-
-```{r}
 #HEATMAP CON WDR SENO Y COSENO
 datos_finales <- datos_finales %>%
   mutate(
@@ -606,24 +622,15 @@ ggcorrplot(
 ```
 
 ```{r}
-# Ordenamos geográficamente las estaciones de Oriente a Poniente
-datos_graf <- datos_finales %>%
-  mutate(Estacion = factor(Estacion, levels = c("SE3", "SE2", "NE", "GAR")))
-
-ggplot(datos_graf, aes(x = Estacion, y = SO2, fill = Estacion)) +
-  geom_boxplot(outlier.size = 0.5, outlier.alpha = 0.2) +
-  coord_cartesian(ylim = c(0, quantile(datos$SO2, 0.99, na.rm = TRUE))) + # Cortamos outliers extremos visuales
-  scale_fill_manual(values = c("SE3" = "#d73027", "SE2" = "#fc8d59", "NE" = "#fee090", "GAR" = "#4575b4")) +
-  labs(title = "Gradiente Espacial de SO2: Oriente (Cadereyta) a Poniente (García)",
-       subtitle = "La estación García opera como punto de control / fondo urbano",
-       x = "Estación (Orden Geográfico)", y = "Concentración de SO2 (ppm)") +
-  theme_minimal(base_size = 12) +
-  theme(legend.position = "none")
-```
-
-```{r}
 datos_openair <- datos_finales %>%
-  rename(date = Fecha.y.hora, ws = WSR, wd = WDR)
+  mutate(
+    Fecha.y.hora = ymd_hms(Fecha.y.hora)
+  ) %>%
+  rename(
+    date = Fecha.y.hora,
+    ws = WSR,
+    wd = WDR
+  )
 
 # Gráfico Polar Bivariado por Estación
 polarPlot(datos_openair, 
@@ -634,10 +641,72 @@ polarPlot(datos_openair,
 ```
 
 ```{r}
-pollutionRose(datos_openair, 
-              pollutant = "SO2", 
-              type = "Estacion",
-              statistic = "prop.count",
-              breaks = c(0,2.9,3.8,4.9,7.9),
-              main = "Rosa de Contaminación de SO2 por Estación")
+pollutionRose(
+  datos_openair,
+  pollutant = "SO2",
+  type = "Estacion",
+  statistic = "prop.count",
+  main = "Rosa de contaminación de SO2 por estación"
+)
+```
+
+```{r}
+#VISUALIZACIÓN DE LAS METEOROLÓGICAS
+datos_long_met <- datos_finales %>%
+  pivot_longer(
+    cols = all_of(meteorologicas),
+    names_to = "Variable",
+    values_to = "Valor"
+  )
+
+ggplot(datos_long_met, aes(x = Valor, fill = Variable)) +
+  geom_histogram(
+    bins = 40,
+    alpha = 0.7,
+    show.legend = FALSE
+  ) +
+  facet_wrap(
+    ~ Variable,
+    scales = "free"
+  ) +
+  labs(
+    title = "Distribución de las variables meteorológicas",
+    x = "Valor",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#GRÁFICA TEMPORAL SENCILLA DE SO2
+
+SO2_anual <- datos_finales %>%
+  group_by(Estacion, Año) %>%
+  summarise(
+    Media = mean(SO2, na.rm = TRUE),
+    Mediana = median(SO2, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+SO2_anual
+
+ggplot(
+  SO2_anual,
+  aes(
+    x = Año,
+    y = Mediana,
+    color = Estacion,
+    group = Estacion
+  )
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_x_continuous(breaks = 2022:2025) +
+  labs(
+    title = "Comportamiento anual del SO2 por estación",
+    x = "Año",
+    y = "Mediana de SO2",
+    color = "Estación"
+  ) +
+  theme_minimal(base_size = 12)
 ```

@@ -335,6 +335,18 @@ summary(
 )
 ```
 
+## **ETAPA 2**
+
+```{r}
+# Cargar base limpia final
+datos_finales <- read.csv(
+  "baseee_SIMA_limpia_4est_8cont_2022_2025.csv"
+)
+
+# Verificar que se cargó correctamente
+dim(datos_finales)
+```
+
 ```{r}
 dim(datos_finales)
 
@@ -364,8 +376,6 @@ unique(datos_finales$Municipio)
 # Verificar años disponibles
 sort(unique(datos_finales$Año))
 ```
-
-## **ETAPA 2**
 
 ##### Análisis de medidas
 

@@ -64,11 +64,200 @@ Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ m
 
 #### Boxplot de $SO_2$ por estación
 
+```{r}
+#| include: false
+
+library(tidyverse)
+library(ggplot2)
+library(ggcorrplot)
+
+datos_finales <- read.csv(
+  "baseee_SIMA_limpia_4est_8cont_2022_2025.csv"
+)
+
+contaminantes <- c(
+  "CO", "NO", "NO2", "NOX",
+  "O3", "PM10", "PM2.5", "SO2"
+)
+
+meteorologicas <- c(
+  "WDR", "WSR", "TOUT",
+  "RH", "PRS", "SR", "RAINF"
+)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Distribución de SO2 por estación de monitoreo."
+#| fig-width: 7
+#| fig-height: 4
+
+limite99 <- quantile(
+  datos_finales$SO2,
+  0.99,
+  na.rm = TRUE
+)
+
+ggplot(
+  datos_finales,
+  aes(
+    x = Estacion,
+    y = SO2,
+    fill = Estacion
+  )
+) +
+  geom_boxplot(
+    outlier.size = 0.5,
+    outlier.alpha = 0.2
+  ) +
+  coord_cartesian(
+    ylim = c(0, limite99)
+  ) +
+  labs(
+    title = "Distribución de SO2 por estación",
+    subtitle = "Visualización hasta el percentil 99 para facilitar la comparación",
+    x = "Estación",
+    y = "Concentración de SO2"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    legend.position = "none"
+  )
+```
+
 #### Histogramas de $SO_2$ por estación
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Distribución de las concentraciones de SO2 para cada estación."
+#| fig-width: 7
+#| fig-height: 4.5
+
+limite99 <- quantile(
+  datos_finales$SO2,
+  0.99,
+  na.rm = TRUE
+)
+
+ggplot(
+  datos_finales,
+  aes(x = SO2, fill = Estacion)
+) +
+  geom_histogram(
+    bins = 40,
+    show.legend = FALSE
+  ) +
+  facet_wrap(
+    ~ Estacion,
+    scales = "free_y"
+  ) +
+  coord_cartesian(
+    xlim = c(0, limite99)
+  ) +
+  labs(
+    title = "Distribución de SO2 por estación",
+    subtitle = "Visualización hasta el percentil 99",
+    x = "Concentración de SO2",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 10)
+```
 
 #### Matriz de correlación
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Matriz de correlación entre contaminantes y variables meteorológicas."
+#| fig-width: 7
+#| fig-height: 6
+
+datos_finales <- datos_finales %>%
+  mutate(
+    WDR_sin = sin(2 * pi * WDR / 360),
+    WDR_cos = cos(2 * pi * WDR / 360)
+  )
+
+vars_cor <- datos_finales %>%
+  select(
+    SO2,
+    WSR,
+    WDR_sin,
+    WDR_cos,
+    TOUT,
+    RH,
+    PRS,
+    SR,
+    RAINF,
+    CO,
+    NO,
+    NO2,
+    NOX,
+    O3,
+    PM10,
+    PM2.5
+  )
+
+matriz_cor <- cor(
+  vars_cor,
+  use = "pairwise.complete.obs"
+)
+
+ggcorrplot(
+  matriz_cor,
+  method = "square",
+  type = "lower",
+  lab = TRUE,
+  lab_size = 2.3,
+  title = "Matriz de correlación"
+)
+```
+
 #### Comportamiento anual de $SO_2$ por estación
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Comportamiento anual de la concentración mediana de SO2 por estación."
+#| fig-width: 7
+#| fig-height: 4
+
+SO2_anual <- datos_finales %>%
+  group_by(Estacion, Año) %>%
+  summarise(
+    Media = mean(SO2, na.rm = TRUE),
+    Mediana = median(SO2, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(
+  SO2_anual,
+  aes(
+    x = Año,
+    y = Mediana,
+    color = Estacion,
+    group = Estacion
+  )
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_x_continuous(
+    breaks = 2022:2025
+  ) +
+  labs(
+    title = "Comportamiento anual del SO2 por estación",
+    x = "Año",
+    y = "Mediana de SO2",
+    color = "Estación"
+  ) +
+  theme_minimal(base_size = 11)
+```
 
 ## Resumen
 

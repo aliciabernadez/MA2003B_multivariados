@@ -1,5 +1,4 @@
 ---
-+---
 title: "Etapa 3: Modelado y análisis multivariado"
 author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
 format: pdf

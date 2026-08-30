@@ -15,19 +15,19 @@ list2env(obj, envir = .GlobalEnv)
 
 ### Del diagnóstico a la cuantificación
 
-Durante las etapas 1 y 2, el objetivo se planteó como una pregunta de identificación para determinar si la refinería de Cadereyta constituye una fuente direccionalmente identificable de $SO_{2}$ en las estaciones de monitoreo cercanas. El análisis descriptivo realizado en la etapa 2 permitió identificar un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis; sin embargo, también se observó que las diferencias entre las medianas anuales son reducidas (del orden de 1 ppb) y, de manera aislada, resultan insuficientes para establecer una conclusión definitiva.
+En las etapas 1 y 2, el objetivo se planteó como una pregunta de identificación: determinar si la refinería de Cadereyta constituye una fuente direccionalmente identificable de \$SO\_{2}\$ en las estaciones cercanas. El análisis descriptivo de la etapa 2 mostró un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis. Sin embargo, las diferencias entre medianas anuales son reducidas (del orden de 1 ppb) y, por sí solas, no bastan para una conclusión definitiva.
 
-Con base en los resultados obtenidos en la presente etapa, se determinó la necesidad de reformular el objetivo analítico en dos direcciones principales.
+Con base en los resultados de esta etapa, fue necesario reformular el objetivo en dos direcciones.
 
-En primer lugar, se identificó que el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. Se observó que la mediana de la estación SE3 supera a la de GAR por un margen de apenas 0.6 a 1.5 ppb dependiendo del año, mientras que la probabilidad de superar el umbral definido como episodio elevado (percentil 95 global = 11.1 ppb) resulta 77 veces mayor. En este contexto, mantener un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar adecuadamente los episodios de alta exposición que realmente se presentan en la zona.
+Primero, el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. La mediana de SE3 supera a la de GAR por apenas 0.6 a 1.5 ppb según el año, mientras que la probabilidad de superar el umbral de episodio (P95 global = 11.1 ppb) es 77 veces mayor. Un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar los episodios de alta exposición que realmente ocurren en la zona.
 
-En segundo lugar, la identificación direccional de la posible fuente emisora se considera consolidada. La coincidencia geográfica (la refinería se ubica a $87.3^{\circ}$ y a 5.5 km de SE3, alineándose con el sector identificado de manera independiente por el modelo logístico) junto con las pruebas de falsación multi-contaminante, proporcionan evidencia consistente para responder a la pregunta inicial. Por consiguiente, el problema abierto a abordar, el cual resulta de mayor relevancia para la gestión de la calidad del aire, radica en cuantificar la magnitud de dicha exposición y determinar la métrica estadística más adecuada para su medición.
+Segundo, la identificación direccional de la fuente se considera resuelta. La coincidencia geográfica (la refinería se ubica a 87.3° y 5.5 km de SE3, en el mismo sector identificado de forma independiente por el modelo logístico) junto con las pruebas de falsación multi-contaminante responden a la pregunta inicial. El problema abierto, y el más relevante para la gestión de la calidad del aire, es cuantificar la magnitud de esa exposición y determinar la métrica estadística más adecuada para medirla.
 
 **Objetivo actualizado**
 
-Cuantificar el exceso de exposición aguda a $SO_{2}$ asociado al sector direccional en el que se ubica la refinería de Cadereyta, con el propósito de evaluar si los indicadores basados en medidas de tendencia central (promedios y medianas anuales) utilizados actualmente por los instrumentos vigentes de gestión representan adecuadamente dicha exposición.
+Cuantificar el exceso de exposición aguda a $SO_{2}$ asociado al sector direccional donde se ubica la refinería de Cadereyta, para evaluar si los indicadores de tendencia central (promedios y medianas anuales) que usan actualmente los instrumentos de gestión representan adecuadamente esa exposición.
 
-Esta formulación conserva el marco del Objetivo 4 del proyecto y mantiene el enfoque sobre las fuentes industriales puntuales. No obstante, el alcance del análisis transita de una afirmación de atribución causal hacia la construcción de un indicador de exposición evitable, el cual resulta susceptible de ser incorporado a los mecanismos de seguimiento y evaluación ambiental establecidos en el Plan Integral para la Gestión Estratégica de la Calidad del Aire (PIGECA) 2023-2033.
+Esta formulación conserva el marco del Objetivo 4 del proyecto y el enfoque en fuentes industriales puntuales. Sin embargo, el análisis se desplaza de una afirmación de atribución causal hacia la construcción de un indicador de exposición evitable, incorporable a los mecanismos de seguimiento del PIGECA 2023-2033.
 
 ### **Selección de Métodos**
 
@@ -167,11 +167,11 @@ tabla5 %>%
 
 El $SO_{2}$ es el único contaminante con momio significativamente superior a la unidad (2.66; IC 95%: 2.39 a 2.95). El CO y el O3 no muestran respuesta, con intervalos que incluyen el uno. Los óxidos de nitrógeno presentan momios de 0.22: la probabilidad de concentración elevada de NOX y NO se reduce a menos de una cuarta parte con viento del este. El material particulado muestra reducciones intermedias.
 
-La razón entre el momio del SO2 y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire proveniente del este llega pobre en trazadores vehiculares, consistente con el carácter rural de esa zona, pero transporta SO2. Esta combinación no es compatible con tráfico o combustión urbana difusa: de ser así, los óxidos de nitrógeno aumentarían junto con el SO2, no disminuirían.
+La razón entre el momio del \$SO\_{2}\$ y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire proveniente del este llega pobre en trazadores vehiculares, consistente con el carácter rural de esa zona, pero transporta \$SO\_{2}\$ . Esta combinación no es compatible con tráfico o combustión urbana difusa: de ser así, los óxidos de nitrógeno aumentarían junto con el \$SO\_{2}\$ , no disminuirían.
 
 **Verificación por método no paramétrico**
 
-La Conditional Bivariate Probability Function (CBPF) estima la probabilidad de concentración elevada condicionada a dirección y velocidad del viento, sin controlar por covariables ni asumir una forma paramétrica. Se usa aquí como verificación independiente del modelo logístico, aplicada al SO2 y al NOX en SE3 con el mismo percentil de referencia.
+La Conditional Bivariate Probability Function (CBPF) estima la probabilidad de concentración elevada condicionada a dirección y velocidad del viento, sin controlar por covariables ni asumir una forma paramétrica. Se usa aquí como verificación independiente del modelo logístico, aplicada al \$SO\_{2}\$ y al NOX en SE3 con el mismo percentil de referencia.
 
 ```{r fig2, fig.width=9, fig.height=4, fig.cap="CBPF en SE3. Izquierda: SO2, con lóbulo direccional al este. Derecha: NOX, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia."}
 library(openair)
@@ -189,7 +189,7 @@ p2 <- polarPlot(filter(d_oa, Estacion == "SE3"), pollutant = "NOX",
 grid.arrange(p1$plot, p2$plot, ncol = 2)
 ```
 
-El contraste entre ambos paneles es claro. El SO2 presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. El NOX, en la misma estación y sobre las mismas horas, alcanza su máximo en el centro del gráfico, es decir, en condiciones de calma o viento débil, sin orientación preferente.
+El contraste entre ambos paneles es claro. El \$SO\_{2}\$ presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. El NOX, en la misma estación y sobre las mismas horas, alcanza su máximo en el centro del gráfico, es decir, en condiciones de calma o viento débil, sin orientación preferente.
 
 Esta diferencia en la forma del gráfico resulta diagnóstica: un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. Ambos contaminantes, medidos por el mismo equipo en el mismo sitio, muestran firmas de origen distinto.
 
@@ -220,9 +220,9 @@ La coincidencia entre un método paramétrico con control de covariables y uno n
 
 **Planteamiento**
 
-Las secciones anteriores muestran que los episodios de SO2 en SE3 se asocian a un sector direccional específico y que los trazadores de combustión no acompañan esa respuesta. Ambos resultados dependen de la información meteorológica.
+Las secciones anteriores muestran que los episodios de \$SO\_{2}\$ en SE3 se asocian a un sector direccional específico y que los trazadores de combustión no acompañan esa respuesta. Ambos resultados dependen de la información meteorológica.
 
-El análisis que sigue prescinde por completo de la dirección del viento. La pregunta ahora es composicional: si el SO2 compartiera estructura de variación con los óxidos de nitrógeno y el monóxido de carbono, la hipótesis de una fuente distinta a la combustión urbana quedaría debilitada, sin importar el patrón direccional. Se trata de una vía de verificación independiente de la anterior.
+El análisis que sigue prescinde por completo de la dirección del viento. La pregunta ahora es composicional: si el \$SO\_{2}\$ compartiera estructura de variación con los óxidos de nitrógeno y el monóxido de carbono, la hipótesis de una fuente distinta a la combustión urbana quedaría debilitada, sin importar el patrón direccional. Se trata de una vía de verificación independiente de la anterior.
 
 **Componentes principales**
 
@@ -230,7 +230,7 @@ Se aplicó análisis de componentes principales sobre la matriz de los ocho cont
 
 El procedimiento requiere casos completos. De las 33,977 observaciones de SE3 se conservaron 27,938 (82.2%). De los 3,951 episodios registrados se conservaron 3,304 (83.6%). La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó preferentemente las horas de episodio.
 
-La adecuación muestral se verificó con el índice KMO, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El KMO se ubica por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esto es esperable y no constituye una deficiencia: el índice desciende precisamente porque el SO2 mantiene correlaciones bajas con el resto de las variables, que es justo la estructura que el análisis busca documentar.
+La adecuación muestral se verificó con el índice KMO, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El KMO se ubica por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esto es esperable y no constituye una deficiencia: el índice desciende precisamente porque el \$SO\_{2}\$ mantiene correlaciones bajas con el resto de las variables, que es justo la estructura que el análisis busca documentar.
 
 ```{r tabla6}
 as_tibble(pca$rotation[, 1:3], rownames = "Variable") %>%
@@ -244,7 +244,7 @@ Dos componentes superan el criterio de Kaiser. El primero explica el 48.6% de la
 
 El primer componente agrupa con signo común a NOX, NO, NO2, PM10 y CO, con cargas entre 0.278 y 0.481 en valor absoluto, mientras el ozono carga en sentido opuesto, comportamiento consistente con su titulación por óxido nítrico fresco. Se trata del eje de combustión urbana.
 
-La carga del SO2 sobre este componente es de apenas 0.029: el contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. El segundo componente, con 19.4% de la varianza, está encabezado por el propio SO2 (carga de 0.604), acompañado de PM2.5 y ozono. Esta asociación tiene sentido químico: el SO2 se oxida a sulfato, que forma parte del material particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva, cuando el ozono también alcanza sus valores más altos.
+La carga del \$SO\_{2}\$ sobre este componente es de apenas 0.029: el contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. El segundo componente, con 19.4% de la varianza, está encabezado por el propio \$SO\_{2}\$ (carga de 0.604), acompañado de PM2.5 y ozono. Esta asociación tiene sentido químico: el \$SO\_{2}\$ se oxida a sulfato, que forma parte del material particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva, cuando el ozono también alcanza sus valores más altos.
 
 El octavo componente explica solo el 0.05% de la varianza, resultado esperado dado que NOX se define como la suma de NO y NO2, lo que introduce una dirección redundante en la matriz. Esto no afecta la interpretación de los primeros componentes.
 
@@ -279,17 +279,17 @@ completos %>%
 
 ```
 
-El primer conglomerado agrupa el 14.7% de las horas y presenta una mediana de SO2 de 16.2 ppb, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de NOX de 10.4 ppb, la más baja del conjunto. Concentra el 72.2% de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
+El primer conglomerado agrupa el 14.7% de las horas y presenta una mediana de \$SO\_{2}\$ de 16.2 ppb, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de NOX de 10.4 ppb, la más baja del conjunto. Concentra el 72.2% de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
 
-El segundo conglomerado es su imagen especular: mediana de NOX de 51.8 ppb, cinco veces superior a la del primer grupo, con SO2 de apenas 4.4 ppb, velocidad de viento de 3.6 km/h (la menor del conjunto) y ozono de 5 ppb. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2% de sus horas presenta viento del este.
+El segundo conglomerado es su imagen especular: mediana de NOX de 51.8 ppb, cinco veces superior a la del primer grupo, con \$SO\_{2}\$ de apenas 4.4 ppb, velocidad de viento de 3.6 km/h (la menor del conjunto) y ozono de 5 ppb. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2% de sus horas presenta viento del este.
 
-La razón entre las medianas de SO2 y NOX resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de SO2 cuatro veces mayores y de NOX cinco veces menores. El primer conglomerado corresponde a horas con azufre en ausencia de combustión vehicular, y el algoritmo lo identificó sin disponer de información meteorológica.
+La razón entre las medianas de \$SO\_{2}\$ y NOX resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de \$SO\_{2}\$ cuatro veces mayores y de NOX cinco veces menores. El primer conglomerado corresponde a horas con azufre en ausencia de combustión vehicular, y el algoritmo lo identificó sin disponer de información meteorológica.
 
 ### **Contraste entre tendencia central y exposición aguda**
 
 **Diferencia de medianas por año**
 
-Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable aquí dada la marcada asimetría de las distribuciones de SO2. La prueba resulta significativa en los cuatro años, con valores de p inferiores a cualquier nivel convencional.
+Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable aquí dada la marcada asimetría de las distribuciones de \$SO\_{2}\$ . La prueba resulta significativa en los cuatro años, con valores de p inferiores a cualquier nivel convencional.
 
 Para cuantificar la magnitud de la diferencia entre la estación más próxima a la fuente y la estación de control se empleó el estimador de desplazamiento de Hodges-Lehmann, que corresponde a la mediana de todas las diferencias por pares entre ambas muestras y equivale al análogo no paramétrico de la diferencia de medias.
 
@@ -339,7 +339,7 @@ ggplot(comp, aes(x = Año)) +
 
 La divergencia se explica por la naturaleza del fenómeno. La mediana describe el comportamiento típico de la distribución y es insensible a su cola superior, que es precisamente donde reside la contribución de la fuente investigada. Una reducción del nivel de fondo junto con un aumento en la frecuencia de episodios produce exactamente el patrón observado: convergencia aparente en los indicadores de tendencia central y deterioro real en la exposición aguda.
 
-Ambos resultados son válidos al mismo tiempo. El nivel de fondo de SO2 difiere poco entre Cadereyta y García, pero la frecuencia de eventos agudos difiere en dos órdenes de magnitud: 0.15% de las horas en GAR frente a 11.63% en SE3.
+Ambos resultados son válidos al mismo tiempo. El nivel de fondo de \$SO\_{2}\$ difiere poco entre Cadereyta y García, pero la frecuencia de eventos agudos difiere en dos órdenes de magnitud: 0.15% de las horas en GAR frente a 11.63% en SE3.
 
 **Indicador de exposición evitable**
 
@@ -386,19 +386,19 @@ Respecto a los supuestos, se verificó que la correlación serial entre horas co
 
 El análisis de esta etapa permite establecer cuatro resultados.
 
-En primer lugar, existe una asociación direccional específica entre los episodios de SO2 en Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El modelo identificó este sector sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados del complejo refinador.
+En primer lugar, existe una asociación direccional específica entre los episodios de \$SO\_{2}\$ en Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El modelo identificó este sector sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados del complejo refinador.
 
 En segundo lugar, el efecto decae de forma sistemática con la distancia, de 3.19 (a 5.5 km) hasta 1.01 (a 35.7 km), pese a que las cuatro estaciones tienen la fuente hacia el mismo cuadrante. Esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución.
 
-En tercer lugar, las pruebas de falsación son consistentes con un origen distinto a la combustión urbana. El sector este eleva la probabilidad de concentración alta de SO2 pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El PCA, que no usa información meteorológica, sitúa al SO2 prácticamente ortogonal al eje de combustión urbana (carga de 0.029 sobre el primer componente). El análisis de conglomerados identifica un grupo de horas con razón SO2/NOX de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
+En tercer lugar, las pruebas de falsación son consistentes con un origen distinto a la combustión urbana. El sector este eleva la probabilidad de concentración alta de \$SO\_{2}\$ pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El PCA, que no usa información meteorológica, sitúa al \$SO\_{2}\$ prácticamente ortogonal al eje de combustión urbana (carga de 0.029 sobre el primer componente). El análisis de conglomerados identifica un grupo de horas con razón \$SO\_{2}\$ /NOX de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
 
 En cuarto lugar, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo. La diferencia de medianas entre Cadereyta y la estación de control no supera 1.5 ppb en ningún año, mientras que el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
 
 **Conclusión parcial**
 
-Los resultados obtenidos son consistentes con la existencia de una fuente puntual de SO2 ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. La coincidencia entre el sector identificado estadísticamente y la ubicación del complejo refinador, junto con el comportamiento de los trazadores de falsación, hace de la refinería la explicación más parsimoniosa del patrón observado.
+Los resultados obtenidos son consistentes con la existencia de una fuente puntual de \$SO\_{2}\$ ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. La coincidencia entre el sector identificado estadísticamente y la ubicación del complejo refinador, junto con el comportamiento de los trazadores de falsación, hace de la refinería la explicación más parsimoniosa del patrón observado.
 
-Cabe subrayar que el diseño es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados son difícilmente compatibles con las explicaciones alternativas evaluadas, y que en conjunto apuntan de manera convergente hacia una misma hipótesis.
+Cabe mencionar que el diseño es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados son difícilmente compatibles con las explicaciones alternativas evaluadas, y que en conjunto apuntan de manera convergente hacia una misma hipótesis.
 
 **Trabajo pendiente**
 

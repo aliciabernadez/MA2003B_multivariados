@@ -1,0 +1,568 @@
+---
+title: "Etapa 3 - Codigo"
+author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
+format: pdf
+editor: visual
+---
+
+## ETAPA 3
+
+```{r}
+library(tidyverse)
+library(lubridate)
+
+# ---- 1. Carga de la base de 21 columnas (NO la de 13) ----
+datos <- read_csv(
+  "baseee_SIMA_limpia_4est_8cont_2022_2025.csv",
+  locale = locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+)
+
+cat("Dimensiones:", nrow(datos), "filas x", ncol(datos), "columnas\n")
+cat("Columnas:", paste(names(datos), collapse = ", "), "\n\n")
+
+# ---- 2. Preparación: estación ordenada por distancia a la refinería ----
+datos <- datos %>%
+  mutate(
+    fecha = ymd_hms(`Fecha y hora`),
+    Estacion = factor(Estacion, levels = c("SE3", "SE2", "NE", "GAR"))
+  )
+
+# ---- 3. Clasificación circular del viento en 16 rumbos ----
+# NUNCA se promedia WDR: se corta el círculo en sectores de 22.5 grados.
+rumbos <- c("N","NNE","NE","ENE","E","ESE","SE","SSE",
+            "S","SSO","SO","OSO","O","ONO","NO","NNO")
+
+datos <- datos %>%
+  mutate(
+    sector = rumbos[((floor((WDR + 11.25) / 22.5)) %% 16) + 1],
+    sector = factor(sector, levels = rumbos)
+  )
+
+# ---- 4. Definición del umbral de episodio ----
+# Umbral ABSOLUTO común a las 4 estaciones (P95 del conjunto),
+# para que los momios sean comparables entre estaciones.
+umbral_ep <- quantile(datos$SO2, 0.95, na.rm = TRUE)
+
+datos <- datos %>%
+  mutate(episodio = as.integer(SO2 > umbral_ep))
+
+cat("Umbral de episodio (P95 global):", round(umbral_ep, 2), "ppb\n\n")
+
+# ---- 5. Verificación: tasa de episodios por estación ----
+datos %>%
+  group_by(Estacion) %>%
+  summarise(
+    n          = n(),
+    episodios  = sum(episodio, na.rm = TRUE),
+    tasa_pct   = round(100 * mean(episodio, na.rm = TRUE), 2),
+    P50        = median(SO2, na.rm = TRUE),
+    P99        = quantile(SO2, 0.99, na.rm = TRUE),
+    razon_P99_P50 = round(P99 / P50, 2),
+    .groups = "drop"
+  )
+
+# ---- 6. Verificación: distribución de rumbos (sin NAs) ----
+cat("\nNAs en sector:", sum(is.na(datos$sector)), "\n")
+table(datos$sector) %>% sort(decreasing = TRUE) %>% head(5)
+```
+
+#### Regresión logística direccional (SE3)
+
+```{r}
+library(broom)
+library(splines)
+
+# ---- 1. Tasa cruda de episodios por rumbo en SE3 ----
+tasa_sector_SE3 <- datos %>%
+  filter(Estacion == "SE3") %>%
+  group_by(sector) %>%
+  summarise(
+    n         = n(),
+    episodios = sum(episodio),
+    tasa_pct  = round(100 * mean(episodio), 2),
+    .groups   = "drop"
+  ) %>%
+  arrange(desc(tasa_pct))
+
+print(tasa_sector_SE3, n = 16)
+
+# ---- 2. Preparación del subconjunto SE3 ----
+# Hora y mes entran como armónicos (seno/coseno): son variables
+# circulares, igual que el viento.
+d_se3 <- datos %>%
+  filter(Estacion == "SE3") %>%
+  mutate(
+    sector   = relevel(sector, ref = "N"),
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin  = sin(2 * pi * Mes / 12),
+    Mes_cos  = cos(2 * pi * Mes / 12)
+  )
+
+# ---- 3. Modelo logístico ----
+# WSR con spline: la relación con los episodios no es monótona
+# (a viento muy bajo hay estancamiento; a viento alto, dispersión).
+mod_se3 <- glm(
+  episodio ~ sector + ns(WSR, 3) + Hora_sin + Hora_cos + Mes_sin + Mes_cos,
+  data   = d_se3,
+  family = binomial
+)
+
+# ---- 4. Razones de momios por rumbo (IC de Wald al 95%) ----
+or_sector <- tidy(mod_se3) %>%
+  filter(str_detect(term, "^sector")) %>%
+  mutate(
+    Rumbo  = str_remove(term, "^sector"),
+    OR     = round(exp(estimate), 2),
+    IC_inf = round(exp(estimate - 1.96 * std.error), 2),
+    IC_sup = round(exp(estimate + 1.96 * std.error), 2),
+    p      = signif(p.value, 3)
+  ) %>%
+  select(Rumbo, OR, IC_inf, IC_sup, p) %>%
+  arrange(desc(OR))
+
+print(or_sector, n = 15)
+
+# ---- 5. Ajuste global ----
+cat("\nDevianza nula:    ", round(mod_se3$null.deviance, 1), "\n")
+cat("Devianza residual:", round(mod_se3$deviance, 1), "\n")
+cat("Pseudo-R2 McFadden:",
+    round(1 - mod_se3$deviance / mod_se3$null.deviance, 3), "\n")
+cat("AIC:              ", round(AIC(mod_se3), 1), "\n")
+```
+
+**validación cruzada espacial y falsación multi-contaminante**
+
+```{r}
+# ---- 1. Sector industrial colapsado ----
+# Los 16 rumbos ya revelaron que el máximo está en E, con ENE y ESE
+# elevados. Se agrupan en un solo factor binario para evitar celdas
+# vacías en GAR (solo 49 episodios en total).
+datos <- datos %>%
+  mutate(
+    sector_E = factor(
+      if_else(sector %in% c("ENE", "E", "ESE"), "Este", "Resto"),
+      levels = c("Resto", "Este")
+    ),
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin  = sin(2 * pi * Mes / 12),
+    Mes_cos  = cos(2 * pi * Mes / 12)
+  )
+
+# ---- 2. Función: momio del sector este para cualquier contaminante ----
+# El umbral es el P95 DENTRO de cada subconjunto, para que cada
+# contaminante se compare contra su propia distribución.
+or_este <- function(df, var) {
+  d <- df %>%
+    filter(!is.na(.data[[var]])) %>%
+    mutate(y = as.integer(.data[[var]] > quantile(.data[[var]], 0.95)))
+  
+  if (sum(d$y) < 30) return(tibble(n = nrow(d), eventos = sum(d$y),
+                                   OR = NA, IC_inf = NA, IC_sup = NA))
+  
+  m <- glm(y ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos +
+             Mes_sin + Mes_cos,
+           data = d, family = binomial)
+  
+  co <- tidy(m) %>% filter(term == "sector_EEste")
+  
+  tibble(
+    n       = nrow(d),
+    eventos = sum(d$y),
+    OR      = round(exp(co$estimate), 2),
+    IC_inf  = round(exp(co$estimate - 1.96 * co$std.error), 2),
+    IC_sup  = round(exp(co$estimate + 1.96 * co$std.error), 2)
+  )
+}
+
+# ---- 3. Validación espacial: mismo modelo, las 4 estaciones ----
+cat("=== SO2: momio del sector Este por estación ===\n")
+map_dfr(levels(datos$Estacion), function(e) {
+  or_este(filter(datos, Estacion == e), "SO2") %>%
+    mutate(Estacion = e, .before = 1)
+}) %>% print()
+
+# ---- 4. Falsación: otros contaminantes en SE3 ----
+# Si el sector Este solo eleva el SO2 y deja planos a los trazadores
+# de tráfico y combustión urbana, la firma es de fuente puntual.
+cat("\n=== SE3: momio del sector Este por contaminante ===\n")
+d_se3 <- filter(datos, Estacion == "SE3")
+
+map_dfr(c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"), function(v) {
+  or_este(d_se3, v) %>% mutate(Contaminante = v, .before = 1)
+}) %>% print()
+```
+
+**PCA sobre la matriz química (técnica de interdependencia)**
+
+```{r}
+library(factoextra)
+
+# ---- 1. Matriz química completa en SE3 ----
+# PCA exige casos completos. Se documenta cuántos se pierden y se
+# verifica que la pérdida no elimine preferentemente los episodios.
+mat_se3 <- datos %>%
+  filter(Estacion == "SE3") %>%
+  select(SO2, NO, NO2, NOX, CO, O3, PM10, `PM2.5`,
+         sector_E, WSR, Hora, Mes, episodio)
+
+completos <- mat_se3 %>% drop_na(SO2:`PM2.5`)
+
+cat("Filas SE3:", nrow(mat_se3), "\n")
+cat("Casos completos:", nrow(completos),
+    paste0("(", round(100 * nrow(completos) / nrow(mat_se3), 1), "%)"), "\n")
+cat("Episodios conservados:", sum(completos$episodio), "de",
+    sum(mat_se3$episodio), "\n\n")
+
+# ---- 2. Transformación logarítmica ----
+# ADVERTENCIA: log1p comprime la escala de los extremos. NO elimina
+# outliers, pero sí reduce su influencia en la matriz de covarianzas.
+# Sin esta transformación, PC1 quedaría dominado por unas pocas horas
+# de SO2 extremo y no describiría la estructura general.
+# Los episodios siguen siendo identificables en el espacio de componentes.
+X <- completos %>%
+  select(SO2:`PM2.5`) %>%
+  mutate(across(everything(), log1p))
+
+# ---- 3. PCA sobre variables estandarizadas ----
+pca <- prcomp(X, scale. = TRUE)
+
+# ---- 4. Varianza explicada ----
+var_exp <- tibble(
+  CP       = paste0("PC", 1:8),
+  Var_pct  = round(100 * pca$sdev^2 / sum(pca$sdev^2), 2),
+  Acum_pct = round(cumsum(100 * pca$sdev^2 / sum(pca$sdev^2)), 2)
+)
+print(var_exp)
+
+# ---- 5. Cargas de los primeros 3 componentes ----
+cargas <- as_tibble(pca$rotation[, 1:3], rownames = "Variable") %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3)))
+print(cargas)
+
+# ---- 6. Criterio de Kaiser ----
+cat("\nComponentes con eigenvalor > 1:", sum(pca$sdev^2 > 1), "\n")
+
+# ---- 7. Scree plot ----
+fviz_eig(pca, addlabels = TRUE, barfill = "steelblue",
+         main = "Varianza explicada por componente (SE3)")
+```
+
+**Conglomerados sobre el espacio de componentes**
+
+```{r}
+library(cluster)
+
+# ---- 1. Puntuaciones de los 4 primeros componentes (86.9% varianza) ----
+scores <- as_tibble(pca$x[, 1:4])
+
+# ---- 2. Número de conglomerados: silueta sobre muestra ----
+set.seed(2024)
+muestra <- scores[sample(nrow(scores), 4000), ]
+
+sil <- map_dfr(2:6, function(k) {
+  km <- kmeans(muestra, centers = k, nstart = 20)
+  tibble(k = k,
+         silueta = round(mean(silhouette(km$cluster,
+                                         dist(muestra))[, 3]), 3))
+})
+print(sil)
+
+# ---- 3. k-means sobre el conjunto completo ----
+set.seed(2024)
+km <- kmeans(scores, centers = 4, nstart = 25, iter.max = 50)
+
+cat("Iteraciones usadas:", km$iter, "de 50\n")
+cat("Varianza explicada por la partición:",
+    round(100 * km$betweenss / km$totss, 1), "%\n\n")
+
+# ---- 4. Caracterización de cada conglomerado ----
+# Se describen con las variables ORIGINALES, no con las transformadas.
+perfil <- completos %>%
+  mutate(grupo = factor(km$cluster)) %>%
+  group_by(grupo) %>%
+  summarise(
+    n           = n(),
+    pct         = round(100 * n() / nrow(completos), 1),
+    SO2_med     = round(median(SO2), 2),
+    NOX_med     = round(median(NOX), 2),
+    CO_med      = round(median(CO), 2),
+    PM25_med    = round(median(`PM2.5`), 1),
+    O3_med      = round(median(O3), 1),
+    WSR_med     = round(median(WSR), 1),
+    pct_Este    = round(100 * mean(sector_E == "Este"), 1),
+    pct_episod  = round(100 * mean(episodio), 1),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(SO2_med))
+
+print(perfil, width = Inf)
+
+# ---- 5. Razón SO2/NOX por grupo ----
+# Indicador de firma: alta razón = azufre sin combustión vehicular.
+perfil %>%
+  mutate(razon_SO2_NOX = round(SO2_med / NOX_med, 3)) %>%
+  select(grupo, SO2_med, NOX_med, razon_SO2_NOX, pct_Este, pct_episod) %>%
+  print()
+```
+
+**diferencia de medianas por año y traducción a política pública**
+
+```{r}
+# ---- 1. Kruskal-Wallis por año: ¿difieren las 4 estaciones? ----
+kw <- datos %>%
+  group_split(Año) %>%
+  map_dfr(function(d) {
+    t <- kruskal.test(SO2 ~ Estacion, data = d)
+    tibble(Año = unique(d$Año),
+           chi2 = round(t$statistic, 1),
+           gl   = t$parameter,
+           p    = signif(t$p.value, 3))
+  })
+print(kw)
+
+# ---- 2. Desplazamiento Hodges-Lehmann SE3 vs GAR, por año ----
+# Estima la diferencia TÍPICA en ppb entre ambas estaciones, con IC.
+# Es el análogo no paramétrico de la diferencia de medias, robusto
+# a la fuerte asimetría del SO2.
+hl <- datos %>%
+  filter(Estacion %in% c("SE3", "GAR")) %>%
+  group_split(Año) %>%
+  map_dfr(function(d) {
+    w <- wilcox.test(SO2 ~ Estacion, data = d,
+                     conf.int = TRUE, exact = FALSE)
+    tibble(
+      Año        = unique(d$Año),
+      Med_SE3    = median(d$SO2[d$Estacion == "SE3"]),
+      Med_GAR    = median(d$SO2[d$Estacion == "GAR"]),
+      Dif_HL     = round(w$estimate, 2),
+      IC_inf     = round(w$conf.int[1], 2),
+      IC_sup     = round(w$conf.int[2], 2),
+      p          = signif(w$p.value, 3)
+    )
+  })
+print(hl)
+
+# ---- 3. Lo que la mediana NO captura: horas de episodio por año ----
+# Umbral ABSOLUTO (11.1 ppb) para que los años sean comparables.
+horas <- datos %>%
+  group_by(Año, Estacion) %>%
+  summarise(horas_episodio = sum(episodio), .groups = "drop") %>%
+  pivot_wider(names_from = Estacion, values_from = horas_episodio) %>%
+  mutate(Exceso_SE3_vs_GAR = SE3 - GAR)
+print(horas)
+
+# ---- 4. Indicador de política pública ----
+# Horas/año de exposición aguda evitables si SE3 tuviera el
+# comportamiento de la estación de control.
+horas %>%
+  summarise(
+    exceso_total    = sum(Exceso_SE3_vs_GAR),
+    exceso_anual    = round(mean(Exceso_SE3_vs_GAR)),
+    dias_equiv_anual = round(mean(Exceso_SE3_vs_GAR) / 24, 1)
+  ) %>%
+  print()
+```
+
+**sensibilidad y figura principal**
+
+```{r}
+# ---- 1. Sensibilidad del umbral: ¿el momio del Este depende de P95? ----
+sens <- map_dfr(c(0.90, 0.95, 0.99), function(q) {
+  u <- quantile(datos$SO2, q, na.rm = TRUE)
+  map_dfr(c("SE3", "SE2", "NE", "GAR"), function(e) {
+    d <- datos %>% filter(Estacion == e) %>% mutate(y = as.integer(SO2 > u))
+    if (sum(d$y) < 30) return(tibble(Estacion = e, OR = NA,
+                                     IC_inf = NA, IC_sup = NA))
+    m  <- glm(y ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos +
+                Mes_sin + Mes_cos, data = d, family = binomial)
+    co <- tidy(m) %>% filter(term == "sector_EEste")
+    tibble(Estacion = e,
+           OR     = round(exp(co$estimate), 2),
+           IC_inf = round(exp(co$estimate - 1.96 * co$std.error), 2),
+           IC_sup = round(exp(co$estimate + 1.96 * co$std.error), 2))
+  }) %>% mutate(Percentil = paste0("P", q * 100), umbral_ppb = round(u, 1),
+                .before = 1)
+})
+print(sens, n = 12)
+
+# ---- 2. Figura principal: divergencia mediana vs episodios ----
+comp <- hl %>%
+  select(Año, Dif_HL) %>%
+  left_join(select(horas, Año, Horas_SE3 = SE3), by = "Año")
+
+coef <- max(comp$Horas_SE3) / max(comp$Dif_HL)
+
+ggplot(comp, aes(x = Año)) +
+  geom_col(aes(y = Horas_SE3), fill = "grey70") +
+  geom_line(aes(y = Dif_HL * coef), colour = "firebrick", linewidth = 1.2) +
+  geom_point(aes(y = Dif_HL * coef), colour = "firebrick", size = 3) +
+  scale_y_continuous(
+    name = "Horas de episodio en SE3 (barras)",
+    sec.axis = sec_axis(~ . / coef,
+                        name = "Diferencia de medianas SE3−GAR, ppb (línea)")
+  ) +
+  scale_x_continuous(breaks = 2022:2025) +
+  labs(title = "La mediana anual no refleja la exposición aguda",
+       subtitle = "SE3 (Cadereyta), umbral absoluto de episodio: 11.1 ppb",
+       x = "Año") +
+  theme_minimal(base_size = 12) +
+  theme(axis.title.y.right = element_text(colour = "firebrick"))
+```
+
+```{r}
+# ---- Tabla geográfica para el reporte ----
+geo <- tribble(
+  ~Estacion, ~lat,     ~lon,       ~azimut, ~rumbo, ~dist_km,
+  "SE3",     25.5844,  -100.0011,  87.3,    "E",     5.5,
+  "SE2",     25.6461,  -100.0956,  113.7,   "ESE",  16.4,
+  "NE",      25.7455,  -100.2552,  119.6,   "ESE",  35.7,
+  "GAR",     25.7997,  -100.5878,  110.1,   "ESE",  68.5
+)
+
+# ---- Figura clave: decaimiento del momio con la distancia ----
+or_p95 <- tibble(
+  Estacion = c("SE3", "SE2", "NE", "GAR"),
+  OR       = c(3.19, 1.58, 1.01, 1.08),
+  IC_inf   = c(2.96, 1.43, 0.81, 0.54),
+  IC_sup   = c(3.44, 1.74, 1.26, 2.16)
+)
+
+left_join(geo, or_p95, by = "Estacion") %>%
+  ggplot(aes(x = dist_km, y = OR)) +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
+  geom_errorbar(aes(ymin = IC_inf, ymax = IC_sup), width = 1.5) +
+  geom_point(size = 3, colour = "firebrick") +
+  geom_text(aes(label = Estacion), vjust = -1.2, size = 3.5) +
+  labs(
+    title = "El efecto direccional decae con la distancia a la refinería",
+    subtitle = "Razón de momios del sector Este sobre episodios de SO2 (P95 = 11.1 ppb)",
+    x = "Distancia a la refinería (km)",
+    y = "Razón de momios (IC 95%)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+#### validación y supuestos
+
+```{r}
+library(pROC)
+library(sandwich)
+library(lmtest)
+library(psych)
+
+d_se3 <- datos %>% filter(Estacion == "SE3") %>%
+  mutate(dia = as.Date(fecha))
+
+# ---- 1. Errores estándar robustos agrupados por día ----
+mod <- glm(episodio ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos +
+             Mes_sin + Mes_cos, data = d_se3, family = binomial)
+
+rob <- coeftest(mod, vcov = vcovCL(mod, cluster = ~ dia))
+b   <- rob["sector_EEste", "Estimate"]
+se  <- rob["sector_EEste", "Std. Error"]
+
+cat("=== OR sector Este en SE3 ===\n")
+cat("Ingenuo  :", round(exp(coef(mod)["sector_EEste"]), 2), "\n")
+cat("Agrupado :", round(exp(b), 2),
+    " IC95: [", round(exp(b - 1.96*se), 2), ",",
+    round(exp(b + 1.96*se), 2), "]\n\n")
+
+# ---- 2. Capacidad discriminante ----
+auc_in <- roc(d_se3$episodio, fitted(mod), quiet = TRUE)
+cat("AUC en muestra:", round(as.numeric(auc_in$auc), 3), "\n")
+
+# ---- 3. Validación fuera de muestra: entrenar 2022-2024, probar 2025 ----
+tr <- filter(d_se3, Año <= 2024)
+te <- filter(d_se3, Año == 2025)
+
+m_tr <- glm(episodio ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos +
+              Mes_sin + Mes_cos, data = tr, family = binomial)
+p_te <- predict(m_tr, newdata = te, type = "response")
+
+cat("AUC fuera de muestra (2025):",
+    round(as.numeric(roc(te$episodio, p_te, quiet = TRUE)$auc), 3), "\n")
+cat("Error Brier:", round(mean((p_te - te$episodio)^2), 4), "\n")
+cat("Tasa base 2025:", round(mean(te$episodio), 4), "\n\n")
+
+# ---- 4. Matriz de confusión con punto de corte = tasa base ----
+corte <- mean(tr$episodio)
+tab <- table(Predicho = p_te > corte, Real = te$episodio)
+print(tab)
+cat("\nSensibilidad:", round(tab[2,2] / sum(tab[,2]), 3),
+    "| Especificidad:", round(tab[1,1] / sum(tab[,1]), 3), "\n\n")
+
+# ---- 5. Supuestos del PCA ----
+cat("=== Adecuación muestral del PCA ===\n")
+cat("KMO global:", round(KMO(X)$MSA, 3), "\n")
+bt <- cortest.bartlett(cor(X), n = nrow(X))
+cat("Bartlett: chi2 =", round(bt$chisq, 0), " p =", signif(bt$p.value, 3), "\n")
+```
+
+**CBPF**
+
+```{r}
+
+library(openair)
+
+# ---- Preparación al formato openair ----
+d_oa <- datos %>%
+  rename(date = fecha, ws = WSR, wd = WDR)
+
+# ---- Percentiles equivalentes al umbral absoluto de 11.1 ppb ----
+# openair calcula el percentil DENTRO de cada panel. Para que las cuatro
+# estaciones se comparen contra el MISMO umbral en ppb, se le pasa a cada
+# una el percentil que en su distribución corresponde a 11.1 ppb.
+pct_eq <- datos %>%
+  group_by(Estacion) %>%
+  summarise(p = round(100 * mean(SO2 <= umbral_ep, na.rm = TRUE), 2),
+            .groups = "drop")
+print(pct_eq)
+
+# ---- CBPF de SO2 en las tres estaciones con señal ----
+# GAR se omite: su percentil equivalente supera 99.8 y no quedan
+# suficientes horas para estimar la probabilidad.
+for (e in c("SE3", "SE2", "NE")) {
+  p <- pct_eq$p[pct_eq$Estacion == e]
+  polarPlot(
+    filter(d_oa, Estacion == e),
+    pollutant  = "SO2",
+    statistic  = "cpf",
+    percentile = p,
+    main       = paste0("CBPF de SO2 en ", e,
+                        " (umbral 11.1 ppb, P", p, ")"),
+    key.title  = "Probabilidad"
+  )
+}
+
+# ---- Falsación visual: CBPF de NOX en SE3 ----
+# Mismo percentil que el SO2 para que ambos mapas sean comparables.
+polarPlot(
+  filter(d_oa, Estacion == "SE3"),
+  pollutant  = "NOX",
+  statistic  = "cpf",
+  percentile = pct_eq$p[pct_eq$Estacion == "SE3"],
+  main       = "CBPF de NOX en SE3 (misma probabilidad de referencia)",
+  key.title  = "Probabilidad"
+)
+```
+
+```{r}
+# or_p95: valores del gradiente espacial para la Figura 1
+or_p95 <- tibble(
+  Estacion = c("SE3", "SE2", "NE", "GAR"),
+  OR       = c(3.19, 1.58, 1.01, 1.08),
+  IC_inf   = c(2.96, 1.43, 0.81, 0.54),
+  IC_sup   = c(3.44, 1.74, 1.26, 2.16)
+)
+
+saveRDS(list(datos = datos, pca = pca, km = km, completos = completos,
+             hl = hl, horas = horas, sens = sens, geo = geo,
+             or_sector = or_sector, tasa_sector_SE3 = tasa_sector_SE3,
+             or_p95 = or_p95),
+        "objetos_etapa3.rds")
+
+names(readRDS("objetos_etapa3.rds"))
+```

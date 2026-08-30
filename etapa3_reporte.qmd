@@ -1,4 +1,5 @@
 ---
++---
 title: "Etapa 3: Modelado y análisis multivariado"
 author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
 format: pdf
@@ -32,8 +33,7 @@ Esta formulación conserva el marco del Objetivo 4 del proyecto y mantiene el en
 
 **Técnica de dependencia: regresión logística binaria**
 
-Dado que el objeto de estudio son los episodios agudos y no el nivel de fondo, se descartó el uso de un modelo lineal; este promediaría las horas de episodio (11.6% en SE3) con las regulares, diluyendo la señal. Además, la marcada asimetría del $SO_{2}$ (razón P99/mediana de 12.57 en SE3) vulnera el supuesto de normalidad. En su lugar, se aplicó regresión logística binaria para modelar directamente la probabilidad del evento, obteniendo razones de momios interpretables y comparables entre estaciones.
-Para aislar el efecto direccional, se controló por la velocidad del viento mediante *splines* naturales de tres grados de libertad (capturando su efecto no monótono de estancamiento/dispersión) y por temporalidad mediante términos armónicos de hora y mes (preservando su ciclicidad). El sector del viento se integró como un factor de 16 categorías sin jerarquía previa; la verificación geográfica de la fuente se realizó de forma independiente y *a posteriori* para evitar un razonamiento circular.
+Dado que el objeto de estudio son los episodios agudos y no el nivel de fondo, se descartó el uso de un modelo lineal; este promediaría las horas de episodio (11.6% en SE3) con las regulares, diluyendo la señal. Además, la marcada asimetría del $SO_{2}$ (razón P99/mediana de 12.57 en SE3) vulnera el supuesto de normalidad. En su lugar, se aplicó regresión logística binaria para modelar directamente la probabilidad del evento, obteniendo razones de momios interpretables y comparables entre estaciones. Para aislar el efecto direccional, se controló por la velocidad del viento mediante *splines* naturales de tres grados de libertad (capturando su efecto no monótono de estancamiento/dispersión) y por temporalidad mediante términos armónicos de hora y mes (preservando su ciclicidad). El sector del viento se integró como un factor de 16 categorías sin jerarquía previa; la verificación geográfica de la fuente se realizó de forma independiente y *a posteriori* para evitar un razonamiento circular.
 
 **Técnicas de interdependencia: componentes principales y conglomerados**
 
@@ -86,7 +86,7 @@ Se identificó que el rumbo este presenta la mayor razón de momios (6.12; IC 95
 
 Este resultado admite una interpretación de falsación. Dado que el Área Metropolitana de Monterrey se localiza al oeste de Cadereyta, si los episodios de $SO_{2}$ fueran atribuibles a la mancha urbana o al tráfico vehicular metropolitano, se esperarían razones de momios elevadas con vientos provenientes del sector oeste. No obstante, se observó el comportamiento inverso.
 
-Adicionalmente, el modelo estimó un pseudo $R^{2}$ de McFadden de 0.189. Conviene precisar que esta métrica no es equivalente al coeficiente de determinación de un modelo lineal, aunque valores entre 0.2 y 0.4 se consideran indicativos de un ajuste excelente según los criterios de su autor.
+Adicionalmente, el modelo estimó un pseudo $R^{2}$ de McFadden de 0.189. Conviene precisar que esta métrica no es equivalente al coeficiente de determinación de un modelo lineal, aunque valores entre 0.2 y 0.4 se consideran indicativos de un ajuste excelente según los criterios de su autor, el valor obtenido se aproxima al límite inferior de ese rango.
 
 **Verificación geográfica independiente**
 
@@ -138,15 +138,11 @@ Los momios de SE3 se mantienen entre 2.57 y 3.38, y los de NE entre 0.86 y 1.01 
 
 Adicionalmente, dado que las observaciones horarias consecutivas no son independientes, se recalcularon los errores estándar agrupando por día. El intervalo del momio del sector este en SE3 pasa de 2.96 a 3.44 hacia 2.92 a 3.48, variación marginal que confirma la robustez de la estimación frente a la correlación serial.
 
---------------------------------------------
-
 ### **Pruebas de falsación multi-contaminante**
 
 **Planteamiento**
 
-El análisis direccional establece que los episodios de SO2 en SE3 se asocian preferentemente al sector este. Ese resultado, por sí solo, no descarta explicaciones alternativas: cualquier fuente ubicada al este de la estación produciría el mismo patrón, incluidas fuentes de combustión difusa o corredores viales.
-
-La estrategia de falsación consiste en evaluar el comportamiento de trazadores que no proceden del complejo refinador. Si el sector este transportara emisiones de combustión, los óxidos de nitrógeno y el monóxido de carbono deberían responder junto con el SO2, pues comparten origen en todo proceso de combustión de hidrocarburos. La ausencia de respuesta en esos trazadores constituye evidencia en contra de las explicaciones alternativas, y es un argumento más robusto que la propia asociación positiva del SO2.
+Si bien el análisis direccional permitió identificar una asociación entre los episodios de $SO_{2}$ en la estación SE3 y el sector este, este hallazgo, de manera aislada, no descarta la posible influencia de fuentes urbanas difusas o corredores viales ubicados en esa misma dirección. Para aislar el efecto de la posible fuente industrial, se implementó una estrategia de falsación evaluando el comportamiento de trazadores ajenos al complejo refinador. Dado que la combustión de hidrocarburos genera de manera conjunta $SO_{2}$, óxidos de nitrógeno y monóxido de carbono, el transporte de una pluma urbana debería incrementar todos estos contaminantes simultáneamente. En consecuencia, la ausencia de respuesta direccional en estos trazadores vehiculares se establece como una evidencia estadística robusta en contra de las hipótesis alternativas.
 
 **Momios por contaminante**
 
@@ -169,13 +165,13 @@ tabla5 %>%
                    concentración elevada, por contaminante, en SE3.")
 ```
 
-El SO2 es el único contaminante con momio significativamente superior a la unidad (2.66; IC 95%: 2.39 a 2.95). El monóxido de carbono no muestra respuesta alguna, con intervalo que incluye el uno, y el ozono se comporta de manera equivalente. Los óxidos de nitrógeno presentan momios de 0.22, esto es, la probabilidad de concentración elevada de NOX y NO se reduce a menos de una cuarta parte cuando el viento procede del este. El material particulado muestra reducciones intermedias.
+El $SO_{2}$ es el único contaminante con momio significativamente superior a la unidad (2.66; IC 95%: 2.39 a 2.95). El CO y el O3 no muestran respuesta, con intervalos que incluyen el uno. Los óxidos de nitrógeno presentan momios de 0.22: la probabilidad de concentración elevada de NOX y NO se reduce a menos de una cuarta parte con viento del este. El material particulado muestra reducciones intermedias.
 
-La razón entre el momio del SO2 y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire procedente del este llega empobrecida en trazadores vehiculares, lo cual concuerda con el carácter rural de esa zona, y sin embargo transporta SO2. Ninguna explicación basada en tráfico o combustión urbana difusa reproduce esa combinación: si el sector este aportara combustión, los óxidos de nitrógeno aumentarían junto con el SO2 en lugar de disminuir.
+La razón entre el momio del SO2 y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire proveniente del este llega pobre en trazadores vehiculares, consistente con el carácter rural de esa zona, pero transporta SO2. Esta combinación no es compatible con tráfico o combustión urbana difusa: de ser así, los óxidos de nitrógeno aumentarían junto con el SO2, no disminuirían.
 
 **Verificación por método no paramétrico**
 
-La Conditional Bivariate Probability Function estima la probabilidad de concentración elevada condicionada a la dirección y velocidad del viento, sin control de covariables ni supuestos paramétricos. Constituye por ello una verificación independiente del modelo logístico. Se aplicó al SO2 y al NOX en SE3, empleando en ambos casos el mismo percentil de referencia.
+La Conditional Bivariate Probability Function (CBPF) estima la probabilidad de concentración elevada condicionada a dirección y velocidad del viento, sin controlar por covariables ni asumir una forma paramétrica. Se usa aquí como verificación independiente del modelo logístico, aplicada al SO2 y al NOX en SE3 con el mismo percentil de referencia.
 
 ```{r fig2, fig.width=9, fig.height=4, fig.cap="CBPF en SE3. Izquierda: SO2, con lóbulo direccional al este. Derecha: NOX, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia."}
 library(openair)
@@ -193,9 +189,9 @@ p2 <- polarPlot(filter(d_oa, Estacion == "SE3"), pollutant = "NOX",
 grid.arrange(p1$plot, p2$plot, ncol = 2)
 ```
 
-El contraste entre ambos paneles es directo. El SO2 presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. El NOX, en la misma estación y sobre las mismas horas, alcanza su máximo en el centro del gráfico, es decir, en condiciones de calma o viento débil, sin orientación preferente alguna.
+El contraste entre ambos paneles es claro. El SO2 presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. El NOX, en la misma estación y sobre las mismas horas, alcanza su máximo en el centro del gráfico, es decir, en condiciones de calma o viento débil, sin orientación preferente.
 
-Esa diferencia morfológica es diagnóstica. Un máximo direccional corresponde a transporte desde una fuente externa; un máximo central corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Los dos contaminantes, medidos por el mismo equipo en el mismo sitio, exhiben firmas de origen distinto.
+Esta diferencia en la forma del gráfico resulta diagnóstica: un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. Ambos contaminantes, medidos por el mismo equipo en el mismo sitio, muestran firmas de origen distinto.
 
 **Extensión al gradiente espacial**
 
@@ -214,27 +210,27 @@ grid.arrange(q1$plot, q2$plot, q3$plot, ncol = 3)
 
 ```
 
-La aplicación de la CBPF a las tres estaciones con señal confirma el gradiente obtenido por vía paramétrica. SE3 presenta el lóbulo oriental descrito. SE2 muestra dos focos de menor intensidad, hacia el nornoreste y el sur, sin orientación hacia el azimut de la fuente. NE presenta su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor, y sin contribución apreciable del sector este.
+La aplicación de la CBPF a las tres estaciones con señal confirma el gradiente obtenido por vía paramétrica. SE3 presenta el lóbulo oriental descrito. SE2 muestra dos focos de menor intensidad, hacia el nornoreste y el sur, sin orientación hacia el azimut de la fuente. NE presenta su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor y sin contribución apreciable del sector este.
 
-Debe advertirse que las escalas de color difieren entre paneles, pues cada uno se ajusta a su propio rango de probabilidad. La comparación válida entre estaciones corresponde a la forma del patrón; las magnitudes deben contrastarse mediante las razones de momios de la Tabla 5 y la Figura 1.
+Las escalas de color difieren entre paneles, pues cada uno se ajusta a su propio rango de probabilidad. La comparación válida entre estaciones es la forma del patrón; las magnitudes deben contrastarse con las razones de momios de la Tabla 5 y la Figura 1.
 
-La coincidencia entre un método paramétrico con control de covariables y un método no paramétrico sin controles, que descansan en supuestos distintos, refuerza la robustez del hallazgo direccional.
+La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo direccional.
 
 ### **Estructura multivariada de la matriz química**
 
 **Planteamiento**
 
-Las secciones anteriores establecen que los episodios de SO2 en SE3 se asocian a un sector direccional específico y que los trazadores de combustión no acompañan esa respuesta. Ambos resultados descansan sobre la información meteorológica.
+Las secciones anteriores muestran que los episodios de SO2 en SE3 se asocian a un sector direccional específico y que los trazadores de combustión no acompañan esa respuesta. Ambos resultados dependen de la información meteorológica.
 
-El análisis que sigue prescinde por completo de la dirección del viento. La pregunta es composicional: si el SO2 compartiera estructura de variación con los óxidos de nitrógeno y el monóxido de carbono, la hipótesis de una fuente distinta a la combustión urbana quedaría debilitada con independencia de cualquier patrón direccional. Se trata, por tanto, de una vía de verificación independiente de la anterior.
+El análisis que sigue prescinde por completo de la dirección del viento. La pregunta ahora es composicional: si el SO2 compartiera estructura de variación con los óxidos de nitrógeno y el monóxido de carbono, la hipótesis de una fuente distinta a la combustión urbana quedaría debilitada, sin importar el patrón direccional. Se trata de una vía de verificación independiente de la anterior.
 
 **Componentes principales**
 
-Se aplicó análisis de componentes principales sobre la matriz de los ocho contaminantes en SE3, previa transformación logarítmica y estandarización de las variables. La transformación logarítmica atenúa la influencia de los valores extremos sobre la matriz de covarianzas, sin eliminarlos ni modificar el conjunto de observaciones; sin ella, el primer componente quedaría dominado por unas pocas horas de concentración muy elevada y no describiría la estructura general de los datos.
+Se aplicó análisis de componentes principales sobre la matriz de los ocho contaminantes en SE3, previa transformación logarítmica y estandarización de las variables. La transformación logarítmica atenúa la influencia de los valores extremos sobre la matriz de covarianzas, sin eliminarlos ni modificar el conjunto de observaciones. Sin ella, el primer componente quedaría dominado por unas pocas horas de concentración muy elevada y no describiría la estructura general de los datos.
 
-El procedimiento requiere casos completos. De las 33,977 observaciones de SE3 se conservaron 27,938, equivalentes al 82.2 por ciento. De los 3,951 episodios registrados se conservaron 3,304, es decir, el 83.6 por ciento. La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó preferentemente las horas de episodio.
+El procedimiento requiere casos completos. De las 33,977 observaciones de SE3 se conservaron 27,938 (82.2%). De los 3,951 episodios registrados se conservaron 3,304 (83.6%). La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó preferentemente las horas de episodio.
 
-La adecuación muestral se verificó mediante el índice KMO, que alcanza un valor de 0.623, y la prueba de esfericidad de Bartlett, que resulta significativa. El valor del KMO se sitúa por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esta circunstancia es esperable en el presente caso y no constituye una deficiencia: el índice desciende precisamente porque una de las variables, el SO2, mantiene correlaciones bajas con el resto, que es la estructura que el análisis busca documentar.
+La adecuación muestral se verificó con el índice KMO, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El KMO se ubica por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esto es esperable y no constituye una deficiencia: el índice desciende precisamente porque el SO2 mantiene correlaciones bajas con el resto de las variables, que es justo la estructura que el análisis busca documentar.
 
 ```{r tabla6}
 as_tibble(pca$rotation[, 1:3], rownames = "Variable") %>%
@@ -244,19 +240,19 @@ as_tibble(pca$rotation[, 1:3], rownames = "Variable") %>%
                    matriz de contaminantes en SE3.")
 ```
 
-Dos componentes superan el criterio de Kaiser. El primero explica el 48.6 por ciento de la varianza y los cuatro primeros acumulan el 86.9 por ciento.
+Dos componentes superan el criterio de Kaiser. El primero explica el 48.6% de la varianza; los cuatro primeros acumulan el 86.9%.
 
 El primer componente agrupa con signo común a NOX, NO, NO2, PM10 y CO, con cargas entre 0.278 y 0.481 en valor absoluto, mientras el ozono carga en sentido opuesto, comportamiento consistente con su titulación por óxido nítrico fresco. Se trata del eje de combustión urbana.
 
-La carga del SO2 sobre ese componente es de 0.029. El contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. El segundo componente, que concentra el 19.4 por ciento de la varianza, está encabezado por el propio SO2, con carga de 0.604, acompañado de PM2.5 y ozono. Esa asociación tiene sentido químico: el SO2 se oxida a sulfato, que constituye material particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva, cuando el ozono también alcanza sus valores altos.
+La carga del SO2 sobre este componente es de apenas 0.029: el contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. El segundo componente, con 19.4% de la varianza, está encabezado por el propio SO2 (carga de 0.604), acompañado de PM2.5 y ozono. Esta asociación tiene sentido químico: el SO2 se oxida a sulfato, que forma parte del material particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva, cuando el ozono también alcanza sus valores más altos.
 
-Cabe señalar que el octavo componente explica el 0.05 por ciento de la varianza, resultado esperado dado que NOX se define como la suma de NO y NO2, lo que introduce una dirección redundante en la matriz. Esta circunstancia no afecta la interpretación de los primeros componentes.
+El octavo componente explica solo el 0.05% de la varianza, resultado esperado dado que NOX se define como la suma de NO y NO2, lo que introduce una dirección redundante en la matriz. Esto no afecta la interpretación de los primeros componentes.
 
 **Análisis de conglomerados**
 
-Sobre las puntuaciones de los cuatro primeros componentes se aplicó el algoritmo de k medias. La agrupación emplea únicamente información química; la asociación con el sector direccional se examina con posterioridad.
+Sobre las puntuaciones de los cuatro primeros componentes se aplicó el algoritmo de k medias. La agrupación emplea únicamente información química; la asociación con el sector direccional se examina después.
 
-El índice de silueta favorece una partición en dos grupos, con valor de 0.418, y desciende a valores cercanos a 0.26 para particiones de tres a seis grupos. Se optó por cuatro conglomerados atendiendo a criterios de interpretabilidad química y no al valor del índice, decisión que conviene explicitar: la estructura más nítida de los datos es binaria, y más allá de esa partición la separación entre grupos es gradual. Los cuatro perfiles obtenidos resultan químicamente coherentes y la partición explica el 58.3 por ciento de la variación total en el espacio de componentes. La solución converge en cinco iteraciones y se verificó su estabilidad ante un aumento del número máximo de iteraciones.
+El índice de silueta favorece una partición en dos grupos (0.418) y desciende a valores cercanos a 0.26 para particiones de tres a seis grupos. Se optó por cuatro conglomerados por criterios de interpretabilidad química y no por el valor del índice: la estructura más nítida de los datos es binaria, y más allá de esa partición la separación entre grupos es gradual. Los cuatro perfiles obtenidos son químicamente coherentes y la partición explica el 58.3% de la variación total en el espacio de componentes. La solución converge en cinco iteraciones y se verificó su estabilidad al aumentar el número máximo de iteraciones.
 
 ```{r tabla7}
 completos %>%
@@ -283,9 +279,9 @@ completos %>%
 
 ```
 
-El primer conglomerado, que agrupa el 14.7 por ciento de las horas, presenta una mediana de SO2 de 16.2 ppb, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de NOX de 10.4 ppb, la más baja del conjunto. Concentra el 72.2 por ciento de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
+El primer conglomerado agrupa el 14.7% de las horas y presenta una mediana de SO2 de 16.2 ppb, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de NOX de 10.4 ppb, la más baja del conjunto. Concentra el 72.2% de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
 
-El segundo conglomerado constituye su imagen especular: mediana de NOX de 51.8 ppb, cinco veces superior a la del primer grupo, con SO2 de apenas 4.4 ppb, velocidad de viento de 3.6 kilómetros por hora, la menor del conjunto, y ozono de 5 ppb. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2 por ciento de sus horas presenta viento del este.
+El segundo conglomerado es su imagen especular: mediana de NOX de 51.8 ppb, cinco veces superior a la del primer grupo, con SO2 de apenas 4.4 ppb, velocidad de viento de 3.6 km/h (la menor del conjunto) y ozono de 5 ppb. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2% de sus horas presenta viento del este.
 
 La razón entre las medianas de SO2 y NOX resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de SO2 cuatro veces mayores y de NOX cinco veces menores. El primer conglomerado corresponde a horas con azufre en ausencia de combustión vehicular, y el algoritmo lo identificó sin disponer de información meteorológica.
 
@@ -293,9 +289,9 @@ La razón entre las medianas de SO2 y NOX resume el contraste: 1.56 en el primer
 
 **Diferencia de medianas por año**
 
-Se evaluó la diferencia entre estaciones para cada año del periodo mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable en este caso dada la marcada asimetría de las distribuciones de SO2. La prueba resulta significativa en los cuatro años, con valores de p inferiores a cualquier nivel convencional.
+Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable aquí dada la marcada asimetría de las distribuciones de SO2. La prueba resulta significativa en los cuatro años, con valores de p inferiores a cualquier nivel convencional.
 
-Para cuantificar la magnitud de la diferencia entre la estación más próxima a la fuente y la estación de control se empleó el estimador de desplazamiento de Hodges-Lehmann, que corresponde a la mediana de todas las diferencias por pares entre ambas muestras y constituye el análogo no paramétrico de la diferencia de medias.
+Para cuantificar la magnitud de la diferencia entre la estación más próxima a la fuente y la estación de control se empleó el estimador de desplazamiento de Hodges-Lehmann, que corresponde a la mediana de todas las diferencias por pares entre ambas muestras y equivale al análogo no paramétrico de la diferencia de medias.
 
 ```{r tabla8}
 hl %>%
@@ -312,13 +308,13 @@ hl %>%
                    horas corresponden al umbral absoluto de 11.1 ppb.")
 ```
 
-El desplazamiento entre SE3 y GAR oscila entre 0.6 y 1.5 ppb según el año, con intervalos de confianza estrechos que confirman su carácter estadísticamente distinto de cero. La magnitud, sin embargo, es reducida en términos absolutos.
+El desplazamiento entre SE3 y GAR oscila entre 0.6 y 1.5 ppb según el año, con intervalos de confianza estrechos que confirman que es distinto de cero. La magnitud, sin embargo, es reducida en términos absolutos.
 
-El comportamiento temporal de este indicador resulta relevante. La diferencia de medianas alcanza su valor máximo en 2023, con 1.5 ppb, y desciende de manera sostenida hasta 0.6 ppb en 2025, el valor más bajo del periodo y menos de la mitad del observado tres años antes. Interpretado de forma aislada, este resultado sugeriría una convergencia progresiva entre ambas estaciones y una mejora en la situación de Cadereyta.
+El comportamiento temporal de este indicador es relevante: la diferencia de medianas alcanza su máximo en 2023 (1.5 ppb) y desciende de forma sostenida hasta 0.6 ppb en 2025, el valor más bajo del periodo y menos de la mitad del observado tres años antes. Interpretado de forma aislada, esto sugeriría una convergencia progresiva entre ambas estaciones y una mejora en la situación de Cadereyta.
 
 **Frecuencia de eventos agudos**
 
-El recuento de horas que superan el umbral absoluto de 11.1 ppb arroja una lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 669 horas de episodio, la cifra más baja del periodo. En 2025, año de mínima diferencia de medianas, registró 1,172 horas, la segunda más alta. Ambas series evolucionan en sentidos contrarios.
+El recuento de horas que superan el umbral absoluto de 11.1 ppb arroja una lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 669 horas de episodio, la cifra más baja del periodo. En 2025, año de mínima diferencia de medianas, registró 1,172 horas, la segunda más alta. Ambas series se mueven en sentidos contrarios.
 
 ```{r fig4, fig.width=6.5, fig.height=3.8, fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
 comp <- hl %>%
@@ -341,27 +337,27 @@ ggplot(comp, aes(x = Año)) +
   theme(axis.title.y.right = element_text(colour = "firebrick"))
 ```
 
-La divergencia se explica por la naturaleza del fenómeno. La mediana describe el comportamiento típico de la distribución y resulta insensible a su cola superior, que es precisamente donde reside la contribución de la fuente investigada. Una reducción del nivel de fondo acompañada de un aumento en la frecuencia de episodios produce exactamente el patrón observado: convergencia aparente en los indicadores de tendencia central y deterioro real en la exposición aguda.
+La divergencia se explica por la naturaleza del fenómeno. La mediana describe el comportamiento típico de la distribución y es insensible a su cola superior, que es precisamente donde reside la contribución de la fuente investigada. Una reducción del nivel de fondo junto con un aumento en la frecuencia de episodios produce exactamente el patrón observado: convergencia aparente en los indicadores de tendencia central y deterioro real en la exposición aguda.
 
-Ambos resultados son simultáneamente válidos. El nivel de fondo de SO2 difiere poco entre Cadereyta y García, mientras que la frecuencia de eventos agudos difiere en dos órdenes de magnitud: 0.15 por ciento de las horas en GAR frente a 11.63 por ciento en SE3.
+Ambos resultados son válidos al mismo tiempo. El nivel de fondo de SO2 difiere poco entre Cadereyta y García, pero la frecuencia de eventos agudos difiere en dos órdenes de magnitud: 0.15% de las horas en GAR frente a 11.63% en SE3.
 
 **Indicador de exposición evitable**
 
-El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 horas en el periodo completo, equivalentes a un promedio de 976 horas anuales, es decir, 40.6 días al año en que la estación de Cadereyta supera el umbral de episodio y la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años analizados.
+El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 horas en el periodo completo, un promedio de 976 horas anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral de episodio y la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años analizados.
 
-Esta cifra admite interpretación como indicador de exposición potencialmente evitable, bajo el supuesto de que la eliminación de la contribución del sector direccional identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte y la cifra debe entenderse como una cota superior, no como una estimación de la contribución neta de la fuente.
+Esta cifra puede interpretarse como un indicador de exposición potencialmente evitable, bajo el supuesto de que eliminar la contribución del sector direccional identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que la cifra debe entenderse como una cota superior y no como la contribución neta de la fuente.
 
 **Implicaciones para el seguimiento de la calidad del aire**
 
-El contraste documentado tiene consecuencias directas sobre la selección de indicadores en los instrumentos de gestión. Un sistema de seguimiento basado en concentraciones medias o medianas anuales habría reportado convergencia entre Cadereyta y García durante 2025, precisamente el año en que la exposición aguda repuntó de manera más pronunciada. La población de Cadereyta experimentó en ese año un mayor número de horas por encima del umbral de episodio, circunstancia que ningún indicador de tendencia central habría registrado.
+Este contraste tiene consecuencias directas sobre qué indicadores usar en la gestión de la calidad del aire. Un sistema basado en concentraciones medias o medianas anuales habría reportado convergencia entre Cadereyta y García durante 2025, precisamente el año en que la exposición aguda repuntó con mayor fuerza. Ningún indicador de tendencia central habría registrado ese mayor número de horas por encima del umbral de episodio.
 
-La normativa vigente en materia de dióxido de azufre establece límites sobre exposiciones de corta duración, lo que resulta consistente con la evidencia toxicológica sobre efectos respiratorios agudos. Los indicadores de seguimiento empleados en los instrumentos de planeación deberían incorporar de manera explícita métricas de frecuencia de excedencia, y no únicamente promedios anuales, si se pretende que reflejen la exposición efectiva de la población.
+La normativa vigente en materia de dióxido de azufre establece límites sobre exposiciones de corta duración, consistente con la evidencia toxicológica sobre efectos respiratorios agudos. Los instrumentos de planeación deberían incorporar métricas de frecuencia de excedencia, y no solo promedios anuales, si buscan reflejar la exposición real de la población.
 
 ### **Conclusión parcial y trabajo pendiente**
 
 **Validación de los modelos**
 
-Antes de sintetizar los hallazgos conviene documentar las verificaciones aplicadas al modelo principal.
+Antes de sintetizar los hallazgos, se documentan las verificaciones aplicadas al modelo principal.
 
 ```{r tabla9}
 tibble(
@@ -380,41 +376,35 @@ tibble(
   kable(caption = "Indicadores de validación de los modelos estimados.")
 ```
 
-El modelo logístico alcanza un área bajo la curva ROC de 0.783 en la muestra de estimación. Para evaluar su comportamiento fuera de muestra se reestimó con los años 2022 a 2024 y se evaluó sobre 2025, año no empleado en el ajuste: el área bajo la curva desciende a 0.764, lo que representa una pérdida de 0.019 y descarta un sobreajuste apreciable. El error de Brier es de 0.1065, frente a 0.1183 correspondiente a un modelo que predijera únicamente la tasa base, lo que supone una mejora del diez por ciento. Con un punto de corte fijado en la tasa base de episodios, y no en 0.5, dado el desbalance de clases, el modelo alcanza una sensibilidad de 0.712 y una especificidad de 0.681.
+El modelo logístico alcanza un área bajo la curva ROC de 0.783 en la muestra de estimación. Para evaluar su comportamiento fuera de muestra se reestimó con los años 2022 a 2024 y se evaluó sobre 2025: el área bajo la curva desciende a 0.764, una pérdida de 0.019 que descarta un sobreajuste apreciable. El error de Brier es de 0.1065, frente a 0.1183 de un modelo que predijera únicamente la tasa base, es decir, una mejora del diez por ciento. Con el punto de corte fijado en la tasa base de episodios (y no en 0.5, dado el desbalance de clases), el modelo alcanza una sensibilidad de 0.712 y una especificidad de 0.681.
 
-Conviene precisar el alcance de estas cifras. El modelo no fue construido con finalidad predictiva sino para estimar una asociación direccional controlando por condiciones meteorológicas; su capacidad de discriminación, obtenida a partir de cuatro variables meteorológicas, resulta razonable para ese propósito y no pretende constituir un instrumento de pronóstico.
+Conviene precisar el alcance de estas cifras: el modelo no se construyó con fines predictivos, sino para estimar una asociación direccional controlando por condiciones meteorológicas. Su capacidad de discriminación, obtenida a partir de cuatro variables meteorológicas, es razonable para ese propósito y no busca ser un instrumento de pronóstico.
 
-Respecto de los supuestos, se verificó que la correlación serial entre horas consecutivas no compromete las estimaciones, mediante errores estándar agrupados por día, y que la matriz de correlaciones admite el análisis factorial, mediante los índices KMO y la prueba de Bartlett. Ambas verificaciones se detallan en las secciones correspondientes.
+Respecto a los supuestos, se verificó que la correlación serial entre horas consecutivas no compromete las estimaciones (mediante errores estándar agrupados por día) y que la matriz de correlaciones admite el análisis factorial (mediante los índices KMO y la prueba de Bartlett). Ambas verificaciones se detallan en las secciones correspondientes.
 
 **Síntesis de resultados**
 
-El análisis de la presente etapa permite establecer cuatro resultados.
+El análisis de esta etapa permite establecer cuatro resultados.
 
-En primer lugar, existe una asociación direccional específica entre los episodios de SO2 en la estación de Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El sector fue identificado por el modelo sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados que corresponde al complejo refinador.
+En primer lugar, existe una asociación direccional específica entre los episodios de SO2 en Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El modelo identificó este sector sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados del complejo refinador.
 
-En segundo lugar, el efecto decae de manera sistemática con la distancia, de 3.19 a 5.5 kilómetros hasta 1.01 a 35.7 kilómetros, pese a que las cuatro estaciones tienen la fuente hacia el mismo cuadrante. La conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución.
+En segundo lugar, el efecto decae de forma sistemática con la distancia, de 3.19 (a 5.5 km) hasta 1.01 (a 35.7 km), pese a que las cuatro estaciones tienen la fuente hacia el mismo cuadrante. Esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución.
 
-En tercer lugar, las pruebas de falsación resultan consistentes con un origen distinto al de la combustión urbana. El sector este eleva la probabilidad de concentración alta de SO2 pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El análisis de componentes principales, que no emplea información meteorológica, sitúa al SO2 en posición prácticamente ortogonal al eje de combustión urbana, con carga de 0.029 sobre el primer componente. El análisis de conglomerados identifica un grupo de horas con razón SO2 sobre NOX de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
+En tercer lugar, las pruebas de falsación son consistentes con un origen distinto a la combustión urbana. El sector este eleva la probabilidad de concentración alta de SO2 pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El PCA, que no usa información meteorológica, sitúa al SO2 prácticamente ortogonal al eje de combustión urbana (carga de 0.029 sobre el primer componente). El análisis de conglomerados identifica un grupo de horas con razón SO2/NOX de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
 
 En cuarto lugar, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo. La diferencia de medianas entre Cadereyta y la estación de control no supera 1.5 ppb en ningún año, mientras que el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
 
 **Conclusión parcial**
 
-Los resultados obtenidos son consistentes con la existencia de una fuente puntual de SO2 ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la correspondiente a fuentes de combustión urbana. La coincidencia entre el sector identificado estadísticamente y la ubicación del complejo refinador, junto con el comportamiento de los trazadores de falsación, hace de la refinería la explicación más parsimoniosa del patrón observado.
+Los resultados obtenidos son consistentes con la existencia de una fuente puntual de SO2 ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. La coincidencia entre el sector identificado estadísticamente y la ubicación del complejo refinador, junto con el comportamiento de los trazadores de falsación, hace de la refinería la explicación más parsimoniosa del patrón observado.
 
-Corresponde subrayar que el diseño es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados resultan difícilmente compatibles con las explicaciones alternativas evaluadas, y que su conjunto apunta de manera convergente hacia una misma hipótesis.
+Cabe subrayar que el diseño es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados son difícilmente compatibles con las explicaciones alternativas evaluadas, y que en conjunto apuntan de manera convergente hacia una misma hipótesis.
 
 **Trabajo pendiente**
 
-Quedan pendientes cuatro líneas de trabajo para la siguiente etapa.
+Cuatro líneas quedan pendientes: contrastar los resultados con el inventario del PIGECA y los límites de la NOM-172-SEMARNAT-2019; caracterizar la duración y distribución temporal de los episodios, paso necesario para traducir las horas de exceso en exposición poblacional; incorporar información sobre paros y mantenimientos del complejo, que constituiría el contrafactual más próximo a un diseño experimental; y extender el análisis a 2020 y 2021 para evaluar la estabilidad del patrón direccional.
 
-La primera consiste en contrastar los resultados con el inventario de emisiones del PIGECA y con los límites establecidos en la NOM-172-SEMARNAT-2019, con el fin de situar las magnitudes obtenidas en el marco normativo vigente y de verificar si las emisiones declaradas resultan compatibles con las concentraciones observadas.
-
-La segunda consiste en caracterizar temporalmente los episodios: determinar su duración típica, su distribución horaria y estacional, y si presentan agrupamiento en eventos prolongados o se distribuyen de manera dispersa. Esta caracterización resulta necesaria para traducir las horas de exceso en un indicador de exposición poblacional.
-
-La tercera consiste en incorporar información sobre paros y mantenimientos programados del complejo, en caso de que el socio formador pueda proporcionarla. La comparación entre periodos de operación y de paro constituiría el contrafactual más próximo a un diseño experimental disponible en este contexto.
-
-La cuarta consiste en extender el análisis al periodo 2020 y 2021, disponible en la base original, para evaluar la estabilidad temporal del patrón direccional en una ventana más amplia.
+Dos preguntas exceden el alcance de esta etapa. La primera es a qué obedece el repunte de episodios en 2025: los datos no permiten distinguir entre cambios operativos, variaciones meteorológicas o modificaciones en la medición. La segunda, de mayor interés metodológico, es si la incorporación de los datos de 2026 permitiría un contraste de tipo antes-después. Si durante ese año se registraron interrupciones prolongadas en la operación del complejo, la comparación de la tasa de episodios y del momio del sector este entre los periodos de operación y de paro constituiría la prueba más directa de la hipótesis, al mantener constantes la ubicación de las estaciones y el régimen de vientos mientras varía únicamente la actividad de la fuente.
 
 ### **Liga Github**
 
@@ -425,19 +415,9 @@ La cuarta consiste en extender el análisis al periodo 2020 y 2021, disponible e
 ### Opción B. Se utilizó IA de la siguiente forma:
 
 - **Herramienta:** Claude
-
-<!-- -->
-
 - **Uso realizado:** Se utilizó como apoyo para la construcción del código en R de esta etapa, en particular la clasificación circular de la dirección del viento en 16 sectores, el análisis de componentes principales y de conglomerados, y el cálculo del azimut entre las estaciones y la refinería. También sirvió como guía para justificar el uso de un umbral absoluto común en lugar de percentiles por estación.
-
 - **Secciones donde se utilizó:** Definición del umbral de episodio, regresión logística direccional, análisis de sensibilidad, verificación geográfica, componentes principales, conglomerados y validación del modelo.
-
-<!-- -->
-
 - **Validación realizada por los estudiantes:** Los códigos sugeridos fueron revisados cada uno, ejecutados y ajustados por los integrantes del equipo en RStudio utilizando la base de datos del proyecto. Los resultados obtenidos fueron comparados con la estructura y características de los datos originales y las interpretaciones fueron revisadas para evitar conclusiones que no estuvieran sustentadas por la información disponible
-
-<!-- -->
-
 - **Confirmación de responsabilidad:** Se confirma que el contenido generado con apoyo de IA fue revisado y verificado por los integrantes del equipo, quienes asumen la responsabilidad del contenido final entregado.
 
 ### 

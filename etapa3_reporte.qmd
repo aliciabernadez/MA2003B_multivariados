@@ -14,43 +14,44 @@ list2env(obj, envir = .GlobalEnv)
 
 ### Del diagnóstico a la cuantificación
 
-En las etapas 1 y 2 el objetivo se formuló como una pregunta de identificación: determinar si la refinería de Cadereyta constituye una fuente direccionalmente identificable de SO₂ en las estaciones cercanas. El análisis descriptivo de la etapa 2 mostró un gradiente monótono de concentraciones (SE3 \> SE2 \> NE \> GAR) coherente con esa hipótesis, pero también reveló que las diferencias entre medianas anuales son pequeñas —del orden de 1 ppb— y por sí solas insuficientes para sostener una conclusión.
+Durante las etapas 1 y 2, el objetivo se planteó como una pregunta de identificación para determinar si la refinería de Cadereyta constituye una fuente direccionalmente identificable de $SO_{2}$ en las estaciones de monitoreo cercanas. El análisis descriptivo realizado en la etapa 2 permitió identificar un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis; sin embargo, también se observó que las diferencias entre las medianas anuales son reducidas (del orden de 1 ppb) y, de manera aislada, resultan insuficientes para establecer una conclusión definitiva.
 
-Los resultados de la presente etapa obligan a reformular el objetivo en dos sentidos.
+Con base en los resultados obtenidos en la presente etapa, se determinó la necesidad de reformular el objetivo analítico en dos direcciones principales.
 
-Primero, el fenómeno no reside en el nivel de fondo sino en la frecuencia de eventos agudos. La mediana de SE3 supera a la de GAR en apenas 0.6–1.5 ppb según el año, mientras que la probabilidad de exceder el umbral de episodio (P95 global = 11.1 ppb) es 77 veces mayor. Un objetivo centrado en concentraciones promedio describiría un problema inexistente y omitiría el que sí existe.
+En primer lugar, se identificó que el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. Se observó que la mediana de la estación SE3 supera a la de GAR por un margen de apenas 0.6 a 1.5 ppb dependiendo del año, mientras que la probabilidad de superar el umbral definido como episodio elevado (percentil 95 global = 11.1 ppb) resulta 77 veces mayor. En este contexto, mantener un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar adecuadamente los episodios de alta exposición que realmente se presentan en la zona.
 
-Segundo, la identificación de la fuente dejó de ser el problema abierto. La confirmación geográfica —la refinería se ubica a 87.3° y 5.5 km de SE3, en el mismo sector que el modelo logístico señaló de forma independiente— y las pruebas de falsación multi-contaminante resuelven la pregunta original. Lo que permanece abierto, y es lo relevante para la gestión de la calidad del aire, es la magnitud de la exposición y su adecuada medición.
+En segundo lugar, la identificación direccional de la posible fuente emisora se considera consolidada. La coincidencia geográfica (la refinería se ubica a $87.3^{\circ}$ y a 5.5 km de SE3, alineándose con el sector identificado de manera independiente por el modelo logístico) junto con las pruebas de falsación multi-contaminante, proporcionan evidencia consistente para responder a la pregunta inicial. Por consiguiente, el problema abierto a abordar, el cual resulta de mayor relevancia para la gestión de la calidad del aire, radica en cuantificar la magnitud de dicha exposición y determinar la métrica estadística más adecuada para su medición.
 
 **Objetivo actualizado**
 
-Cuantificar el exceso de exposición aguda a SO₂ atribuible al sector direccional donde se ubica la refinería de Cadereyta, evaluando si los indicadores basados en promedios y medianas anuales —los empleados por los instrumentos vigentes de gestión— representan adecuadamente dicha exposición.
+Cuantificar el exceso de exposición aguda a $SO_{2}$ asociado al sector direccional en el que se ubica la refinería de Cadereyta, con el propósito de evaluar si los indicadores basados en medidas de tendencia central (promedios y medianas anuales) utilizados actualmente por los instrumentos vigentes de gestión representan adecuadamente dicha exposición.
 
-El objetivo conserva el marco del Objetivo 4 del proyecto y el foco en fuentes industriales puntuales, pero desplaza el producto final de una afirmación de atribución hacia un indicador de exposición evitable, susceptible de incorporarse a los mecanismos de seguimiento del PIGECA 2023–2033.
+Esta formulación conserva el marco del Objetivo 4 del proyecto y mantiene el enfoque sobre las fuentes industriales puntuales. No obstante, el alcance del análisis transita de una afirmación de atribución causal hacia la construcción de un indicador de exposición evitable, el cual resulta susceptible de ser incorporado a los mecanismos de seguimiento y evaluación ambiental establecidos en el Plan Integral para la Gestión Estratégica de la Calidad del Aire (PIGECA) 2023-2033.
 
 ### **Selección de Métodos**
 
-**Técnica de dependencia: regresión logística binaria.**
+**Técnica de dependencia: regresión logística binaria**
 
-El objeto de estudio son los episodios de concentración elevada, no el nivel de fondo. Un modelo lineal sobre la concentración de SO₂ promediaría las horas de episodio —11.6% del total en SE3— con las restantes, diluyendo la señal en la masa de observaciones de fondo. La variable además presenta una asimetría pronunciada (razón P99/mediana de 12.57 en SE3), lo que vulnera el supuesto de normalidad de los residuos. La formulación logística modela directamente la probabilidad del evento de interés y entrega razones de momios, una medida de asociación interpretable y directamente comparable entre estaciones.
+Dado que el objeto de estudio son los episodios agudos y no el nivel de fondo, se descartó el uso de un modelo lineal; este promediaría las horas de episodio (11.6% en SE3) con las regulares, diluyendo la señal. Además, la marcada asimetría del $SO_{2}$ (razón P99/mediana de 12.57 en SE3) vulnera el supuesto de normalidad. En su lugar, se aplicó regresión logística binaria para modelar directamente la probabilidad del evento, obteniendo razones de momios interpretables y comparables entre estaciones.
+Para aislar el efecto direccional, se controló por la velocidad del viento mediante *splines* naturales de tres grados de libertad (capturando su efecto no monótono de estancamiento/dispersión) y por temporalidad mediante términos armónicos de hora y mes (preservando su ciclicidad). El sector del viento se integró como un factor de 16 categorías sin jerarquía previa; la verificación geográfica de la fuente se realizó de forma independiente y *a posteriori* para evitar un razonamiento circular.
 
-Se incluyeron como covariables la velocidad del viento mediante splines naturales de tres grados de libertad, dado que su relación con los episodios no es monótona —a velocidad baja predomina el estancamiento y a velocidad alta la dispersión—, así como términos armónicos de hora y mes, que respetan la naturaleza circular de ambas variables. Este control es lo que permite separar el efecto direccional de la simple frecuencia de cada rumbo y de los ciclos diarios de actividad urbana.
+**Técnicas de interdependencia: componentes principales y conglomerados**
 
-El sector del viento se incorporó como factor de 16 categorías sin especificar a priori cuál correspondía a la fuente investigada. La verificación geográfica se realizó posteriormente y de forma independiente, evitando el razonamiento circular que introduciría codificar de antemano un "sector industrial".
+Se aplicó un Análisis de Componentes Principales (PCA) sobre la matriz de los ocho contaminantes para examinar si el $SO_{2}$ comparte estructura de variación con los trazadores vehiculares $(NO, NO_{2}, NO_{x}, CO)$, lo cual debilitaría la hipótesis de una fuente industrial independiente. Este análisis se complementó con un agrupamiento de conglomerados sobre las puntuaciones de los primeros cuatro componentes para identificar perfiles horarios concretos. Ambas técnicas se construyeron exclusivamente con información química, evaluando la asociación direccional de manera posterior.
 
-**Técnicas de interdependencia: componentes principales y conglomerados.** El PCA se aplicó sobre la matriz de los ocho contaminantes para examinar si el SO₂ comparte estructura de variación con los trazadores de combustión vehicular. La pregunta que responde no es direccional sino composicional: si el SO₂ formara parte del mismo factor que NO, NO₂, NOX y CO, la hipótesis de una fuente industrial distinta quedaría debilitada con independencia de cualquier patrón de viento.
+**Técnica complementaria: contraste no paramétrico de medianas**
 
-El análisis de conglomerados sobre las puntuaciones de los cuatro primeros componentes complementa el PCA al identificar tipos de hora concretos en lugar de ejes de variación. Su valor metodológico reside en que la agrupación se construye únicamente con información química, sin emplear la dirección del viento; la asociación con el sector direccional se examina solo a posteriori.
+Se empleó la prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann para cuantificar diferencias típicas entre estaciones sin asumir normalidad. Esto permitió contrastar explícitamente la magnitud de las variaciones de tendencia central frente a la frecuencia de eventos agudos, fundamentando el argumento central para la política pública.
 
-**Técnica complementaria: contraste no paramétrico de medianas.** La prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann permiten cuantificar la diferencia típica entre estaciones sin suponer normalidad. Se incorporan para contrastar explícitamente la magnitud del desplazamiento central con la frecuencia de eventos agudos, contraste que constituye el argumento central de la sección de política pública.
+**Verificación por método independiente**
 
-**Verificación por método independiente.** La Conditional Bivariate Probability Function (Ashbaugh et al., 1985; Uria-Tellaetxe & Carslaw, 2014) estima la misma cantidad que el modelo logístico, la probabilidad de concentración elevada condicionada a las condiciones de viento, por vía no paramétrica y sin control de covariables. La coincidencia entre ambos enfoques, con supuestos distintos, constituye evidencia de robustez y no una duplicación del análisis.
+La Conditional Bivariate Probability Function (Ashbaugh et al., 1985; Uria-Tellaetxe & Carslaw, 2014) estima la misma cantidad que el modelo logístico, la probabilidad de concentración elevada condicionada a las condiciones de viento, por vía no paramétrica y sin control de covariables. La coincidencia entre ambos enfoques, con supuestos distintos, constituye evidencia de robustez y no una duplicación del análisis.
 
 ### Análisis direccional
 
 **Caracterización de los episodios**
 
-Se definió como episodio toda hora con concentración de SO2 superior a 11.1 ppb, valor correspondiente al percentil 95 del conjunto de las cuatro estaciones. La adopción de un umbral absoluto común, en lugar de un percentil calculado dentro de cada estación, resulta necesaria para que las tasas sean comparables entre sitios; un umbral relativo produciría por construcción la misma proporción de episodios en todas las estaciones y ocultaría precisamente la diferencia que interesa medir.
+Se definió como episodio toda hora con una concentración de $SO_{2}$ superior a 11.1 ppb, valor correspondiente al percentil 95 global del conjunto de las cuatro estaciones. La adopción de un umbral absoluto común resulta indispensable para garantizar la comparabilidad de las tasas de excedencia entre los distintos sitios; la aplicación de un percentil relativo, calculado de forma individual para cada estación, forzaría por construcción estadística la misma proporción de episodios en todos los puntos, lo cual ocultaría precisamente la diferencia espacial que se busca medir.
 
 ```{r tabla1}
 datos %>%
@@ -81,11 +82,11 @@ bind_rows(head(or_sector, 5), tail(or_sector, 3)) %>%
                    la tabla completa se encuentra en el repositorio.")
 ```
 
-El rumbo este presenta la razón de momios más elevada (6.12; IC 95%: 4.73 a 7.92), seguido por ESE (2.58) y ENE (1.98). El contraste con el cuadrante opuesto es pronunciado: los rumbos NO, NNO, O y ONO presentan momios entre 0.08 y 0.25, es decir, reducciones de entre cuatro y doce veces respecto de la referencia.
+Se identificó que el rumbo este presenta la mayor razón de momios (6.12; IC 95%: 4.73 a 7.92), seguido por los rumbos ESE (2.58) y ENE (1.98). Por el contrario, el contraste con el cuadrante opuesto resulta pronunciado: los rumbos NO, NNO, O y ONO muestran razones de momios entre 0.08 y 0.25, lo cual representa reducciones de entre cuatro y doce veces en comparación con la categoría de referencia.
 
-Este resultado admite una lectura de falsación. La zona metropolitana de Monterrey se ubica al oeste de Cadereyta; si los episodios de SO2 obedecieran al aporte de la mancha urbana o al tráfico vehicular metropolitano, cabría esperar momios elevados con viento del oeste. Se observa el comportamiento inverso.
+Este resultado admite una interpretación de falsación. Dado que el Área Metropolitana de Monterrey se localiza al oeste de Cadereyta, si los episodios de $SO_{2}$ fueran atribuibles a la mancha urbana o al tráfico vehicular metropolitano, se esperarían razones de momios elevadas con vientos provenientes del sector oeste. No obstante, se observó el comportamiento inverso.
 
-El modelo alcanza un pseudo R cuadrada de McFadden de 0.189. Conviene precisar que esta medida no es comparable con el coeficiente de determinación de una regresión lineal; valores entre 0.2 y 0.4 se consideran indicativos de ajuste excelente en la escala propuesta por su autor.
+Adicionalmente, el modelo estimó un pseudo $R^{2}$ de McFadden de 0.189. Conviene precisar que esta métrica no es equivalente al coeficiente de determinación de un modelo lineal, aunque valores entre 0.2 y 0.4 se consideran indicativos de un ajuste excelente según los criterios de su autor.
 
 **Verificación geográfica independiente**
 
@@ -136,6 +137,8 @@ sens %>%
 Los momios de SE3 se mantienen entre 2.57 y 3.38, y los de NE entre 0.86 y 1.01 con intervalos que siempre incluyen la unidad. SE2 muestra un momio creciente con la severidad del umbral, de 1.43 a 1.75, patrón compatible con la llegada de la pluma a Juárez únicamente durante los episodios de mayor intensidad. En GAR no fue posible estimar el modelo con el umbral más exigente por contar con menos de 30 horas por encima de 30.6 ppb en cuatro años, circunstancia que constituye en sí misma un resultado.
 
 Adicionalmente, dado que las observaciones horarias consecutivas no son independientes, se recalcularon los errores estándar agrupando por día. El intervalo del momio del sector este en SE3 pasa de 2.96 a 3.44 hacia 2.92 a 3.48, variación marginal que confirma la robustez de la estimación frente a la correlación serial.
+
+--------------------------------------------
 
 ### **Pruebas de falsación multi-contaminante**
 
@@ -412,3 +415,29 @@ La segunda consiste en caracterizar temporalmente los episodios: determinar su d
 La tercera consiste en incorporar información sobre paros y mantenimientos programados del complejo, en caso de que el socio formador pueda proporcionarla. La comparación entre periodos de operación y de paro constituiría el contrafactual más próximo a un diseño experimental disponible en este contexto.
 
 La cuarta consiste en extender el análisis al periodo 2020 y 2021, disponible en la base original, para evaluar la estabilidad temporal del patrón direccional en una ventana más amplia.
+
+### **Liga Github**
+
+#### <https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
+
+### **Declaratoria de IA**
+
+### Opción B. Se utilizó IA de la siguiente forma:
+
+- **Herramienta:** Claude
+
+<!-- -->
+
+- **Uso realizado:** Se utilizó como apoyo para la construcción del código en R de esta etapa, en particular la clasificación circular de la dirección del viento en 16 sectores, el análisis de componentes principales y de conglomerados, y el cálculo del azimut entre las estaciones y la refinería. También sirvió como guía para justificar el uso de un umbral absoluto común en lugar de percentiles por estación.
+
+- **Secciones donde se utilizó:** Definición del umbral de episodio, regresión logística direccional, análisis de sensibilidad, verificación geográfica, componentes principales, conglomerados y validación del modelo.
+
+<!-- -->
+
+- **Validación realizada por los estudiantes:** Los códigos sugeridos fueron revisados cada uno, ejecutados y ajustados por los integrantes del equipo en RStudio utilizando la base de datos del proyecto. Los resultados obtenidos fueron comparados con la estructura y características de los datos originales y las interpretaciones fueron revisadas para evitar conclusiones que no estuvieran sustentadas por la información disponible
+
+<!-- -->
+
+- **Confirmación de responsabilidad:** Se confirma que el contenido generado con apoyo de IA fue revisado y verificado por los integrantes del equipo, quienes asumen la responsabilidad del contenido final entregado.
+
+### 

@@ -11,7 +11,6 @@ editor: visual
 library(tidyverse)
 library(lubridate)
 
-# ---- 1. Carga de la base de 21 columnas (NO la de 13) ----
 datos <- read_csv(
   "baseee_SIMA_limpia_4est_8cont_2022_2025.csv",
   locale = locale(encoding = "UTF-8"),
@@ -29,7 +28,6 @@ datos <- datos %>%
   )
 
 # ---- 3. Clasificación circular del viento en 16 rumbos ----
-# NUNCA se promedia WDR: se corta el círculo en sectores de 22.5 grados.
 rumbos <- c("N","NNE","NE","ENE","E","ESE","SE","SSE",
             "S","SSO","SO","OSO","O","ONO","NO","NNO")
 

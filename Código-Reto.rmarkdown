@@ -1,0 +1,434 @@
+---
+title: "Código del Proyecto"
+author:
+  - name: "Alicia Bernádez A01562634"
+  - name: "Omar Arzaga A01569294"
+  - name: "Diego Medrano A01254882"
+  - name: "Sebastián Alemán A00841034"
+  - name: "Isaac Montaño A00841681"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(readxl)
+library(dplyr)
+library(purrr)
+library(stringr)
+library(tidyverse)
+library(lubridate)
+library(VIM)   
+library(e1071)
+library(ggplot2)
+library(ggcorrplot)
+library(openair)
+```
+
+```{r}
+# Catálogo de estaciones.
+# la hoja de García se llama "NO2" en los archivos de SIMA, igual que
+# el contaminante. La reetiquetamos como "GAR" para evitar la colisión.
+catalogo <- tribble(
+  ~hoja,  ~est,   ~mun,
+  "SE3",  "SE3",  "Cadereyta",
+  "SE2",  "SE2",  "Juárez",
+  "NE",   "NE",   "San Nicolás",
+  "NO2",  "GAR",  "García"
+)
+
+contaminantes  <- c("CO", "NO", "NO2", "NOX", "O3", "PM10", "PM2.5", "SO2")
+meteorologicas <- c("WDR", "WSR", "TOUT", "RH", "PRS", "SR", "RAINF")
+
+# Función para leer únicamente las estaciones y variables de interés
+leer_estacion <- function(archivo, anio, hoja, est, mun) {
+  x <- read_excel(archivo, sheet = hoja)
+  if ("date" %in% names(x)) x <- rename(x, `Fecha y hora` = date)
+  x %>%
+    mutate(Estacion = est, Municipio = mun, Año = anio) %>%
+    select(`Fecha y hora`,
+           all_of(contaminantes),
+           all_of(meteorologicas),
+           Estacion, Municipio, Año)
+}
+
+leer_base <- function(archivo, anio) {
+  pmap_dfr(catalogo, function(hoja, est, mun)
+    leer_estacion(archivo, anio, hoja, est, mun))
+}
+
+# Leer las bases de cada año
+datos22 <- leer_base("BD 2022.xlsx", 2022)
+datos23 <- leer_base("BD 2023.xlsx", 2023)
+datos24 <- leer_base("BD 2024.xlsx", 2024)
+datos25 <- leer_base("BD 2025.xlsx", 2025)
+
+
+# Unir todos los años en una sola base
+datos <- bind_rows(
+  datos22,
+  datos23,
+  datos24,
+  datos25
+)
+
+# Revisar la base final
+dim(datos)
+head(datos)
+table(datos$Año)
+table(datos$Estacion, datos$Año)
+```
+
+```{r}
+names(datos22)
+names(datos23)
+names(datos24)
+names(datos25)
+```
+
+```{r}
+# Ver a grandes rasgos el tibble
+head(datos)
+
+# Ver las dimensiones y tipos de datos
+print(dim(datos))
+str(datos)
+```
+
+```{r}
+# Ver cantidad de datos faltantes
+colSums(is.na(datos))
+
+# Ver si hay datos atípicos o sesgos
+summary(datos)
+```
+
+```{r}
+# Si el dato se sale del rango proporcionado por SIMA, esa celda se vuelve valor nulo
+rangos <- tribble(
+  ~Año, ~variable, ~lim_min, ~lim_max,
+  2022, "PM10", 0, 999,   2022, "PM2.5", 0, 450,  2022, "O3", 0, 160,
+  2022, "NO", 0, 400,     2022, "NO2", 0, 175,    2022, "NOX", 0, 420,
+  2022, "SO2", 0, 200,    2022, "CO", 0, 8,       2022, "RH", 0, 100,
+  2022, "WSR", 0, 35,     2022, "TOUT", -5, 45,   2022, "SR", 0, 1.25,
+  2022, "PRS", 700, 740,  2022, "WDR", 0, 360,    2022, "RAINF", 0, 25,
+  
+  2023, "PM10", 0, 900,   2023, "PM2.5", 0, 800,  2023, "O3", 0, 175,
+  2023, "NO", 0, 500,     2023, "NO2", 0, 175,    2023, "NOX", 0, 500,
+  2023, "SO2", 0, 250,    2023, "CO", 0, 14,      2023, "RH", 0, 100,
+  2023, "WSR", 0, 40,     2023, "TOUT", 0, 45,    2023, "SR", 0, 1,
+  2023, "PRS", 690, 740,  2023, "WDR", 0, 360,    2023, "RAINF", 0, 70,
+  
+  2024, "PM10", 0, 999,   2024, "PM2.5", 0, 999,  2024, "O3", 0, 180,
+  2024, "NO", 0, 400,     2024, "NO2", 0, 130,    2024, "NOX", 0, 500,
+  2024, "SO2", 0, 150,    2024, "CO", 0, 18,      2024, "RH", 0, 100,
+  2024, "WSR", 0, 38,     2024, "TOUT", -4, 45.5, 2024, "SR", 0, 1.26,
+  2024, "PRS", 687.5, 740, 2024, "WDR", 0, 360,   2024, "RAINF", 0, 50,
+  
+  2025, "PM10", 0, 820,   2025, "PM2.5", 0, 350,  2025, "O3", 0, 185,
+  2025, "NO", 0, 350,     2025, "NO2", 0, 175,    2025, "NOX", 0, 400,
+  2025, "SO2", 0, 405,    2025, "CO", 0, 10,      2025, "RH", 0, 100,
+  2025, "WSR", 0, 40,     2025, "TOUT", -4.5, 45, 2025, "SR", 0, 1.2,
+  2025, "PRS", 688, 740,  2025, "WDR", 0, 360,    2025, "RAINF", 0, 25
+)
+
+datosF <- datos %>%
+  pivot_longer(cols = all_of(c(contaminantes, meteorologicas)),
+               names_to = "variable", values_to = "valor") %>%
+  left_join(rangos, by = c("Año", "variable")) %>%
+  mutate(valor = if_else(!is.na(valor) & (valor < lim_min | valor > lim_max),
+                         NA_real_, valor)) %>%
+  select(-lim_min, -lim_max) %>%
+  pivot_wider(names_from = variable, values_from = valor)
+
+# Ver cantidad de valores fuera de rango convertidos a NA
+# Se restringe a las 15 variables numéricas y se comparan por nombre:
+vars <- c(contaminantes, meteorologicas)
+
+valores_corregidos <- colSums(is.na(datosF[vars])) - colSums(is.na(datos[vars]))
+
+sort(valores_corregidos, decreasing = TRUE)
+
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Guardar cantidad de filas antes de eliminar duplicados
+filas_antes <- nrow(datosF)
+
+# Eliminar duplicados
+datosF <- distinct(datosF)
+
+# Guardar cantidad de filas después de eliminar duplicados
+filas_despues <- nrow(datosF)
+
+# Calcular cantidad de duplicados eliminados
+duplicados_eliminados <- filas_antes - filas_despues
+
+# Crear tabla para presentar los resultados
+tabla_duplicados <- data.frame(
+  Indicador = c(
+    "Registros antes de eliminar duplicados",
+    "Registros después de eliminar duplicados",
+    "Duplicados eliminados"
+  ),
+  Cantidad = c(
+    filas_antes,
+    filas_despues,
+    duplicados_eliminados
+  )
+)
+
+# Mostrar tabla en el reporte
+knitr::kable(
+  tabla_duplicados,
+  caption = "Resultado de la eliminación de registros duplicados",
+  align = c("l", "c")
+)
+```
+
+```{r}
+# Ver cantidad y porcentaje de datos faltantes después de la limpieza
+colSums(is.na(datosF))
+
+round(colMeans(is.na(datosF)) * 100, 2)
+```
+
+##### Imputación de datos
+
+```{r}
+# Preparación e imputación de datos mediante KNN
+
+# Conservar únicamente registros completos en las variables principales 
+datos_imputados <- datosF %>%
+  filter(
+    !is.na(SO2),
+    !is.na(WDR),
+    !is.na(WSR)
+  ) %>%
+  mutate(
+    # Variables temporales
+    Mes = month(`Fecha y hora`),
+    Hora = hour(`Fecha y hora`),
+
+    # Transformar dirección del viento para respetar
+    # su naturaleza circular
+    WDR_sin = sin(WDR * pi / 180),
+    WDR_cos = cos(WDR * pi / 180),
+
+    # Transformaciones circulares de hora y mes
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin = sin(2 * pi * Mes / 12),
+    Mes_cos = cos(2 * pi * Mes / 12)
+  )
+
+
+# Imputar únicamente las variables meteorológicas secundarias
+# utilizando KNN dentro de cada estación
+datos_imputados <- datos_imputados %>%
+  group_split(Estacion, .keep = TRUE) %>%
+  map_dfr(~ VIM::kNN(
+    .x,
+
+    # Variables que se van a imputar
+    variable = c("TOUT", "RH", "PRS", "SR"),
+
+    # Variables utilizadas para buscar observaciones similares
+    dist_var = c(
+      "WSR",
+      "WDR_sin", "WDR_cos",
+      "Año",
+      "Hora_sin", "Hora_cos",
+      "Mes_sin", "Mes_cos",
+      "TOUT", "RH", "PRS", "SR"
+    ),
+
+    k = 5,
+    imp_var = FALSE,
+    useImputedDist = FALSE,
+    methodStand = "iqr"
+  )) %>%
+  arrange(Estacion, `Fecha y hora`) %>%
+
+  # Eliminar solamente las variables auxiliares
+  select(
+    -WDR_sin, -WDR_cos,
+    -Hora_sin, -Hora_cos,
+    -Mes_sin, -Mes_cos
+  )
+
+
+# Revisar datos faltantes después de la preparación
+colSums(is.na(datos_imputados))
+```
+
+```{r}
+datos_imputados <- datos_imputados %>%
+  filter(!is.na(RAINF))
+
+# Verificar que ya no existan datos faltantes
+colSums(is.na(datos_imputados))
+
+# Documenta el desbalance del panel (GAR arranca con menos datos en 2022)
+table(datos_imputados$Estacion, datos_imputados$Año)
+```
+
+##### Datos no imputados
+
+```{r}
+# Cantidad y porcentaje de registros excluidos
+# por datos faltantes en SO2, WDR o WSR
+registros_iniciales <- nrow(datosF)
+registros_finales <- nrow(datos_imputados)
+
+registros_excluidos <- registros_iniciales - registros_finales
+
+porcentaje_excluido <- round(
+  registros_excluidos / registros_iniciales * 100,
+  2
+)
+
+registros_excluidos
+porcentaje_excluido
+```
+
+##### Transformación y estandarización de los datos
+
+```{r}
+datos_transformados <- datos_imputados %>%
+  mutate(
+    # Transformación circular de la dirección del viento
+    WDR_sin = sin(2 * pi * WDR / 360),
+    WDR_cos = cos(2 * pi * WDR / 360),
+
+    # Transformación logarítmica de SO2
+    SO2_log = log1p(SO2),
+
+    # Variables estandarizadas
+    SO2_z  = as.numeric(scale(SO2_log)),
+    RH_z   = as.numeric(scale(RH)),
+    WSR_z  = as.numeric(scale(WSR)),
+    TOUT_z = as.numeric(scale(TOUT)),
+    SR_z   = as.numeric(scale(SR)),
+    PRS_z  = as.numeric(scale(PRS)),
+    RAINF_z = as.numeric(scale(RAINF)),
+    CO_log   = log1p(CO),
+    NO_log   = log1p(NO),
+    NO2_log  = log1p(NO2),
+    NOX_log  = log1p(NOX),
+    O3_log   = log1p(O3),
+    PM10_log = log1p(PM10),
+    PM25_log = log1p(`PM2.5`)
+  )
+
+names(datos_transformados)
+
+summary(
+  datos_transformados %>%
+    select(
+      SO2, SO2_log, SO2_z,
+      WDR, WDR_sin, WDR_cos,
+      WSR, WSR_z
+    )
+)
+```
+
+**ETAPA 2**
+
+Analisis de medidas
+
+```{r}
+datos_finales<-read.csv("baseee_SIMA_limpia_4est_8cont_2022_2025.csv")
+
+contaminantes  <- c("CO", "NO", "NO2", "NOX", "O3", "PM10", "PM2.5", "SO2")
+meteorologicas <- c("WDR", "WSR", "TOUT", "RH", "PRS", "SR", "RAINF")
+
+#Obtener moda
+moda <- function(v) {
+  v_limpio <- na.omit(v)
+  if(length(v_limpio) == 0) return(NA)
+  uniqv <- unique(v_limpio)
+  uniqv[which.max(tabulate(match(v_limpio, uniqv)))]
+}
+
+tabla_estadisticas <- datos_finales %>%
+  pivot_longer(cols = all_of(c(contaminantes, meteorologicas)), 
+               names_to = "Variable", values_to = "Valor") %>%
+  group_by(Variable) %>%
+  summarise(
+    Promedio = mean(Valor, na.rm = TRUE),
+    Mediana = median(Valor, na.rm = TRUE),
+    Moda = moda(Valor),
+    Minimo = min(Valor, na.rm = TRUE),
+    Maximo = max(Valor, na.rm = TRUE),
+    Rango = Maximo - Minimo,
+    Varianza = var(Valor, na.rm = TRUE),
+    Desv_Estandar = sd(Valor, na.rm = TRUE),
+    Q1 = quantile(Valor, 0.25, na.rm = TRUE),
+    Q3 = quantile(Valor, 0.75, na.rm = TRUE),
+    IQR = Q3 - Q1,
+    Valores_Nulos = sum(is.na(Valor)),
+    Porcentaje_Nulos = (Valores_Nulos / n()) * 100
+  )
+
+view(tabla_estadisticas)
+```
+
+Gráficas
+
+```{r}
+datos_long_cont <- datos_finales %>% 
+  pivot_longer(cols = all_of(contaminantes), names_to = "Contaminante", values_to = "Valor")
+
+#Histogramas
+ggplot(datos_long_cont, aes(x = Valor, fill = Contaminante)) +
+  geom_histogram(bins = 40, alpha = 0.7) +
+  facet_wrap(~Contaminante, scales = "free") +
+  labs(title = "Histogramas de Distribución de Contaminantes", x = "Valor", y = "Frecuencia") +
+  theme_minimal()
+```
+
+```{r}
+#Matriz de correlación
+matriz_cor <- cor(datos_finales %>% select(all_of(c(contaminantes, meteorologicas))), use = "complete.obs")
+ggcorrplot(matriz_cor, method = "square", type = "lower", lab = TRUE, lab_size = 2.5,
+           title = "Matriz de Correlación")
+```
+
+```{r}
+# Ordenamos geográficamente las estaciones de Oriente a Poniente
+datos_graf <- datos_finales %>%
+  mutate(Estacion = factor(Estacion, levels = c("SE3", "SE2", "NE", "GAR")))
+
+ggplot(datos_graf, aes(x = Estacion, y = SO2, fill = Estacion)) +
+  geom_boxplot(outlier.size = 0.5, outlier.alpha = 0.2) +
+  coord_cartesian(ylim = c(0, quantile(datos$SO2, 0.99, na.rm = TRUE))) + # Cortamos outliers extremos visuales
+  scale_fill_manual(values = c("SE3" = "#d73027", "SE2" = "#fc8d59", "NE" = "#fee090", "GAR" = "#4575b4")) +
+  labs(title = "Gradiente Espacial de SO2: Oriente (Cadereyta) a Poniente (García)",
+       subtitle = "La estación García opera como punto de control / fondo urbano",
+       x = "Estación (Orden Geográfico)", y = "Concentración de SO2 (ppm)") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+```{r}
+datos_openair <- datos_finales %>%
+  rename(date = Fecha.y.hora, ws = WSR, wd = WDR)
+
+# Gráfico Polar Bivariado por Estación
+polarPlot(datos_openair, 
+          pollutant = "SO2", 
+          type = "Estacion",
+          main = "Concentración S02 vs Dirección y Velocidad del Viento",
+          key.footer = "SO2 (ppm)")
+```
+
+```{r}
+pollutionRose(datos_openair, 
+              pollutant = "SO2", 
+              type = "Estacion",
+              statistic = "prop.count",
+              breaks = c(0,2.9,3.8,4.9,7.9),
+              main = "Rosa de Contaminación de SO2 por Estación")
+```
+

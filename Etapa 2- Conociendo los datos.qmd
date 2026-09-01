@@ -31,7 +31,7 @@ Los gráficos polares permiten analizar de manera conjunta la concentración de 
 
 #### 3. Conditional Bivariate Probability Function (CBPF)
 
-La CBPF permite estimar la probabilidad d eobservar concentraciones elevadas de un contaminante bajo diferentes combinaciones de dirección y velocidad del viento. a diferencia del gráfico polar, que muestra principalmente la magnitud de las concentraciones, esta técnica se enfoca en identificar las condiciones meteorológicas asociadas con una mayor frecuencia de valores elevados. La metodología extiende los enfoques de probabilidad condicional utilizados previamente para la identificación de regiones potencialmente emisoras (Ashbaugh et at, 1985; Uria-Tellaetxe & Carslaw, 2014). Su aplicación permitirá identificar sectores direccionales asociados con una mayor presencia de concentraciones altas de $SO_2$.
+La CBPF permite estimar la probabilidad de observar concentraciones elevadas de un contaminante bajo diferentes combinaciones de dirección y velocidad del viento. a diferencia del gráfico polar, que muestra principalmente la magnitud de las concentraciones, esta técnica se enfoca en identificar las condiciones meteorológicas asociadas con una mayor frecuencia de valores elevados. La metodología extiende los enfoques de probabilidad condicional utilizados previamente para la identificación de regiones potencialmente emisoras (Ashbaugh et at, 1985; Uria-Tellaetxe & Carslaw, 2014). Su aplicación permitirá identificar sectores direccionales asociados con una mayor presencia de concentraciones altas de $SO_2$.
 
 #### 4. Caracterización comparativa de episodios elevados
 
@@ -191,8 +191,7 @@ vars_cor <- datos_finales %>%
   select(
     SO2,
     WSR,
-    WDR_sin,
-    WDR_cos,
+    WDR,
     TOUT,
     RH,
     PRS,

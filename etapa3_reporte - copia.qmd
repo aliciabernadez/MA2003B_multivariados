@@ -91,7 +91,16 @@ Desde SE3, la refinería se localiza en un azimut de 87.3 grados, correspondient
 
 Las cuatro estaciones tienen el complejo refinador hacia el este o el este-sureste. Si el sector oriental estuviera asociado a concentraciones elevadas por razones meteorológicas generales, todas deberían presentar momios comparables.
 
-```{r fig1, fig.width=6, fig.height=3.5, fig.cap="Razón de momios del sector Este sobre la probabilidad de episodio, en función de la distancia de cada estación a la refinería. Barras: intervalo de confianza al 95%. Línea punteada: ausencia de efecto."}
+```{r}
+#| label: fig1
+#| fig-width: 6
+#| fig-height: 2.8
+#| out-width: "60%"
+#| fig-align: "center"
+#| fig-cap: "Razón de momios del sector Este sobre la probabilidad de episodio, en función de la distancia de cada estación a la refinería. Barras: intervalo de confianza al 95%. Línea punteada: ausencia de efecto."
+
+
+
 left_join(geo, or_p95, by = "Estacion") %>%
   ggplot(aes(x = dist_km, y = OR)) +
   geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
@@ -151,7 +160,7 @@ La razón entre el momio del \$SO\_{2}\$ y el de los óxidos de nitrógeno es de
 
 La Conditional Bivariate Probability Function (CBPF) estima la probabilidad de concentración elevada condicionada a dirección y velocidad del viento, sin controlar por covariables ni asumir una forma paramétrica. Se usa aquí como verificación independiente del modelo logístico, aplicada al \$SO\_{2}\$ y al NOX en SE3 con el mismo percentil de referencia.
 
-```{r fig2, fig.width=9, fig.height=4, fig.cap="CBPF en SE3. Izquierda: SO2, con lóbulo direccional al este. Derecha: NOX, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia."}
+```{r fig2, fig.width=9, fig.height=4, out.width="60%", fig.cap="CBPF en SE3. Izquierda: SO2, con lóbulo direccional al este. Derecha: NOX, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia."}
 library(openair)
 library(gridExtra)
 
@@ -246,7 +255,7 @@ El comportamiento temporal de este indicador es relevante: la diferencia de medi
 
 El recuento de horas que superan el umbral absoluto de 11.1 ppb arroja una lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 669 horas de episodio, la cifra más baja del periodo. En 2025, año de mínima diferencia de medianas, registró 1,172 horas, la segunda más alta. Ambas series se mueven en sentidos contrarios.
 
-```{r fig3, fig.width=6.5, fig.height=3.8, fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
+```{r fig3, fig.width=6.5, fig.height=3.8, out.width="60%", fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
 comp <- hl %>%
   select(Año, Dif_HL) %>%
   left_join(select(horas, Año, Horas_SE3 = SE3), by = "Año")
@@ -299,17 +308,17 @@ Respecto a los supuestos, se verificó que la correlación serial entre horas co
 
 El análisis de esta etapa permite establecer cuatro resultados.
 
-En primer lugar, existe una asociación direccional específica entre los episodios de \$SO\_{2}\$ en Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El modelo identificó este sector sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados del complejo refinador.
+En primer lugar, existe una asociación direccional específica entre los episodios de $SO_{2}$ en Cadereyta y el sector este, con una razón de momios de 6.12 para el rumbo este respecto del norte, controlando por velocidad de viento, hora y mes. El modelo identificó este sector sin información previa sobre la ubicación de la fuente, y coincide con el azimut de 87.3 grados del complejo refinador.
 
 En segundo lugar, el efecto decae de forma sistemática con la distancia, de 3.19 (a 5.5 km) hasta 1.01 (a 35.7 km), pese a que las cuatro estaciones tienen la fuente hacia el mismo cuadrante. Esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución.
 
-En tercer lugar, las pruebas de falsación son consistentes con un origen distinto a la combustión urbana. El sector este eleva la probabilidad de concentración alta de \$SO\_{2}\$ pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El PCA, que no usa información meteorológica, sitúa al \$SO\_{2}\$ prácticamente ortogonal al eje de combustión urbana (carga de 0.029 sobre el primer componente). El análisis de conglomerados identifica un grupo de horas con razón \$SO\_{2}\$ /NOX de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
+En tercer lugar, las pruebas de falsación son consistentes con un origen distinto a la combustión urbana. El sector este eleva la probabilidad de concentración alta de $SO_{2}$ pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El PCA, que no usa información meteorológica, sitúa al $SO_{2}$ prácticamente ortogonal al eje de combustión urbana (carga de 0.029 sobre el primer componente). El análisis de conglomerados identifica un grupo de horas con razón $SO_{2} /NO_X$ de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
 
 En cuarto lugar, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo. La diferencia de medianas entre Cadereyta y la estación de control no supera 1.5 ppb en ningún año, mientras que el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
 
 **Conclusión parcial**
 
-Los resultados obtenidos son consistentes con la existencia de una fuente puntual de \$SO\_{2}\$ ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. Esta hipótesis se sustenta de lo siguiente:
+Los resultados obtenidos son consistentes con la existencia de una fuente puntual de $SO_{2}$ ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. Esta hipótesis se sustenta de lo siguiente:
 
 Primero, la regresión logística identificó independientemente que los vientos del este incrementan la probabilidad de episodios agudos, lo cual coincide con el azimut geográfico de la refinería. Además, este efecto decae con la distancia, característico de una pluma de dispersión.
 

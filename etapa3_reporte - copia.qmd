@@ -14,13 +14,7 @@ list2env(obj, envir = .GlobalEnv)
 
 ### Del diagnóstico a la cuantificación
 
-En las etapas 1 y 2, el objetivo se planteó como una pregunta de identificación: determinar si la refinería de Cadereyta constituye una fuente direccionalmente identificable de \$SO\_{2}\$ en las estaciones cercanas. El análisis descriptivo de la etapa 2 mostró un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis. Sin embargo, las diferencias entre medianas anuales son reducidas (del orden de 1 ppb) y, por sí solas, no bastan para una conclusión definitiva.
-
-Con base en los resultados de esta etapa, fue necesario reformular el objetivo en dos direcciones.
-
-Primero, el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. La mediana de SE3 supera a la de GAR por apenas 0.6 a 1.5 ppb según el año, mientras que la probabilidad de superar el umbral de episodio (P95 global = 11.1 ppb) es 77 veces mayor. Un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar los episodios de alta exposición que realmente ocurren en la zona.
-
-Segundo, la identificación direccional de la fuente se considera resuelta. La coincidencia geográfica (la refinería se ubica a 87.3° y 5.5 km de SE3, en el mismo sector identificado de forma independiente por el modelo logístico) junto con las pruebas de falsación multi-contaminante responden a la pregunta inicial. El problema abierto, y el más relevante para la gestión de la calidad del aire, es cuantificar la magnitud de esa exposición y determinar la métrica estadística más adecuada para medirla.
+El análisis descriptivo de la etapa 2 mostró un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis. Sin embargo, las diferencias entre medianas anuales son reducidas (del orden de 1 ppb) y, por sí solas, no bastan para una conclusión definitiva. Con base en los resultados de esa etapa, fue necesario reformular el objetivo. Primero, el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. Un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar los episodios de alta exposición que realmente ocurren en la zona. Segundo, la identificación direccional de la fuente se considera resuelta. El problema abierto, es cuantificar la magnitud de esa exposición y determinar la métrica estadística más adecuada para medirla.
 
 **Objetivo actualizado**
 
@@ -64,8 +58,15 @@ datos %>%
     `P99/Mediana`   = round(P99 / Mediana, 2),
     .groups = "drop"
   ) %>%
-  kable(caption = "Episodios de SO2 por estación (umbral absoluto de 11.1 ppb).")
-
+  # Unimos la tabla geográfica al vuelo
+  left_join(
+    geo %>% select(Estacion, `Azimut (°)` = azimut, Rumbo = rumbo, `Distancia (km)` = dist_km),
+    by = "Estacion"
+  ) %>%
+  # Reordenamos las columnas para que geografía quede al principio
+  select(Estacion, `Distancia (km)`, `Azimut (°)`, Rumbo, 
+         `Horas válidas`, Episodios, `Tasa (%)`, Mediana, P99, `P99/Mediana`) %>%
+  kable(caption = "Características de los episodios de SO2 (umbral > 11.1 ppb) y ubicación respecto a la refinería por estación.")
 ```
 
 **Modelo logístico direccional**
@@ -81,13 +82,6 @@ Adicionalmente, el modelo estimó un pseudo $R^{2}$ de McFadden de 0.189. Convie
 **Verificación geográfica independiente**
 
 El sector direccional no se especificó de antemano: los 16 rumbos se introdujeron como categorías equivalentes y el modelo identificó el máximo sin recibir información sobre la ubicación de la fuente investigada. La verificación geográfica se realizó con posterioridad, calculando el azimut geodésico desde cada estación hacia el complejo refinador.
-
-```{r tabla3}
-geo %>%
-  select(Estación = Estacion, `Azimut (°)` = azimut,
-         Rumbo = rumbo, `Distancia (km)` = dist_km) %>%
-  kable(caption = "Azimut y distancia de la refinería respecto a cada estación.")
-```
 
 Desde SE3, la refinería se localiza en un azimut de 87.3 grados, correspondiente al rumbo este, a 5.5 kilómetros de distancia. El sector que el modelo identificó de forma independiente coincide con la ubicación de la fuente. Dado que el complejo ocupa 612 hectáreas, se evaluó la sensibilidad del cálculo desplazando el centroide 1.5 kilómetros en cada dirección cardinal: el azimut resultante oscila entre 72.4 y 102.7 grados, y permanece en todos los casos dentro de la banda ENE a ESE.
 
@@ -175,28 +169,7 @@ El contraste entre ambos paneles es claro. El \$SO\_{2}\$ presenta un lóbulo co
 
 Esta diferencia en la forma del gráfico resulta diagnóstica: un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. Ambos contaminantes, medidos por el mismo equipo en el mismo sitio, muestran firmas de origen distinto.
 
-**Extensión al gradiente espacial**
-
-```{r fig3, fig.width=9, fig.height=3.5, fig.cap="CBPF del SO2 en las tres estaciones con señal. Las escalas de color son independientes en cada panel; la comparación válida es la forma del patrón."}
-q1 <- polarPlot(filter(d_oa, Estacion == "SE3"), pollutant = "SO2",
-                statistic = "cpf", percentile = 88.37,
-                main = "SE3", plot = FALSE)
-q2 <- polarPlot(filter(d_oa, Estacion == "SE2"), pollutant = "SO2",
-                statistic = "cpf", percentile = 94.46,
-                main = "SE2", plot = FALSE)
-q3 <- polarPlot(filter(d_oa, Estacion == "NE"), pollutant = "SO2",
-                statistic = "cpf", percentile = 97.75,
-                main = "NE", plot = FALSE)
-
-grid.arrange(q1$plot, q2$plot, q3$plot, ncol = 3)
-
-```
-
-La aplicación de la CBPF a las tres estaciones con señal confirma el gradiente obtenido por vía paramétrica. SE3 presenta el lóbulo oriental descrito. SE2 muestra dos focos de menor intensidad, hacia el nornoreste y el sur, sin orientación hacia el azimut de la fuente. NE presenta su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor y sin contribución apreciable del sector este.
-
-Las escalas de color difieren entre paneles, pues cada uno se ajusta a su propio rango de probabilidad. La comparación válida entre estaciones es la forma del patrón; las magnitudes deben contrastarse con las razones de momios de la Tabla 5 y la Figura 1.
-
-La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo direccional.
+La aplicación de la CBPF a las tres estaciones con señal confirma que el efecto se va atenuando conforme se avanza a las demás estaciones.
 
 ### **Estructura multivariada de la matriz química**
 
@@ -213,14 +186,6 @@ Se aplicó análisis de componentes principales sobre la matriz de los ocho cont
 El procedimiento requiere casos completos. De las 33,977 observaciones de SE3 se conservaron 27,938 (82.2%). De los 3,951 episodios registrados se conservaron 3,304 (83.6%). La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó preferentemente las horas de episodio.
 
 La adecuación muestral se verificó con el índice KMO, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El KMO se ubica por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esto es esperable y no constituye una deficiencia: el índice desciende precisamente porque el \$SO\_{2}\$ mantiene correlaciones bajas con el resto de las variables, que es justo la estructura que el análisis busca documentar.
-
-```{r tabla6}
-as_tibble(pca$rotation[, 1:3], rownames = "Variable") %>%
-  mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
-  rename(`PC1 (48.6%)` = PC1, `PC2 (19.4%)` = PC2, `PC3 (9.7%)` = PC3) %>%
-  kable(caption = "Cargas de los tres primeros componentes principales sobre la
-                   matriz de contaminantes en SE3.")
-```
 
 Dos componentes superan el criterio de Kaiser. El primero explica el 48.6% de la varianza; los cuatro primeros acumulan el 86.9%.
 
@@ -274,21 +239,6 @@ La razón entre las medianas de \$SO\_{2}\$ y NOX resume el contraste: 1.56 en e
 Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable aquí dada la marcada asimetría de las distribuciones de \$SO\_{2}\$ . La prueba resulta significativa en los cuatro años, con valores de p inferiores a cualquier nivel convencional.
 
 Para cuantificar la magnitud de la diferencia entre la estación más próxima a la fuente y la estación de control se empleó el estimador de desplazamiento de Hodges-Lehmann, que corresponde a la mediana de todas las diferencias por pares entre ambas muestras y equivale al análogo no paramétrico de la diferencia de medias.
-
-```{r tabla8}
-hl %>%
-  select(Año, Med_SE3, Med_GAR, Dif_HL, IC_inf, IC_sup) %>%
-  left_join(select(horas, Año, SE3, GAR, Exceso = Exceso_SE3_vs_GAR),
-            by = "Año") %>%
-  mutate(`IC 95%` = paste0("[", IC_inf, ", ", IC_sup, "]")) %>%
-  select(Año,
-         `Mediana SE3` = Med_SE3, `Mediana GAR` = Med_GAR,
-         `Dif. H-L` = Dif_HL, `IC 95%`,
-         `Horas ep. SE3` = SE3, `Horas ep. GAR` = GAR, Exceso) %>%
-  kable(caption = "Diferencia de medianas y horas de episodio por año. Las medianas
-                   y el desplazamiento de Hodges-Lehmann se expresan en ppb; las
-                   horas corresponden al umbral absoluto de 11.1 ppb.")
-```
 
 El desplazamiento entre SE3 y GAR oscila entre 0.6 y 1.5 ppb según el año, con intervalos de confianza estrechos que confirman que es distinto de cero. La magnitud, sin embargo, es reducida en términos absolutos.
 

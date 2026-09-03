@@ -1,7 +1,15 @@
 ---
 title: "Etapa 3: Modelado y análisis multivariado"
 author: "Alicia Bernádez, Omar Arzaga, Diego Medrano, Sebastián Alemán, Isaac Montaño"
-format: pdf
+format: 
+  pdf:
+    geometry:
+      - top=2cm
+      - left=2cm
+      - right=2cm
+      - bottom=2cm
+    linestretch: 1.15
+    fig-pos: "H"
 ---
 
 ```{r setup, include=FALSE}
@@ -24,21 +32,15 @@ Esta formulación conserva el marco del Objetivo 4 del proyecto y el enfoque en 
 
 ### **Selección de Métodos**
 
-**Técnica de dependencia: regresión logística binaria**
+- **Técnica de dependencia: regresión logística binaria:** Se eligió regresión logística en lugar de lineal para no diluir los picos extremos en el promedio y manejar de mejor manera la asimetría del $SO_2$. Como trabaja directamente la probabilidad de sufrir un episodio agudo controlando la velocidad del viento (vía splines) y la temporalidad de forma cíclica, nos ayuda a aislar el efecto de la dirección del viento sin sesgos geográficos previos.
 
-Dado que el objeto de estudio son los episodios agudos y no el nivel de fondo, se descartó el uso de un modelo lineal; este promediaría las horas de episodio (11.6% en SE3) con las regulares, diluyendo la señal. Además, la marcada asimetría del $SO_{2}$ (razón P99/mediana de 12.57 en SE3) vulnera el supuesto de normalidad. En su lugar, se aplicó regresión logística binaria para modelar directamente la probabilidad del evento, obteniendo razones de momios interpretables y comparables entre estaciones. Para aislar el efecto direccional, se controló por la velocidad del viento mediante *splines* naturales de tres grados de libertad (capturando su efecto no monótono de estancamiento/dispersión) y por temporalidad mediante términos armónicos de hora y mes (preservando su ciclicidad). El sector del viento se integró como un factor de 16 categorías sin jerarquía previa; la verificación geográfica de la fuente se realizó de forma independiente y *a posteriori* para evitar un razonamiento circular.
+<!-- -->
 
-**Técnicas de interdependencia: componentes principales y conglomerados**
+- **Técnicas de interdependencia: componentes principales y conglomerados:** Utilizados para analizar la estructura química del aire por sus contaminantes. Su objetivo es comprobar que el comportamiento del $SO_2$ es independiente a los gases vehiculares ($NO_X$, $CO$), lo que confirma la hipótesis de una fuente de origen industrial.
 
-Se aplicó un Análisis de Componentes Principales (PCA) sobre la matriz de los ocho contaminantes para examinar si el $SO_{2}$ comparte estructura de variación con los trazadores vehiculares $(NO, NO_{2}, NO_{x}, CO)$, lo cual debilitaría la hipótesis de una fuente industrial independiente. Este análisis se complementó con un agrupamiento de conglomerados sobre las puntuaciones de los primeros cuatro componentes para identificar perfiles horarios concretos. Ambas técnicas se construyeron exclusivamente con información química, evaluando la asociación direccional de manera posterior.
+- **Técnica complementaria: contraste no paramétrico de medianas:** Se empleó la prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann para cuantificar diferencias típicas entre estaciones sin asumir normalidad. Esto permitió contrastar explícitamente la magnitud de las variaciones de tendencia central frente a la frecuencia de eventos agudos, fundamentando el argumento central para la política pública.
 
-**Técnica complementaria: contraste no paramétrico de medianas**
-
-Se empleó la prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann para cuantificar diferencias típicas entre estaciones sin asumir normalidad. Esto permitió contrastar explícitamente la magnitud de las variaciones de tendencia central frente a la frecuencia de eventos agudos, fundamentando el argumento central para la política pública.
-
-**Verificación por método independiente**
-
-La Conditional Bivariate Probability Function (Ashbaugh et al., 1985; Uria-Tellaetxe & Carslaw, 2014) estima la misma cantidad que el modelo logístico, la probabilidad de concentración elevada condicionada a las condiciones de viento, por vía no paramétrica y sin control de covariables. La coincidencia entre ambos enfoques, con supuestos distintos, constituye evidencia de robustez y no una duplicación del análisis.
+- **Verificación por método independiente:** La Conditional Bivariate Probability Function (Ashbaugh et al., 1985; Uria-Tellaetxe & Carslaw, 2014) estima la misma cantidad que el modelo logístico, la probabilidad de concentración elevada condicionada a las condiciones de viento, por vía no paramétrica y sin control de covariables. La coincidencia entre ambos enfoques, con supuestos distintos, constituye evidencia de robustez y no una duplicación del análisis.
 
 ### Análisis direccional
 
@@ -124,7 +126,7 @@ Si bien el análisis direccional permitió identificar una asociación entre los
 
 Se aplicó el mismo modelo logístico a siete contaminantes en SE3, definiendo en cada caso el evento como la superación del percentil 95 de la distribución propia de cada variable. Este ajuste permite comparar contaminantes medidos en unidades distintas frente a una misma probabilidad de referencia.
 
-```{r tabla5}
+```{r tabla2}
 tabla5 <- tibble(
   Contaminante = c("SO2","NOX","NO","CO","PM10","PM2.5","O3"),
   n       = c(33977, 33682, 33451, 31741, 33684, 30686, 33697),
@@ -201,7 +203,7 @@ Sobre las puntuaciones de los cuatro primeros componentes se aplicó el algoritm
 
 El índice de silueta favorece una partición en dos grupos (0.418) y desciende a valores cercanos a 0.26 para particiones de tres a seis grupos. Se optó por cuatro conglomerados por criterios de interpretabilidad química y no por el valor del índice: la estructura más nítida de los datos es binaria, y más allá de esa partición la separación entre grupos es gradual. Los cuatro perfiles obtenidos son químicamente coherentes y la partición explica el 58.3% de la variación total en el espacio de componentes. La solución converge en cinco iteraciones y se verificó su estabilidad al aumentar el número máximo de iteraciones.
 
-```{r tabla7}
+```{r tabla3}
 completos %>%
   mutate(grupo = factor(km$cluster)) %>%
   group_by(grupo) %>%
@@ -226,11 +228,7 @@ completos %>%
 
 ```
 
-El primer conglomerado agrupa el 14.7% de las horas y presenta una mediana de \$SO\_{2}\$ de 16.2 ppb, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de NOX de 10.4 ppb, la más baja del conjunto. Concentra el 72.2% de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
-
-El segundo conglomerado es su imagen especular: mediana de NOX de 51.8 ppb, cinco veces superior a la del primer grupo, con \$SO\_{2}\$ de apenas 4.4 ppb, velocidad de viento de 3.6 km/h (la menor del conjunto) y ozono de 5 ppb. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2% de sus horas presenta viento del este.
-
-La razón entre las medianas de \$SO\_{2}\$ y NOX resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de \$SO\_{2}\$ cuatro veces mayores y de NOX cinco veces menores. El primer conglomerado corresponde a horas con azufre en ausencia de combustión vehicular, y el algoritmo lo identificó sin disponer de información meteorológica.
+Como podemos ver en la Tabla, el grupo 1, que incluye el 14.7% de los datos, concentra el 72.2% de los episodios de $SO_2$ con viento predominantemente del este. Por el contrario, el grupo 2 representa acumulación urbana, con alto $NO_X$ y viento en calma. La razón $SO_2$/$NO_X$ del grupo 1 es 18 veces mayor que la del grupo 2, confirmando estadísticamente la firma química de azufre independiente de la combustión vehicular.
 
 ### **Contraste entre tendencia central y exposición aguda**
 
@@ -248,7 +246,7 @@ El comportamiento temporal de este indicador es relevante: la diferencia de medi
 
 El recuento de horas que superan el umbral absoluto de 11.1 ppb arroja una lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 669 horas de episodio, la cifra más baja del periodo. En 2025, año de mínima diferencia de medianas, registró 1,172 horas, la segunda más alta. Ambas series se mueven en sentidos contrarios.
 
-```{r fig4, fig.width=6.5, fig.height=3.8, fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
+```{r fig3, fig.width=6.5, fig.height=3.8, fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
 comp <- hl %>%
   select(Año, Dif_HL) %>%
   left_join(select(horas, Año, Horas_SE3 = SE3), by = "Año")
@@ -291,24 +289,7 @@ La normativa vigente en materia de dióxido de azufre establece límites sobre e
 
 Antes de sintetizar los hallazgos, se documentan las verificaciones aplicadas al modelo principal.
 
-```{r tabla9}
-tibble(
-  Indicador = c("AUC en muestra",
-                "AUC fuera de muestra (2025)",
-                "Error de Brier (2025)",
-                "Error de Brier del modelo base",
-                "Sensibilidad",
-                "Especificidad",
-                "Pseudo-R2 de McFadden",
-                "KMO global (PCA)",
-                "Varianza explicada por la partición (k=4)"),
-  Valor = c("0.783", "0.764", "0.1065", "0.1183",
-            "0.712", "0.681", "0.189", "0.623", "58.3%")
-) %>%
-  kable(caption = "Indicadores de validación de los modelos estimados.")
-```
-
-El modelo logístico alcanza un área bajo la curva ROC de 0.783 en la muestra de estimación. Para evaluar su comportamiento fuera de muestra se reestimó con los años 2022 a 2024 y se evaluó sobre 2025: el área bajo la curva desciende a 0.764, una pérdida de 0.019 que descarta un sobreajuste apreciable. El error de Brier es de 0.1065, frente a 0.1183 de un modelo que predijera únicamente la tasa base, es decir, una mejora del diez por ciento. Con el punto de corte fijado en la tasa base de episodios (y no en 0.5, dado el desbalance de clases), el modelo alcanza una sensibilidad de 0.712 y una especificidad de 0.681.
+El modelo logístico alcanzó un buen ajuste con un valor Pseudo-R2=0.189 con un AOC de 0.783 y 0.764 dentro y fuera de la muestra respectivamente, lo cual descarta un sobreajuste. El error de Brier de 0.1065 mejoró la tasa base teniendo sensibilidad de 0.712 y especificidad de 0.681. El PCA presentó un KMO de 0.623 y prueba de Bartlett significativa.
 
 Conviene precisar el alcance de estas cifras: el modelo no se construyó con fines predictivos, sino para estimar una asociación direccional controlando por condiciones meteorológicas. Su capacidad de discriminación, obtenida a partir de cuatro variables meteorológicas, es razonable para ese propósito y no busca ser un instrumento de pronóstico.
 
@@ -328,7 +309,13 @@ En cuarto lugar, el fenómeno reside en la frecuencia de eventos agudos y no en 
 
 **Conclusión parcial**
 
-Los resultados obtenidos son consistentes con la existencia de una fuente puntual de \$SO\_{2}\$ ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. La coincidencia entre el sector identificado estadísticamente y la ubicación del complejo refinador, junto con el comportamiento de los trazadores de falsación, hace de la refinería la explicación más parsimoniosa del patrón observado.
+Los resultados obtenidos son consistentes con la existencia de una fuente puntual de \$SO\_{2}\$ ubicada al este de la estación SE3, cuya influencia se atenúa con la distancia y cuya firma química difiere de la de fuentes de combustión urbana. Esta hipótesis se sustenta de lo siguiente:
+
+Primero, la regresión logística identificó independientemente que los vientos del este incrementan la probabilidad de episodios agudos, lo cual coincide con el azimut geográfico de la refinería. Además, este efecto decae con la distancia, característico de una pluma de dispersión.
+
+También las técnicas de interdependencia demostraron que el $SO_2$ es ortogonal a los gases vehiculares. Con vientos del este, la probabilidad de altos niveles de $SO_2$ sube, mientras que la de $NO_X$ se reduce drásticamente, descartando al tráfico como fuente.
+
+Fianlmente, él fenómeno de contaminación impacta la frecuencia de eventos extremos y no el nivel de fondo. Mientras tanto, las medianas anuales entre estaciones casi no difieren y Cadereyta sufre de 976 horas anuales de exposición adicionales frente a la estación de control.
 
 Cabe mencionar que el diseño es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados son difícilmente compatibles con las explicaciones alternativas evaluadas, y que en conjunto apuntan de manera convergente hacia una misma hipótesis.
 

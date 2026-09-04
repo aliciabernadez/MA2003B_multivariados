@@ -130,7 +130,7 @@ cat("Pseudo-R2 McFadden:",
 cat("AIC:              ", round(AIC(mod_se3), 1), "\n")
 ```
 
-**validación cruzada espacial y falsación multi-contaminante**
+**Validación cruzada espacial y falsación multi-contaminante**
 
 ```{r}
 # ---- 1. Sector industrial colapsado ----
@@ -192,6 +192,102 @@ map_dfr(c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"), function(v) {
   or_este(d_se3, v) %>% mutate(Contaminante = v, .before = 1)
 }) %>% print()
 ```
+
+###### Validación y ajuste del modelo de regresión logística
+
+```{r}
+library(pROC)
+library(ResourceSelection)
+
+# Modelo principal
+mod <- glm(
+  episodio ~ sector_E + ns(WSR, 3) +
+    Hora_sin + Hora_cos +
+    Mes_sin + Mes_cos,
+  data = d_se3,
+  family = binomial
+)
+```
+
+```{r}
+# ------------------------------------------------------------
+# 1. PRUEBA DE RAZÓN DE VEROSIMILITUDES
+# ------------------------------------------------------------
+
+# Modelo nulo: solamente intercepto
+mod_nulo <- glm(
+  episodio ~ 1,
+  data = d_se3,
+  family = binomial
+)
+
+anova(mod_nulo, mod, test = "Chisq")
+```
+
+```{r}
+# ------------------------------------------------------------
+# 2. Análisis de residuos
+# ------------------------------------------------------------
+
+d_se3 <- d_se3 %>%
+  mutate(
+    prob_estimada = fitted(mod),
+    residuo_dev = residuals(mod, type = "deviance")
+  )
+
+plot(
+  d_se3$prob_estimada,
+  d_se3$residuo_dev,
+  pch = 16,
+  cex = 0.4,
+  xlab = "Probabilidad estimada",
+  ylab = "Residuo de devianza",
+  main = "Residuos de devianza vs probabilidad estimada"
+)
+
+abline(h = 0, lty = 2, col = "red")
+```
+
+```{r}
+# ------------------------------------------------------------
+# 3. Hosmer-Lemeshow
+# ------------------------------------------------------------
+
+cat("\n=== HOSMER-LEMESHOW ===\n")
+
+hl <- hoslem.test(
+  d_se3$episodio,
+  d_se3$prob_estimada,
+  g = 10
+)
+
+print(hl)
+```
+
+```{r}
+# ------------------------------------------------------------
+# 4. ROC y AUC en muestra
+# ------------------------------------------------------------
+
+roc_in <- roc(
+  d_se3$episodio,
+  d_se3$prob_estimada,
+  quiet = TRUE
+)
+
+plot(
+  roc_in,
+  main = "Curva ROC del modelo logístico"
+)
+
+cat(
+  "\nAUC en muestra:",
+  round(as.numeric(auc(roc_in)), 3),
+  "\n"
+)
+```
+
+La prueba de razón de verosimilitudes mostró que el modelo completo mejora significativamente frente al modelo nulo (p \< 0.001). La curva ROC presentó un AUC de 0.783, indicando una capacidad razonable para distinguir entre horas con y sin episodios de SO₂. Por otro lado, la prueba de Hosmer-Lemeshow resultó significativa (p \< 0.001), lo que indica diferencias entre los valores observados y las probabilidades estimadas. Debido al gran tamaño de la muestra, esta prueba puede ser sensible a desviaciones pequeñas, por lo que el resultado se interpreta en conjunto con el AUC y el objetivo inferencial del modelo.
 
 **PCA sobre la matriz química (técnica de interdependencia)**
 

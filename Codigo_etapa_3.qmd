@@ -11,6 +11,7 @@ editor: visual
 library(tidyverse)
 library(lubridate)
 
+
 datos <- read_csv(
   "baseee_SIMA_limpia_4est_8cont_2022_2025.csv",
   locale = locale(encoding = "UTF-8"),

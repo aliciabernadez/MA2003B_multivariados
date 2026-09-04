@@ -193,7 +193,37 @@ map_dfr(c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"), function(v) {
 }) %>% print()
 ```
 
-###### Validación y ajuste del modelo de regresión logística
+###### Validación y ajuste de la regresión logística mod_SE3 (dirección de las emisiones de azufre)
+
+```{r}
+# Modelo nulo para el modelo principal de 16 rumbos
+mod_nulo_se3 <- glm(
+  episodio ~ 1,
+  data = d_se3,
+  family = binomial
+)
+
+# Razón de verosimilitudes
+anova(mod_nulo_se3, mod_se3, test = "Chisq")
+
+# ROC y AUC
+roc_se3 <- roc(
+  d_se3$episodio,
+  fitted(mod_se3),
+  quiet = TRUE
+)
+
+auc(roc_se3)
+
+# Hosmer-Lemeshow
+hoslem.test(
+  d_se3$episodio,
+  fitted(mod_se3),
+  g = 10
+)
+```
+
+###### Validación y ajuste del modelo de regresión logística mod
 
 ```{r}
 library(pROC)

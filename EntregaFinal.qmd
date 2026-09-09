@@ -587,7 +587,7 @@ Durante el periodo analizado, SE3 acumuló 3,902 horas de episodio adicionales r
 
 Los resultados muestran que un seguimiento basado únicamente en medias o medianas anuales puede ocultar cambios importantes en la frecuencia de episodios agudos. En 2025, por ejemplo, la diferencia de medianas entre SE3 y GAR fue la menor del periodo, mientras que SE3 registró 1,172 horas por encima del umbral. Por ello, el seguimiento de la calidad del aire debería incorporar métricas de frecuencia de excedencia junto con los indicadores de tendencia central.
 
-### **Conclusión parcial y trabajo pendiente**
+### **Conclusiones**
 
 **Validación de los modelos**
 
@@ -597,17 +597,13 @@ Las dos especificaciones de regresión logística resultaron globalmente signifi
 
 El análisis permite establecer cuatro hallazgos principales. Primero, los episodios de $SO_2$ presentan una asociación direccional clara con el sector Este: el modelo de 16 rumbos identificó este sector como el de mayor razón de momios (OR = 6.12 frente al Norte), coincidiendo posteriormente con el azimut de 87.3° de la refinería. Segundo, al comparar el sector Este frente al resto de direcciones entre estaciones, la asociación se atenúa conforme aumenta la distancia, pasando de OR = 3.19 en SE3 (5.5 km) a OR = 1.01 en NE (35.7 km).Tercero, los análisis multi-contaminante, CBPF, PCA y conglomerados muestran que los episodios de $SO_2$ presentan un patrón distinto al de los contaminantes asociados con combustión urbana. Finalmente, el principal contraste entre estaciones se encuentra en la frecuencia de eventos agudos y no en sus niveles típicos: las diferencias de mediana no superan 1.5 ppb, mientras que SE3 registra en promedio 976 horas de episodio adicionales por año respecto a GAR.
 
-**Conclusión parcial**
+**Conclusión**
 
 En conjunto, los resultados son consistentes con la influencia de una fuente puntual de $SO_2$ localizada en el sector Este de SE3. La asociación entre los episodios y los vientos provenientes de este sector es más fuerte en la estación más cercana y se atenúa conforme aumenta la distancia, patrón compatible con la dispersión de una pluma. Además, los análisis con otros contaminantes, CBPF, componentes principales y conglomerados muestran que el comportamiento del $SO_2$ difiere del principal patrón asociado con combustión urbana.
 
 El análisis también muestra que el principal contraste entre estaciones se encuentra en la frecuencia de eventos agudos y no necesariamente en sus niveles típicos. Mientras las diferencias de mediana entre SE3 y GAR son reducidas, SE3 acumula muchas más horas por encima del umbral. Por ello, la frecuencia de episodios aporta información relevante que podría pasar desapercibida si el seguimiento se limita a indicadores de tendencia central.
 
 El diseño es observacional y no permite establecer atribución causal en sentido estricto, ya que no se dispone de datos directos de emisión ni de un contrafactual experimental. Por lo tanto, los resultados deben interpretarse como evidencia convergente: los patrones encontrados son poco compatibles con las explicaciones alternativas evaluadas y apuntan de manera consistente hacia una misma hipótesis.
-
-**Trabajo pendiente**
-
-Como siguientes pasos se propone: contrastar los resultados con el inventario del PIGECA y la normativa aplicable; caracterizar la duración y distribución temporal de los episodios; incorporar información sobre paros y mantenimientos del complejo para aproximar un contraste operativo; y extender el análisis a años adicionales para evaluar la estabilidad del patrón direccional. También queda pendiente investigar el repunte de episodios observado en 2025 y evaluar si los datos de 2026 permiten comparar periodos de operación y paro del complejo.
 
 ### 
 

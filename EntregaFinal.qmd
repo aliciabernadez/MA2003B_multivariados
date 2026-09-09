@@ -11,7 +11,9 @@ obj <- readRDS("objetos_etapa3.rds")
 list2env(obj, envir = .GlobalEnv)
 ```
 
-## Parte 1: Conociendo el negocio
+## Resumen
+
+## Introducción
 
 La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente, ya que depende de la presencia y concentración de diferentes contaminantes en la atmósfera. Cuando estos alcanzan niveles elevados pueden generar efectos negativos sobre la salud y los ecosistemas. Por ello, su monitoreo pemrite identificar condiciones de riesgo y generar información útil para reducir la exposición de la población y apoyar la toma de decisiones públicas (HOLCIM, s.f.).
 
@@ -43,9 +45,15 @@ En Nuevo León, el Sistema Integral de Monitoreo Ambiental (SIMA), administrado 
 
 La información generada por SIMA constituye la principal fuente de datos para este proyecto y permitirá analizar una problemática específica relacionada con el comportamiento del $SO_2$ y su posible relación con condiciones meteorológicas y fuentes industriales de la región.
 
-#### Objetivo general del trabajo
+## Objetivo
 
 Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), y su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales localizadas en la zona de Cadereyta.
+
+**Objetivo actualizado**
+
+Cuantificar el exceso de exposición aguda a $SO_{2}$ asociado al sector direccional donde se ubica la refinería de Cadereyta, para evaluar si los indicadores de tendencia central (promedios y medianas anuales) que usan actualmente los instrumentos de gestión representan adecuadamente esa exposición.
+
+Esta formulación conserva el marco del Objetivo 4 y el enfoque en fuentes industriales puntuales, pero desplaza el análisis de una atribución causal hacia la cuantificación del exceso de exposición y su posible incorporación a los mecanismos de seguimiento del PIGECA 2023–2033.
 
 ##### Pregunta guía:
 
@@ -81,7 +89,7 @@ En este proyecto se busca aplicar este enfoque a las concentraciones de $S0_2$ r
 
 Además, se analizará de manera complementaria el comportamiento de otros contaminantes atmosféricos durante los episodios elevados de $SO_2$. Estos contaminantes no se utilizarán para asumir que todos provienen de una misma fuente, sino como información adicional para caracterizar mejor los eventos observados y reducir el riesgo de atribuir automáticamente cualquier incremento de $SO_2$ a una fuente industrial específica. Con ello, se busca obtener una interpretación más completa y cuidadosa de la posible infleuncia de la actividad insdustrial sobre la calidad del aire en la región.
 
-## Parte 2: Comprensión y preparación de los datos
+## Preparación de la base de datos
 
 #### Descripción y selección del conjunto de datos
 
@@ -136,7 +144,9 @@ Debido a que la dirección del viento, la hora y el mes presentan un comportamie
 
 Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), así como su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales en la zona de Cadereyta.
 
-## Técnicas estadísticas
+## Modelación
+
+### Técnicas estadísticas
 
 #### 1. Análisis espacio-temporal de $SO_2$
 
@@ -154,15 +164,28 @@ La CBPF permite estimar la probabilidad de observar concentraciones elevadas de 
 
 Esta técnica podría contrbuir a identificar y comparar episodios de concentraciones elevadas de $SO_2$ considerando la estación donde ocurren, las condiciones meteorológicas presentes y su posible simultaneidad con otras estaciones. Su aplicación permitiría distinguir entre eventos con un comportamiento más localizado y aquellos que se presentan en varias zonas al mismo tiempo, lo cual podría ser indicativo de fenómenos de mayor escala. Estudios previos han utilizado el análisis individual de episodios de contamiación para explorar posibles fuentes y condiciones asociadas con eventos recurrentes de $SO_2$ (Clarke et al, 2014; Xue et al, 2023). De manera complementaria, durante estos episodios también podría examinarse el comportamiento de otros contaminantes, sin asumir que necesariamente deben presentar incrementos simultáneos.
 
-## Variables elegidas
+### Variables elegidas
 
 Para responder al objetivo del proyecto se consideran como variables principales la concentración de $SO_2$, la dirección del viento (WDR), la velocidad del viento (WSR) y la estación de monitoreo. También se incluyen como variables meteorológicas complementarias la temperatura exterior (TOUT), humedad relatica (RH), presión atmosférica (PRS), radiación solar (SR) y precipitación (RAINF). Los demás contaminantes se conservan como variables complementarias para caracterizar el contexto de los registros de $SO_2$.
 
-\begin{table}[H] \centering \caption{Características descriptivas de SO$_2$ por estación} \begin{tabular}{lrrrrr} \hline \textbf{Estación} & \textbf{Horas válidas} & \textbf{Media} & \textbf{Mediana} & \textbf{Desv. estándar} & \textbf{Máximo} \\ \hline GAR & 32,534 & 3.48 & 3.30 & 1.25 & 22.80 \\ NE  & 33,185 & 4.35 & 3.80 & 2.96 & 163.60 \\ SE2 & 33,240 & 4.98 & 3.80 & 5.32 & 178.30 \\ SE3 & 33,977 & 7.25 & 4.40 & 11.00 & 404.70 \\ \hline \end{tabular} \end{table}
+\begin{table}[H]
+\centering
+\caption{Características descriptivas de SO$_2$ por estación}
+\begin{tabular}{lrrrrr}
+\hline
+\textbf{Estación} & \textbf{Horas válidas} & \textbf{Media} & \textbf{Mediana} & \textbf{Desv. estándar} & \textbf{Máximo} \\
+\hline
+GAR & 32,534 & 3.48 & 3.30 & 1.25 & 22.80 \\
+NE  & 33,185 & 4.35 & 3.80 & 2.96 & 163.60 \\
+SE2 & 33,240 & 4.98 & 3.80 & 5.32 & 178.30 \\
+SE3 & 33,977 & 7.25 & 4.40 & 11.00 & 404.70 \\
+\hline
+\end{tabular}
+\end{table}
 
 Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica. La estación de monitoreo funciona como la principal variable de comparación espacial, ya que permite identificar si el comportamiento del $SO_2$ cambia entre Cadereyta, Juárez, San Nicolás y García. Por su parte, WDR y WSR permiten incorporar la dirección y velocidad del viento al análisis, variables necesarias para evaluar posteriormente si las concentraciones elevadas de $SO_2$ presentan patrones direccionales específicos.
 
-## Gráficas
+### Gráficas
 
 #### Boxplot de $SO_2$ por estación
 
@@ -327,23 +350,11 @@ ggplot(
 
 El comportamiento anual muestra una disminución general de las concentraciones medianas de $SO_2$ entre 2022-2023, seguida de un incremento durante 2024 y 2025. SE3 mantiene la mediana más alta durante todo el periodo analizado, mientras que GAR presenta generalmente los valores más bajos. Para 2025 se observa una mayor similitud entre las estaciones, aunque SE3 continúa ligeramente por encima de las demás. Estos resultados sugieren que existen tanto diferencias espaciales como variaciones temporales en las concentraciones de $SO_2$ que será necesario analizar con mayor profundidad en las siguientes etapas.
 
-## Resumen
-
-Hasta esta etapa se logró integrar, limpiar y explorar la información de las estaciones seleccionadas para el periodo 2022-2025, obteniendo una base final de 132,936 registros. El análisis descriptivo permitió identificar diferencias entre estaciones en las concentraciones de $SO_2$, destacando SE3 por presentar los valores medios y medianos más altos, así como una mayor variabilidad. También se observó una distribución asimétrica hacia valores altos y asociaciones lineales generalmente débiles entre $SO_2$, meteorología y otros contaminantes. Además, el comportamiento anual mostró variaciones temporales y diferencias persistentes entre estaciones.
-
-Aún falta determinar qué técnica estadística resulta más adecuada para profundizar estos patrones y evaluar la posible relación entre las concentraciones de dióxido de azufre, la dirección y velocidad del viento y la ubicación de las estaciones. Con base en la revisión bibliográfica, en las siguientes etapas se plantea evaluar métodos de análisis espacio-temporal, gráficos polares bivariados, CBPF y caracterización de episodios elevados. Entre las principales preguntas que surgen se encuentran si las concentraciones elevadas observadas en SE3 presentan una dirección de viento predominante, si estos eventos ocurren también en otras estaciones y si las diferencias encontradas se mantienen al considerar conjuntamente las condiciones meteorológicas. Estos análisis permitirán avanzar hacia una interpretación más sólida de los patrones observados sin atribuir todavía las concentraciones a una fuente específica.
-
 # 3.-
 
 ### Del diagnóstico a la cuantificación
 
 El análisis descriptivo de la etapa 2 mostró un gradiente espacial de concentraciones (SE3 \> SE2 \> NE \> GAR) consistente con esta hipótesis. Sin embargo, las diferencias entre medianas anuales son reducidas (del orden de 1 ppb) y, por sí solas, no bastan para una conclusión definitiva. Con base en los resultados de esa etapa, fue necesario reformular el objetivo. Primero, el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. Un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar los episodios de alta exposición que realmente ocurren en la zona. Segundo, la etapa anterior sugirió que los episodios de mayor concentración presentan un patrón espacial y direccional definido. Por ello, en esta etapa el análisis se enfoca en cuantificar dicha asociación, evaluar cómo cambia con la distancia y determinar qué métrica representa mejor la exposición observada.
-
-**Objetivo actualizado**
-
-Cuantificar el exceso de exposición aguda a $SO_{2}$ asociado al sector direccional donde se ubica la refinería de Cadereyta, para evaluar si los indicadores de tendencia central (promedios y medianas anuales) que usan actualmente los instrumentos de gestión representan adecuadamente esa exposición.
-
-Esta formulación conserva el marco del Objetivo 4 y el enfoque en fuentes industriales puntuales, pero desplaza el análisis de una atribución causal hacia la cuantificación del exceso de exposición y su posible incorporación a los mecanismos de seguimiento del PIGECA 2023–2033.
 
 **Selección de Métodos**
 

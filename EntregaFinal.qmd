@@ -1,4 +1,24 @@
 ---
+title: "Entrega Final"
+subtitle: "Equipo 6"
+author:
+  - name: "Alicia Bernádez A01562634"
+  - name: "Omar Arzaga A01569294"
+  - name: "Diego Medrano A01254882"
+  - name: "Sebastián Alemán A00841034"
+  - name: "Isaac Montaño A00841681"
+format: 
+  pdf:
+    geometry:
+      - top=2cm
+      - left=2cm
+      - right=2cm
+      - bottom=2cm
+    linestretch: 1.15
+    fig-pos: "H"
+---
+
+---
 title: "EntregaFinal"
 format: html
 ---

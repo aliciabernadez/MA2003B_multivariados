@@ -3,3 +3,376 @@ title: "EntregaFinal"
 format: html
 ---
 
+## Parte 1: Conociendo el negocio
+
+La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente, ya que depende de la presencia y concentración de diferentes contaminantes en la atmósfera. Cuando estos alcanzan niveles elevados pueden generar efectos negativos sobre la salud y los ecosistemas. Por ello, su monitoreo pemrite identificar condiciones de riesgo y generar información útil para reducir la exposición de la población y apoyar la toma de decisiones públicas (HOLCIM, s.f.).
+
+#### **Importancia del análisis de la calidad del aire**
+
+El análisis de la calidad del aire es importante para la ciudadanía debido a sus efectos sobre la salud. La Organización Mundial de la Salud estima que la contaminación del aire exterior ocasionó aproximadamente 4.2 millones de muertes prematuras en 2019 y la relaciona con enfermedades cardiovasculares, respiratorias, accidentes cerebrovasculares y cáncer de pulmón (OMS, 2024). Además, contar con información actualizada permite emitir recomendaciones durante episodios de contaminación, industria y desarrollo urbano.
+
+Entre los contaminantes de mayor importancia se encuentran las partículas suspendidas ($PM_{10}$\$PM\_{10}\$ y $PM_{2.5}$), el ozono ($O_3$), el dióxido de nitrógeno ($NO_{2}$), el dióxido de azufre ($SO_{2}$) y el monóxido de carbono ($CO$). El material particulado es especialmente relevante debido a que las partículas más pequeñas pueden penetrar profundamente en los pulmones e incluso ingresar al torrente sanguíneo, generando efectos cardiovasculares y respiratorios (OMS, 2024). La OMS establece valores guía internacionales para estos contaminantes; mientras que en México el Índice Aire y Salud comunica las condiciones mediante las categorías buena, aceptable, mala, muy mala y extremadamente mala.
+
+#### **Medición de la calidad del aire y variables relacionadas**
+
+La calidad del aire se evalúa mediante redes de monitoreo que registran las concentraciones de contaminantes atmosféricos. Estas mediciones pemriten analizar su comportamiento temporal y espacial, además de detectar episodios que puedan representar un riesgo para la población (PNUMA, 2022). En México, el Sistema Nacional de Información de la Calidad del Aire (SINAICA), administrado por el INEEC, integra y valida información proveniente de distintos sistemas de monitoreo del país (INECC, s.f.).
+
+Para interpretar los resultados es necesario considerar tanto la unidad de concentración como el periodo de exposición. Las partículas suelen expresarse en microgramos por metro cúbico, mientras que algunos gases se reportan en partes por millón o partes por billón. También pueden analizarse concentraciones horarias, promedios de 8 horas, 24 horas o anuales. Además de las emisiones, variables meteorológicas como temperatura, humedad, velocidad y dirección del viento, presión, precipitación y radiación solar influyen en la dispersión, transporte y acumulación de los contaminantes.
+
+#### **Normas y lineamientos para la protección de la salud**
+
+A nivel internacional, las Directrices Mundiales sobre la Calidad del Aire de la OMS establecen valores recomendados para $PM_{2.5}$ , $PM_{10}$, $O_3$, $NO_2$, $SO_2$ y $CO$. Los vaEstas directrices se basan en evidencia científica sobre sus efectos en la salud, pero no son legalmente obligatorias; funcionan como referencia para que cada país desarrolle sus propias regulaciones (OMS,2021).
+
+En México, los límites para la protección de la salud se establecen mediante Normas Oficiales Mexicanas. Para los principales contaminantes se encuentran la NOM-020-SSA1-2021, correspondiente al ozono; la NOM-021-SSA1-2021 para el monóxido de carbono; la NOM-022-SSA1-2019 para el dióxido de azufre; la NOM-023-SSA1-2021 para el dióxido de nitrogeno y la NOM-025-SSA1-2021 correspondiente a las partículas suspendidas (DOF, 2019; DOF,2021). Asimismo, la NOM-172-SEMARNAT establece los lineamientos para comunicar el Índice de Calidad del Aire y Riesgos a la Salud (SEMARNAT, 2023). Una porblemática importante es que los límites establecidos en las normas nacionales no siempre coinciden con las recomendaciones de la OMS, por lo que cumplir con una norma nacional no implica necesariamente la ausencia total de riesgo para la salud.
+
+#### Dificultades en la medición de la calidad del aire
+
+El monitoreo de la calidad del aire presenta dificultades relacionadas con la cobertura de las estaciones, la disponibilidad y calidad de los registros y la variabilidad espacial y temporal de los contaminantes. Los equipos requieren mantenimiento y calibración, pueden presentarse datos faltantes y una estación representa principalmente las condiciones de su entorno inmediato. Por ello, antes de realizar análsiis estadísticos es necesario validar, depurar y evaluar la disponibilidad de los datos (INECC, s.f. ; PNUMA, 2022).
+
+#### Sistema Integral de Monitoreo Ambiental de Nuevo León
+
+En Nuevo León, el Sistema Integral de Monitoreo Ambiental (SIMA), administrado por la Secretaría de Medio Ambiente del Estado, monitorea contaminantes atmosféricos y variables meteorológicas en diferentes zonas del Área Metropolitana de Monterrey. Además de informar a la ciudadanía mediante el Índice Aire y Salud, sus registros históricos permiten estudiar el comportamiento y las relaciones entre contaminantes y condiciones ambientales (Gobierno de Nuevo León, s.f.).
+
+La información generada por SIMA constituye la principal fuente de datos para este proyecto y permitirá analizar una problemática específica relacionada con el comportamiento del $SO_2$ y su posible relación con condiciones meteorológicas y fuentes industriales de la región.
+
+#### Objetivo general del trabajo
+
+Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), y su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales localizadas en la zona de Cadereyta.
+
+##### Pregunta guía:
+
+¿Las concentraciones de dióxido de azufre ($SO_2$) registradas en la estación SE2, SE3, NO2 y NE durante el periodo 2022-2025 presentan patrones espaciales, direccionales y meteorológicos consistentes con una posible influencia de fuentes industriales localizadas en la zona de Cadereyta, como lo es la refinería?
+
+##### Objetivos específicos:
+
+- Describir el comportamiento temporal de las concentraciones de $SO_2$ registradas en las estaciones NE, SE2, NO2 y SE3 durante 2022-2025, identificando su distribución, variación temporal y los periosos en los que se presentan concentraciones elevadas en cada sitio.
+
+- Analizar la relación entre las concentraciones de $SO_2$, la dirección y la velocidad del viento con el fin de identificar los sectores direccionales asociados con una mayor frecuencia de episodios de alta concentración.
+
+- Comparar los patrones de $SO_2$ entre las estaciones seleccionadas, utilizando la estación García como referencia, para evaluar si los episodios observados presentan un comportamiento localizado en la zona de Cadereyta o si corresponden a fenómenos más regionales.
+
+- Analizar de manera complementaria el comportamiento de otros contaminantes atmosféricos durante los episoidos elevados de $SO_2$ , con el propósito de caracterizar mejor estos eventos y evitar atribuir automáticamente todos los incrementos observados a una misma fuente industrial.
+
+#### Antecedentes relacionados con el objetivo del trabajo
+
+Diversos estudios han analizado la relación entre las concentraciones de contaminantes atmosféricos, las condiciones meteorológicas y la ubicación de fuentes de emisión de contaminantes con el propósito de determinar el posible origen de episodios de contaminación. Para el presente proyecto resultan especialmente relevantes los trabajos de Uria-Tellaetxe y Carslaw (2014), Clarke et al. (2014) y Xue et al. (2023) ya que presentan metodologías y aplicaciones relacionadas con la identificación de fuentes mediante información de calidad del aire, dirección y velocidad del viento.
+
+Uria-Tellaetxe y Carslaw (2014) desarrollaron la Función de probabilidad bivariada condicional como una extensión de la función de probabilidad condicional. Esta metodología permite relacionar las concentraciones registradas de un contaminante con la dirección y velocidad del viento, de manera que sea posible identificar los sectores y condiciones meteorológicas asociados con concentraciones elevadas. Los autores describen su propuesta como “un nuevo método de modelación de receptor para identificar y caracterizar fuentes de emisión” (Uria-Tellaetxe & Carslaw, 2014). La principal ventaja de incorporar la velocidad del viento es que proporciona información extra sobre las características de dispersión de las fuentes y no únicamente sobre su dirección. Además, los autores comprobaron el funcionamiento de la técnica mediante simulaciones de dispersión e incorporaron el procedimiento al paquete openair de R. Esta metodología resulta relevante para el análisis de las estaciones de Cadereyta, Juárez y San Nicolás, debido a que permite estudiar si los episodios elevados de $SO_2$ aparecen repetidamente bajo determinadas combinaciones de dirección y velocidad del viento. De esta forma, en lugar de analizar solamente una correlación entre $SO_2$ y variables meteorológicas, es posible determinar si existe un patrón direccional consistente con la ubicación de una fuente industrial.
+
+Por otra parte, Clarke et al. (2014) aplicaron un enfoque de identificación de fuentes en Ulsan, Corea del Sur, una ciudad caracterizada por una importante actividad industrial. Los autores utilizaron concentraciones horarias de $SO_2$, $CO$, $O_3$, $NO_2$ y $PM_{10}$ registradas durante un año en 13 estaciones automáticas de monitoreo. El análisis consideró las variaciones diarias y estacionales, la distribución espacial de los contaminantes y la dirección del viento. Los resultados mostraron una relación particularmente clara para el dióxido de azufre, pues señalan que “la contaminación por $SO_2$ en Ulsan se originó principalmente en áreas industriales locales” (Clarke et al., 2014, p. 239). Este estudio constituye un antecedente directo para el proyecto debido a que demuestra que los registros generados diariamente por estaciones automáticas pueden utilizarse no solo para conocer las concentraciones de contaminantes, sino también para estudiar relaciones entre las fuentes y los receptores. Asimismo, los investigadores analizaron de manera individual episodios de concentraciones elevadas, lo cual respalda el interés por estudiar específicamente las horas de mayor $SO_2$ en Cadereyta, Juárez y San Nicolás y las condiciones de viento presentes durante esos eventos.
+
+Finalmente, Xue et al. (2023) estudiaron episodios recurrentes de contaminación por $SO_2$ dentro de un parque industrial químico. A partir de las mediciones de una estación identificaron 68 eventos de contaminación y posteriormente realizaron un análisis retrospectivo para determinar su posible fuente. Una característica especialmente importante del trabajo es que los autores reconocen que “los datos de apoyo disponibles correspondían únicamente a las mediciones de un solo monitor” (Xue et al., 2023). A pesar de esta limitación, combinaron las observaciones con información meteorológica y modelos de dispersión para aumentar la certeza de la localización de las fuentes. Finalmente, asociaron los episodios estudiados con una unidad industrial de craqueo catalítico.
+
+En conjunto, los tres estudios muestran que las concentraciones de $SO_2$ pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al. (2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al. (2023) muestran la importancia de estudiar individualmente los episodios elevados de $SO_2$ y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de $SO_2$ presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.
+
+#### Justificación del proyecto
+
+Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las condiciones meteorológicas, especialmente la dirección y velocidad del viento, puede ayudar a identificar patrones compatibles con posibles fuentes de emisión. Este tipo de análisis ha sido utilizado en distintos contextos industriales para relaciones episodios de concentraciones elevadas con sectores específicos de procedencia.
+
+En este proyecto se busca aplicar este enfoque a las concentraciones de $S0_2$ registradas en las estaciones SE3 (Cadereyta), SE2 (Juárez, ne (San Nicolás) y NO2 (García) durante 2022-2025. La incorporación de estaciones con distinta ubicación respecto a la zona industrial de Cadereyta permitirá comprar si los episodios elevados de $SO_2$ presentan un comportamiento localizado y direccional. La estación de García se utilizará como referencia para contrastar si los incrementos observados también aparecen en una zona más alejada de la refinería y menos expuesta a la trayectoria esperada de emisiones provenientes de Cadereyta.
+
+Además, se analizará de manera complementaria el comportamiento de otros contaminantes atmosféricos durante los episodios elevados de $SO_2$. Estos contaminantes no se utilizarán para asumir que todos provienen de una misma fuente, sino como información adicional para caracterizar mejor los eventos observados y reducir el riesgo de atribuir automáticamente cualquier incremento de $SO_2$ a una fuente industrial específica. Con ello, se busca obtener una interpretación más completa y cuidadosa de la posible infleuncia de la actividad insdustrial sobre la calidad del aire en la región.
+
+## Parte 2: Comprensión y preparación de los datos
+
+#### Descripción y selección del conjunto de datos
+
+Para el desarrollo del proyecto se integraron las bases de datos de SIMA correspondientes al periodo 2022-2025. Se seleccionaron las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), obteniendo una base inicial de 140,236 registros y 19 variables. La estación de García aparece identificada como NO2 en los archivos originales de SIMA, por lo que se renombró como GAR para avitar confusión con la variable correspondiente al dióxido de nitrógeno.
+
+La variable principal del estudio es la consentración de $SO_2$. También se conservaron la dirección y velocidad del viento y las variables meteorológicas necesarias para analizar las condiciones de transporte y dispersión. Adicionalmentel se incluyeron los demás contaminantes disponibles como variables complementarias para caracterizar los episodios elevados de $SO_2$ sin asumir que todos los incrementso observados corresponden a una misma fuente.
+
+#### Tabla de variables
+
+| Variable | Descripción | Tipo | Dominio | \% nulos | Relevancia |
+|:-----------|:-----------|:-----------|:-----------|-----------:|:-----------|
+| `Fecha y hora` | Fecha y hora del registro | Temporal | 2022–2025 | 0.00% | Análisis temporal |
+| `Estacion` | Estación de monitoreo | Categórica | SE3, SE2, NE, GAR | 0.00% | Comparación espacial |
+| `Municipio` | Municipio de la estación | Categórica | Cadereyta, Juárez, San Nicolás, García | 0.00% | Ubicación geográfica |
+| `Año` | Año del registro | Temporal | 2022–2025 | 0.00% | Comparación anual |
+| `SO2` | Dióxido de azufre | Numérica | Rango válido SIMA por año | 4.37% | Variable principal |
+| `CO` | Monóxido de carbono | Numérica | Rango válido SIMA por año | 7.02% | Contaminante complementario |
+| `NO` | Óxido nítrico | Numérica | Rango válido SIMA por año | 5.64% | Contaminante complementario |
+| `NO2` | Dióxido de nitrógeno | Numérica | Rango válido SIMA por año | 4.88% | Contaminante complementario |
+| `NOX` | Óxidos de nitrógeno | Numérica | Rango válido SIMA por año | 4.68% | Contaminante complementario |
+| `O3` | Ozono | Numérica | Rango válido SIMA por año | 4.60% | Contaminante complementario |
+| `PM2.5` | Partículas menores a 2.5 µm | Numérica | Rango válido SIMA por año | 10.70% | Contaminante complementario |
+| `WDR` | Dirección del viento | Numérica circular | $0^\circ$–$360^\circ$ | 2.00% | Dirección de transporte |
+| `WSR` | Velocidad del viento | Numérica | Rango válido SIMA por año | 2.24% | Dispersión y transporte |
+| `TOUT` | Temperatura exterior | Numérica | Rango válido SIMA por año | 9.94% | Condición meteorológica |
+| `RH` | Humedad relativa | Numérica | 0–100% | 4.34% | Condición meteorológica |
+| `PRS` | Presión atmosférica | Numérica | Rango válido SIMA por año | 5.40% | Condición meteorológica |
+| `SR` | Radiación solar | Numérica | Rango válido SIMA por año | 8.19% | Condición meteorológica |
+| `RAINF` | Precipitación | Numérica | Rango válido SIMA por año | 1.20% | Condición meteorológica |
+
+Los rangos de validación utilizados varían entre años y corresponden a los límites establecidos en los archivos de SIMA. Los valores que se encontraron fuera de estos intervalos fueron considerados registros inválidos y se trataron como datos faltantes.
+
+#### Calidad y limpieza de los datos
+
+Se revisaron los valores faltantes, registros duplicados y valores fuera de los rangos considerados válidos pro SIMA para cada variable y año. Los valores fuera de rango fueron convertidos en datos faltantes para evitar incorporar mediciones inválidas al análisis.
+
+La mayor cantidad de valores inválidos se identificó en la presión atmosférica (PRS), con 4,496 registros fuera de rango. También se corrigieron 58 valores de radiación solar, 20 de temperatura, 12 de humedad relativa y algunos casos aislados de $CO$, $NO$, $O_3$, y $SO_2$. No se encontraron registros duplicados, por lo que la base mantuvo inicialmente sus 140,236 observaciones.
+
+Los valores extremos que permanecieron dentro de los rangos válidos de SIMA no fueron emilinados únicamente por considerarse atípicos, ya que pueden representar episodios reales de contaminación y son relevantes para el objetivo del proyecto.
+
+#### Datos faltantes e imputación
+
+El tratamiento de los datos faltantes se realizó de manera diferenciada de acuerdo con la función de cada variable dentro del proyecto. Las variables $SO_2$, WDR y WSR se consideraron indispensables para el análisis principal, debido a que pemriten estudiar conjuntamente la concentración del contaminante y las condiicones de trasnporte asociadas con el viento. Por esta razón, estas variables no fueron imputadas; los registros que no contaban con alguna de estas mediciones fueron excluidos para evitar generar artificialmente concentraciones o patrones direccionales.
+
+##### Imputación mediante KNN
+
+Para las variables meteorológicas secundrias TOUT, RH, PRS y SR se utilizó imputación mediante K vecinos más cercanos (KNN), con $k=5$. Este método estima los valores faltantes a partir de las observaciones similares en lugar de sustituirlos por una media o mediana general, por lo que resulta adecuado para variables meteorológicas cuyo comportamiento depende de condiciones temporales, del viento y de la ubicación de la estación. La imputación se realizó de manera independiente dentro de cada estación de monitoreo para evitar mezclar condiciones ambientales de zonas distintas. Para identificar observaciones semejantes se utilizaron variables como velocidad y dirección del viento, año, hora, mes y las demás variables meteorológicas disponibles.
+
+Debido a que la dirección del viento, la hora y el mes presentan un comportamiento cíclico, estas variables se representaron mediante funciones seno y coseno durante el proceso de imputación, evitando así separaciones artificiales entre valores cercanos como $359°$ y $1°$, o entre las 23:00 y las 00:00 horas. El $SO_2$ no se utilizó para determinar los vecinos del método KNN, con el propósito de evitar que la variable principal del estudio influyera en la estimación de las condiciones meteorológicas. Asimismo, los demás contaminantes no fueron imputados, ya que estimar artificialmente sus concentraciones podría generar relaciones entre contaminantes que no ocurrieron realmente; por ello, se conservaron únicamente sus mediciones observadas para los análisis posteriores.
+
+## Objetivo del análisis
+
+Analizar y caracterizar las concentraciones de dióxido de azufre ($SO_2$) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), así como su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales en la zona de Cadereyta.
+
+## Técnicas estadísticas
+
+#### 1. Análisis espacio-temporal de $SO_2$
+
+Esta técnica permitirá estudiar cómo cambian las concentraciones de $SO_2$ a través del tiempo y entre las distintas estaciones de monitoreo. Se analizarán patrones por año, mes y hora, además de comparar el comportamiento de las estaciones seleccionadas. Este tipo de análisis ha sido utilizado en estudios de ciudades industriales para identificar diferencias espaciales y temporales en los niveles de contaminantes y reconocer episodios de concentraciones elevadas (Clarke et al, 2014; Xue et al, 2023). En este proyecto permitirá determinar si los valores altos de $SO_2$ se concentran principalmente en determinadas estaciones o periodos.
+
+#### 2. Gráficos polares bivariados
+
+Los gráficos polares permiten analizar de manera conjunta la concentración de un contaminante, la dirección del viento y su velocidad. De esta forma, es posible identificar las condiciones del viento bajo las cuales se presentan las mayores concentraciones de $SO_2$ y visualizar los sectores desde los que podrían transportarse las emisiones hacia cada estación. Esta metodología ha sido aplicada para diferenciar posibles contribuciones de distintas fuentes de contaminación y se encuentra implementada en el paquete openair de R (Carslaw et al, 2006; Carslaw & Ropkins, 2012). En el presente estudio, los patrones obtenidos podrán compararse con la ubicación geográfica de la zona industrial de Cadereyta.
+
+#### 3. Conditional Bivariate Probability Function (CBPF)
+
+La CBPF permite estimar la probabilidad de observar concentraciones elevadas de un contaminante bajo diferentes combinaciones de dirección y velocidad del viento. a diferencia del gráfico polar, que muestra principalmente la magnitud de las concentraciones, esta técnica se enfoca en identificar las condiciones meteorológicas asociadas con una mayor frecuencia de valores elevados. La metodología extiende los enfoques de probabilidad condicional utilizados previamente para la identificación de regiones potencialmente emisoras (Ashbaugh et at, 1985; Uria-Tellaetxe & Carslaw, 2014). Su aplicación permitirá identificar sectores direccionales asociados con una mayor presencia de concentraciones altas de $SO_2$.
+
+#### 4. Caracterización comparativa de episodios elevados
+
+Esta técnica podría contrbuir a identificar y comparar episodios de concentraciones elevadas de $SO_2$ considerando la estación donde ocurren, las condiciones meteorológicas presentes y su posible simultaneidad con otras estaciones. Su aplicación permitiría distinguir entre eventos con un comportamiento más localizado y aquellos que se presentan en varias zonas al mismo tiempo, lo cual podría ser indicativo de fenómenos de mayor escala. Estudios previos han utilizado el análisis individual de episodios de contamiación para explorar posibles fuentes y condiciones asociadas con eventos recurrentes de $SO_2$ (Clarke et al, 2014; Xue et al, 2023). De manera complementaria, durante estos episodios también podría examinarse el comportamiento de otros contaminantes, sin asumir que necesariamente deben presentar incrementos simultáneos.
+
+## Variables elegidas
+
+Para responder al objetivo del proyecto se consideran como variables principales la concentración de $SO_2$, la dirección del viento (WDR), la velocidad del viento (WSR) y la estación de monitoreo. También se incluyen como variables meteorológicas complementarias la temperatura exterior (TOUT), humedad relatica (RH), presión atmosférica (PRS), radiación solar (SR) y precipitación (RAINF). Los demás contaminantes se conservan como variables complementarias para caracterizar el contexto de los registros de $SO_2$.
+
+\begin{table}[H] \centering \caption{Características descriptivas de SO$_2$ por estación} \begin{tabular}{lrrrrr} \hline \textbf{Estación} & \textbf{Horas válidas} & \textbf{Media} & \textbf{Mediana} & \textbf{Desv. estándar} & \textbf{Máximo} \\ \hline GAR & 32,534 & 3.48 & 3.30 & 1.25 & 22.80 \\ NE  & 33,185 & 4.35 & 3.80 & 2.96 & 163.60 \\ SE2 & 33,240 & 4.98 & 3.80 & 5.32 & 178.30 \\ SE3 & 33,977 & 7.25 & 4.40 & 11.00 & 404.70 \\ \hline \end{tabular} \end{table}
+
+Descriptivamente, SE3 presenta las concentraciones medias y medianas de $SO_2$ más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica. La estación de monitoreo funciona como la principal variable de comparación espacial, ya que permite identificar si el comportamiento del $SO_2$ cambia entre Cadereyta, Juárez, San Nicolás y García. Por su parte, WDR y WSR permiten incorporar la dirección y velocidad del viento al análisis, variables necesarias para evaluar posteriormente si las concentraciones elevadas de $SO_2$ presentan patrones direccionales específicos.
+
+## Gráficas
+
+#### Boxplot de $SO_2$ por estación
+
+```{r}
+#| include: false  
+library(tidyverse) 
+library(ggplot2) 
+library(ggcorrplot)  
+datos_finales <- read.csv("baseee_SIMA_limpia_4est_8cont_2022_2025.csv" )
+contaminantes <- c(   "CO", "NO", "NO2", "NOX",   "O3", "PM10", "PM2.5", "SO2" )
+meteorologicas <- c(   "WDR", "WSR", "TOUT",   "RH", "PRS", "SR", "RAINF" )
+```
+
+```{r}
+#| echo: false 
+#| warning: false 
+#| message: false 
+#| fig-cap: "Distribución de SO2 por estación de monitoreo." 
+#| fig-width: 7 
+#| fig-height: 4  
+
+limite99 <- quantile(   datos_finales$SO2,   0.99,   na.rm = TRUE )  
+ggplot(   datos_finales,   aes(     x = Estacion,     y = SO2,     fill = Estacion   ) ) +   geom_boxplot(     outlier.size = 0.5,     outlier.alpha = 0.2   ) +   coord_cartesian(     ylim = c(0, limite99)   ) +   labs(     title = "Distribución de SO2 por estación",     subtitle = "Visualización hasta el percentil 99 para facilitar la comparación",     x = "Estación",     y = "Concentración de SO2"   ) +   theme_minimal(base_size = 11) +   theme(     legend.position = "none"   )
+```
+
+Se observan diferencias en la distribución de $SO_2$ entre las estaciones. SE3 presenta la mediana más alta y una mayor dispersión de las concentraciones, seguida por SE2 y NE, mientras que GAR muestra los valores más bajos y estables. También se identifican numerosos valores atípicos, principalmente en SE3; sin embargo, estos no se eliminaron, ya que pueden representar episodios reales de concentraciones elevadas. La visualización se limita al percentil 99 únicamente para facilitar la comparación entre estaciones, sin excluir observaciones del análisis.
+
+#### Histogramas de $SO_2$ por estación
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Distribución de las concentraciones de SO2 para cada estación."
+#| fig-width: 7
+#| fig-height: 4.5
+
+limite99 <- quantile(
+  datos_finales$SO2,
+  0.99,
+  na.rm = TRUE
+)
+
+ggplot(
+  datos_finales,
+  aes(x = SO2, fill = Estacion)
+) +
+  geom_histogram(
+    bins = 40,
+    show.legend = FALSE
+  ) +
+  facet_wrap(
+    ~ Estacion,
+    scales = "free_y"
+  ) +
+  coord_cartesian(
+    xlim = c(0, limite99)
+  ) +
+  labs(
+    title = "Distribución de SO2 por estación",
+    subtitle = "Visualización hasta el percentil 99",
+    x = "Concentración de SO2",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 10)
+```
+
+Las cuatro estaciones presentan distribuciones asimétricas hacia la derecha, con una mayor concentración de observaciones en los valores bajos de $SO_2$ y una cola formada por concentraciones más elevadas. Esta asimetría es especialmente evidente en SE3, donde se presentan valores extremos con mayor magnitud. Por lo tanto, la mediana resulta útil como medida representativa del comportamiento típico de $SO_2$, ya que es menos sensible a estos valores elevados que el promedio.
+
+#### Matriz de correlación
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Matriz de correlación entre contaminantes y variables meteorológicas."
+#| fig-width: 7
+#| fig-height: 6
+
+datos_finales <- datos_finales %>%
+  mutate(
+    WDR_sin = sin(2 * pi * WDR / 360),
+    WDR_cos = cos(2 * pi * WDR / 360)
+  )
+
+vars_cor <- datos_finales %>%
+  select(
+    SO2,
+    WSR,
+    WDR,
+    TOUT,
+    RH,
+    PRS,
+    SR,
+    RAINF,
+    CO,
+    NO,
+    NO2,
+    NOX,
+    O3,
+    PM10,
+    PM2.5
+  )
+
+matriz_cor <- cor(
+  vars_cor,
+  use = "pairwise.complete.obs"
+)
+
+ggcorrplot(
+  matriz_cor,
+  method = "square",
+  type = "lower",
+  lab = TRUE,
+  lab_size = 2.3,
+  title = "Matriz de correlación"
+)
+```
+
+En general, el $SO_2$ presenta correlaciones lineales bajas con las variables meteorológicas y con los demás contaminantes. Las asociaciones positivas más visibles son con $O_3$, radiación solar y presión atmosférica,aunque sus magnitudes continúan siendo débiles. Esto indica que ninguna de estas variables, de manera individual y mediante una relación lineal simple, explica claramente el comportamiento del $SO_2$. Además, una correlación baja con las variables relacionadas con el viento no necesariamente implica ausencia de relación, ya que los efectos de dirección y velocidad pueden presentar patrones no lineales que deberán explorarse posteriormente con técnicas más adecuadas.
+
+#### Comportamiento anual de $SO_2$ por estación
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Comportamiento anual de la concentración mediana de SO2 por estación."
+#| fig-width: 7
+#| fig-height: 4
+
+SO2_anual <- datos_finales %>%
+  group_by(Estacion, Año) %>%
+  summarise(
+    Media = mean(SO2, na.rm = TRUE),
+    Mediana = median(SO2, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(
+  SO2_anual,
+  aes(
+    x = Año,
+    y = Mediana,
+    color = Estacion,
+    group = Estacion
+  )
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_x_continuous(
+    breaks = 2022:2025
+  ) +
+  labs(
+    title = "Comportamiento anual del SO2 por estación",
+    x = "Año",
+    y = "Mediana de SO2",
+    color = "Estación"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+El comportamiento anual muestra una disminución general de las concentraciones medianas de $SO_2$ entre 2022-2023, seguida de un incremento durante 2024 y 2025. SE3 mantiene la mediana más alta durante todo el periodo analizado, mientras que GAR presenta generalmente los valores más bajos. Para 2025 se observa una mayor similitud entre las estaciones, aunque SE3 continúa ligeramente por encima de las demás. Estos resultados sugieren que existen tanto diferencias espaciales como variaciones temporales en las concentraciones de $SO_2$ que será necesario analizar con mayor profundidad en las siguientes etapas.
+
+## Resumen
+
+Hasta esta etapa se logró integrar, limpiar y explorar la información de las estaciones seleccionadas para el periodo 2022-2025, obteniendo una base final de 132,936 registros. El análisis descriptivo permitió identificar diferencias entre estaciones en las concentraciones de $SO_2$, destacando SE3 por presentar los valores medios y medianos más altos, así como una mayor variabilidad. También se observó una distribución asimétrica hacia valores altos y asociaciones lineales generalmente débiles entre $SO_2$, meteorología y otros contaminantes. Además, el comportamiento anual mostró variaciones temporales y diferencias persistentes entre estaciones.
+
+Aún falta determinar qué técnica estadística resulta más adecuada para profundizar estos patrones y evaluar la posible relación entre las concentraciones de dióxido de azufre, la dirección y velocidad del viento y la ubicación de las estaciones. Con base en la revisión bibliográfica, en las siguientes etapas se plantea evaluar métodos de análisis espacio-temporal, gráficos polares bivariados, CBPF y caracterización de episodios elevados. Entre las principales preguntas que surgen se encuentran si las concentraciones elevadas observadas en SE3 presentan una dirección de viento predominante, si estos eventos ocurren también en otras estaciones y si las diferencias encontradas se mantienen al considerar conjuntamente las condiciones meteorológicas. Estos análisis permitirán avanzar hacia una interpretación más sólida de los patrones observados sin atribuir todavía las concentraciones a una fuente específica.
+
+## Declaratoria de uso de IA
+
+**Opción B. Se utilizó Inteligencia Artificial durante el desarrollo del trabajo de la siguiente forma:**
+
+- **Herramienta:** ChatGPT.
+
+- **Uso realizado:** Se usó principalmente como apoyo para el brainstorming y la definición del objetivo del proyecto, ayudando a pasar de una idea general sobre contaminación del aire a una pregunta de investigación más clara. También se utilizó para orientar la imputación de datos faltantes y la preparación de los datos, como la creación de variables y el tratamiento de la dirección del viento.
+
+- **Secciones donde se utilizó:** Definición del objetivo, limpieza de datos, imputación y transformación de variables.
+
+- **Validación:** Todo lo sugerido por la herramienta fue revisado con lo visto en clase y con la base de datos de SIMA. Además, se comprobó que los resultados del código fueran coherentes antes de usarlos.
+
+- **Responsabilidad:** El equipo revisó todo el contenido y se hace responsable del trabajo final. La IA solo se usó como apoyo, no como reemplazo del análisis del grupo.
+
+## Liga de Github
+
+<https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
+
+## Referencias
+
+Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.*Atmospheric Environment, 19*(8), 1263–1270.<https://doi.org/10.1016/0004-6981(85)90256-2>
+
+Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport.*Atmospheric Environment, 40*(28), 5424–5434.<https://doi.org/10.1016/j.atmosenv.2006.04.062>
+
+Carslaw, D. C., & Ropkins, K. (2012). Openair—An R package for air quality data analysis. *Environmental Modelling & Software, 27–28*, 52–61. [https://doi.org/10.1016/j.envsoft.2011.09.008](#0){.uri}
+
+Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city.*Atmospheric Environment, 95*, 239–248. [https://doi.org/10.1016/j.atmosenv.2014.06.040](#0){.uri}
+
+Comisión Federal para la Protección contra Riesgos Sanitarios. (s. f.).*Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México.<https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente>
+
+Gobierno del Estado de Nuevo León. (s. f.).*Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental.<https://aire.nl.gob.mx/icars2020/map_calidad_icars.php>
+
+Holcim España. (s. f.).*¿Qué es la calidad del aire? Importancia y medición*.<https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion>
+
+Instituto Nacional de Ecología y Cambio Climático. (s. f.).*Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México.<https://sinaica.inecc.gob.mx/scica/>
+
+National Environmental Satellite, Data, and Information Service. (s. f.).*How is air quality measured?*National Oceanic and Atmospheric Administration.<https://www.nesdis.noaa.gov/about/k-12-education/dust-ash-fire-smoke/how-air-quality-measured>
+
+National Institute of Environmental Health Sciences. (s. f.).*La contaminación del aire y su salud*. National Institutes of Health. [https://www.niehs.nih.gov/health/topics/enfermedades/contaminacion](#0){.uri}
+
+Organización Mundial de la Salud. (2021).*Directrices mundiales de la OMS sobre la calidad del aire: Partículas en suspensión (PM2.5 y PM10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono*.<https://www.who.int/es/news-room/questions-and-answers/item/who-global-air-quality-guidelines>
+
+Organización Mundial de la Salud. (2024).*Contaminación del aire ambiente (exterior) y salud*.<https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health>
+
+Programa de las Naciones Unidas para el Medio Ambiente. (2022).*¿Cómo se mide la calidad del aire?*<https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire>
+
+Secretaría de Medio Ambiente y Recursos Naturales. (2023).*Proyecto de Norma Oficial Mexicana PROY-NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. *Diario Oficial de la Federación*. [https://www.diariooficial.gob.mx/normasOficiales/9314/semarnat_1_C/semarnat_1_C.html](#0){.uri}
+
+Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification.*Environmental Modelling & Software, 59*, 1-9. <https://doi.org/10.1016/j.envsoft.2014.05.002>
+
+Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park.*Atmospheric Environment, 296*, 119564.<https://doi.org/10.1016/j.atmosenv.2022.119564>

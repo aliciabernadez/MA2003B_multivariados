@@ -1396,3 +1396,125 @@ summary(mod_base)
 summary(mod_viento)
 summary(mod_meteo)
 ```
+
+```{r}
+# ============================================================
+# 4. PREDICCIÓN FUERA DE MUESTRA - 2025
+# ============================================================
+
+test_pred <- test %>%
+  mutate(
+    prob_base = predict(
+      mod_base,
+      newdata = test,
+      type = "response"
+    ),
+    
+    prob_viento = predict(
+      mod_viento,
+      newdata = test,
+      type = "response"
+    ),
+    
+    prob_meteo = predict(
+      mod_meteo,
+      newdata = test,
+      type = "response"
+    )
+  )
+```
+
+```{r}
+# ============================================================
+# 5. COMPARACIÓN DE DESEMPEÑO PREDICTIVO
+# ============================================================
+
+# ROC
+roc_base <- roc(
+  test_pred$episodio,
+  test_pred$prob_base,
+  quiet = TRUE
+)
+
+roc_viento <- roc(
+  test_pred$episodio,
+  test_pred$prob_viento,
+  quiet = TRUE
+)
+
+roc_meteo <- roc(
+  test_pred$episodio,
+  test_pred$prob_meteo,
+  quiet = TRUE
+)
+
+# AUC
+auc_base   <- as.numeric(auc(roc_base))
+auc_viento <- as.numeric(auc(roc_viento))
+auc_meteo  <- as.numeric(auc(roc_meteo))
+
+# Brier Score
+brier_base <- mean(
+  (test_pred$episodio - test_pred$prob_base)^2
+)
+
+brier_viento <- mean(
+  (test_pred$episodio - test_pred$prob_viento)^2
+)
+
+brier_meteo <- mean(
+  (test_pred$episodio - test_pred$prob_meteo)^2
+)
+
+comparacion_modelos <- tibble(
+  Modelo = c(
+    "SO2 anterior",
+    "SO2 anterior + viento",
+    "SO2 anterior + meteorología"
+  ),
+  AUC = c(
+    auc_base,
+    auc_viento,
+    auc_meteo
+  ),
+  Brier = c(
+    brier_base,
+    brier_viento,
+    brier_meteo
+  )
+)
+
+comparacion_modelos
+```
+
+```{r}
+# ============================================================
+# 6. CURVAS ROC DE LOS TRES MODELOS
+# ============================================================
+
+plot(
+  roc_base,
+  legacy.axes = TRUE,
+  main = "Capacidad predictiva a una hora"
+)
+
+plot(
+  roc_viento,
+  add = TRUE
+)
+
+plot(
+  roc_meteo,
+  add = TRUE
+)
+
+legend(
+  "bottomright",
+  legend = c(
+    paste0("SO2 anterior: AUC = ", round(auc_base, 3)),
+    paste0("SO2 + viento: AUC = ", round(auc_viento, 3)),
+    paste0("SO2 + meteorología: AUC = ", round(auc_meteo, 3))
+  ),
+  lty = 1
+)
+```

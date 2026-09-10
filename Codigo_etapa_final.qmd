@@ -1144,9 +1144,8 @@ anova(
   test = "Chisq"
 )
 
-# ============================================================
+
 # 5. PROBABILIDADES MARGINALES AJUSTADAS
-# ============================================================
 
 # Se usa una distribución común de velocidad, hora y mes
 # para que las cuatro estaciones sean comparables.

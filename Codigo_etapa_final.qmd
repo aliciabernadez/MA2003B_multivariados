@@ -1285,3 +1285,114 @@ ggplot(
   ) +
   theme_minimal(base_size = 12)
 ```
+
+## Modelo de Predicción Basado Únicamente en Viento
+
+```{r}
+# 1. PREPARACIÓN DE DATOS PARA PREDICCIÓN A 1 HORA
+
+d_pred <- datos %>%
+  arrange(Estacion, fecha) %>%
+  group_by(Estacion) %>%
+  mutate(
+    # Diferencia temporal respecto a la observación anterior
+    diferencia_horas = as.numeric(
+      difftime(fecha, lag(fecha), units = "hours")
+    ),
+    
+    # Variables de la hora anterior
+    SO2_lag1   = lag(SO2),
+    WDR_lag1   = lag(WDR),
+    WSR_lag1   = lag(WSR),
+    TOUT_lag1  = lag(TOUT),
+    RH_lag1    = lag(RH),
+    PRS_lag1   = lag(PRS),
+    SR_lag1    = lag(SR),
+    RAINF_lag1 = lag(RAINF)
+  ) %>%
+  ungroup() %>%
+  
+  # Conservar únicamente casos donde la observación anterior
+  # corresponde exactamente a una hora antes
+  filter(diferencia_horas == 1) %>%
+  
+  # Dirección del viento de t-1 como variable circular
+  mutate(
+    WDR_sin_lag1 = sin(2 * pi * WDR_lag1 / 360),
+    WDR_cos_lag1 = cos(2 * pi * WDR_lag1 / 360)
+  )
+```
+
+### Crear una muestra común y separar entrenamiento/prueba
+
+```{r}
+# 2. MUESTRA COMÚN Y DIVISIÓN TEMPORAL
+
+d_modelos <- d_pred %>%
+  select(
+    fecha, Estacion, episodio,
+    SO2_lag1,
+    WDR_sin_lag1, WDR_cos_lag1, WSR_lag1,
+    TOUT_lag1, RH_lag1, PRS_lag1,
+    SR_lag1, RAINF_lag1
+  ) %>%
+  drop_na() %>%
+  mutate(
+    anio = year(fecha)
+  )
+
+# Entrenamiento: 2022-2024
+train <- d_modelos %>%
+  filter(anio <= 2024)
+
+# Prueba real fuera de muestra: 2025
+test <- d_modelos %>%
+  filter(anio == 2025)
+
+cat("Entrenamiento:", nrow(train), "observaciones\n")
+cat("Prueba 2025:", nrow(test), "observaciones\n")
+```
+
+```{r}
+# ============================================================
+# 3. MODELOS PREDICTIVOS
+# ============================================================
+
+# Modelo 0: únicamente estado previo del SO2
+mod_base <- glm(
+  episodio ~ SO2_lag1,
+  data = train,
+  family = binomial
+)
+
+# Modelo 1: SO2 anterior + viento
+mod_viento <- glm(
+  episodio ~
+    SO2_lag1 +
+    WDR_sin_lag1 +
+    WDR_cos_lag1 +
+    ns(WSR_lag1, 3),
+  data = train,
+  family = binomial
+)
+
+# Modelo 2: SO2 anterior + meteorología completa
+mod_meteo <- glm(
+  episodio ~
+    SO2_lag1 +
+    WDR_sin_lag1 +
+    WDR_cos_lag1 +
+    ns(WSR_lag1, 3) +
+    TOUT_lag1 +
+    RH_lag1 +
+    PRS_lag1 +
+    SR_lag1 +
+    RAINF_lag1,
+  data = train,
+  family = binomial
+)
+
+summary(mod_base)
+summary(mod_viento)
+summary(mod_meteo)
+```

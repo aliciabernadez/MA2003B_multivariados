@@ -1286,227 +1286,129 @@ ggplot(
   theme_minimal(base_size = 12)
 ```
 
-## Modelo de Predicción Basado Únicamente en Viento
+### Verificación
 
 ```{r}
-# 1. PREPARACIÓN DE DATOS PARA PREDICCIÓN A 1 HORA
+# VALIDACIÓN 1: INTERACCIÓN ESTACIÓN × SECTOR ORIENTAL
 
-d_pred <- datos %>%
-  arrange(Estacion, fecha) %>%
-  group_by(Estacion) %>%
-  mutate(
-    # Diferencia temporal respecto a la observación anterior
-    diferencia_horas = as.numeric(
-      difftime(fecha, lag(fecha), units = "hours")
-    ),
-    
-    # Variables de la hora anterior
-    SO2_lag1   = lag(SO2),
-    WDR_lag1   = lag(WDR),
-    WSR_lag1   = lag(WSR),
-    TOUT_lag1  = lag(TOUT),
-    RH_lag1    = lag(RH),
-    PRS_lag1   = lag(PRS),
-    SR_lag1    = lag(SR),
-    RAINF_lag1 = lag(RAINF)
-  ) %>%
-  ungroup() %>%
-  
-  # Conservar únicamente casos donde la observación anterior
-  # corresponde exactamente a una hora antes
-  filter(diferencia_horas == 1) %>%
-  
-  # Dirección del viento de t-1 como variable circular
-  mutate(
-    WDR_sin_lag1 = sin(2 * pi * WDR_lag1 / 360),
-    WDR_cos_lag1 = cos(2 * pi * WDR_lag1 / 360)
-  )
-```
-
-### Crear una muestra común y separar entrenamiento/prueba
-
-```{r}
-# 2. MUESTRA COMÚN Y DIVISIÓN TEMPORAL
-
-d_modelos <- d_pred %>%
-  select(
-    fecha, Estacion, episodio,
-    SO2_lag1,
-    WDR_sin_lag1, WDR_cos_lag1, WSR_lag1,
-    TOUT_lag1, RH_lag1, PRS_lag1,
-    SR_lag1, RAINF_lag1
-  ) %>%
-  drop_na() %>%
-  mutate(
-    anio = year(fecha)
-  )
-
-# Entrenamiento: 2022-2024
-train <- d_modelos %>%
-  filter(anio <= 2024)
-
-# Prueba real fuera de muestra: 2025
-test <- d_modelos %>%
-  filter(anio == 2025)
-
-cat("Entrenamiento:", nrow(train), "observaciones\n")
-cat("Prueba 2025:", nrow(test), "observaciones\n")
-```
-
-```{r}
-# 3. MODELOS PREDICTIVOS
-
-# Modelo 0: únicamente estado previo del SO2
-mod_base <- glm(
-  episodio ~ SO2_lag1,
-  data = train,
+# Modelo sin interacción:
+# supone que el efecto Este vs Resto es igual en todas las estaciones
+mod_sin_interaccion <- glm(
+  episodio ~ Estacion + sector_E +
+    ns(WSR, 3) +
+    Hora_sin + Hora_cos +
+    Mes_sin + Mes_cos,
+  data = d_conjunto,
   family = binomial
 )
 
-# Modelo 1: SO2 anterior + viento
-mod_viento <- glm(
-  episodio ~
-    SO2_lag1 +
-    WDR_sin_lag1 +
-    WDR_cos_lag1 +
-    ns(WSR_lag1, 3),
-  data = train,
-  family = binomial
+# Comparación mediante prueba de razón de verosimilitudes
+prueba_interaccion <- anova(
+  mod_sin_interaccion,
+  mod_conjunto,
+  test = "Chisq"
 )
 
-# Modelo 2: SO2 anterior + meteorología completa
-mod_meteo <- glm(
-  episodio ~
-    SO2_lag1 +
-    WDR_sin_lag1 +
-    WDR_cos_lag1 +
-    ns(WSR_lag1, 3) +
-    TOUT_lag1 +
-    RH_lag1 +
-    PRS_lag1 +
-    SR_lag1 +
-    RAINF_lag1,
-  data = train,
-  family = binomial
-)
+cat("=== PRUEBA DE INTERACCIÓN ESTACIÓN × SECTOR ORIENTAL ===\n")
+print(prueba_interaccion)
 
-summary(mod_base)
-summary(mod_viento)
-summary(mod_meteo)
-```
-
-```{r}
-# 4. PREDICCIÓN FUERA DE MUESTRA - 2025
-
-test_pred <- test %>%
-  mutate(
-    prob_base = predict(
-      mod_base,
-      newdata = test,
-      type = "response"
-    ),
-    
-    prob_viento = predict(
-      mod_viento,
-      newdata = test,
-      type = "response"
-    ),
-    
-    prob_meteo = predict(
-      mod_meteo,
-      newdata = test,
-      type = "response"
-    )
-  )
-```
-
-```{r}
-# 5. COMPARACIÓN DE DESEMPEÑO PREDICTIVO
-
-# ROC
-roc_base <- roc(
-  test_pred$episodio,
-  test_pred$prob_base,
-  quiet = TRUE
-)
-
-roc_viento <- roc(
-  test_pred$episodio,
-  test_pred$prob_viento,
-  quiet = TRUE
-)
-
-roc_meteo <- roc(
-  test_pred$episodio,
-  test_pred$prob_meteo,
-  quiet = TRUE
-)
-
-# AUC
-auc_base   <- as.numeric(auc(roc_base))
-auc_viento <- as.numeric(auc(roc_viento))
-auc_meteo  <- as.numeric(auc(roc_meteo))
-
-# Brier Score
-brier_base <- mean(
-  (test_pred$episodio - test_pred$prob_base)^2
-)
-
-brier_viento <- mean(
-  (test_pred$episodio - test_pred$prob_viento)^2
-)
-
-brier_meteo <- mean(
-  (test_pred$episodio - test_pred$prob_meteo)^2
-)
-
-comparacion_modelos <- tibble(
+# Comparación adicional con AIC y BIC
+comparacion_interaccion <- tibble(
   Modelo = c(
-    "SO2 anterior",
-    "SO2 anterior + viento",
-    "SO2 anterior + meteorología"
+    "Sin interacción",
+    "Con interacción"
   ),
-  AUC = c(
-    auc_base,
-    auc_viento,
-    auc_meteo
+  AIC = c(
+    AIC(mod_sin_interaccion),
+    AIC(mod_conjunto)
   ),
-  Brier = c(
-    brier_base,
-    brier_viento,
-    brier_meteo
+  BIC = c(
+    BIC(mod_sin_interaccion),
+    BIC(mod_conjunto)
   )
 )
 
-comparacion_modelos
+cat("\n=== COMPARACIÓN AIC / BIC ===\n")
+print(comparacion_interaccion)
+```
+
+**Validación de la interacción estación × sector oriental.** Se comparó un modelo que supone un efecto común del sector oriental en todas las estaciones contra un modelo que permite que dicha asociación cambie según la estación. La prueba de razón de verosimilitudes mostró una mejora significativa al incorporar la interacción (χ² = 276.31, gl = 3, p \< 0.001).
+
+Asimismo, el modelo con interacción presentó menores valores de AIC (40567 frente a 40838) y BIC (40714 frente a 40955), lo que indica un mejor balance entre ajuste y complejidad. En conjunto, estos resultados respaldan que la relación entre el sector oriental (ENE–E–ESE) y la ocurrencia de episodios elevados de SO₂ no es constante entre las estaciones.
+
+Por lo tanto, es estadísticamente justificable estimar y comparar probabilidades ajustadas específicas para cada estación, como se muestra en la gráfica correspondiente.
+
+```{r}
+# ============================================================
+# VALIDACIÓN 2: CONTRASTES ESTE VS RESTO POR ESTACIÓN
+# con corrección Holm conjunta
+# ============================================================
+
+library(emmeans)
+
+emm_sector <- emmeans(
+  mod_conjunto,
+  ~ sector_E | Estacion
+)
+
+contrastes_estacion <- contrast(
+  emm_sector,
+  method = list("Este vs Resto" = c(-1, 1))
+)
+
+# Unir las 4 estaciones en una sola familia de pruebas
+contrastes_estacion <- update(
+  contrastes_estacion,
+  by = NULL
+)
+
+resultado_contrastes <- summary(
+  contrastes_estacion,
+  type = "response",
+  infer = c(TRUE, TRUE),
+  adjust = "holm"
+)
+
+cat("=== CONTRASTES ESTE VS RESTO POR ESTACIÓN ===\n")
+print(resultado_contrastes)
 ```
 
 ```{r}
-# 6. CURVAS ROC DE LOS TRES MODELOS
+# ============================================================
+# VALIDACIÓN 3: SENSIBILIDAD A EFECTOS METEOROLÓGICOS
+# ESPECÍFICOS POR ESTACIÓN
+# ============================================================
 
-plot(
-  roc_base,
-  legacy.axes = TRUE,
-  main = "Capacidad predictiva a una hora"
-)
-
-plot(
-  roc_viento,
-  add = TRUE
-)
-
-plot(
-  roc_meteo,
-  add = TRUE
-)
-
-legend(
-  "bottomright",
-  legend = c(
-    paste0("SO2 anterior: AUC = ", round(auc_base, 3)),
-    paste0("SO2 + viento: AUC = ", round(auc_viento, 3)),
-    paste0("SO2 + meteorología: AUC = ", round(auc_meteo, 3))
+mod_conjunto_flexible <- glm(
+  episodio ~ Estacion * (
+    sector_E +
+      ns(WSR, 3) +
+      Hora_sin + Hora_cos +
+      Mes_sin + Mes_cos
   ),
-  lty = 1
+  data = d_conjunto,
+  family = binomial
+)
+
+# ¿Vale la pena permitir que los controles también cambien por estación?
+anova(
+  mod_conjunto,
+  mod_conjunto_flexible,
+  test = "Chisq"
+)
+
+tibble(
+  Modelo = c(
+    "Controles comunes",
+    "Controles específicos por estación"
+  ),
+  AIC = c(
+    AIC(mod_conjunto),
+    AIC(mod_conjunto_flexible)
+  ),
+  BIC = c(
+    BIC(mod_conjunto),
+    BIC(mod_conjunto_flexible)
+  )
 )
 ```

@@ -5,7 +5,7 @@ format: pdf
 editor: visual
 ---
 
-## ETAPA 3
+# ETAPA FINAL
 
 ```{r}
 library(tidyverse)
@@ -68,7 +68,7 @@ cat("\nNAs en sector:", sum(is.na(datos$sector)), "\n")
 table(datos$sector) %>% sort(decreasing = TRUE) %>% head(5)
 ```
 
-#### Regresión logística direccional (SE3)
+## Regresión logística direccional (SE3)
 
 ```{r}
 library(broom)
@@ -133,7 +133,21 @@ cat("Pseudo-R2 McFadden:",
 cat("AIC:              ", round(AIC(mod_se3), 1), "\n")
 ```
 
-**Validación cruzada espacial y falsación multi-contaminante**
+Resultado estrella: Este = OR 6.12
+
+El resultado es:
+
+**E → OR = 6.12**\
+
+IC 95% = **4.73–7.92**\
+
+p extremadamente pequeño.
+
+Interpretación correcta y natural
+
+**Manteniendo comparables la velocidad del viento, la hora y el mes, cuando el viento proviene del Este los momios de registrar un episodio elevado de SO₂ en SE3 son aproximadamente 6.1 veces los correspondientes a viento del Norte.**
+
+## **Validación cruzada espacial y falsación multi-contaminante**
 
 ```{r}
 # ---- 1. Sector industrial colapsado ----
@@ -196,7 +210,7 @@ map_dfr(c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"), function(v) {
 }) %>% print()
 ```
 
-###### Validación y ajuste de la regresión logística mod_SE3 (dirección de las emisiones de azufre)
+## Validación y ajuste de la regresión logística mod_SE3 (dirección de las emisiones de azufre)
 
 ```{r}
 # Modelo nulo para el modelo principal de 16 rumbos
@@ -226,7 +240,7 @@ hoslem.test(
 )
 ```
 
-###### Validación y ajuste del modelo de regresión logística mod
+## Validación y ajuste del modelo de regresión logística mod
 
 ```{r}
 library(pROC)
@@ -322,7 +336,7 @@ cat(
 
 La prueba de razón de verosimilitudes mostró que el modelo completo mejora significativamente frente al modelo nulo (p \< 0.001). La curva ROC presentó un AUC de 0.783, indicando una capacidad razonable para distinguir entre horas con y sin episodios de SO₂. Por otro lado, la prueba de Hosmer-Lemeshow resultó significativa (p \< 0.001), lo que indica diferencias entre los valores observados y las probabilidades estimadas. Debido al gran tamaño de la muestra, esta prueba puede ser sensible a desviaciones pequeñas, por lo que el resultado se interpreta en conjunto con el AUC y el objetivo inferencial del modelo.
 
-**PCA sobre la matriz química (técnica de interdependencia)**
+## **PCA sobre la matriz química (técnica de interdependencia)**
 
 ```{r}
 library(factoextra)
@@ -377,7 +391,7 @@ fviz_eig(pca, addlabels = TRUE, barfill = "steelblue",
          main = "Varianza explicada por componente (SE3)")
 ```
 
-**Conglomerados sobre el espacio de componentes**
+## **Conglomerados sobre el espacio de componentes**
 
 ```{r}
 library(cluster)
@@ -435,7 +449,7 @@ perfil %>%
   print()
 ```
 
-**diferencia de medianas por año y traducción a política pública**
+## **Diferencia de medianas por año y traducción a política pública**
 
 ```{r}
 # ---- 1. Kruskal-Wallis por año: ¿difieren las 4 estaciones? ----
@@ -493,7 +507,7 @@ horas %>%
   print()
 ```
 
-**sensibilidad y figura principal**
+## **Sensibilidad y figura principal**
 
 ```{r}
 # ---- 1. Sensibilidad del umbral: ¿el momio del Este depende de P95? ----
@@ -572,7 +586,7 @@ left_join(geo, or_p95, by = "Estacion") %>%
   theme_minimal(base_size = 12)
 ```
 
-#### validación y supuestos
+## validación y supuestos
 
 ```{r}
 library(pROC)
@@ -628,7 +642,7 @@ bt <- cortest.bartlett(cor(X), n = nrow(X))
 cat("Bartlett: chi2 =", round(bt$chisq, 0), " p =", signif(bt$p.value, 3), "\n")
 ```
 
-**CBPF**
+## **CBPF**
 
 ```{r}
 
@@ -694,7 +708,7 @@ saveRDS(list(datos = datos, pca = pca, km = km, completos = completos,
 names(readRDS("objetos_etapa3.rds"))
 ```
 
-# Simulación de predicción prueba
+## Simulación de predicción prueba
 
 ```{r}
 #Simulamos un pronóstico del clima

@@ -991,3 +991,103 @@ Estos resultados muestran que el modelo es capaz de traducir determinadas combin
 El criterio denominado `estado_alerta` clasifica como alerta cualquier probabilidad superior a la tasa promedio de episodios observada en SE3. Este punto de corte tiene únicamente un propósito demostrativo y no constituye un umbral ambiental, regulatorio ni operativo validado. Por lo tanto, las clasificaciones obtenidas no deben interpretarse como alertas reales.
 
 **Hallazgo principal.** La simulación demuestra de manera ilustrativa cómo el modelo puede transformar un conjunto de condiciones meteorológicas en una probabilidad estimada de episodio. Bajo el escenario hipotético planteado, las mayores probabilidades aparecen durante las horas en las que coinciden viento del Este, mayor velocidad del viento y determinadas condiciones temporales. El ejercicio muestra una posible aplicación futura del modelo, pero no representa un pronóstico meteorológico real ni valida por sí mismo un sistema de alerta temprana.
+
+### Probabilidades ajustadas de episodio por dirección del viento
+
+```{r}
+# ---- Probabilidades ajustadas por dirección del viento ----
+
+# Se utilizan las condiciones reales observadas en SE3.
+# Para cada rumbo se supone, de manera contrafactual, que todas las
+# observaciones tuvieron ese rumbo, manteniendo WSR, hora y mes iguales.
+# Después se promedian las probabilidades estimadas.
+
+rumbos_modelo <- levels(model.frame(mod_se3)$sector)
+
+base_prob <- d_se3 %>%
+  select(WSR, Hora_sin, Hora_cos, Mes_sin, Mes_cos) %>%
+  drop_na()
+
+# Coeficientes y matriz de covarianza del modelo
+beta <- coef(mod_se3)
+V    <- vcov(mod_se3)
+
+# Términos utilizados por el modelo
+tt <- delete.response(terms(mod_se3))
+
+prob_direccion <- map_dfr(rumbos_modelo, function(r) {
+  
+  # Mismas condiciones observadas, cambiando únicamente el rumbo
+  nuevo <- base_prob %>%
+    mutate(
+      sector = factor(r, levels = rumbos_modelo)
+    )
+  
+  # Matriz de diseño correspondiente al rumbo evaluado
+  X <- model.matrix(tt, data = nuevo)
+  
+  # Asegurar mismo orden de columnas que los coeficientes
+  X <- X[, names(beta), drop = FALSE]
+  
+  # Probabilidad estimada para cada observación
+  eta <- as.vector(X %*% beta)
+  p   <- plogis(eta)
+  
+  # Probabilidad marginal promedio
+  prob_media <- mean(p)
+  
+  # Error estándar mediante método delta
+  gradiente <- colMeans(
+    sweep(X, 1, p * (1 - p), "*")
+  )
+  
+  se_prob <- sqrt(
+    as.numeric(t(gradiente) %*% V %*% gradiente)
+  )
+  
+  tibble(
+    Rumbo = r,
+    Prob_ajustada = prob_media,
+    IC_inf = max(0, prob_media - 1.96 * se_prob),
+    IC_sup = min(1, prob_media + 1.96 * se_prob)
+  )
+})
+
+# Convertir a porcentaje para interpretación
+prob_direccion <- prob_direccion %>%
+  mutate(
+    Prob_pct   = round(100 * Prob_ajustada, 2),
+    IC_inf_pct = round(100 * IC_inf, 2),
+    IC_sup_pct = round(100 * IC_sup, 2)
+  )
+
+print(
+  prob_direccion %>%
+    select(Rumbo, Prob_pct, IC_inf_pct, IC_sup_pct),
+  n = 16
+)
+
+# ---- Gráfica ----
+ggplot(prob_direccion,
+       aes(x = factor(Rumbo, levels = rumbos_modelo),
+           y = Prob_pct)) +
+  geom_col() +
+  geom_errorbar(
+    aes(ymin = IC_inf_pct, ymax = IC_sup_pct),
+    width = 0.25
+  ) +
+  labs(
+    title = "Probabilidad ajustada de episodio de SO₂ según la dirección del viento",
+    subtitle = "SE3 | Ajustada por velocidad del viento, hora y mes",
+    x = "Dirección de procedencia del viento",
+    y = "Probabilidad ajustada de episodio (%)"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+
+**Interpretación.** Las probabilidades ajustadas muestran un patrón direccional claramente definido en SE3. Después de mantener comparables la velocidad del viento, la hora del día y el mes, la mayor probabilidad estimada de registrar un episodio elevado de SO₂ corresponde al viento proveniente del Este, seguida por las direcciones vecinas ESE y ENE.
+
+En contraste, las probabilidades ajustadas disminuyen considerablemente hacia el sector occidental, alcanzando sus valores más bajos en direcciones como O, ONO y NO. Por lo tanto, el patrón encontrado previamente mediante razones de momios también se mantiene cuando los resultados se expresan directamente en términos de probabilidad.
+
+**Hallazgo principal.** La dirección del viento modifica de manera importante la probabilidad ajustada de episodio en SE3. El máximo se concentra en el sector oriental y disminuye hacia las direcciones occidentales, aun después de controlar por velocidad del viento, hora y mes. Esta representación facilita la interpretación del modelo al traducir las razones de momios a probabilidades estimadas más intuitivas.

@@ -68,16 +68,6 @@ cat("\nNAs en sector:", sum(is.na(datos$sector)), "\n")
 table(datos$sector) %>% sort(decreasing = TRUE) %>% head(5)
 ```
 
-**Interpretación.** En este bloque se prepara la base que será utilizada en todos los análisis posteriores. Se cargaron 132,936 registros con 21 variables correspondientes a información de contaminantes, meteorología, estación y tiempo para el periodo 2022–2025.
-
-La fecha y hora se transformaron a un formato temporal adecuado y las estaciones se ordenaron de forma consistente como SE3, SE2, NE y GAR. Posteriormente, la dirección del viento (`WDR`) se transformó en 16 sectores de 22.5°, respetando su naturaleza circular. Esta clasificación permite trabajar con rumbos como N, NE, E, SE, entre otros, en lugar de interpretar los grados de dirección como una variable lineal.
-
-Para identificar episodios elevados de SO₂ se estableció un único umbral absoluto de 11.1 ppb, correspondiente al percentil 95 global de las cuatro estaciones. Utilizar un mismo umbral es relevante porque permite comparar directamente la frecuencia de episodios entre estaciones sin forzar que cada una tenga, por construcción, el mismo 5% de observaciones extremas.
-
-Con este criterio, SE3 presentó la mayor frecuencia de episodios, con 3,951 horas y una tasa de 11.63%, seguida de SE2 con 5.54%, NE con 2.25% y GAR con 0.15%. Además, la relación entre el percentil 99 y la mediana fue mayor en SE3 (12.6) y disminuyó progresivamente hasta GAR (2.24), lo que muestra que las diferencias entre estaciones son particularmente marcadas en la parte alta de la distribución y no únicamente en sus valores típicos.
-
-Finalmente, no se detectaron valores faltantes en la variable de sector de viento, por lo que todas las observaciones conservan una clasificación direccional disponible para los análisis posteriores. Las direcciones más frecuentes en la base fueron ESE, SE, E, SSE y NE. Estos resultados iniciales describen la estructura de los datos y justifican continuar con un análisis enfocado en la relación entre la dirección del viento y la ocurrencia de episodios elevados de SO₂.
-
 ## Regresión logística direccional (SE3)
 
 ```{r}
@@ -143,23 +133,19 @@ cat("Pseudo-R2 McFadden:",
 cat("AIC:              ", round(AIC(mod_se3), 1), "\n")
 ```
 
-**Pregunta que responde.** Este análisis evalúa cómo cambia la ocurrencia de episodios elevados de SO₂ en SE3 según la dirección del viento, controlando simultáneamente por velocidad del viento, hora del día y mes. La variable respuesta del modelo es `episodio`, por lo que el modelo no intenta predecir la dirección del viento a partir de los niveles de contaminación; utiliza las condiciones meteorológicas y temporales para explicar cómo cambia la posibilidad de registrar un episodio de SO₂.
+Resultado estrella: Este = OR 6.12
 
-**Interpretación.** Como primera aproximación descriptiva, las tasas crudas muestran un patrón direccional marcado. El Este presentó la mayor proporción de episodios, con 23.8% de las horas por encima del umbral de 11.1 ppb, seguido por ESE con 16.9% y SE con 15.0%. En contraste, algunas direcciones occidentales presentaron tasas mucho menores, como O con 1.21% y NO con 0.62%. Estas tasas todavía no consideran posibles diferencias en velocidad del viento, hora o mes, por lo que la regresión logística permite evaluar si el patrón se mantiene después de controlar por esas condiciones.
+El resultado es:
 
-Para el modelo se utilizó Norte como categoría de referencia. La velocidad del viento (`WSR`) se incorporó mediante un spline natural de tres grados de libertad para permitir una relación no lineal, mientras que hora y mes se representaron mediante términos seno y coseno para conservar su naturaleza cíclica. De esta forma, la comparación entre direcciones no depende únicamente de diferencias temporales o de velocidad del viento.
+**E → OR = 6.12**\
 
-El resultado principal fue el rumbo Este, con una razón de momios de **OR = 6.12** y un intervalo de confianza del 95% de **4.73 a 7.92**. Esto significa que, manteniendo comparables la velocidad del viento, la hora y el mes, los momios de registrar un episodio elevado de SO₂ cuando el viento proviene del Este son aproximadamente **6.1 veces los correspondientes a viento del Norte**.
+IC 95% = **4.73–7.92**\
 
-Es importante señalar que un OR de 6.12 no significa que la concentración de SO₂ sea 6.12 veces mayor ni que la probabilidad aumente exactamente 6.12 veces. El OR compara los momios de ocurrencia del episodio entre dos condiciones de viento.
+p extremadamente pequeño.
 
-El patrón tampoco se limita únicamente al Este. Las direcciones cercanas ESE y ENE también mostraron asociaciones superiores a la referencia, con OR = 2.58 y OR = 1.98, respectivamente. En cambio, varias direcciones occidentales mostraron asociaciones mucho menores que Norte, por ejemplo O con OR = 0.24, ONO con OR = 0.25 y NO con OR = 0.08. En conjunto, esto muestra una estructura direccional coherente: la asociación con episodios de SO₂ es mayor en el sector oriental y considerablemente menor en el sector occidental.
+Interpretación correcta y natural
 
-La devianza disminuyó de 24,426.5 en el modelo nulo a 19,809.3 en el modelo ajustado, lo que indica que la incorporación de la dirección del viento, la velocidad y los controles temporales aporta información adicional respecto a un modelo que no utiliza estos predictores. El pseudo-R² de McFadden fue 0.189. Esta medida no debe interpretarse como el R² de una regresión lineal, sino como un indicador relativo de mejora del modelo respecto al modelo nulo. El AIC fue 19,855.3 y su principal utilidad será comparar esta especificación con otros modelos ajustados sobre los mismos datos; su valor aislado no determina si un modelo es bueno o malo.
-
-**Hallazgo principal.** Después de controlar por velocidad del viento, hora y mes, el sector Este conserva la asociación más fuerte con los episodios elevados de SO₂ en SE3. Además, las direcciones adyacentes ENE y ESE presentan el mismo patrón general, mientras que las direcciones occidentales muestran asociaciones considerablemente menores. Esto aporta evidencia de una señal direccional definida en los episodios de SO₂.
-
-Este resultado demuestra una asociación estadística entre la dirección del viento y la ocurrencia de episodios elevados de SO₂, pero por sí solo no identifica ni demuestra causalmente una fuente específica. La coherencia de esta señal con la ubicación geográfica, la distancia entre estaciones y los análisis complementarios se evalúa posteriormente.
+**Manteniendo comparables la velocidad del viento, la hora y el mes, cuando el viento proviene del Este los momios de registrar un episodio elevado de SO₂ en SE3 son aproximadamente 6.1 veces los correspondientes a viento del Norte.**
 
 ## **Validación cruzada espacial y falsación multi-contaminante**
 
@@ -224,24 +210,6 @@ map_dfr(c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"), function(v) {
 }) %>% print()
 ```
 
-**Preguntas que responde.** Este análisis tiene dos propósitos. Primero, evalúa si la asociación entre el sector oriental del viento (ENE–E–ESE) y las concentraciones elevadas se reproduce en las cuatro estaciones. Segundo, compara en SE3 el comportamiento del SO₂ con otros contaminantes para determinar si la señal direccional observada es específica del contaminante de interés o forma parte de un patrón general de contaminación.
-
-**Interpretación.** A partir del modelo previo de 16 rumbos, se agruparon ENE, E y ESE en una sola categoría denominada `Este`, mientras que todas las demás direcciones conformaron la categoría de referencia `Resto`. Esta simplificación permite resumir el sector donde se concentró la principal señal direccional y realizar comparaciones más sencillas entre estaciones y contaminantes.
-
-En este bloque, el evento elevado se define utilizando el percentil 95 calculado dentro de cada subconjunto analizado. Por lo tanto, en la comparación entre estaciones cada sitio se evalúa respecto a su propio 5% de concentraciones más altas. Esto significa que los OR obtenidos aquí describen la asociación del sector oriental con los valores extremos relativos de cada estación y no deben interpretarse como una comparación directa de la frecuencia absoluta de episodios por encima del umbral común de 11.1 ppb.
-
-En SE3, el sector oriental presentó la asociación más fuerte con sus concentraciones elevadas de SO₂, con **OR = 2.66** e IC95% de **2.39 a 2.95**. Esto indica que, controlando por velocidad del viento, hora y mes, los momios de que una observación pertenezca al 5% más alto de SO₂ de SE3 son aproximadamente 2.7 veces mayores bajo vientos provenientes de ENE–E–ESE que bajo el resto de las direcciones.
-
-En SE2 la asociación también fue positiva, aunque menor, con **OR = 1.61** e IC95% de **1.45 a 1.79**. En NE el OR fue **1.02** con IC95% de **0.88 a 1.18**, por lo que no se observa evidencia clara de una asociación direccional. En GAR se obtuvo **OR = 1.25** con IC95% de **1.09 a 1.43**, indicando una asociación positiva de menor magnitud. Debido a que en esta parte cada estación utiliza su propio percentil 95, estos resultados no deben utilizarse por sí solos para cuantificar el gradiente espacial de episodios absolutos; esa comparación se realiza posteriormente utilizando el mismo umbral de 11.1 ppb para todas las estaciones.
-
-La comparación entre contaminantes utiliza igualmente el percentil 95 propio de cada variable, lo cual permite estudiar si sus valores relativamente altos presentan el mismo patrón direccional aunque se encuentren medidos en escalas diferentes. En SE3, el SO₂ presentó **OR = 2.66** con IC95% de **2.39 a 2.95**, siendo el único contaminante analizado con una asociación claramente positiva y de magnitud importante con el sector oriental.
-
-En contraste, NOX y NO presentaron **OR = 0.22**, mientras que PM10 y PM2.5 mostraron OR de **0.50** y **0.59**, respectivamente. Estos valores menores a uno indican que sus concentraciones elevadas fueron menos frecuentes bajo vientos del sector oriental que bajo el resto de las direcciones. Por su parte, CO presentó **OR = 1.05** con IC95% de **0.92 a 1.20**, y O₃ **OR = 0.90** con IC95% de **0.80 a 1.02**; como sus intervalos incluyen la unidad, no existe evidencia clara de un aumento asociado al sector oriental para estos contaminantes.
-
-**Hallazgo principal.** La señal del sector oriental no aparece de la misma manera en todos los contaminantes. En SE3, las concentraciones elevadas de SO₂ muestran una asociación positiva y marcada con vientos provenientes de ENE–E–ESE, mientras que NOX, NO y las partículas presentan el patrón contrario y CO y O₃ no muestran un incremento estadísticamente claro. Esta diferencia aporta evidencia de que el patrón direccional del SO₂ es distinto al comportamiento de varios contaminantes relacionados con otras dinámicas de contaminación.
-
-Estos resultados fortalecen la evidencia de una señal direccional específica del SO₂, pero no permiten atribuir por sí solos los episodios a una fuente determinada. La identificación de una fuente requiere considerar conjuntamente la ubicación geográfica, la distancia entre estaciones y las verificaciones complementarias realizadas posteriormente.
-
 ## Validación y ajuste de la regresión logística mod_SE3 (dirección de las emisiones de azufre)
 
 ```{r}
@@ -271,18 +239,6 @@ hoslem.test(
   g = 10
 )
 ```
-
-**Interpretación.** Este bloque evalúa estadísticamente el modelo logístico direccional de 16 rumbos (`mod_se3`), utilizado para analizar cómo cambia la ocurrencia de episodios elevados de SO₂ en SE3 según la dirección y velocidad del viento, controlando además por hora y mes. Las tres verificaciones analizan aspectos diferentes del desempeño del modelo: utilidad global, capacidad de discriminación y calibración.
-
-La prueba de razón de verosimilitudes compara el modelo completo contra un modelo nulo que únicamente contiene el intercepto. Se obtuvo **χ² = 4617.2 con p \< 0.001**, lo que indica que incorporar la dirección del viento, su velocidad y los términos temporales mejora significativamente el modelo respecto a no utilizar estas variables. En otras palabras, las condiciones incluidas en el modelo aportan información relevante para explicar la ocurrencia de episodios elevados de SO₂.
-
-La curva ROC presentó un **AUC = 0.811**. Este resultado indica una buena capacidad de discriminación entre horas con y sin episodio. De manera intuitiva, si se seleccionara aleatoriamente una hora con episodio y otra sin episodio, el modelo asignaría una probabilidad estimada mayor a la hora con episodio aproximadamente el **81% de las veces**. Esto respalda que el patrón identificado por el modelo contiene información útil para diferenciar ambos tipos de observaciones.
-
-Sin embargo, el AUC evalúa discriminación y no significa que las probabilidades estimadas sean perfectamente exactas. Para evaluar este segundo aspecto se aplicó la prueba de Hosmer-Lemeshow. El resultado fue **χ² = 56.53, p \< 0.001**, por lo que se detectan diferencias estadísticamente significativas entre algunas probabilidades estimadas por el modelo y las frecuencias realmente observadas. Por lo tanto, no puede afirmarse que el modelo tenga una calibración perfecta.
-
-Este resultado de Hosmer-Lemeshow no implica por sí solo que el modelo deba descartarse. La base contiene decenas de miles de observaciones, por lo que una prueba de este tipo puede detectar desviaciones relativamente pequeñas como estadísticamente significativas. Por ello, su adecuación debe evaluarse conjuntamente con las demás evidencias y no únicamente con esta prueba.
-
-**Hallazgo principal.** En conjunto, las validaciones muestran que el modelo de 16 rumbos aporta información significativamente mayor que un modelo sin predictores y presenta una buena capacidad para distinguir horas con y sin episodios de SO₂. Al mismo tiempo, Hosmer-Lemeshow muestra que existen limitaciones en la calibración de las probabilidades estimadas. Por esta razón, el modelo es útil principalmente para estudiar y cuantificar asociaciones direccionales, pero sus probabilidades no deben considerarse por sí solas como un sistema operativo de pronóstico o alerta.
 
 ## Validación y ajuste del modelo de regresión logística mod
 
@@ -803,3 +759,4 @@ pronostico_predictivo %>%
   mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
   print(n = 24)
 ```
+

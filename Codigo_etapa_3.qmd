@@ -12,6 +12,7 @@ library(tidyverse)
 library(lubridate)
 library(ResourceSelection)
 library(pROC)
+library(splines)
 
 datos <- read_csv(
   "baseee_SIMA_limpia_4est_8cont_2022_2025.csv",
@@ -691,4 +692,56 @@ saveRDS(list(datos = datos, pca = pca, km = km, completos = completos,
         "objetos_etapa3.rds")
 
 names(readRDS("objetos_etapa3.rds"))
+```
+
+# Simulación de predicción prueba
+
+```{r}
+#Simulamos un pronóstico del clima
+#Supongamos que mañana por la tarde el viento rotará hacia el Este.
+pronostico_manana <- tibble(
+  Hora = 0:23,
+  Mes  = rep(month(Sys.Date()), 24), 
+  WSR  = c(rep(3.0, 10), rep(6.5, 8), rep(3.0, 6)), # Viento suave en la mañana, fuerte en la tarde
+  WDR  = c(rep(180, 10), rep(95, 8), rep(180, 6))   # Viento del Sur, luego del Este (95°), luego Sur
+)
+
+#Preparar datos
+rumbos_ref <- c("N","NNE","NE","ENE","E","ESE","SE","SSE",
+                "S","SSO","SO","OSO","O","ONO","NO","NNO")
+
+pronostico_predictivo <- pronostico_manana %>%
+  mutate(
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin  = sin(2 * pi * Mes / 12),
+    Mes_cos  = cos(2 * pi * Mes / 12),
+    sector   = rumbos_ref[((floor((WDR + 11.25) / 22.5)) %% 16) + 1],
+    sector_E = factor(
+      if_else(sector %in% c("ENE", "E", "ESE"), "Este", "Resto"),
+      levels = c("Resto", "Este")
+    )
+  )
+
+#Predicción usando modelo completo 
+tasa_base <- mean(d_se3$episodio)
+
+pronostico_predictivo <- pronostico_predictivo %>%
+  mutate(
+    prob_episodio = predict(mod, newdata = pronostico_predictivo, type = "response"),
+    #Detonador de política pública:
+    estado_alerta = if_else(
+      prob_episodio > tasa_base, 
+      "ALERTA: Probabilidad de Episodio", 
+      "Normal"
+    )
+  )
+
+
+cat("\n=== TABLERO DE ALERTA TEMPRANA: PRONÓSTICO 24 HORAS ===\n")
+pronostico_predictivo %>%
+  select(Hora, Viento_Velocidad = WSR, Rumbo = sector, 
+         Probabilidad = prob_episodio, Alerta = estado_alerta) %>%
+  mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
+  print(n = 24)
 ```

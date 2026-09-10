@@ -1286,7 +1286,7 @@ ggplot(
   theme_minimal(base_size = 12)
 ```
 
-## Verificación
+### Verificación
 
 ```{r}
 # VALIDACIÓN 1: INTERACCIÓN ESTACIÓN × SECTOR ORIENTAL
@@ -1337,3 +1337,43 @@ print(comparacion_interaccion)
 Asimismo, el modelo con interacción presentó menores valores de AIC (40567 frente a 40838) y BIC (40714 frente a 40955), lo que indica un mejor balance entre ajuste y complejidad. En conjunto, estos resultados respaldan que la relación entre el sector oriental (ENE–E–ESE) y la ocurrencia de episodios elevados de SO₂ no es constante entre las estaciones.
 
 Por lo tanto, es estadísticamente justificable estimar y comparar probabilidades ajustadas específicas para cada estación, como se muestra en la gráfica correspondiente.
+
+```{r}
+# VALIDACIÓN 2: CONTRASTES ESTE VS RESTO POR ESTACIÓN
+
+library(emmeans)
+
+# Medias marginales estimadas del modelo conjunto
+emm_sector <- emmeans(
+  mod_conjunto,
+  ~ sector_E | Estacion
+)
+
+# Contraste específico:
+# Este vs Resto dentro de cada estación
+contrastes_estacion <- contrast(
+  emm_sector,
+  method = list(
+    "Este vs Resto" = c(-1, 1)
+  ),
+  adjust = "holm"
+)
+
+# Mostrar resultados como razones de momios (OR)
+resultado_contrastes <- summary(
+  contrastes_estacion,
+  type = "response",
+  infer = c(TRUE, TRUE)
+)
+
+cat("=== CONTRASTES ESTE VS RESTO POR ESTACIÓN ===\n")
+print(resultado_contrastes)
+```
+
+**Contrastes por estación.** Después de confirmar que existe una interacción significativa entre la estación y el sector oriental, se evaluó la diferencia entre el sector ENE–E–ESE y el resto de las direcciones dentro de cada estación.
+
+En SE3, el sector oriental presentó momios de episodio aproximadamente 3.09 veces mayores que el resto de las direcciones (OR = 3.093; IC95%: 2.875–3.328; p \< 0.001). En SE2 también se observó una asociación positiva, aunque de menor magnitud (OR = 1.573; IC95%: 1.426–1.734; p \< 0.001).
+
+En NE, el patrón cambió de dirección: el sector oriental presentó menores momios de episodio que el resto de las direcciones (OR = 0.723; IC95%: 0.586–0.892; p = 0.0025). Por su parte, en GAR no se encontró evidencia estadísticamente suficiente de una diferencia entre ambos sectores (OR = 0.599; IC95%: 0.332–1.080; p = 0.0885).
+
+En conjunto, los resultados muestran que la fuerte asociación positiva entre el sector oriental y los episodios observada en SE3 se reduce en SE2 y no se mantiene en las estaciones más alejadas.

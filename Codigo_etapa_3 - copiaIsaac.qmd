@@ -747,3 +747,121 @@ pronostico_predictivo %>%
 ```
 
 # Modelo predictivo correcciones
+
+```{r}
+# 1. Tu modelo original completo
+mod_completo <- glm(episodio ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos + Mes_sin + Mes_cos, 
+                    data = d_se3, family = binomial)
+
+# 2. Selección automática basada en AIC
+cat("=== SELECCIÓN STEPWISE (AIC) ===\n")
+mod_optimo_aic <- step(mod_completo, direction = "backward")
+
+# 3. Selección automática basada en BIC
+# El BIC requiere indicarle el tamaño de la muestra (k = log(n))
+cat("\n=== SELECCIÓN STEPWISE (BIC) ===\n")
+mod_optimo_bic <- step(mod_completo, direction = "backward", k = log(nrow(d_se3)))
+
+# 4. Comparación de los 3 modelos
+cat("\n=== COMPARACIÓN DE MODELOS ===\n")
+tibble(
+  Modelo = c("Completo", "Óptimo AIC", "Óptimo BIC"),
+  Variables = c(length(coef(mod_completo)), length(coef(mod_optimo_aic)), length(coef(mod_optimo_bic))),
+  AIC = c(AIC(mod_completo), AIC(mod_optimo_aic), AIC(mod_optimo_bic)),
+  BIC = c(BIC(mod_completo), BIC(mod_optimo_aic), BIC(mod_optimo_bic))
+)
+```
+
+Incluir otras variables
+
+```{r}
+library(tidyverse)
+library(splines)
+library(lubridate)
+
+# 1. Preparamos los datos de Cadereyta asegurando que no haya NAs en el clima
+d_se3_meteo <- datos %>%
+  filter(Estacion == "SE3") %>%
+  mutate(
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin  = sin(2 * pi * Mes / 12),
+    Mes_cos  = cos(2 * pi * Mes / 12)
+  ) %>%
+  # Es crucial quitar los NAs de las variables nuevas para que el modelo corra bien
+  drop_na(sector_E, WSR, TOUT, RH) 
+
+# 2. El NUEVO Modelo Logístico (mod_meteo)
+mod_meteo <- glm(
+  episodio ~ sector_E + ns(WSR, 3) + ns(TOUT, 3) + ns(RH, 3) + 
+    Hora_sin + Hora_cos + Mes_sin + Mes_cos,
+  data   = d_se3_meteo,
+  family = binomial
+)
+
+# 3. Revisamos qué tanto mejoró el modelo (Validación)
+cat("=== COMPARACIÓN DE DEVIANZA ===\n")
+cat("Devianza Residual Modelo Viejo (Sin Clima):", mod$deviance, "\n")
+cat("Devianza Residual Modelo Nuevo (Con Clima):", mod_meteo$deviance, "\n")
+# (Si el número del nuevo modelo es menor, significa que es más preciso)
+
+# Seleccionamos variables con AIC para confirmar que TMP y HR aportan valor
+mod_optimizado <- step(mod_meteo, direction = "backward")
+```
+
+```{r}
+# 1. Simulamos el pronóstico meteorológico completo de mañana
+pronostico_manana <- tibble(
+  Hora = 0:23,
+  Mes  = rep(month(Sys.Date()), 24), 
+  
+  # Pronóstico de Viento (como lo tenías)
+  WSR  = c(rep(3.0, 10), rep(6.5, 8), rep(3.0, 6)), 
+  WDR  = c(rep(180, 10), rep(95, 8), rep(180, 6)),  
+  
+  # NUEVO: Pronóstico de Clima (ej. Mañana muy fría y seca, tarde cálida)
+  TOUT  = c(rep(10, 8), rep(25, 10), rep(16, 6)),  # Grados Celsius
+  RH   = c(rep(30, 8), rep(20, 10), rep(40, 6))   # Porcentaje de humedad
+)
+
+# 2. Preparamos el pronóstico con las variables armónicas y el sector
+rumbos_ref <- c("N","NNE","NE","ENE","E","ESE","SE","SSE",
+                "S","SSO","SO","OSO","O","ONO","NO","NNO")
+
+pronostico_predictivo <- pronostico_manana %>%
+  mutate(
+    Hora_sin = sin(2 * pi * Hora / 24),
+    Hora_cos = cos(2 * pi * Hora / 24),
+    Mes_sin  = sin(2 * pi * Mes / 12),
+    Mes_cos  = cos(2 * pi * Mes / 12),
+    sector   = rumbos_ref[((floor((WDR + 11.25) / 22.5)) %% 16) + 1],
+    sector_E = factor(
+      if_else(sector %in% c("ENE", "E", "ESE"), "Este", "Resto"),
+      levels = c("Resto", "Este")
+    )
+  )
+
+# 3. Predicción usando el NUEVO modelo (mod_meteo)
+tasa_base <- mean(d_se3_meteo$episodio)
+
+tablero_final <- pronostico_predictivo %>%
+  mutate(
+    # Usamos mod_meteo en lugar de mod
+    prob_episodio = predict(mod_meteo, newdata = pronostico_predictivo, type = "response"),
+    
+    # Detonador de política pública:
+    estado_alerta = if_else(
+      prob_episodio > tasa_base, 
+      "ALERTA", 
+      "Normal"
+    )
+  )
+
+# 4. Imprimimos el tablero operativo
+cat("\n=== TABLERO DE ALERTA TEMPRANA V2: PRONÓSTICO METEOROLÓGICO ===\n")
+tablero_final %>%
+  select(Hora, Temp = TOUT, Viento = WSR, Rumbo = sector, 
+         Probabilidad = prob_episodio, Alerta = estado_alerta) %>%
+  mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
+  print(n = 24)
+```

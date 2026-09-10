@@ -747,26 +747,3 @@ pronostico_predictivo %>%
 ```
 
 # Modelo predictivo correcciones
-
-```{r}
-library(tidyverse)
-library(splines)
-library(pROC)
-
-# Creación de variables lag y estructuración temporal
-datos_ext <- datos %>%
-  arrange(Estacion, fecha) %>%
-  group_by(Estacion) %>%
-  mutate(
-    # Rezagos temporales de concentraciones pasadas
-    SO2_lag1 = lag(SO2, 1),
-    SO2_lag2 = lag(SO2, 2),
-    episodio_lag1 = lag(episodio, 1),
-    
-    # Promedio móvil de las últimas 3 horas previas
-    SO2_ma3 = (lag(SO2, 1) + lag(SO2, 2) + lag(SO2, 3)) / 3
-  ) %>%
-  ungroup() %>%
-  # Eliminar los NA generados por los rezagos iniciales
-  filter(!is.na(SO2_lag3))
-```

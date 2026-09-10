@@ -479,6 +479,24 @@ fviz_eig(pca, addlabels = TRUE, barfill = "steelblue",
          main = "Varianza explicada por componente (SE3)")
 ```
 
+**Interpretación.** Este análisis de componentes principales (PCA) estudia la estructura conjunta de los ocho contaminantes registrados en SE3 sin utilizar información sobre dirección o velocidad del viento. Su objetivo es determinar qué contaminantes tienden a variar conjuntamente y evaluar si el SO₂ forma parte del mismo patrón que los demás o presenta un comportamiento diferente.
+
+El PCA requiere observaciones completas para todas las variables incluidas. De las 33,977 horas disponibles en SE3 se conservaron **27,938 casos completos, equivalentes al 82.2% de las observaciones**. Además, se conservaron **3,304 de los 3,951 episodios de SO₂**, aproximadamente el 83.6%. La similitud entre la proporción total de observaciones conservadas y la proporción de episodios conservados indica que la eliminación de casos incompletos no excluyó de manera desproporcionada las horas con episodios elevados de SO₂.
+
+Antes de realizar el PCA se aplicó una transformación `log1p` a las concentraciones. Esta transformación reduce la influencia de valores extremadamente altos sin eliminar las observaciones. Posteriormente, las variables fueron estandarizadas mediante `scale. = TRUE`, de modo que contaminantes medidos en diferentes escalas pudieran contribuir al análisis sin que aquellos con mayor variabilidad numérica dominaran automáticamente los componentes.
+
+El primer componente principal (**PC1**) explicó **48.6% de la variabilidad total**. En este componente las mayores cargas en magnitud correspondieron principalmente a NOX (-0.481), NO (-0.452), NO₂ (-0.437), PM10 (-0.351) y, en menor medida, CO (-0.278). El SO₂ presentó una carga de apenas **0.029**, prácticamente nula. Esto muestra que el SO₂ participa muy poco en el principal patrón de variación compartido por varios de los otros contaminantes.
+
+El segundo componente (**PC2**) explicó otro **19.4% de la variabilidad**, llevando la varianza acumulada de los dos primeros componentes a **68.0%**. En este componente, el SO₂ presentó la carga de mayor magnitud, con **0.604**, acompañado principalmente por PM2.5 (0.503) y O₃ (0.458). Esto indica que una parte importante de la variabilidad del SO₂ aparece en un eje diferente del patrón dominante representado por PC1.
+
+Por lo tanto, el resultado más relevante no es únicamente que PC1 y PC2 expliquen conjuntamente 68.0% de la variación, sino que el SO₂ tiene una participación prácticamente nula en PC1 y una participación importante en PC2. Esto aporta evidencia de que el comportamiento del SO₂ no coincide completamente con el principal patrón de variación conjunta observado entre los demás contaminantes.
+
+Los componentes PC3 y PC4 explicaron 9.69% y 9.21% adicionales, respectivamente, de manera que los primeros cuatro componentes acumularon **86.9% de la variabilidad total**. Aunque el criterio de Kaiser identificó **dos componentes con eigenvalor mayor a 1**, posteriormente se conservan cuatro componentes para el análisis de conglomerados con el objetivo de retener una proporción mayor de la información original.
+
+Es importante señalar que el signo positivo o negativo de una carga en PCA puede invertirse sin modificar el significado matemático del componente. Por ello, para identificar qué variables caracterizan cada componente resulta especialmente importante la magnitud de las cargas y la relación relativa entre ellas, y no interpretar un signo negativo por sí solo como una relación perjudicial o una disminución del contaminante.
+
+**Hallazgo principal.** El PCA muestra que el SO₂ se comporta de forma diferente al principal patrón químico observado en SE3. Mientras NOX, NO, NO₂ y otros contaminantes presentan cargas importantes en PC1, el SO₂ tiene una carga prácticamente nula en ese componente y se concentra principalmente en PC2. Esto respalda la existencia de una estructura de variación diferenciada para el SO₂ y complementa la evidencia direccional obtenida mediante las regresiones logísticas.
+
 ## **Conglomerados sobre el espacio de componentes**
 
 ```{r}
@@ -536,6 +554,22 @@ perfil %>%
   select(grupo, SO2_med, NOX_med, razon_SO2_NOX, pct_Este, pct_episod) %>%
   print()
 ```
+
+**Interpretación.** El análisis de conglomerados busca identificar grupos de observaciones con perfiles químicos semejantes, utilizando como entrada los primeros cuatro componentes principales del PCA. Estos cuatro componentes conservan el **86.9% de la variabilidad total**, por lo que permiten resumir la mayor parte de la información química original antes de aplicar k-medias.
+
+Para explorar el número de conglomerados se utilizó el índice de silueta sobre una muestra de 4,000 observaciones. El valor más alto se obtuvo con **k = 2 (silueta = 0.418)**, mientras que para **k = 4** la silueta fue **0.264**. Por lo tanto, desde un criterio puramente geométrico, dos grupos producen la separación más clara. Sin embargo, se utilizó una partición de cuatro conglomerados con el propósito de obtener perfiles químicos más detallados e interpretables para el objetivo del estudio. Esta decisión debe entenderse como un compromiso entre separación estadística e interpretación sustantiva, y no como que k = 4 sea la solución óptima según la silueta.
+
+El modelo de k-medias con cuatro conglomerados explicó **58.3% de la variación en el espacio de componentes**, indicando que una parte importante de las diferencias entre observaciones puede resumirse mediante estos cuatro perfiles.
+
+El **Grupo 1**, que representa 14.7% de las observaciones completas, es el perfil que más destaca por SO₂. Presentó una mediana de **16.2 ppb de SO₂**, considerablemente superior a la de los demás grupos, acompañada por una mediana de NOX relativamente baja de **10.4 ppb**. Además, presentó la mayor razón SO₂/NOX (**1.56**), el **50.5%** de sus observaciones ocurrió bajo viento del sector oriental y el **72.2% de las observaciones pertenecientes a este grupo fueron episodios de SO₂**. En conjunto, este conglomerado representa un perfil caracterizado por concentraciones elevadas de SO₂ y una presencia importante de vientos provenientes de ENE–E–ESE.
+
+El **Grupo 2** presenta un comportamiento químico diferente. Su mediana de SO₂ fue de solo **4.4 ppb**, mientras que NOX alcanzó **51.8 ppb**, el valor más alto entre los cuatro grupos. Su razón SO₂/NOX fue muy baja (**0.085**), solamente 6.2% de sus observaciones correspondieron al sector oriental y apenas 1.4% fueron episodios de SO₂. Este grupo representa, por lo tanto, un perfil dominado por NOX y claramente distinto al perfil rico en SO₂ observado en el Grupo 1.
+
+Los **Grupos 3 y 4** mostraron concentraciones típicas de SO₂ cercanas a 4 ppb y tasas de episodio inferiores al 2%. El Grupo 3 presentó una razón SO₂/NOX de 0.237 y 25.4% de observaciones con viento oriental, mientras que el Grupo 4 presentó una razón de 0.506 y 42.7% de observaciones bajo dicho sector. Ninguno reproduce la combinación de SO₂ elevado y alta frecuencia de episodios observada en el Grupo 1.
+
+**Hallazgo principal.** El clustering identifica un perfil químico claramente diferenciado en el que coinciden concentraciones elevadas de SO₂, una razón SO₂/NOX alta, una mayor presencia de vientos del sector oriental y una elevada frecuencia de episodios. A su vez, aparece otro perfil dominado por NOX que presenta características prácticamente opuestas. Esta separación respalda la conclusión del PCA de que los episodios de SO₂ no siguen exactamente el mismo patrón químico que las condiciones caracterizadas por concentraciones elevadas de NOX.
+
+El análisis de conglomerados es exploratorio y no identifica por sí solo la fuente física de cada perfil. Los grupos representan patrones estadísticos de observaciones semejantes; su interpretación debe combinarse con la regresión direccional, la información geográfica y las demás verificaciones realizadas en el estudio.
 
 ## **Diferencia de medianas por año y traducción a política pública**
 
@@ -595,6 +629,26 @@ horas %>%
   print()
 ```
 
+**Interpretación.** Este análisis compara dos formas de describir el comportamiento del SO₂ entre estaciones: por un lado, las diferencias en sus niveles típicos mediante medidas robustas de tendencia central y, por otro, la frecuencia de horas que superan el umbral común de episodio de 11.1 ppb. El objetivo es evaluar si observar únicamente medianas permite representar adecuadamente la exposición a concentraciones elevadas.
+
+La prueba de Kruskal-Wallis resultó estadísticamente significativa en los cuatro años analizados. En 2022 se obtuvo χ² = 3878, en 2023 χ² = 10338, en 2024 χ² = 3799 y en 2025 χ² = 1455, con valores p extremadamente pequeños en todos los casos. Esto indica que la distribución de SO₂ no es igual entre las cuatro estaciones en ninguno de los años estudiados. Sin embargo, Kruskal-Wallis es una prueba global: permite concluir que existen diferencias entre estaciones, pero por sí sola no identifica específicamente cuáles estaciones difieren ni cuantifica el tamaño de esas diferencias.
+
+Para cuantificar específicamente el contraste entre SE3 y GAR se utilizó el estimador de Hodges-Lehmann, una medida no paramétrica del desplazamiento típico entre ambas distribuciones. La diferencia estimada fue de **1.3 ppb en 2022**, **1.5 ppb en 2023**, **1.0 ppb en 2024** y **0.6 ppb en 2025**. Todas las diferencias fueron estadísticamente significativas.
+
+Estos resultados muestran que la diferencia típica entre SE3 y GAR disminuyó hacia el final del periodo. En 2023, por ejemplo, la diferencia de Hodges-Lehmann alcanzó 1.5 ppb, mientras que en 2025 disminuyó hasta 0.6 ppb. Si únicamente se observara esta medida, podría interpretarse que ambas estaciones se estaban aproximando y que el contraste en SO₂ era cada vez menor.
+
+Sin embargo, al analizar las horas por encima del umbral absoluto de **11.1 ppb** aparece un comportamiento diferente. SE3 registró **1,245 horas de episodio en 2022, 689 en 2023, 845 en 2024 y 1,172 en 2025**. GAR, en contraste, registró solamente **10, 20, 10 y 9 horas**, respectivamente.
+
+El caso de 2025 es particularmente relevante. Ese año presentó la **menor diferencia típica entre SE3 y GAR (0.6 ppb)**, pero al mismo tiempo SE3 registró **1,172 horas de episodio**, el segundo valor más alto del periodo, frente a únicamente 9 horas en GAR. Por lo tanto, una reducción en la diferencia de los niveles típicos no implica necesariamente una reducción en la frecuencia de eventos de concentración elevada.
+
+Al comparar directamente ambas estaciones, SE3 acumuló **3,902 horas de episodio adicionales respecto a GAR** durante los cuatro años analizados. Esto equivale a un promedio de aproximadamente **976 horas adicionales por año**, o **40.6 días equivalentes de 24 horas por año**.
+
+Estas cantidades representan un exceso observado de horas de episodio en SE3 respecto a GAR y no deben interpretarse como horas causalmente atribuibles a una fuente determinada ni como horas que necesariamente podrían haberse evitado. El análisis cuantifica una diferencia observacional entre las estaciones.
+
+**Hallazgo principal.** Las diferencias entre estaciones son mucho más evidentes al analizar la frecuencia de episodios elevados que al observar únicamente sus niveles típicos. En particular, 2025 muestra que una diferencia pequeña entre las medianas de SE3 y GAR puede coexistir con una gran diferencia en el número de horas por encima del umbral. Esto demuestra que las medidas de tendencia central y las métricas de episodios describen aspectos diferentes de la distribución del SO₂.
+
+Desde una perspectiva de seguimiento de la calidad del aire, estos resultados sugieren que las medias o medianas anuales pueden ser insuficientes si se utilizan de manera aislada para representar la exposición a eventos agudos. Incorporar métricas como la frecuencia de excedencias permitiría complementar la información sobre los niveles típicos con información específica sobre la parte alta de la distribución.
+
 ## **Sensibilidad y figura principal**
 
 ```{r}
@@ -641,6 +695,26 @@ ggplot(comp, aes(x = Año)) +
   theme(axis.title.y.right = element_text(colour = "firebrick"))
 ```
 
+**Interpretación.** Este bloque evalúa, en primer lugar, si el patrón direccional observado depende de haber definido los episodios mediante el percentil 95 global y, en segundo lugar, compara visualmente la evolución de las diferencias típicas entre SE3 y GAR con la cantidad de horas de episodio registradas en SE3.
+
+El análisis de sensibilidad repitió el modelo utilizando tres umbrales absolutos comunes para todas las estaciones: **P90 = 7.2 ppb, P95 = 11.1 ppb y P99 = 30.6 ppb**. De esta manera se puede comprobar si la asociación con el sector oriental ENE–E–ESE se mantiene cuando se consideran eventos de distinta severidad.
+
+En **SE3**, la asociación con el sector oriental se mantuvo claramente por encima de uno bajo los tres criterios: **OR = 3.38 en P90, OR = 3.19 en P95 y OR = 2.57 en P99**. En todos los casos, los intervalos de confianza permanecieron completamente por encima de uno. Esto indica que la asociación direccional encontrada en SE3 no depende exclusivamente de haber seleccionado el P95 como punto de corte; el patrón continúa presente tanto con un criterio menos exigente como al restringir el análisis a eventos mucho más extremos.
+
+En **SE2** también se mantuvo una asociación positiva y estadísticamente clara, con OR = 1.43 en P90, 1.58 en P95 y 1.75 en P99. El aumento del OR conforme el umbral se vuelve más exigente sugiere que la señal del sector oriental adquiere mayor importancia relativa cuando se consideran las concentraciones más altas de SO₂.
+
+En **NE**, los OR permanecieron cercanos a uno: 1.00 en P90, 1.01 en P95 y 0.86 en P99, con intervalos de confianza que incluyen la unidad. Por lo tanto, no existe evidencia clara de una asociación direccional consistente en esta estación bajo ninguno de los tres umbrales evaluados.
+
+En **GAR**, los resultados fueron menos estables. Se obtuvo OR = 1.40 en P90 y OR = 1.08 en P95, este último con un intervalo de confianza amplio que incluye la unidad. Para P99 no fue posible estimar el modelo debido al reducido número de observaciones que superaron el umbral de 30.6 ppb. Esta falta de información en el umbral más extremo refleja la muy baja frecuencia de concentraciones elevadas registrada en GAR.
+
+**Hallazgo de sensibilidad.** El resultado principal de SE3 es robusto frente a cambios importantes en la definición del episodio. La asociación del sector oriental permanece claramente presente utilizando P90, P95 y P99, mientras que en estaciones más alejadas, particularmente NE, la asociación se aproxima a la ausencia de efecto. Esto reduce la posibilidad de que el patrón principal sea simplemente una consecuencia de haber elegido arbitrariamente el percentil 95.
+
+La segunda parte del bloque compara la evolución anual de las horas de episodio en SE3 con el desplazamiento típico entre SE3 y GAR. Ambas métricas muestran comportamientos distintos. En 2023, cuando el contraste típico entre las estaciones fue el mayor del periodo, aproximadamente **1.5 ppb**, SE3 registró **689 horas de episodio**. En cambio, en 2025 el contraste disminuyó hasta aproximadamente **0.6 ppb**, pero SE3 registró **1,172 horas de episodio**.
+
+Esta divergencia muestra que una reducción en la diferencia de los niveles típicos entre estaciones no necesariamente implica una reducción en la frecuencia de concentraciones elevadas. La tendencia central describe principalmente el comportamiento habitual de la distribución, mientras que el conteo de episodios se concentra específicamente en su parte superior.
+
+**Hallazgo principal.** Los dos resultados del bloque se complementan: por un lado, la asociación entre el sector oriental y los episodios en SE3 permanece estable al modificar el umbral utilizado; por otro, la evolución de las medidas de tendencia central no reproduce necesariamente la evolución de los eventos agudos. Esto respalda tanto la robustez del patrón direccional como la necesidad de complementar los indicadores de tendencia central con métricas específicas de frecuencia de episodios.
+
 ```{r}
 # ---- Tabla geográfica para el reporte ----
 geo <- tribble(
@@ -673,6 +747,20 @@ left_join(geo, or_p95, by = "Estacion") %>%
   ) +
   theme_minimal(base_size = 12)
 ```
+
+**Interpretación.** Este bloque integra la información geográfica de las estaciones con los resultados del modelo que compara el sector oriental del viento frente al resto de las direcciones, utilizando el umbral absoluto común de **11.1 ppb (P95 global)**. Su objetivo es evaluar si la magnitud de la asociación direccional cambia conforme aumenta la distancia a la refinería.
+
+La tabla geográfica muestra que, desde la perspectiva de las cuatro estaciones, el complejo refinador se localiza hacia el **Este o Este-Sureste**. En particular, desde **SE3** se ubica a **5.5 km** con un azimut de **87.3°**, correspondiente prácticamente al **Este**. Desde **SE2**, **NE** y **GAR**, la ubicación relativa del complejo es **ESE**, con distancias de **16.4 km**, **35.7 km** y **68.5 km**, respectivamente.
+
+Al combinar esta información con los resultados del modelo, se observa un gradiente espacial claro. En **SE3**, la estación más cercana, el sector oriental presentó una razón de momios de **OR = 3.19** con intervalo de confianza del 95% de **2.96 a 3.44**. Esto significa que, controlando por velocidad del viento, hora y mes, los momios de registrar un episodio elevado de SO₂ son aproximadamente **3.2 veces mayores** cuando el viento proviene del sector oriental que cuando proviene del resto de las direcciones.
+
+En **SE2**, a una distancia intermedia de **16.4 km**, la asociación se reduce a **OR = 1.58** con IC95% de **1.43 a 1.74**, aunque todavía permanece claramente por encima de uno. En **NE**, a **35.7 km**, el resultado fue **OR = 1.01** con IC95% de **0.81 a 1.26**, lo que indica ausencia de evidencia clara de una asociación direccional. Finalmente, en **GAR**, a **68.5 km**, se obtuvo **OR = 1.08** con IC95% de **0.54 a 2.16**, con un intervalo amplio que también incluye la unidad.
+
+La línea horizontal en **OR = 1** representa ausencia de asociación entre el sector oriental y los episodios. La figura muestra que las estaciones más cercanas al complejo presentan valores por encima de esa línea, mientras que conforme aumenta la distancia la asociación se debilita hasta aproximarse a la ausencia de efecto.
+
+**Hallazgo principal.** La magnitud de la asociación entre el sector oriental del viento y los episodios de SO₂ disminuye conforme aumenta la distancia a la refinería. El patrón más fuerte se observa en SE3, es menor en SE2 y prácticamente desaparece en NE y GAR. Esta atenuación espacial es consistente con un proceso de dispersión y dilución de la señal conforme aumenta la distancia a la fuente potencial.
+
+Este resultado no demuestra por sí solo una atribución causal estricta, pero sí aporta una evidencia espacial coherente con la hipótesis del estudio: la dirección identificada estadísticamente coincide con la ubicación geográfica del complejo y su efecto se debilita a medida que las estaciones se encuentran más alejadas.
 
 ## validación y supuestos
 
@@ -730,6 +818,30 @@ bt <- cortest.bartlett(cor(X), n = nrow(X))
 cat("Bartlett: chi2 =", round(bt$chisq, 0), " p =", signif(bt$p.value, 3), "\n")
 ```
 
+**Interpretación.** Este bloque realiza verificaciones adicionales de robustez y generalización del modelo logístico `mod`, y posteriormente evalúa la adecuación de la matriz química utilizada en el análisis de componentes principales.
+
+En primer lugar, debido a que las observaciones horarias pertenecientes a un mismo día pueden no ser completamente independientes, se recalcularon los errores estándar agrupándolos por día. El modelo convencional produjo **OR = 3.19** para el sector oriental ENE–E–ESE frente al resto, y al utilizar errores estándar robustos agrupados la estimación se mantuvo en **OR = 3.19**, con un intervalo de confianza del 95% de **2.92 a 3.48**.
+
+La estabilidad de la estimación indica que la asociación principal con el sector oriental no cambia sustancialmente al reconocer posible dependencia entre observaciones registradas dentro de un mismo día. Esto fortalece la robustez de la inferencia sobre el coeficiente principal. Sin embargo, esta corrección no demuestra que no exista autocorrelación temporal; únicamente ajusta la estimación de su incertidumbre ante dependencia intradía. La autocorrelación de los residuos debe evaluarse mediante un diagnóstico específico.
+
+La capacidad discriminante del modelo sobre el conjunto completo fue de **AUC = 0.783**, lo que confirma una capacidad razonable para distinguir entre horas con y sin episodios elevados de SO₂.
+
+Para realizar una evaluación más exigente, el modelo se entrenó únicamente con los datos de **2022–2024** y posteriormente se aplicó a las observaciones de **2025**, que no participaron en su ajuste. En esta evaluación fuera de muestra se obtuvo **AUC = 0.764**. El valor es ligeramente inferior al AUC en muestra de 0.783, pero permanece relativamente cercano, lo que indica que la capacidad discriminante del modelo se conserva razonablemente al aplicarse a un periodo posterior.
+
+El **error de Brier fue 0.1065**. Esta medida evalúa la diferencia entre las probabilidades estimadas y los resultados realmente observados, penalizando tanto probabilidades excesivamente altas como excesivamente bajas cuando no corresponden con lo ocurrido. Valores menores indican menor error probabilístico. Debido a que su magnitud depende también de la frecuencia del evento, se interpreta en conjunto con las demás métricas y no de forma aislada. En 2025, la tasa observada de episodios fue de **13.71%**.
+
+Utilizando como punto de corte la tasa de episodios del periodo de entrenamiento, la matriz de confusión produjo una **sensibilidad de 0.712** y una **especificidad de 0.681**. Esto significa que el modelo identificó correctamente aproximadamente **71.2% de las horas que realmente presentaron un episodio**, mientras que reconoció correctamente aproximadamente **68.1% de las horas en las que no ocurrió un episodio**.
+
+La matriz también muestra la existencia de falsos positivos y falsos negativos, por lo que el modelo no debe interpretarse como un clasificador perfecto. Además, el punto de corte utilizado tiene un propósito de evaluación y no constituye un umbral validado para emitir alertas ambientales.
+
+**Hallazgo de validación logística.** La asociación del sector oriental permanece prácticamente sin cambios después de utilizar errores estándar robustos agrupados por día, y el modelo mantiene una capacidad discriminante razonable cuando se aplica a datos de 2025 que no fueron utilizados durante su entrenamiento. Estos resultados aportan evidencia de estabilidad del patrón encontrado, aunque no convierten al modelo en un sistema operativo de pronóstico.
+
+Finalmente, se evaluó si la matriz de contaminantes presenta una estructura adecuada para realizar PCA. El índice **KMO global fue 0.623**, valor que supera ligeramente el criterio mínimo de 0.60 y señala una adecuación muestral moderada, aunque no especialmente alta. Por lo tanto, el PCA es utilizable, pero sus resultados deben interpretarse reconociendo que la estructura común entre las variables no es extremadamente fuerte.
+
+La prueba de esfericidad de Bartlett resultó altamente significativa (**χ² = 213445, p \< 0.001**). Esto permite rechazar la hipótesis de que la matriz de correlaciones sea equivalente a una matriz identidad; es decir, existen correlaciones suficientes entre las variables como para justificar la búsqueda de una estructura común mediante componentes principales.
+
+**Hallazgo de adecuación para PCA.** En conjunto, Bartlett respalda claramente la existencia de relaciones entre los contaminantes y el KMO indica una adecuación aceptable, aunque moderada. Por ello, los datos proporcionan soporte suficiente para utilizar PCA como técnica exploratoria de reducción y caracterización de la estructura química.
+
 ## **CBPF**
 
 ```{r}
@@ -778,6 +890,22 @@ polarPlot(
 )
 ```
 
+**Interpretación.** En este bloque se utiliza la Conditional Bivariate Probability Function (CBPF) como una verificación independiente del patrón direccional observado previamente con las regresiones logísticas. A diferencia de estas últimas, la CBPF representa directamente la probabilidad de observar concentraciones elevadas en función de dos variables meteorológicas simultáneas: la dirección y la velocidad del viento.
+
+Para mantener un criterio comparable entre estaciones se conserva el umbral absoluto de **11.1 ppb de SO₂**. Debido a que `openair` trabaja internamente con percentiles propios de cada conjunto de datos, se calculó para cada estación el percentil que corresponde exactamente a ese mismo valor de 11.1 ppb. El umbral equivale aproximadamente al **P88.37 en SE3**, **P94.46 en SE2**, **P97.75 en NE** y **P99.85 en GAR**. Esta diferencia refleja que una concentración de 11.1 ppb es relativamente común en SE3 pero progresivamente más extrema en las estaciones más alejadas.
+
+En **SE3**, la CBPF de SO₂ muestra una zona de mayor probabilidad asociada principalmente con vientos provenientes del sector oriental y con determinadas velocidades de viento. Este resultado es consistente con la señal encontrada mediante la regresión logística, donde las direcciones del Este presentaron las asociaciones más altas con los episodios elevados de SO₂.
+
+En **SE2**, la intensidad máxima de la CBPF es considerablemente menor que en SE3, aunque todavía se observa estructura direccional. En **NE**, las probabilidades asociadas al umbral son todavía menores y el patrón es menos marcado. Esta reducción visual es consistente con el gradiente espacial observado previamente: la señal relacionada con concentraciones elevadas de SO₂ pierde intensidad conforme aumenta la distancia.
+
+GAR no se representa mediante CBPF porque el valor de 11.1 ppb corresponde aproximadamente a su percentil 99.85, por lo que existen muy pocas observaciones por encima de ese nivel para estimar de manera estable una superficie de probabilidad. Esta ausencia de estimación no representa un error del método, sino una consecuencia de la escasa frecuencia de concentraciones de SO₂ superiores al umbral en esta estación.
+
+Como contraste adicional, se construyó una CBPF para **NOX en SE3** utilizando el mismo percentil de referencia empleado para el SO₂ en dicha estación. El patrón obtenido es diferente: las mayores probabilidades de NOX se concentran principalmente bajo condiciones de velocidad de viento baja y no presentan el mismo máximo direccional oriental observado para SO₂.
+
+**Hallazgo principal.** La CBPF reproduce de manera independiente el patrón general encontrado mediante la regresión logística: en SE3, las concentraciones elevadas de SO₂ presentan una señal asociada al sector oriental que pierde intensidad en estaciones más alejadas. Además, el comportamiento de NOX es distinto al del SO₂, lo que aporta evidencia de que ambos contaminantes no responden de la misma manera a las condiciones de viento.
+
+La CBPF fortalece la evidencia porque llega a una conclusión direccional semejante utilizando un procedimiento distinto al modelo logístico. Sin embargo, el método identifica asociaciones entre concentración, dirección y velocidad del viento; por sí solo no demuestra la fuente causal de las concentraciones observadas.
+
 ```{r}
 # or_p95: valores del gradiente espacial para la Figura 1
 or_p95 <- tibble(
@@ -795,6 +923,12 @@ saveRDS(list(datos = datos, pca = pca, km = km, completos = completos,
 
 names(readRDS("objetos_etapa3.rds"))
 ```
+
+**Interpretación.** Este bloque no realiza un análisis estadístico adicional. Su propósito es guardar en un único archivo (`objetos_etapa3.rds`) los principales objetos generados durante el análisis, incluyendo la base preparada, el PCA, los conglomerados, los resultados de Hodges-Lehmann, las horas de episodio, el análisis de sensibilidad, la información geográfica y las razones de momios utilizadas en las comparaciones direccionales.
+
+La tabla `or_p95` conserva específicamente los resultados del gradiente espacial obtenidos utilizando el umbral absoluto común de 11.1 ppb: OR = 3.19 en SE3, 1.58 en SE2, 1.01 en NE y 1.08 en GAR, junto con sus respectivos intervalos de confianza.
+
+Finalmente, `names(readRDS(...))` verifica que los objetos esperados fueron almacenados correctamente. Este procedimiento facilita la reproducibilidad y permite reutilizar los resultados en gráficas, tablas o análisis posteriores sin recalcular todo el flujo de trabajo.
 
 ## Simulación de predicción prueba
 
@@ -847,3 +981,13 @@ pronostico_predictivo %>%
   mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
   print(n = 24)
 ```
+
+**Interpretación.** Este bloque utiliza el modelo logístico previamente ajustado para realizar una simulación exploratoria de 24 horas bajo condiciones meteorológicas hipotéticas. Las variables de dirección y velocidad del viento no corresponden a un pronóstico observado, sino que fueron definidas manualmente con el objetivo de mostrar cómo responden las probabilidades estimadas por el modelo ante distintos escenarios.
+
+Durante las primeras horas se simula viento proveniente del Sur con velocidad de 3.0, y las probabilidades estimadas de episodio permanecen relativamente bajas, aproximadamente entre 1% y 6%. Posteriormente, entre las 10:00 y las 17:00 horas, el escenario cambia simultáneamente a viento proveniente del Este y una velocidad de 6.5. Bajo estas condiciones, la probabilidad estimada aumenta considerablemente, alcanzando valores aproximados entre **28.9% y 45.1%**, con un máximo alrededor de las 14:00 horas. Cuando el escenario regresa a viento del Sur con velocidad de 3.0, las probabilidades vuelven a disminuir progresivamente.
+
+Estos resultados muestran que el modelo es capaz de traducir determinadas combinaciones de dirección del viento, velocidad, hora y mes en probabilidades estimadas de ocurrencia de un episodio elevado de SO₂. Sin embargo, el incremento observado durante las horas centrales no puede atribuirse exclusivamente al cambio de dirección del viento, ya que en la simulación cambian simultáneamente tanto la dirección como la velocidad. Además, la hora del día también modifica la probabilidad mediante los términos temporales incluidos en el modelo.
+
+El criterio denominado `estado_alerta` clasifica como alerta cualquier probabilidad superior a la tasa promedio de episodios observada en SE3. Este punto de corte tiene únicamente un propósito demostrativo y no constituye un umbral ambiental, regulatorio ni operativo validado. Por lo tanto, las clasificaciones obtenidas no deben interpretarse como alertas reales.
+
+**Hallazgo principal.** La simulación demuestra de manera ilustrativa cómo el modelo puede transformar un conjunto de condiciones meteorológicas en una probabilidad estimada de episodio. Bajo el escenario hipotético planteado, las mayores probabilidades aparecen durante las horas en las que coinciden viento del Este, mayor velocidad del viento y determinadas condiciones temporales. El ejercicio muestra una posible aplicación futura del modelo, pero no representa un pronóstico meteorológico real ni valida por sí mismo un sistema de alerta temprana.

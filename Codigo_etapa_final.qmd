@@ -300,6 +300,16 @@ mod <- glm(
 )
 ```
 
+**Interpretación.** En este bloque se ajusta el modelo logístico `mod`, que será evaluado en las siguientes secciones mediante distintas pruebas de validación y ajuste.
+
+La variable respuesta es la ocurrencia de un episodio elevado de SO₂ (`episodio`). Como variables explicativas se utiliza el sector de procedencia del viento, agrupando ENE, E y ESE como `Este` frente al `Resto`, además de la velocidad del viento, la hora del día y el mes.
+
+La velocidad del viento se incorpora mediante un spline natural de tres grados de libertad para permitir que su relación con los episodios sea no lineal. Por su parte, hora y mes se representan mediante términos seno y coseno para conservar su naturaleza cíclica.
+
+Es importante señalar que el modelo utiliza las condiciones meteorológicas para estimar la ocurrencia de episodios de SO₂; no utiliza las concentraciones de SO₂ para predecir la dirección del viento.
+
+**Relevancia.** Esta especificación resume la señal direccional encontrada previamente en el modelo de 16 rumbos y permite trabajar con un contraste más sencillo: sector oriental frente al resto. A partir de este modelo se evaluarán posteriormente su mejora frente a un modelo nulo, el comportamiento de sus residuos, su calibración y su capacidad para distinguir entre horas con y sin episodio.
+
 ```{r}
 # ------------------------------------------------------------
 # 1. PRUEBA DE RAZÓN DE VEROSIMILITUDES
@@ -314,6 +324,14 @@ mod_nulo <- glm(
 
 anova(mod_nulo, mod, test = "Chisq")
 ```
+
+**Interpretación.** La prueba de razón de verosimilitudes compara el modelo logístico completo (`mod`) contra un modelo nulo que únicamente contiene el intercepto. El objetivo es determinar si incorporar el sector de procedencia del viento, la velocidad del viento, la hora y el mes aporta información estadísticamente relevante para explicar la ocurrencia de episodios elevados de SO₂.
+
+La comparación mostró una reducción de devianza de **3708.2**, con **8 grados de libertad y p \< 0.001**. Esto indica que el modelo completo presenta un ajuste significativamente mejor que el modelo nulo. En otras palabras, considerar conjuntamente las condiciones de viento y los controles temporales aporta información relevante sobre cuándo se presentan episodios elevados de SO₂ en SE3.
+
+**Hallazgo principal.** Existe evidencia estadística muy fuerte de que el conjunto de variables incluido en el modelo aporta capacidad explicativa respecto a un modelo que ignora dichas condiciones.
+
+Sin embargo, esta prueba evalúa la utilidad global del modelo y no demuestra que todas las variables individuales sean igualmente importantes, que las probabilidades estén perfectamente calibradas o que el modelo pueda utilizarse directamente como sistema de predicción. Estos aspectos se evalúan mediante las verificaciones posteriores.
 
 ```{r}
 # ------------------------------------------------------------
@@ -339,6 +357,16 @@ plot(
 abline(h = 0, lty = 2, col = "red")
 ```
 
+**Interpretación.** Se analizaron los residuos de devianza del modelo frente a las probabilidades estimadas para identificar observaciones que el modelo representa con mayor dificultad y revisar posibles problemas de ajuste.
+
+La gráfica presenta dos bandas claramente diferenciadas alrededor de cero. Esta forma es esperable en una regresión logística con respuesta binaria: los residuos positivos corresponden principalmente a horas en las que ocurrió un episodio (`episodio = 1`), mientras que los residuos negativos corresponden a horas sin episodio (`episodio = 0`). Por ello, no se espera observar una nube aproximadamente simétrica como en una regresión lineal.
+
+Los residuos positivos de mayor magnitud representan episodios que ocurrieron aun cuando el modelo les asignó una probabilidad relativamente baja. Estos casos son las observaciones que el modelo subestima con mayor fuerza. De forma equivalente, los residuos negativos más alejados de cero corresponden a horas sin episodio a las que el modelo asignó probabilidades relativamente mayores.
+
+En la gráfica no se observa por sí sola una evidencia suficiente para concluir que el modelo sea inadecuado; el patrón de dos ramas está asociado con la naturaleza binaria de la variable respuesta. Sin embargo, la presencia de algunos residuos de magnitud elevada muestra que existen horas particulares que las variables incluidas en el modelo no explican completamente.
+
+**Hallazgo principal.** El diagnóstico de residuos permite identificar que, aunque el modelo captura parte importante de la estructura de los episodios, existen observaciones en las que la probabilidad estimada se aleja considerablemente del resultado observado. Por ello, el análisis de residuos debe complementarse con las pruebas de calibración, discriminación y dependencia temporal realizadas posteriormente.
+
 ```{r}
 # ------------------------------------------------------------
 # 3. Hosmer-Lemeshow
@@ -354,6 +382,14 @@ hl <- hoslem.test(
 
 print(hl)
 ```
+
+**Interpretación.** La prueba de Hosmer-Lemeshow evalúa la calibración del modelo, es decir, qué tan bien coinciden las probabilidades de episodio estimadas por la regresión logística con las frecuencias de episodios realmente observadas.
+
+El resultado fue **χ² = 64.06 con 8 grados de libertad y p \< 0.001**. Debido a que el valor p es significativo, se detectan diferencias estadísticamente evidentes entre algunas probabilidades estimadas por el modelo y las frecuencias observadas. Por lo tanto, no puede afirmarse que el modelo tenga una calibración perfecta.
+
+Este resultado no implica automáticamente que el modelo sea inútil o deba descartarse. La muestra de SE3 contiene decenas de miles de observaciones, por lo que la prueba puede ser sensible a desviaciones relativamente pequeñas entre lo observado y lo estimado. Por esta razón, la calibración debe interpretarse junto con las demás medidas de desempeño y diagnóstico del modelo.
+
+**Hallazgo principal.** Hosmer-Lemeshow señala una limitación en la calibración de las probabilidades estimadas. Por ello, el modelo puede utilizarse para estudiar asociaciones entre las condiciones meteorológicas y los episodios de SO₂, pero sus probabilidades no deben interpretarse como estimaciones perfectamente calibradas ni utilizarse por sí solas como un sistema operativo de pronóstico.
 
 ```{r}
 # ------------------------------------------------------------
@@ -378,7 +414,15 @@ cat(
 )
 ```
 
-La prueba de razón de verosimilitudes mostró que el modelo completo mejora significativamente frente al modelo nulo (p \< 0.001). La curva ROC presentó un AUC de 0.783, indicando una capacidad razonable para distinguir entre horas con y sin episodios de SO₂. Por otro lado, la prueba de Hosmer-Lemeshow resultó significativa (p \< 0.001), lo que indica diferencias entre los valores observados y las probabilidades estimadas. Debido al gran tamaño de la muestra, esta prueba puede ser sensible a desviaciones pequeñas, por lo que el resultado se interpreta en conjunto con el AUC y el objetivo inferencial del modelo.
+**Interpretación.** La curva ROC evalúa la capacidad del modelo para distinguir entre horas con episodio elevado de SO₂ (`episodio = 1`) y horas sin episodio (`episodio = 0`) considerando todos los posibles puntos de corte de probabilidad.
+
+El modelo obtuvo un **AUC = 0.783**, lo que indica una capacidad discriminante razonable. De manera intuitiva, si se seleccionara al azar una hora en la que ocurrió un episodio y una hora en la que no ocurrió, el modelo asignaría una probabilidad estimada mayor a la hora con episodio aproximadamente el **78.3% de las veces**.
+
+Este resultado muestra que la información contenida en el sector de procedencia del viento, su velocidad, la hora y el mes permite diferenciar los dos tipos de observaciones considerablemente mejor que una clasificación aleatoria, que correspondería a un AUC cercano a 0.5.
+
+El AUC de esta especificación simplificada es menor que el obtenido previamente con el modelo de 16 rumbos (AUC = 0.811). Esta reducción es coherente con la simplificación realizada, ya que al agrupar ENE, E y ESE en una sola categoría frente al resto se pierde parte del detalle direccional. A cambio, el modelo `mod` ofrece una interpretación más sencilla y facilita la comparación del efecto del sector oriental en análisis posteriores.
+
+**Hallazgo principal.** El modelo presenta una capacidad razonable para discriminar entre horas con y sin episodios elevados de SO₂, incluso después de resumir la dirección del viento en sector oriental frente al resto. Sin embargo, el AUC evalúa discriminación y no garantiza que las probabilidades estimadas estén perfectamente calibradas ni que el modelo pueda utilizarse directamente como herramienta operativa de pronóstico.
 
 ## **PCA sobre la matriz química (técnica de interdependencia)**
 

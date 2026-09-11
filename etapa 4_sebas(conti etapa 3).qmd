@@ -729,7 +729,7 @@ pronostico_predictivo %>%
   print(n = 24)
 ```
 
-# ETAPA 4 
+# ETAPA 4
 
 ### Indice NOM-172 y punto ciego normativo
 

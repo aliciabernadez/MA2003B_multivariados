@@ -3138,17 +3138,17 @@ Si todavía permanece autocorrelación residual, no se interpreta como fracaso d
 
 # Síntesis del modelo meteorológico ampliado
 
-El análisis ampliado está diseñado para responder una sola pregunta central: **si la dirección del viento conserva una asociación con los episodios elevados de $SO_2$ después de considerar el resto de la meteorología disponible**.
+El análisis ampliado está diseñado para responder una sola pregunta central: **si la dirección del viento conserva una asociación con los episodios elevados de** $SO_2$ después de considerar el resto de la meteorología disponible.
 
 La secuencia metodológica es:
 
-1. partir de todas las variables meteorológicas disponibles en SE3;
-2. seleccionar una especificación parsimoniosa con AIC y BIC usando únicamente 2022--2024;
-3. comparar formalmente el modelo con y sin dirección del viento;
-4. validar generalización en 2025;
-5. recalcular probabilidades ajustadas por los 16 rumbos con inferencia robusta;
-6. estudiar la misma dirección del viento bajo distintos valores meteorológicos;
-7. comprobar si la meteorología adicional reduce la dependencia temporal de los residuos.
+1.  partir de todas las variables meteorológicas disponibles en SE3;
+2.  seleccionar una especificación parsimoniosa con AIC y BIC usando únicamente 2022--2024;
+3.  comparar formalmente el modelo con y sin dirección del viento;
+4.  validar generalización en 2025;
+5.  recalcular probabilidades ajustadas por los 16 rumbos con inferencia robusta;
+6.  estudiar la misma dirección del viento bajo distintos valores meteorológicos;
+7.  comprobar si la meteorología adicional reduce la dependencia temporal de los residuos.
 
 El análisis sigue siendo observacional. Una asociación persistente con el sector oriental es compatible con la hipótesis espacial planteada en el proyecto, pero no identifica de forma causal una fuente específica sin evidencia adicional.
 

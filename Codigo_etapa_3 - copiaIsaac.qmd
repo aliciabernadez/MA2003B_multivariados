@@ -865,3 +865,52 @@ tablero_final %>%
   mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
   print(n = 24)
 ```
+
+Pruebas
+
+```{r}
+library(pROC)
+
+cat("\n=== 1. CURVA ROC Y AUC ===\n")
+# Extraemos las predicciones del modelo
+prob_meteo <- predict(mod_meteo, type = "response")
+
+# Creamos el objeto ROC
+roc_meteo <- roc(d_se3_meteo$episodio, prob_meteo)
+
+# Imprimimos el valor del AUC
+cat("Área Bajo la Curva (AUC):", auc(roc_meteo), "\n")
+
+# Dibujamos la curva
+plot(roc_meteo, 
+     main = "Curva ROC - Modelo con Variables Meteorológicas", 
+     col = "#ff6600", # Naranja para que combine con tu presentación
+     lwd = 3, 
+     print.auc = TRUE)
+```
+
+```{r}
+library(lmtest)
+
+cat("\n=== 2. RAZÓN DE VEROSIMILITUDES (LRT) ===\n")
+# Ajustamos el modelo VIEJO pero con la misma base de datos filtrada (sin NAs del clima)
+# Esto es crucial para que la comparación sea matemáticamente justa.
+mod_viejo_justo <- glm(
+  episodio ~ sector_E + ns(WSR, 3) + Hora_sin + Hora_cos + Mes_sin + Mes_cos,
+  data = d_se3_meteo, 
+  family = binomial
+)
+
+# Comparamos el viejo vs el nuevo
+prueba_lrt <- lrtest(mod_viejo_justo, mod_meteo)
+print(prueba_lrt)
+```
+
+```{r}
+library(ResourceSelection)
+
+cat("\n=== 3. BONDAD DE AJUSTE: HOSMER-LEMESHOW ===\n")
+# Usamos mod_meteo$y para asegurar que R lea la variable dependiente como 0 y 1 numérico
+hl_test <- hoslem.test(mod_meteo$y, fitted(mod_meteo), g = 10)
+print(hl_test)
+```

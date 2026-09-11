@@ -1509,6 +1509,7 @@ Esta sección reemplaza la versión anterior del modelo conjunto. La corrección
 
 d_conjunto <- datos %>%
   select(
+    fecha,
     episodio,
     Estacion,
     sector_E,
@@ -1949,43 +1950,19 @@ print(
 
 Un OR mayor que 1 indica mayores momios bajo el sector oriental; un OR menor que 1 indica menores momios. La significancia individual debe evaluarse con el p-value ajustado y con el intervalo de confianza correspondiente.
 
-## Diagnóstico de dependencia temporal de los residuos
+# Diagnóstico de dependencia temporal de los residuos
+
+**Pregunta que responde.** ¿Los errores del modelo conjunto flexible siguen mostrando una estructura temporal, es decir, las horas cercanas tienden a presentar residuos parecidos aun después de considerar estación, sector oriental, velocidad del viento, hora y mes?
 
 ```{r}
-d_conjunto <- datos %>%
-  select(
-    fecha,   # <- AGREGAR
-    episodio,
-    Estacion,
-    sector_E,
-    WSR,
-    Hora_sin,
-    Hora_cos,
-    Mes_sin,
-    Mes_cos
-  ) %>%
-  drop_na() %>%
-  mutate(
-    Estacion = factor(
-      Estacion,
-      levels = c("SE3", "SE2", "NE", "GAR")
-    ),
-    sector_E = factor(
-      sector_E,
-      levels = c("Resto", "Este")
-    )
-  )
-```
+#| label: diagnostico-dependencia-temporal
 
-## Diagnóstico de dependencia temporal de los residuos
-
-```{r}
 # ============================================================
 # DIAGNÓSTICO DE DEPENDENCIA TEMPORAL DE LOS RESIDUOS
 # Modelo conjunto flexible
 # ============================================================
 
-# 1. Obtener residuos de Pearson del modelo final
+# 1. Obtener residuos de Pearson del modelo conjunto flexible
 res_temporal <- d_conjunto %>%
   mutate(
     residuo_pearson = residuals(
@@ -2024,23 +2001,22 @@ rezagos <- 1:48
 acf_temporal <- map_dfr(
   levels(d_conjunto$Estacion),
   function(est) {
-    
     d_est <- res_temporal %>%
       filter(Estacion == est)
-    
+
     map_dfr(
       rezagos,
       function(k) {
-        
+
         # Residuo observado exactamente k horas antes
         d_lag <- d_est %>%
           transmute(
             fecha = fecha + hours(k),
             residuo_anterior = residuo_pearson
           )
-        
+
         # Solo se comparan observaciones cuya separación temporal
-        # real es exactamente k horas
+        # real es exactamente k horas.
         pares <- d_est %>%
           select(
             fecha,
@@ -2050,9 +2026,9 @@ acf_temporal <- map_dfr(
             d_lag,
             by = "fecha"
           )
-        
+
         n_pares <- nrow(pares)
-        
+
         r <- if (n_pares > 2) {
           cor(
             pares$residuo_actual,
@@ -2062,7 +2038,7 @@ acf_temporal <- map_dfr(
         } else {
           NA_real_
         }
-        
+
         tibble(
           Estacion = est,
           Rezago_horas = k,
@@ -2166,4 +2142,1042 @@ ggplot(
     y = "Autocorrelación residual"
   ) +
   theme_minimal(base_size = 12)
+```
+
+**Interpretación.** El diagnóstico muestra que los residuos de horas cercanas no son completamente independientes. En el render previo, la mayor dependencia se observó a una hora de rezago en SE3, SE2 y NE, mientras que GAR presentó una dependencia menor. Esto indica que parte de la estructura temporal de los episodios no queda explicada por el modelo conjunto actual.
+
+Este resultado no invalida las asociaciones estimadas. Sí justifica dos decisiones posteriores: respetar el orden temporal al evaluar generalización y utilizar errores estándar robustos para la inferencia cuando sea necesario. La dependencia temporal tampoco implica que un error en una hora obligatoriamente se repita en la siguiente; únicamente indica una tendencia de los errores cercanos a estar relacionados.
+
+# Modelo meteorológico ampliado en SE3
+
+## Objetivo y preparación
+
+**Pregunta central.** Después de considerar velocidad del viento, temperatura, humedad, presión, radiación, lluvia, hora y mes, ¿la dirección del viento sigue aportando información importante para explicar la ocurrencia de episodios elevados de $SO_2$ en SE3?
+
+La dirección del viento se mantiene como variable central del estudio. Las demás variables meteorológicas se incorporan como controles para comprobar si el patrón direccional, particularmente el sector oriental, persiste bajo condiciones meteorológicas comparables.
+
+La selección del modelo se realiza exclusivamente con 2022--2024. El año 2025 se conserva fuera del proceso de selección para evaluar generalización temporal.
+
+```{r}
+#| label: preparacion-modelo-meteorologico-se3
+
+# Base completa de SE3 para el modelo meteorológico ampliado.
+# Las variables continuas se conservan en sus unidades originales.
+d_met_se3 <- datos %>%
+  filter(Estacion == "SE3") %>%
+  select(
+    fecha,
+    Año,
+    episodio,
+    sector,
+    WSR,
+    TOUT,
+    RH,
+    PRS,
+    SR,
+    RAINF,
+    Hora_sin,
+    Hora_cos,
+    Mes_sin,
+    Mes_cos
+  ) %>%
+  drop_na() %>%
+  mutate(
+    sector = factor(
+      sector,
+      levels = rumbos
+    ),
+    sector = relevel(
+      sector,
+      ref = "N"
+    ),
+    dia = as.Date(fecha)
+  )
+
+# Separación temporal: selección y entrenamiento en 2022-2024;
+# evaluación fuera de muestra en 2025.
+d_met_tr <- d_met_se3 %>%
+  filter(Año <= 2024)
+
+d_met_te <- d_met_se3 %>%
+  filter(Año == 2025)
+
+cat("=== BASE DEL MODELO METEOROLÓGICO AMPLIADO ===\n")
+cat("SE3 total:", nrow(d_met_se3), "horas\n")
+cat("Entrenamiento 2022-2024:", nrow(d_met_tr), "horas\n")
+cat("Prueba 2025:", nrow(d_met_te), "horas\n")
+cat("Tasa de episodio entrenamiento:", round(mean(d_met_tr$episodio), 4), "\n")
+cat("Tasa de episodio prueba:", round(mean(d_met_te$episodio), 4), "\n\n")
+
+# RAINF tiene una distribución muy concentrada en cero.
+# log1p(RAINF) conserva la cantidad de precipitación y reduce su asimetría.
+# Para el resto de variables meteorológicas continuas se permiten
+# relaciones no lineales mediante splines naturales de 3 g.l.
+formula_met_completa <- episodio ~
+  sector +
+  ns(WSR, 3) +
+  ns(TOUT, 3) +
+  ns(RH, 3) +
+  ns(PRS, 3) +
+  ns(SR, 3) +
+  log1p(RAINF) +
+  Hora_sin + Hora_cos +
+  Mes_sin + Mes_cos
+
+mod_met_completo_tr <- glm(
+  formula_met_completa,
+  data = d_met_tr,
+  family = binomial
+)
+
+cat("Modelo meteorológico completo ajustado en 2022-2024.\n")
+cat("AIC:", round(AIC(mod_met_completo_tr), 1), "\n")
+cat("BIC:", round(BIC(mod_met_completo_tr), 1), "\n")
+```
+
+**Interpretación.** El modelo completo parte de todas las variables meteorológicas disponibles. La dirección se representa mediante los 16 rumbos ya utilizados en el análisis principal. WSR, TOUT, RH, PRS y SR se modelan con splines naturales para no imponer que su relación con la probabilidad de episodio sea estrictamente lineal. RAINF se incorpora como `log1p(RAINF)` debido a su concentración de valores cercanos a cero.
+
+La hora y el mes se conservan como controles cíclicos porque ya forman parte de la estructura temporal utilizada en los modelos anteriores.
+
+## Selección de variables meteorológicas con AIC y BIC
+
+La dirección, la hora y el mes se mantienen obligatoriamente porque forman parte del diseño principal. AIC y BIC se utilizan para decidir cuáles de los demás bloques meteorológicos aportan suficiente información para permanecer en el modelo.
+
+Cada spline se trata como un bloque completo; por lo tanto, la selección no elimina columnas individuales de una misma transformación.
+
+```{r}
+#| label: seleccion-aic-bic-meteorologia
+
+# Modelo mínimo permitido durante la selección.
+# Dirección y controles temporales no se eliminan.
+formula_met_minima <- episodio ~
+  sector +
+  Hora_sin + Hora_cos +
+  Mes_sin + Mes_cos
+
+# Selección backward según AIC
+mod_met_aic_tr <- step(
+  mod_met_completo_tr,
+  scope = list(
+    lower = formula_met_minima,
+    upper = formula_met_completa
+  ),
+  direction = "backward",
+  k = 2,
+  trace = 0
+)
+
+# Selección backward según BIC.
+# BIC penaliza con mayor fuerza la complejidad.
+mod_met_bic_tr <- step(
+  mod_met_completo_tr,
+  scope = list(
+    lower = formula_met_minima,
+    upper = formula_met_completa
+  ),
+  direction = "backward",
+  k = log(nobs(mod_met_completo_tr)),
+  trace = 0
+)
+
+comparacion_seleccion <- tibble(
+  Modelo = c(
+    "Completo",
+    "Seleccionado por AIC",
+    "Seleccionado por BIC"
+  ),
+  AIC = c(
+    AIC(mod_met_completo_tr),
+    AIC(mod_met_aic_tr),
+    AIC(mod_met_bic_tr)
+  ),
+  BIC = c(
+    BIC(mod_met_completo_tr),
+    BIC(mod_met_aic_tr),
+    BIC(mod_met_bic_tr)
+  ),
+  Parametros = c(
+    length(coef(mod_met_completo_tr)),
+    length(coef(mod_met_aic_tr)),
+    length(coef(mod_met_bic_tr))
+  )
+) %>%
+  mutate(
+    AIC = round(AIC, 1),
+    BIC = round(BIC, 1)
+  )
+
+print(comparacion_seleccion)
+
+# Tabla sencilla de qué variables meteorológicas fueron conservadas.
+terminos_aic <- attr(
+  terms(mod_met_aic_tr),
+  "term.labels"
+)
+
+terminos_bic <- attr(
+  terms(mod_met_bic_tr),
+  "term.labels"
+)
+
+esta_retenida <- function(terminos, variable) {
+  any(str_detect(
+    terminos,
+    fixed(variable)
+  ))
+}
+
+tabla_retencion <- tibble(
+  Variable = c(
+    "WSR",
+    "TOUT",
+    "RH",
+    "PRS",
+    "SR",
+    "RAINF"
+  ),
+  AIC = map_lgl(
+    Variable,
+    ~ esta_retenida(terminos_aic, .x)
+  ),
+  BIC = map_lgl(
+    Variable,
+    ~ esta_retenida(terminos_bic, .x)
+  )
+)
+
+cat("\n=== VARIABLES METEOROLÓGICAS RETENIDAS ===\n")
+print(tabla_retencion)
+
+cat("\n=== FÓRMULA SELECCIONADA POR AIC ===\n")
+print(formula(mod_met_aic_tr))
+
+cat("\n=== FÓRMULA SELECCIONADA POR BIC ===\n")
+print(formula(mod_met_bic_tr))
+```
+
+**Interpretación.** AIC y BIC no se interpretan como pruebas causales. Se utilizan para balancear ajuste y complejidad: un valor menor es preferible dentro de modelos ajustados sobre la misma muestra. BIC aplica una penalización mayor y por ello suele producir una especificación más parsimoniosa.
+
+Para el análisis principal se adopta la especificación seleccionada por BIC. La selección AIC se conserva como análisis de sensibilidad: si ambos criterios retienen variables similares, aumenta la estabilidad de la elección; si difieren, la diferencia debe reportarse en lugar de ocultarse.
+
+## ¿La dirección sigue aportando información después de controlar toda la meteorología seleccionada?
+
+```{r}
+#| label: prueba-direccion-modelo-meteorologico
+
+# El modelo BIC es la especificación principal.
+mod_met_final_tr <- mod_met_bic_tr
+
+# Mismo modelo, pero eliminando la dirección.
+# Todas las demás variables permanecen idénticas.
+mod_met_sin_direccion_tr <- update(
+  mod_met_final_tr,
+  . ~ . - sector
+)
+
+cat("=== APORTE GLOBAL DE LA DIRECCIÓN DEL VIENTO ===\n")
+
+prueba_direccion_tr <- anova(
+  mod_met_sin_direccion_tr,
+  mod_met_final_tr,
+  test = "Chisq"
+)
+
+print(prueba_direccion_tr)
+
+comparacion_direccion <- tibble(
+  Modelo = c(
+    "Sin dirección",
+    "Con dirección"
+  ),
+  AIC = c(
+    AIC(mod_met_sin_direccion_tr),
+    AIC(mod_met_final_tr)
+  ),
+  BIC = c(
+    BIC(mod_met_sin_direccion_tr),
+    BIC(mod_met_final_tr)
+  )
+) %>%
+  mutate(
+    AIC = round(AIC, 1),
+    BIC = round(BIC, 1)
+  )
+
+print(comparacion_direccion)
+
+# Una vez elegida la estructura usando únicamente 2022-2024,
+# se reajusta la MISMA fórmula con todo 2022-2025 para obtener
+# estimaciones finales descriptivas del periodo completo.
+formula_met_final <- formula(mod_met_final_tr)
+
+mod_met_final <- glm(
+  formula_met_final,
+  data = d_met_se3,
+  family = binomial
+)
+
+mod_met_sin_direccion <- update(
+  mod_met_final,
+  . ~ . - sector
+)
+
+# Inferencia robusta agrupada por día para reducir el impacto
+# de la dependencia temporal intradía sobre los errores estándar.
+V_met_rob <- vcovCL(
+  mod_met_final,
+  cluster = d_met_se3$dia
+)
+
+rob_met <- coeftest(
+  mod_met_final,
+  vcov. = V_met_rob
+)
+
+rob_dir <- as.data.frame(rob_met) %>%
+  rownames_to_column("term") %>%
+  filter(str_detect(term, "^sector")) %>%
+  transmute(
+    Rumbo = str_remove(term, "^sector"),
+    OR_robusto = exp(Estimate),
+    IC_inf = exp(Estimate - 1.96 * `Std. Error`),
+    IC_sup = exp(Estimate + 1.96 * `Std. Error`),
+    p = `Pr(>|z|)`,
+    p_Holm = p.adjust(p, method = "holm")
+  ) %>%
+  mutate(
+    across(
+      c(OR_robusto, IC_inf, IC_sup),
+      ~ round(.x, 2)
+    ),
+    p = signif(p, 3),
+    p_Holm = signif(p_Holm, 3)
+  ) %>%
+  arrange(desc(OR_robusto))
+
+cat("\n=== OR POR RUMBO CON ERRORES ROBUSTOS AGRUPADOS POR DÍA ===\n")
+print(rob_dir, n = 15)
+
+# Aporte de cada término retenido en la especificación final.
+cat("\n=== PRUEBA DE ELIMINACIÓN DE TÉRMINOS DEL MODELO FINAL ===\n")
+print(
+  drop1(
+    mod_met_final,
+    test = "Chisq"
+  )
+)
+```
+
+**Interpretación.** La comparación `Sin dirección` frente a `Con dirección` es la prueba principal de esta extensión. Ambos modelos contienen exactamente los mismos controles meteorológicos y temporales; la única diferencia es la información direccional. Si el modelo con dirección presenta menor AIC/BIC y la razón de verosimilitudes es significativa, la dirección aporta información adicional sobre la ocurrencia de episodios aun después de controlar por las demás condiciones meteorológicas seleccionadas.
+
+Los OR robustos permiten revisar cuáles rumbos presentan asociaciones mayores o menores frente a Norte sin depender únicamente de errores estándar convencionales. La corrección Holm se utiliza para no interpretar quince comparaciones de rumbo como si fueran pruebas independientes sin ajuste.
+
+`drop1()` complementa la selección mostrando cuánto se deteriora el modelo al retirar, uno por uno, los términos que permanecieron en la especificación final.
+
+## Generalización temporal: 2022--2024 frente a 2025
+
+```{r}
+#| label: validacion-temporal-modelo-meteorologico
+
+# Modelo de referencia anterior, ajustado sobre EXACTAMENTE la misma
+# muestra de entrenamiento que el modelo meteorológico ampliado.
+mod_base_16_tr <- glm(
+  episodio ~
+    sector +
+    ns(WSR, 3) +
+    Hora_sin + Hora_cos +
+    Mes_sin + Mes_cos,
+  data = d_met_tr,
+  family = binomial
+)
+
+# Probabilidades de 2025
+p_base_2025 <- predict(
+  mod_base_16_tr,
+  newdata = d_met_te,
+  type = "response"
+)
+
+p_met_2025 <- predict(
+  mod_met_final_tr,
+  newdata = d_met_te,
+  type = "response"
+)
+
+# Métricas fuera de muestra
+auc_base_2025 <- as.numeric(
+  auc(
+    roc(
+      d_met_te$episodio,
+      p_base_2025,
+      quiet = TRUE
+    )
+  )
+)
+
+auc_met_2025 <- as.numeric(
+  auc(
+    roc(
+      d_met_te$episodio,
+      p_met_2025,
+      quiet = TRUE
+    )
+  )
+)
+
+brier_base_2025 <- mean(
+  (p_base_2025 - d_met_te$episodio)^2
+)
+
+brier_met_2025 <- mean(
+  (p_met_2025 - d_met_te$episodio)^2
+)
+
+validacion_2025 <- tibble(
+  Modelo = c(
+    "Dirección + WSR + tiempo",
+    "Meteorología ampliada seleccionada"
+  ),
+  AUC_2025 = c(
+    auc_base_2025,
+    auc_met_2025
+  ),
+  Brier_2025 = c(
+    brier_base_2025,
+    brier_met_2025
+  )
+) %>%
+  mutate(
+    AUC_2025 = round(AUC_2025, 3),
+    Brier_2025 = round(Brier_2025, 4)
+  )
+
+cat("=== VALIDACIÓN TEMPORAL EN 2025 ===\n")
+print(validacion_2025)
+
+# Calibración descriptiva por deciles en 2025.
+calibracion_2025 <- d_met_te %>%
+  mutate(
+    prob_met = p_met_2025,
+    decil = ntile(prob_met, 10)
+  ) %>%
+  group_by(decil) %>%
+  summarise(
+    n = n(),
+    Prob_media = mean(prob_met),
+    Frecuencia_observada = mean(episodio),
+    .groups = "drop"
+  )
+
+print(
+  calibracion_2025 %>%
+    mutate(
+      Prob_media = round(100 * Prob_media, 2),
+      Frecuencia_observada = round(100 * Frecuencia_observada, 2)
+    )
+)
+
+ggplot(
+  calibracion_2025,
+  aes(
+    x = 100 * Prob_media,
+    y = 100 * Frecuencia_observada
+  )
+) +
+  geom_abline(
+    intercept = 0,
+    slope = 1,
+    linetype = "dashed"
+  ) +
+  geom_point(size = 3) +
+  geom_line() +
+  labs(
+    title = "Calibración fuera de muestra del modelo meteorológico",
+    subtitle = "SE3 | Año de prueba: 2025",
+    x = "Probabilidad media estimada (%)",
+    y = "Frecuencia observada de episodio (%)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+**Interpretación.** Esta validación no mezcla horas aleatoriamente: el modelo se selecciona y ajusta con 2022--2024 y se evalúa en un periodo posterior completo, 2025. Esto es especialmente importante porque el diagnóstico temporal mostró dependencia entre horas cercanas.
+
+El AUC evalúa discriminación y el Brier evalúa la precisión de las probabilidades. Para AUC, valores mayores indican mejor separación entre horas con y sin episodio; para Brier, valores menores son mejores. La comparación con el modelo previo permite comprobar si incorporar meteorología adicional realmente mejora la generalización y no solo el ajuste dentro de muestra.
+
+La gráfica de calibración compara probabilidades medias estimadas con frecuencias realmente observadas en 2025. Una mayor cercanía a la diagonal indica mejor correspondencia entre probabilidad y frecuencia.
+
+## Probabilidad ajustada por los 16 rumbos después de controlar la meteorología
+
+```{r}
+#| label: probabilidades-direccion-meteorologia-ampliada
+
+beta_met <- coef(mod_met_final)
+V_met <- V_met_rob
+
+tt_met <- delete.response(
+  terms(mod_met_final)
+)
+
+rumbos_met <- levels(d_met_se3$sector)
+
+prob_direccion_met <- map_dfr(
+  rumbos_met,
+  function(r) {
+
+    # Estandarización marginal:
+    # se fija únicamente la dirección y se conserva la distribución
+    # observada de las demás condiciones meteorológicas y temporales.
+    nuevo <- d_met_se3 %>%
+      mutate(
+        sector = factor(
+          r,
+          levels = rumbos_met
+        )
+      )
+
+    X_met <- model.matrix(
+      tt_met,
+      data = nuevo,
+      contrasts.arg = mod_met_final$contrasts,
+      xlev = mod_met_final$xlevels
+    )
+
+    X_met <- X_met[
+      ,
+      names(beta_met),
+      drop = FALSE
+    ]
+
+    eta <- as.vector(
+      X_met %*% beta_met
+    )
+
+    p <- plogis(eta)
+    prob_media <- mean(p)
+
+    # Delta method usando la covarianza robusta agrupada por día.
+    gradiente <- colMeans(
+      sweep(
+        X_met,
+        1,
+        p * (1 - p),
+        "*"
+      )
+    )
+
+    se_prob <- sqrt(
+      as.numeric(
+        t(gradiente) %*%
+          V_met %*%
+          gradiente
+      )
+    )
+
+    tibble(
+      Rumbo = r,
+      Prob_ajustada = prob_media,
+      IC_inf = max(
+        0,
+        prob_media - 1.96 * se_prob
+      ),
+      IC_sup = min(
+        1,
+        prob_media + 1.96 * se_prob
+      )
+    )
+  }
+)
+
+prob_direccion_met <- prob_direccion_met %>%
+  mutate(
+    Prob_pct = 100 * Prob_ajustada,
+    IC_inf_pct = 100 * IC_inf,
+    IC_sup_pct = 100 * IC_sup
+  )
+
+cat("=== PROBABILIDAD AJUSTADA POR RUMBO CON METEOROLOGÍA AMPLIADA ===\n")
+
+print(
+  prob_direccion_met %>%
+    transmute(
+      Rumbo,
+      Prob_pct = round(Prob_pct, 2),
+      IC_inf_pct = round(IC_inf_pct, 2),
+      IC_sup_pct = round(IC_sup_pct, 2)
+    ),
+  n = 16
+)
+
+# Comparación compacta con el modelo direccional anterior.
+comparacion_prob_direccion <- prob_direccion %>%
+  select(
+    Rumbo,
+    Prob_anterior_pct = Prob_pct
+  ) %>%
+  left_join(
+    prob_direccion_met %>%
+      transmute(
+        Rumbo,
+        Prob_meteo_pct = round(Prob_pct, 2)
+      ),
+    by = "Rumbo"
+  ) %>%
+  mutate(
+    Cambio_pp = round(
+      Prob_meteo_pct - Prob_anterior_pct,
+      2
+    )
+  )
+
+cat("\n=== CAMBIO RESPECTO AL MODELO AJUSTADO SOLO POR WSR, HORA Y MES ===\n")
+print(comparacion_prob_direccion, n = 16)
+
+ggplot(
+  prob_direccion_met,
+  aes(
+    x = factor(
+      Rumbo,
+      levels = rumbos_met
+    ),
+    y = Prob_pct
+  )
+) +
+  geom_col() +
+  geom_errorbar(
+    aes(
+      ymin = IC_inf_pct,
+      ymax = IC_sup_pct
+    ),
+    width = 0.25
+  ) +
+  labs(
+    title = "Probabilidad ajustada de episodio de SO2 según la dirección del viento",
+    subtitle = "SE3 | Ajustada por la meteorología seleccionada y con IC robustos",
+    x = "Dirección de procedencia del viento",
+    y = "Probabilidad ajustada de episodio (%)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+**Interpretación.** Esta figura responde directamente a la pregunta principal del análisis ampliado. Para cada rumbo se fija la dirección y se conservan las condiciones observadas de las demás variables del modelo; después se promedian las probabilidades estimadas. Por ello, las diferencias direccionales ya no pueden explicarse únicamente por diferencias en velocidad, temperatura, humedad, presión, radiación, lluvia, hora o mes que hayan sido retenidas por la selección.
+
+La comparación con `prob_direccion` permite revisar si el patrón oriental observado en el modelo original se conserva, disminuye o cambia después del ajuste meteorológico ampliado. Si E, ENE y ESE continúan entre los rumbos de mayor probabilidad, el hallazgo direccional se vuelve más robusto frente a confusión meteorológica.
+
+Estas probabilidades siguen siendo asociaciones ajustadas; no identifican por sí solas una fuente causal específica.
+
+## Misma dirección del viento bajo diferentes condiciones meteorológicas
+
+En esta sección se fija la dirección en **Este** y se modifica una condición meteorológica a la vez dentro de un rango observado. Las demás condiciones permanecen con su distribución real y las probabilidades se promedian. Esto permite responder, por ejemplo, cómo cambia la probabilidad ajustada de episodio con viento del Este a diferentes velocidades o niveles de humedad.
+
+No se incluyen interacciones Dirección × Meteorología en esta etapa. Por lo tanto, estas curvas describen probabilidades bajo distintos escenarios con dirección Este, pero no prueban que una variable meteorológica modifique específicamente el efecto causal de esa dirección.
+
+```{r}
+#| label: perfiles-meteorologicos-direccion-este
+
+variables_meteo <- c(
+  "WSR",
+  "TOUT",
+  "RH",
+  "PRS",
+  "SR",
+  "RAINF"
+)
+
+etiquetas_meteo <- c(
+  WSR = "Velocidad del viento (WSR)",
+  TOUT = "Temperatura (TOUT)",
+  RH = "Humedad relativa (RH)",
+  PRS = "Presión (PRS)",
+  SR = "Radiación solar (SR)",
+  RAINF = "Precipitación (RAINF)"
+)
+
+# Determinar si cada variable quedó en la especificación BIC final.
+terminos_finales_met <- attr(
+  terms(mod_met_final),
+  "term.labels"
+)
+
+retenida_final <- function(variable) {
+  any(
+    str_detect(
+      terminos_finales_met,
+      fixed(variable)
+    )
+  )
+}
+
+# Crear rangos realistas de evaluación.
+# Para lluvia se usa 0 y cuantiles de las observaciones positivas,
+# ya que la gran mayoría de las horas tiene RAINF = 0.
+crear_grid_meteo <- function(variable) {
+  x <- d_met_se3[[variable]]
+
+  if (variable == "RAINF") {
+    positivos <- x[x > 0]
+
+    if (length(positivos) == 0) {
+      return(0)
+    }
+
+    return(
+      sort(
+        unique(
+          c(
+            0,
+            as.numeric(
+              quantile(
+                positivos,
+                probs = c(
+                  0.25,
+                  0.50,
+                  0.75,
+                  0.90,
+                  0.95
+                ),
+                na.rm = TRUE
+              )
+            )
+          )
+        )
+      )
+    )
+  }
+
+  seq(
+    as.numeric(
+      quantile(
+        x,
+        0.05,
+        na.rm = TRUE
+      )
+    ),
+    as.numeric(
+      quantile(
+        x,
+        0.95,
+        na.rm = TRUE
+      )
+    ),
+    length.out = 21
+  )
+}
+
+curvas_meteo_este <- map_dfr(
+  variables_meteo,
+  function(variable) {
+
+    valores <- crear_grid_meteo(variable)
+
+    map_dfr(
+      valores,
+      function(valor) {
+
+        nuevo <- d_met_se3 %>%
+          mutate(
+            sector = factor(
+              "E",
+              levels = rumbos_met
+            )
+          )
+
+        nuevo[[variable]] <- valor
+
+        p <- predict(
+          mod_met_final,
+          newdata = nuevo,
+          type = "response"
+        )
+
+        tibble(
+          Variable = variable,
+          Valor = valor,
+          Probabilidad = mean(p),
+          Retenida_BIC = retenida_final(variable)
+        )
+      }
+    )
+  }
+) %>%
+  mutate(
+    Etiqueta = recode(
+      Variable,
+      !!!etiquetas_meteo
+    )
+  )
+
+cat("=== ESTADO DE CADA VARIABLE EN EL MODELO BIC ===\n")
+
+curvas_meteo_este %>%
+  distinct(
+    Variable,
+    Retenida_BIC
+  ) %>%
+  print()
+
+# Resumen de valores bajo, intermedio y alto dentro del rango evaluado.
+resumen_escenarios_este <- curvas_meteo_este %>%
+  group_by(
+    Variable,
+    Etiqueta,
+    Retenida_BIC
+  ) %>%
+  arrange(Valor, .by_group = TRUE) %>%
+  summarise(
+    Valor_bajo = first(Valor),
+    Prob_baja_pct = 100 * first(Probabilidad),
+    Valor_intermedio = Valor[ceiling(n() / 2)],
+    Prob_intermedia_pct = 100 * Probabilidad[ceiling(n() / 2)],
+    Valor_alto = last(Valor),
+    Prob_alta_pct = 100 * last(Probabilidad),
+    Cambio_pp = 100 * (last(Probabilidad) - first(Probabilidad)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    across(
+      c(
+        Valor_bajo,
+        Prob_baja_pct,
+        Valor_intermedio,
+        Prob_intermedia_pct,
+        Valor_alto,
+        Prob_alta_pct,
+        Cambio_pp
+      ),
+      ~ round(.x, 2)
+    )
+  )
+
+cat("\n=== ESCENARIOS CON DIRECCIÓN FIJA EN ESTE ===\n")
+print(resumen_escenarios_este, n = Inf)
+
+ggplot(
+  curvas_meteo_este,
+  aes(
+    x = Valor,
+    y = 100 * Probabilidad
+  )
+) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.5) +
+  facet_wrap(
+    ~ Etiqueta,
+    scales = "free_x"
+  ) +
+  labs(
+    title = "Probabilidad de episodio con viento del Este bajo distintas condiciones",
+    subtitle = "SE3 | Una variable cambia a la vez; las demás conservan su distribución observada",
+    x = "Valor de la condición meteorológica",
+    y = "Probabilidad ajustada de episodio (%)"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**Interpretación.** Las curvas permiten pasar de una conclusión general sobre dirección a una descripción meteorológica más detallada. Cada panel responde cómo cambia la probabilidad promedio estimada de episodio cuando el viento se fija en Este y una condición meteorológica recorre valores observados realistas.
+
+Una variable que haya sido excluida por BIC producirá una curva plana en el modelo final, porque ya no forma parte de la ecuación. Para las variables retenidas, la forma de la curva muestra si la probabilidad aumenta, disminuye o presenta una relación no lineal dentro del rango observado.
+
+Estas curvas no deben interpretarse como efectos causales aislados. Son probabilidades ajustadas derivadas del modelo estadístico.
+
+## ¿La meteorología adicional reduce la dependencia temporal residual?
+
+Para comparar de manera justa, se reajusta el modelo direccional anterior y el modelo meteorológico final sobre la misma base de SE3. La autocorrelación se calcula únicamente entre pares de observaciones separados exactamente por el número de horas indicado.
+
+```{r}
+#| label: comparacion-dependencia-temporal-modelo-meteorologico
+
+# Modelo base de 16 rumbos en la misma muestra completa.
+mod_base_16_misma_muestra <- glm(
+  episodio ~
+    sector +
+    ns(WSR, 3) +
+    Hora_sin + Hora_cos +
+    Mes_sin + Mes_cos,
+  data = d_met_se3,
+  family = binomial
+)
+
+acf_residuo_real <- function(modelo, datos_modelo, etiqueta, rezagos = 1:48) {
+
+  resid_base <- datos_modelo %>%
+    transmute(
+      fecha,
+      residuo = residuals(
+        modelo,
+        type = "pearson"
+      )
+    ) %>%
+    arrange(fecha)
+
+  map_dfr(
+    rezagos,
+    function(k) {
+
+      anterior <- resid_base %>%
+        transmute(
+          fecha = fecha + hours(k),
+          residuo_anterior = residuo
+        )
+
+      pares <- resid_base %>%
+        transmute(
+          fecha,
+          residuo_actual = residuo
+        ) %>%
+        inner_join(
+          anterior,
+          by = "fecha"
+        )
+
+      n_pares <- nrow(pares)
+
+      tibble(
+        Modelo = etiqueta,
+        Rezago_horas = k,
+        N_pares = n_pares,
+        Autocorrelacion = if (n_pares > 2) {
+          cor(
+            pares$residuo_actual,
+            pares$residuo_anterior,
+            use = "complete.obs"
+          )
+        } else {
+          NA_real_
+        },
+        Limite_95 = if_else(
+          n_pares > 0,
+          1.96 / sqrt(n_pares),
+          NA_real_
+        )
+      )
+    }
+  )
+}
+
+acf_comparacion_met <- bind_rows(
+  acf_residuo_real(
+    mod_base_16_misma_muestra,
+    d_met_se3,
+    "Base: dirección + WSR + tiempo"
+  ),
+  acf_residuo_real(
+    mod_met_final,
+    d_met_se3,
+    "Meteorología ampliada"
+  )
+)
+
+cat("=== AUTOCORRELACIÓN RESIDUAL ANTES Y DESPUÉS ===\n")
+
+acf_comparacion_met %>%
+  filter(
+    Rezago_horas %in% c(1, 2, 3, 6, 12, 24, 48)
+  ) %>%
+  mutate(
+    Autocorrelacion = round(
+      Autocorrelacion,
+      3
+    )
+  ) %>%
+  select(
+    Modelo,
+    Rezago_horas,
+    N_pares,
+    Autocorrelacion
+  ) %>%
+  print(n = Inf)
+
+# Cambio específico en lag 1, donde el diagnóstico previo mostró
+# la dependencia de mayor magnitud.
+comparacion_lag1 <- acf_comparacion_met %>%
+  filter(Rezago_horas == 1) %>%
+  select(
+    Modelo,
+    Autocorrelacion
+  ) %>%
+  mutate(
+    Autocorrelacion = round(
+      Autocorrelacion,
+      3
+    )
+  )
+
+cat("\n=== COMPARACIÓN EN REZAGO DE 1 HORA ===\n")
+print(comparacion_lag1)
+
+ggplot(
+  acf_comparacion_met,
+  aes(
+    x = Rezago_horas,
+    y = Autocorrelacion,
+    linetype = Modelo
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.1) +
+  scale_x_continuous(
+    breaks = seq(0, 48, 6)
+  ) +
+  labs(
+    title = "Dependencia temporal residual antes y después del ajuste meteorológico",
+    subtitle = "SE3 | Residuos de Pearson y rezagos temporales reales",
+    x = "Rezago (horas)",
+    y = "Autocorrelación residual",
+    linetype = "Modelo"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+**Interpretación.** Esta comparación permite comprobar si temperatura, humedad, presión, radiación y precipitación explican parte de la dependencia temporal que permanecía en los residuos. Una reducción de la autocorrelación, especialmente en el rezago de una hora, indicaría que el modelo meteorológico ampliado captura estructura que antes quedaba sin explicar.
+
+Si todavía permanece autocorrelación residual, no se interpreta como fracaso del modelo. Significa que existe persistencia temporal adicional que una regresión logística puramente meteorológica no representa por completo. Por esta razón, las inferencias finales sobre los rumbos se acompañan con errores estándar robustos agrupados por día y las probabilidades consecutivas no se describen como observaciones completamente independientes.
+
+# Síntesis del modelo meteorológico ampliado
+
+El análisis ampliado está diseñado para responder una sola pregunta central: **si la dirección del viento conserva una asociación con los episodios elevados de $SO_2$ después de considerar el resto de la meteorología disponible**.
+
+La secuencia metodológica es:
+
+1. partir de todas las variables meteorológicas disponibles en SE3;
+2. seleccionar una especificación parsimoniosa con AIC y BIC usando únicamente 2022--2024;
+3. comparar formalmente el modelo con y sin dirección del viento;
+4. validar generalización en 2025;
+5. recalcular probabilidades ajustadas por los 16 rumbos con inferencia robusta;
+6. estudiar la misma dirección del viento bajo distintos valores meteorológicos;
+7. comprobar si la meteorología adicional reduce la dependencia temporal de los residuos.
+
+El análisis sigue siendo observacional. Una asociación persistente con el sector oriental es compatible con la hipótesis espacial planteada en el proyecto, pero no identifica de forma causal una fuente específica sin evidencia adicional.
+
+# Guardado final de modelos ampliados
+
+```{r}
+#| label: guardado-final-modelos-ampliados
+
+saveRDS(
+  list(
+    datos = datos,
+    mod_se3 = mod_se3,
+    mod_conjunto_flexible = mod_conjunto_flexible,
+    acf_temporal = acf_temporal,
+    mod_met_completo_tr = mod_met_completo_tr,
+    mod_met_aic_tr = mod_met_aic_tr,
+    mod_met_bic_tr = mod_met_bic_tr,
+    mod_met_final = mod_met_final,
+    rob_dir = rob_dir,
+    validacion_2025 = validacion_2025,
+    calibracion_2025 = calibracion_2025,
+    prob_direccion_met = prob_direccion_met,
+    curvas_meteo_este = curvas_meteo_este,
+    acf_comparacion_met = acf_comparacion_met
+  ),
+  "objetos_entrega_final_modelo_meteorologico.rds"
+)
+
+cat(
+  "Objetos del modelo meteorológico ampliado guardados correctamente.\n"
+)
 ```

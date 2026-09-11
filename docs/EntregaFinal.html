@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EntregaFinal</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="EntregaFinal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="EntregaFinal_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="EntregaFinal_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="EntregaFinal_files/libs/quarto-html/popper.min.js"></script>
+<script src="EntregaFinal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="EntregaFinal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="EntregaFinal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="EntregaFinal_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="EntregaFinal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="EntregaFinal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="EntregaFinal_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">EntregaFinal</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+</section>
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>La calidad del aire es un aspecto fundamental para el bienestar de la población y el medio ambiente, ya que depende de la presencia y concentración de diferentes contaminantes en la atmósfera. Cuando estos alcanzan niveles elevados pueden generar efectos negativos sobre la salud y los ecosistemas. Por ello, su monitoreo pemrite identificar condiciones de riesgo y generar información útil para reducir la exposición de la población y apoyar la toma de decisiones públicas (HOLCIM, s.f.).</p>
+<section id="importancia-del-análisis-de-la-calidad-del-aire" class="level4">
+<h4 class="anchored" data-anchor-id="importancia-del-análisis-de-la-calidad-del-aire"><strong>Importancia del análisis de la calidad del aire</strong></h4>
+<p>El análisis de la calidad del aire es importante para la ciudadanía debido a sus efectos sobre la salud. La Organización Mundial de la Salud estima que la contaminación del aire exterior ocasionó aproximadamente 4.2 millones de muertes prematuras en 2019 y la relaciona con enfermedades cardiovasculares, respiratorias, accidentes cerebrovasculares y cáncer de pulmón (OMS, 2024). Además, contar con información actualizada permite emitir recomendaciones durante episodios de contaminación, industria y desarrollo urbano.</p>
+<p>Entre los contaminantes de mayor importancia se encuentran las partículas suspendidas (<span class="math inline">\(PM_{10}\)</span>$PM_{10}$ y <span class="math inline">\(PM_{2.5}\)</span>), el ozono (<span class="math inline">\(O_3\)</span>), el dióxido de nitrógeno (<span class="math inline">\(NO_{2}\)</span>), el dióxido de azufre (<span class="math inline">\(SO_{2}\)</span>) y el monóxido de carbono (<span class="math inline">\(CO\)</span>). El material particulado es especialmente relevante debido a que las partículas más pequeñas pueden penetrar profundamente en los pulmones e incluso ingresar al torrente sanguíneo, generando efectos cardiovasculares y respiratorios (OMS, 2024). La OMS establece valores guía internacionales para estos contaminantes; mientras que en México el Índice Aire y Salud comunica las condiciones mediante las categorías buena, aceptable, mala, muy mala y extremadamente mala.</p>
+</section>
+<section id="medición-de-la-calidad-del-aire-y-variables-relacionadas" class="level4">
+<h4 class="anchored" data-anchor-id="medición-de-la-calidad-del-aire-y-variables-relacionadas"><strong>Medición de la calidad del aire y variables relacionadas</strong></h4>
+<p>La calidad del aire se evalúa mediante redes de monitoreo que registran las concentraciones de contaminantes atmosféricos. Estas mediciones pemriten analizar su comportamiento temporal y espacial, además de detectar episodios que puedan representar un riesgo para la población (PNUMA, 2022). En México, el Sistema Nacional de Información de la Calidad del Aire (SINAICA), administrado por el INEEC, integra y valida información proveniente de distintos sistemas de monitoreo del país (INECC, s.f.).</p>
+<p>Para interpretar los resultados es necesario considerar tanto la unidad de concentración como el periodo de exposición. Las partículas suelen expresarse en microgramos por metro cúbico, mientras que algunos gases se reportan en partes por millón o partes por billón. También pueden analizarse concentraciones horarias, promedios de 8 horas, 24 horas o anuales. Además de las emisiones, variables meteorológicas como temperatura, humedad, velocidad y dirección del viento, presión, precipitación y radiación solar influyen en la dispersión, transporte y acumulación de los contaminantes.</p>
+</section>
+<section id="normas-y-lineamientos-para-la-protección-de-la-salud" class="level4">
+<h4 class="anchored" data-anchor-id="normas-y-lineamientos-para-la-protección-de-la-salud"><strong>Normas y lineamientos para la protección de la salud</strong></h4>
+<p>A nivel internacional, las Directrices Mundiales sobre la Calidad del Aire de la OMS establecen valores recomendados para <span class="math inline">\(PM_{2.5}\)</span> , <span class="math inline">\(PM_{10}\)</span>, <span class="math inline">\(O_3\)</span>, <span class="math inline">\(NO_2\)</span>, <span class="math inline">\(SO_2\)</span> y <span class="math inline">\(CO\)</span>. Los vaEstas directrices se basan en evidencia científica sobre sus efectos en la salud, pero no son legalmente obligatorias; funcionan como referencia para que cada país desarrolle sus propias regulaciones (OMS,2021).</p>
+<p>En México, los límites para la protección de la salud se establecen mediante Normas Oficiales Mexicanas. Para los principales contaminantes se encuentran la NOM-020-SSA1-2021, correspondiente al ozono; la NOM-021-SSA1-2021 para el monóxido de carbono; la NOM-022-SSA1-2019 para el dióxido de azufre; la NOM-023-SSA1-2021 para el dióxido de nitrogeno y la NOM-025-SSA1-2021 correspondiente a las partículas suspendidas (DOF, 2019; DOF,2021). Asimismo, la NOM-172-SEMARNAT establece los lineamientos para comunicar el Índice de Calidad del Aire y Riesgos a la Salud (SEMARNAT, 2023). Una porblemática importante es que los límites establecidos en las normas nacionales no siempre coinciden con las recomendaciones de la OMS, por lo que cumplir con una norma nacional no implica necesariamente la ausencia total de riesgo para la salud.</p>
+</section>
+<section id="dificultades-en-la-medición-de-la-calidad-del-aire" class="level4">
+<h4 class="anchored" data-anchor-id="dificultades-en-la-medición-de-la-calidad-del-aire">Dificultades en la medición de la calidad del aire</h4>
+<p>El monitoreo de la calidad del aire presenta dificultades relacionadas con la cobertura de las estaciones, la disponibilidad y calidad de los registros y la variabilidad espacial y temporal de los contaminantes. Los equipos requieren mantenimiento y calibración, pueden presentarse datos faltantes y una estación representa principalmente las condiciones de su entorno inmediato. Por ello, antes de realizar análsiis estadísticos es necesario validar, depurar y evaluar la disponibilidad de los datos (INECC, s.f. ; PNUMA, 2022).</p>
+</section>
+<section id="sistema-integral-de-monitoreo-ambiental-de-nuevo-león" class="level4">
+<h4 class="anchored" data-anchor-id="sistema-integral-de-monitoreo-ambiental-de-nuevo-león">Sistema Integral de Monitoreo Ambiental de Nuevo León</h4>
+<p>En Nuevo León, el Sistema Integral de Monitoreo Ambiental (SIMA), administrado por la Secretaría de Medio Ambiente del Estado, monitorea contaminantes atmosféricos y variables meteorológicas en diferentes zonas del Área Metropolitana de Monterrey. Además de informar a la ciudadanía mediante el Índice Aire y Salud, sus registros históricos permiten estudiar el comportamiento y las relaciones entre contaminantes y condiciones ambientales (Gobierno de Nuevo León, s.f.).</p>
+<p>La información generada por SIMA constituye la principal fuente de datos para este proyecto y permitirá analizar una problemática específica relacionada con el comportamiento del <span class="math inline">\(SO_2\)</span> y su posible relación con condiciones meteorológicas y fuentes industriales de la región.</p>
+</section>
+</section>
+<section id="objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo">Objetivo</h2>
+<p>Analizar y caracterizar las concentraciones de dióxido de azufre (<span class="math inline">\(SO_2\)</span>) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), y su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales localizadas en la zona de Cadereyta.</p>
+<p><strong>Objetivo actualizado</strong></p>
+<p>Cuantificar el exceso de exposición aguda a <span class="math inline">\(SO_{2}\)</span> asociado al sector direccional donde se ubica la refinería de Cadereyta, para evaluar si los indicadores de tendencia central (promedios y medianas anuales) que usan actualmente los instrumentos de gestión representan adecuadamente esa exposición.</p>
+<p>Esta formulación conserva el marco del Objetivo 4 y el enfoque en fuentes industriales puntuales, pero desplaza el análisis de una atribución causal hacia la cuantificación del exceso de exposición y su posible incorporación a los mecanismos de seguimiento del PIGECA 2023–2033.</p>
+<section id="pregunta-guía" class="level5">
+<h5 class="anchored" data-anchor-id="pregunta-guía">Pregunta guía:</h5>
+<p>¿Las concentraciones de dióxido de azufre (<span class="math inline">\(SO_2\)</span>) registradas en la estación SE2, SE3, NO2 y NE durante el periodo 2022-2025 presentan patrones espaciales, direccionales y meteorológicos consistentes con una posible influencia de fuentes industriales localizadas en la zona de Cadereyta, como lo es la refinería?</p>
+</section>
+<section id="objetivos-específicos" class="level5">
+<h5 class="anchored" data-anchor-id="objetivos-específicos">Objetivos específicos:</h5>
+<ul>
+<li><p>Describir el comportamiento temporal de las concentraciones de <span class="math inline">\(SO_2\)</span> registradas en las estaciones NE, SE2, NO2 y SE3 durante 2022-2025, identificando su distribución, variación temporal y los periosos en los que se presentan concentraciones elevadas en cada sitio.</p></li>
+<li><p>Analizar la relación entre las concentraciones de <span class="math inline">\(SO_2\)</span>, la dirección y la velocidad del viento con el fin de identificar los sectores direccionales asociados con una mayor frecuencia de episodios de alta concentración.</p></li>
+<li><p>Comparar los patrones de <span class="math inline">\(SO_2\)</span> entre las estaciones seleccionadas, utilizando la estación García como referencia, para evaluar si los episodios observados presentan un comportamiento localizado en la zona de Cadereyta o si corresponden a fenómenos más regionales.</p></li>
+<li><p>Analizar de manera complementaria el comportamiento de otros contaminantes atmosféricos durante los episoidos elevados de <span class="math inline">\(SO_2\)</span> , con el propósito de caracterizar mejor estos eventos y evitar atribuir automáticamente todos los incrementos observados a una misma fuente industrial.</p></li>
+</ul>
+</section>
+<section id="antecedentes-relacionados-con-el-objetivo-del-trabajo" class="level4">
+<h4 class="anchored" data-anchor-id="antecedentes-relacionados-con-el-objetivo-del-trabajo">Antecedentes relacionados con el objetivo del trabajo</h4>
+<p>Diversos estudios han analizado la relación entre las concentraciones de contaminantes atmosféricos, las condiciones meteorológicas y la ubicación de fuentes de emisión de contaminantes con el propósito de determinar el posible origen de episodios de contaminación. Para el presente proyecto resultan especialmente relevantes los trabajos de Uria-Tellaetxe y Carslaw (2014), Clarke et al.&nbsp;(2014) y Xue et al.&nbsp;(2023) ya que presentan metodologías y aplicaciones relacionadas con la identificación de fuentes mediante información de calidad del aire, dirección y velocidad del viento.</p>
+<p>Uria-Tellaetxe y Carslaw (2014) desarrollaron la Función de probabilidad bivariada condicional como una extensión de la función de probabilidad condicional. Esta metodología permite relacionar las concentraciones registradas de un contaminante con la dirección y velocidad del viento, de manera que sea posible identificar los sectores y condiciones meteorológicas asociados con concentraciones elevadas. Los autores describen su propuesta como “un nuevo método de modelación de receptor para identificar y caracterizar fuentes de emisión” (Uria-Tellaetxe &amp; Carslaw, 2014). La principal ventaja de incorporar la velocidad del viento es que proporciona información extra sobre las características de dispersión de las fuentes y no únicamente sobre su dirección. Además, los autores comprobaron el funcionamiento de la técnica mediante simulaciones de dispersión e incorporaron el procedimiento al paquete openair de R. Esta metodología resulta relevante para el análisis de las estaciones de Cadereyta, Juárez y San Nicolás, debido a que permite estudiar si los episodios elevados de <span class="math inline">\(SO_2\)</span> aparecen repetidamente bajo determinadas combinaciones de dirección y velocidad del viento. De esta forma, en lugar de analizar solamente una correlación entre <span class="math inline">\(SO_2\)</span> y variables meteorológicas, es posible determinar si existe un patrón direccional consistente con la ubicación de una fuente industrial.</p>
+<p>Por otra parte, Clarke et al.&nbsp;(2014) aplicaron un enfoque de identificación de fuentes en Ulsan, Corea del Sur, una ciudad caracterizada por una importante actividad industrial. Los autores utilizaron concentraciones horarias de <span class="math inline">\(SO_2\)</span>, <span class="math inline">\(CO\)</span>, <span class="math inline">\(O_3\)</span>, <span class="math inline">\(NO_2\)</span> y <span class="math inline">\(PM_{10}\)</span> registradas durante un año en 13 estaciones automáticas de monitoreo. El análisis consideró las variaciones diarias y estacionales, la distribución espacial de los contaminantes y la dirección del viento. Los resultados mostraron una relación particularmente clara para el dióxido de azufre, pues señalan que “la contaminación por <span class="math inline">\(SO_2\)</span> en Ulsan se originó principalmente en áreas industriales locales” (Clarke et al., 2014, p.&nbsp;239). Este estudio constituye un antecedente directo para el proyecto debido a que demuestra que los registros generados diariamente por estaciones automáticas pueden utilizarse no solo para conocer las concentraciones de contaminantes, sino también para estudiar relaciones entre las fuentes y los receptores. Asimismo, los investigadores analizaron de manera individual episodios de concentraciones elevadas, lo cual respalda el interés por estudiar específicamente las horas de mayor <span class="math inline">\(SO_2\)</span> en Cadereyta, Juárez y San Nicolás y las condiciones de viento presentes durante esos eventos.</p>
+<p>Finalmente, Xue et al.&nbsp;(2023) estudiaron episodios recurrentes de contaminación por <span class="math inline">\(SO_2\)</span> dentro de un parque industrial químico. A partir de las mediciones de una estación identificaron 68 eventos de contaminación y posteriormente realizaron un análisis retrospectivo para determinar su posible fuente. Una característica especialmente importante del trabajo es que los autores reconocen que “los datos de apoyo disponibles correspondían únicamente a las mediciones de un solo monitor” (Xue et al., 2023). A pesar de esta limitación, combinaron las observaciones con información meteorológica y modelos de dispersión para aumentar la certeza de la localización de las fuentes. Finalmente, asociaron los episodios estudiados con una unidad industrial de craqueo catalítico.</p>
+<p>En conjunto, los tres estudios muestran que las concentraciones de <span class="math inline">\(SO_2\)</span> pueden analizarse junto con la dirección y velocidad del viento para identificar patrones compatibles con fuentes industriales. Uria-Tellaetxe y Carslaw (2014) proporcionan la metodología direccional; Clarke et al.&nbsp;(2014) demuestran su utilidad en una ciudad industrial utilizando datos horarios de estaciones de monitoreo; y Xue et al.&nbsp;(2023) muestran la importancia de estudiar individualmente los episodios elevados de <span class="math inline">\(SO_2\)</span> y reconstruir sus posibles fuentes. Estos antecedentes sustentan el análisis propuesto para las estaciones previamente mencionadas, donde se busca determinar si las concentraciones elevadas de <span class="math inline">\(SO_2\)</span> presentan un patrón meteorológico y direccional consistente y si dicho sector coincide espacialmente con fuentes industriales localizadas en la región.</p>
+</section>
+<section id="justificación-del-proyecto" class="level4">
+<h4 class="anchored" data-anchor-id="justificación-del-proyecto">Justificación del proyecto</h4>
+<p>Los estudios revisados muestran que el análisis conjunto de las concentraciones de contaminantes y las condiciones meteorológicas, especialmente la dirección y velocidad del viento, puede ayudar a identificar patrones compatibles con posibles fuentes de emisión. Este tipo de análisis ha sido utilizado en distintos contextos industriales para relaciones episodios de concentraciones elevadas con sectores específicos de procedencia.</p>
+<p>En este proyecto se busca aplicar este enfoque a las concentraciones de <span class="math inline">\(S0_2\)</span> registradas en las estaciones SE3 (Cadereyta), SE2 (Juárez, ne (San Nicolás) y NO2 (García) durante 2022-2025. La incorporación de estaciones con distinta ubicación respecto a la zona industrial de Cadereyta permitirá comprar si los episodios elevados de <span class="math inline">\(SO_2\)</span> presentan un comportamiento localizado y direccional. La estación de García se utilizará como referencia para contrastar si los incrementos observados también aparecen en una zona más alejada de la refinería y menos expuesta a la trayectoria esperada de emisiones provenientes de Cadereyta.</p>
+<p>Además, se analizará de manera complementaria el comportamiento de otros contaminantes atmosféricos durante los episodios elevados de <span class="math inline">\(SO_2\)</span>. Estos contaminantes no se utilizarán para asumir que todos provienen de una misma fuente, sino como información adicional para caracterizar mejor los eventos observados y reducir el riesgo de atribuir automáticamente cualquier incremento de <span class="math inline">\(SO_2\)</span> a una fuente industrial específica. Con ello, se busca obtener una interpretación más completa y cuidadosa de la posible infleuncia de la actividad insdustrial sobre la calidad del aire en la región.</p>
+</section>
+</section>
+<section id="preparación-de-la-base-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-de-la-base-de-datos">Preparación de la base de datos</h2>
+<section id="descripción-y-selección-del-conjunto-de-datos" class="level4">
+<h4 class="anchored" data-anchor-id="descripción-y-selección-del-conjunto-de-datos">Descripción y selección del conjunto de datos</h4>
+<p>Para el desarrollo del proyecto se integraron las bases de datos de SIMA correspondientes al periodo 2022-2025. Se seleccionaron las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y NO2 (García), obteniendo una base inicial de 140,236 registros y 19 variables. La estación de García aparece identificada como NO2 en los archivos originales de SIMA, por lo que se renombró como GAR para avitar confusión con la variable correspondiente al dióxido de nitrógeno.</p>
+<p>La variable principal del estudio es la consentración de <span class="math inline">\(SO_2\)</span>. También se conservaron la dirección y velocidad del viento y las variables meteorológicas necesarias para analizar las condiciones de transporte y dispersión. Adicionalmentel se incluyeron los demás contaminantes disponibles como variables complementarias para caracterizar los episodios elevados de <span class="math inline">\(SO_2\)</span> sin asumir que todos los incrementso observados corresponden a una misma fuente.</p>
+</section>
+<section id="tabla-de-variables" class="level4">
+<h4 class="anchored" data-anchor-id="tabla-de-variables">Tabla de variables</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Descripción</th>
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Dominio</th>
+<th style="text-align: right;">% nulos</th>
+<th style="text-align: left;">Relevancia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Fecha y hora</code></td>
+<td style="text-align: left;">Fecha y hora del registro</td>
+<td style="text-align: left;">Temporal</td>
+<td style="text-align: left;">2022–2025</td>
+<td style="text-align: right;">0.00%</td>
+<td style="text-align: left;">Análisis temporal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Estacion</code></td>
+<td style="text-align: left;">Estación de monitoreo</td>
+<td style="text-align: left;">Categórica</td>
+<td style="text-align: left;">SE3, SE2, NE, GAR</td>
+<td style="text-align: right;">0.00%</td>
+<td style="text-align: left;">Comparación espacial</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Municipio</code></td>
+<td style="text-align: left;">Municipio de la estación</td>
+<td style="text-align: left;">Categórica</td>
+<td style="text-align: left;">Cadereyta, Juárez, San Nicolás, García</td>
+<td style="text-align: right;">0.00%</td>
+<td style="text-align: left;">Ubicación geográfica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Año</code></td>
+<td style="text-align: left;">Año del registro</td>
+<td style="text-align: left;">Temporal</td>
+<td style="text-align: left;">2022–2025</td>
+<td style="text-align: right;">0.00%</td>
+<td style="text-align: left;">Comparación anual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SO2</code></td>
+<td style="text-align: left;">Dióxido de azufre</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">4.37%</td>
+<td style="text-align: left;">Variable principal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>CO</code></td>
+<td style="text-align: left;">Monóxido de carbono</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">7.02%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>NO</code></td>
+<td style="text-align: left;">Óxido nítrico</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">5.64%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>NO2</code></td>
+<td style="text-align: left;">Dióxido de nitrógeno</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">4.88%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>NOX</code></td>
+<td style="text-align: left;">Óxidos de nitrógeno</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">4.68%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>O3</code></td>
+<td style="text-align: left;">Ozono</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">4.60%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>PM2.5</code></td>
+<td style="text-align: left;">Partículas menores a 2.5 µm</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">10.70%</td>
+<td style="text-align: left;">Contaminante complementario</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>WDR</code></td>
+<td style="text-align: left;">Dirección del viento</td>
+<td style="text-align: left;">Numérica circular</td>
+<td style="text-align: left;"><span class="math inline">\(0^\circ\)</span>–<span class="math inline">\(360^\circ\)</span></td>
+<td style="text-align: right;">2.00%</td>
+<td style="text-align: left;">Dirección de transporte</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>WSR</code></td>
+<td style="text-align: left;">Velocidad del viento</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">2.24%</td>
+<td style="text-align: left;">Dispersión y transporte</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>TOUT</code></td>
+<td style="text-align: left;">Temperatura exterior</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">9.94%</td>
+<td style="text-align: left;">Condición meteorológica</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>RH</code></td>
+<td style="text-align: left;">Humedad relativa</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">0–100%</td>
+<td style="text-align: right;">4.34%</td>
+<td style="text-align: left;">Condición meteorológica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PRS</code></td>
+<td style="text-align: left;">Presión atmosférica</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">5.40%</td>
+<td style="text-align: left;">Condición meteorológica</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>SR</code></td>
+<td style="text-align: left;">Radiación solar</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">8.19%</td>
+<td style="text-align: left;">Condición meteorológica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>RAINF</code></td>
+<td style="text-align: left;">Precipitación</td>
+<td style="text-align: left;">Numérica</td>
+<td style="text-align: left;">Rango válido SIMA por año</td>
+<td style="text-align: right;">1.20%</td>
+<td style="text-align: left;">Condición meteorológica</td>
+</tr>
+</tbody>
+</table>
+<p>Los rangos de validación utilizados varían entre años y corresponden a los límites establecidos en los archivos de SIMA. Los valores que se encontraron fuera de estos intervalos fueron considerados registros inválidos y se trataron como datos faltantes.</p>
+</section>
+<section id="calidad-y-limpieza-de-los-datos" class="level4">
+<h4 class="anchored" data-anchor-id="calidad-y-limpieza-de-los-datos">Calidad y limpieza de los datos</h4>
+<p>Se revisaron los valores faltantes, registros duplicados y valores fuera de los rangos considerados válidos pro SIMA para cada variable y año. Los valores fuera de rango fueron convertidos en datos faltantes para evitar incorporar mediciones inválidas al análisis.</p>
+<p>La mayor cantidad de valores inválidos se identificó en la presión atmosférica (PRS), con 4,496 registros fuera de rango. También se corrigieron 58 valores de radiación solar, 20 de temperatura, 12 de humedad relativa y algunos casos aislados de <span class="math inline">\(CO\)</span>, <span class="math inline">\(NO\)</span>, <span class="math inline">\(O_3\)</span>, y <span class="math inline">\(SO_2\)</span>. No se encontraron registros duplicados, por lo que la base mantuvo inicialmente sus 140,236 observaciones.</p>
+<p>Los valores extremos que permanecieron dentro de los rangos válidos de SIMA no fueron emilinados únicamente por considerarse atípicos, ya que pueden representar episodios reales de contaminación y son relevantes para el objetivo del proyecto.</p>
+</section>
+<section id="datos-faltantes-e-imputación" class="level4">
+<h4 class="anchored" data-anchor-id="datos-faltantes-e-imputación">Datos faltantes e imputación</h4>
+<p>El tratamiento de los datos faltantes se realizó de manera diferenciada de acuerdo con la función de cada variable dentro del proyecto. Las variables <span class="math inline">\(SO_2\)</span>, WDR y WSR se consideraron indispensables para el análisis principal, debido a que pemriten estudiar conjuntamente la concentración del contaminante y las condiicones de trasnporte asociadas con el viento. Por esta razón, estas variables no fueron imputadas; los registros que no contaban con alguna de estas mediciones fueron excluidos para evitar generar artificialmente concentraciones o patrones direccionales.</p>
+<section id="imputación-mediante-knn" class="level5">
+<h5 class="anchored" data-anchor-id="imputación-mediante-knn">Imputación mediante KNN</h5>
+<p>Para las variables meteorológicas secundrias TOUT, RH, PRS y SR se utilizó imputación mediante K vecinos más cercanos (KNN), con <span class="math inline">\(k=5\)</span>. Este método estima los valores faltantes a partir de las observaciones similares en lugar de sustituirlos por una media o mediana general, por lo que resulta adecuado para variables meteorológicas cuyo comportamiento depende de condiciones temporales, del viento y de la ubicación de la estación. La imputación se realizó de manera independiente dentro de cada estación de monitoreo para evitar mezclar condiciones ambientales de zonas distintas. Para identificar observaciones semejantes se utilizaron variables como velocidad y dirección del viento, año, hora, mes y las demás variables meteorológicas disponibles.</p>
+<p>Debido a que la dirección del viento, la hora y el mes presentan un comportamiento cíclico, estas variables se representaron mediante funciones seno y coseno durante el proceso de imputación, evitando así separaciones artificiales entre valores cercanos como <span class="math inline">\(359°\)</span> y <span class="math inline">\(1°\)</span>, o entre las 23:00 y las 00:00 horas. El <span class="math inline">\(SO_2\)</span> no se utilizó para determinar los vecinos del método KNN, con el propósito de evitar que la variable principal del estudio influyera en la estimación de las condiciones meteorológicas. Asimismo, los demás contaminantes no fueron imputados, ya que estimar artificialmente sus concentraciones podría generar relaciones entre contaminantes que no ocurrieron realmente; por ello, se conservaron únicamente sus mediciones observadas para los análisis posteriores.</p>
+</section>
+</section>
+</section>
+<section id="objetivo-del-análisis" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo-del-análisis">Objetivo del análisis</h2>
+<p>Analizar y caracterizar las concentraciones de dióxido de azufre (<span class="math inline">\(SO_2\)</span>) registradas durante 2022-2025 en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), así como su relación con las condiciones meteorológicas, principalmente la dirección y velocidad del viento, con el propósito de identificar patrones espaciales y direccionales consistentes con una posible influencia de fuentes industriales en la zona de Cadereyta.</p>
+</section>
+<section id="modelación" class="level2">
+<h2 class="anchored" data-anchor-id="modelación">Modelación</h2>
+<section id="técnicas-estadísticas" class="level3">
+<h3 class="anchored" data-anchor-id="técnicas-estadísticas">Técnicas estadísticas</h3>
+<section id="análisis-espacio-temporal-de-so_2" class="level4">
+<h4 class="anchored" data-anchor-id="análisis-espacio-temporal-de-so_2">1. Análisis espacio-temporal de <span class="math inline">\(SO_2\)</span></h4>
+<p>Esta técnica permitirá estudiar cómo cambian las concentraciones de <span class="math inline">\(SO_2\)</span> a través del tiempo y entre las distintas estaciones de monitoreo. Se analizarán patrones por año, mes y hora, además de comparar el comportamiento de las estaciones seleccionadas. Este tipo de análisis ha sido utilizado en estudios de ciudades industriales para identificar diferencias espaciales y temporales en los niveles de contaminantes y reconocer episodios de concentraciones elevadas (Clarke et al, 2014; Xue et al, 2023). En este proyecto permitirá determinar si los valores altos de <span class="math inline">\(SO_2\)</span> se concentran principalmente en determinadas estaciones o periodos.</p>
+</section>
+<section id="gráficos-polares-bivariados" class="level4">
+<h4 class="anchored" data-anchor-id="gráficos-polares-bivariados">2. Gráficos polares bivariados</h4>
+<p>Los gráficos polares permiten analizar de manera conjunta la concentración de un contaminante, la dirección del viento y su velocidad. De esta forma, es posible identificar las condiciones del viento bajo las cuales se presentan las mayores concentraciones de <span class="math inline">\(SO_2\)</span> y visualizar los sectores desde los que podrían transportarse las emisiones hacia cada estación. Esta metodología ha sido aplicada para diferenciar posibles contribuciones de distintas fuentes de contaminación y se encuentra implementada en el paquete openair de R (Carslaw et al, 2006; Carslaw &amp; Ropkins, 2012). En el presente estudio, los patrones obtenidos podrán compararse con la ubicación geográfica de la zona industrial de Cadereyta.</p>
+</section>
+<section id="conditional-bivariate-probability-function-cbpf" class="level4">
+<h4 class="anchored" data-anchor-id="conditional-bivariate-probability-function-cbpf">3. Conditional Bivariate Probability Function (CBPF)</h4>
+<p>La CBPF permite estimar la probabilidad de observar concentraciones elevadas de un contaminante bajo diferentes combinaciones de dirección y velocidad del viento. a diferencia del gráfico polar, que muestra principalmente la magnitud de las concentraciones, esta técnica se enfoca en identificar las condiciones meteorológicas asociadas con una mayor frecuencia de valores elevados. La metodología extiende los enfoques de probabilidad condicional utilizados previamente para la identificación de regiones potencialmente emisoras (Ashbaugh et at, 1985; Uria-Tellaetxe &amp; Carslaw, 2014). Su aplicación permitirá identificar sectores direccionales asociados con una mayor presencia de concentraciones altas de <span class="math inline">\(SO_2\)</span>.</p>
+</section>
+<section id="caracterización-comparativa-de-episodios-elevados" class="level4">
+<h4 class="anchored" data-anchor-id="caracterización-comparativa-de-episodios-elevados">4. Caracterización comparativa de episodios elevados</h4>
+<p>Esta técnica podría contrbuir a identificar y comparar episodios de concentraciones elevadas de <span class="math inline">\(SO_2\)</span> considerando la estación donde ocurren, las condiciones meteorológicas presentes y su posible simultaneidad con otras estaciones. Su aplicación permitiría distinguir entre eventos con un comportamiento más localizado y aquellos que se presentan en varias zonas al mismo tiempo, lo cual podría ser indicativo de fenómenos de mayor escala. Estudios previos han utilizado el análisis individual de episodios de contamiación para explorar posibles fuentes y condiciones asociadas con eventos recurrentes de <span class="math inline">\(SO_2\)</span> (Clarke et al, 2014; Xue et al, 2023). De manera complementaria, durante estos episodios también podría examinarse el comportamiento de otros contaminantes, sin asumir que necesariamente deben presentar incrementos simultáneos.</p>
+</section>
+</section>
+<section id="variables-elegidas" class="level3">
+<h3 class="anchored" data-anchor-id="variables-elegidas">Variables elegidas</h3>
+<p>Para responder al objetivo del proyecto se consideran como variables principales la concentración de <span class="math inline">\(SO_2\)</span>, la dirección del viento (WDR), la velocidad del viento (WSR) y la estación de monitoreo. También se incluyen como variables meteorológicas complementarias la temperatura exterior (TOUT), humedad relatica (RH), presión atmosférica (PRS), radiación solar (SR) y precipitación (RAINF). Los demás contaminantes se conservan como variables complementarias para caracterizar el contexto de los registros de <span class="math inline">\(SO_2\)</span>.</p>
+<p>Descriptivamente, SE3 presenta las concentraciones medias y medianas de <span class="math inline">\(SO_2\)</span> más elevadas, así como la mayor variabilidad, mientras que GAR presenta los valores más bajos y estables. Las cuatro estaciones cuentan con cantidades similares de observaciones válidas, por lo que las diferencias encontradas no parecen explicarse únicamente por una mayor cantidad de datos en alguna estación. Estos resultados son exploratorios y no permiten atribuir todavía las diferencias observadas a una fuente específica. La estación de monitoreo funciona como la principal variable de comparación espacial, ya que permite identificar si el comportamiento del <span class="math inline">\(SO_2\)</span> cambia entre Cadereyta, Juárez, San Nicolás y García. Por su parte, WDR y WSR permiten incorporar la dirección y velocidad del viento al análisis, variables necesarias para evaluar posteriormente si las concentraciones elevadas de <span class="math inline">\(SO_2\)</span> presentan patrones direccionales específicos.</p>
+</section>
+<section id="gráficas" class="level3">
+<h3 class="anchored" data-anchor-id="gráficas">Gráficas</h3>
+<section id="boxplot-de-so_2-por-estación" class="level4">
+<h4 class="anchored" data-anchor-id="boxplot-de-so_2-por-estación">Boxplot de <span class="math inline">\(SO_2\)</span> por estación</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Distribución de SO2 por estación de monitoreo.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Se observan diferencias en la distribución de <span class="math inline">\(SO_2\)</span> entre las estaciones. SE3 presenta la mediana más alta y una mayor dispersión de las concentraciones, seguida por SE2 y NE, mientras que GAR muestra los valores más bajos y estables. También se identifican numerosos valores atípicos, principalmente en SE3; sin embargo, estos no se eliminaron, ya que pueden representar episodios reales de concentraciones elevadas. La visualización se limita al percentil 99 únicamente para facilitar la comparación entre estaciones, sin excluir observaciones del análisis.</p>
+</section>
+<section id="histogramas-de-so_2-por-estación" class="level4">
+<h4 class="anchored" data-anchor-id="histogramas-de-so_2-por-estación">Histogramas de <span class="math inline">\(SO_2\)</span> por estación</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Distribución de las concentraciones de SO2 para cada estación.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Las cuatro estaciones presentan distribuciones asimétricas hacia la derecha, con una mayor concentración de observaciones en los valores bajos de <span class="math inline">\(SO_2\)</span> y una cola formada por concentraciones más elevadas. Esta asimetría es especialmente evidente en SE3, donde se presentan valores extremos con mayor magnitud. Por lo tanto, la mediana resulta útil como medida representativa del comportamiento típico de <span class="math inline">\(SO_2\)</span>, ya que es menos sensible a estos valores elevados que el promedio.</p>
+</section>
+<section id="matriz-de-correlación" class="level4">
+<h4 class="anchored" data-anchor-id="matriz-de-correlación">Matriz de correlación</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Matriz de correlación entre contaminantes y variables meteorológicas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En general, el <span class="math inline">\(SO_2\)</span> presenta correlaciones lineales bajas con las variables meteorológicas y con los demás contaminantes. Las asociaciones positivas más visibles son con <span class="math inline">\(O_3\)</span>, radiación solar y presión atmosférica,aunque sus magnitudes continúan siendo débiles. Esto indica que ninguna de estas variables, de manera individual y mediante una relación lineal simple, explica claramente el comportamiento del <span class="math inline">\(SO_2\)</span>. Además, una correlación baja con las variables relacionadas con el viento no necesariamente implica ausencia de relación, ya que los efectos de dirección y velocidad pueden presentar patrones no lineales que deberán explorarse posteriormente con técnicas más adecuadas.</p>
+</section>
+<section id="comportamiento-anual-de-so_2-por-estación" class="level4">
+<h4 class="anchored" data-anchor-id="comportamiento-anual-de-so_2-por-estación">Comportamiento anual de <span class="math inline">\(SO_2\)</span> por estación</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Comportamiento anual de la concentración mediana de SO2 por estación.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>El comportamiento anual muestra una disminución general de las concentraciones medianas de <span class="math inline">\(SO_2\)</span> entre 2022-2023, seguida de un incremento durante 2024 y 2025. SE3 mantiene la mediana más alta durante todo el periodo analizado, mientras que GAR presenta generalmente los valores más bajos. Para 2025 se observa una mayor similitud entre las estaciones, aunque SE3 continúa ligeramente por encima de las demás. Estos resultados sugieren que existen tanto diferencias espaciales como variaciones temporales en las concentraciones de <span class="math inline">\(SO_2\)</span> que será necesario analizar con mayor profundidad en las siguientes etapas.</p>
+</section>
+</section>
+</section>
+<section id="section" class="level1">
+<h1>3.-</h1>
+<section id="del-diagnóstico-a-la-cuantificación" class="level3">
+<h3 class="anchored" data-anchor-id="del-diagnóstico-a-la-cuantificación">Del diagnóstico a la cuantificación</h3>
+<p>El análisis descriptivo de la etapa 2 mostró un gradiente espacial de concentraciones (SE3 &gt; SE2 &gt; NE &gt; GAR) consistente con esta hipótesis. Sin embargo, las diferencias entre medianas anuales son reducidas (del orden de 1 ppb) y, por sí solas, no bastan para una conclusión definitiva. Con base en los resultados de esa etapa, fue necesario reformular el objetivo. Primero, el comportamiento atípico del contaminante no se manifiesta en los niveles de fondo, sino en la frecuencia de eventos agudos. Un objetivo centrado en concentraciones promedio limitaría la capacidad de caracterizar los episodios de alta exposición que realmente ocurren en la zona. Segundo, la etapa anterior sugirió que los episodios de mayor concentración presentan un patrón espacial y direccional definido. Por ello, en esta etapa el análisis se enfoca en cuantificar dicha asociación, evaluar cómo cambia con la distancia y determinar qué métrica representa mejor la exposición observada.</p>
+<p><strong>Selección de Métodos</strong></p>
+<ul>
+<li>Técnica de dependencia — regresión logística binaria: se utilizó para estimar la probabilidad de presentar un episodio agudo de <span class="math inline">\(SO_2\)</span> en función de la dirección y velocidad del viento, controlando además la hora y el mes (Gómez, 2026).</li>
+<li>Técnicas de interdependencia — componentes principales y conglomerados: se emplearon para explorar la estructura conjunta de los contaminantes y evaluar si el SO₂ presenta un patrón distinto al de los contaminantes asociados con combustión urbana (Gómez Muñoz &amp; Ruiz Hernández, 2026).</li>
+<li>Contraste no paramétrico: Kruskal-Wallis y el estimador de Hodges-Lehmann permitieron comparar las diferencias entre estaciones sin asumir normalidad (Kruskal &amp; Wallis, 1952; Hodges &amp; Lehmann, 1963).</li>
+<li>Verificación independiente — CBPF: se utilizó para comprobar si el patrón direccional identificado por la regresión también aparece mediante un método no paramétrico basado en dirección y velocidad del viento (Ashbaugh et al., 1985; Uria-Tellaetxe &amp; Carslaw, 2014).</li>
+</ul>
+</section>
+<section id="análisis-direccional" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-direccional">Análisis direccional</h3>
+<p><strong>Caracterización de los episodios</strong></p>
+<p>Se definió como episodio toda hora con una concentración de <span class="math inline">\(SO_{2}\)</span> superior a 11.1 ppb, valor correspondiente al percentil 95 global del conjunto de las cuatro estaciones. La adopción de un umbral absoluto común resulta indispensable para garantizar la comparabilidad de las tasas de excedencia entre los distintos sitios; la aplicación de un percentil relativo, calculado de forma individual para cada estación, forzaría por construcción estadística la misma proporción de episodios en todos los puntos, lo cual ocultaría precisamente la diferencia espacial que se busca medir.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Características de los episodios de SO2 (umbral &gt; 11.1 ppb) y ubicación respecto a la refinería por estación.</caption>
+<colgroup>
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 5%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estacion</th>
+<th style="text-align: right;">Distancia (km)</th>
+<th style="text-align: right;">Azimut (°)</th>
+<th style="text-align: left;">Rumbo</th>
+<th style="text-align: right;">Horas válidas</th>
+<th style="text-align: right;">Episodios</th>
+<th style="text-align: right;">Tasa (%)</th>
+<th style="text-align: right;">Mediana</th>
+<th style="text-align: right;">P99</th>
+<th style="text-align: right;">P99/Mediana</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SE3</td>
+<td style="text-align: right;">5.5</td>
+<td style="text-align: right;">87.3</td>
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">33977</td>
+<td style="text-align: right;">3951</td>
+<td style="text-align: right;">11.63</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">55.3</td>
+<td style="text-align: right;">12.57</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SE2</td>
+<td style="text-align: right;">16.4</td>
+<td style="text-align: right;">113.7</td>
+<td style="text-align: left;">ESE</td>
+<td style="text-align: right;">33240</td>
+<td style="text-align: right;">1841</td>
+<td style="text-align: right;">5.54</td>
+<td style="text-align: right;">3.8</td>
+<td style="text-align: right;">27.8</td>
+<td style="text-align: right;">7.32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NE</td>
+<td style="text-align: right;">35.7</td>
+<td style="text-align: right;">119.6</td>
+<td style="text-align: left;">ESE</td>
+<td style="text-align: right;">33185</td>
+<td style="text-align: right;">746</td>
+<td style="text-align: right;">2.25</td>
+<td style="text-align: right;">3.8</td>
+<td style="text-align: right;">15.1</td>
+<td style="text-align: right;">3.97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GAR</td>
+<td style="text-align: right;">68.5</td>
+<td style="text-align: right;">110.1</td>
+<td style="text-align: left;">ESE</td>
+<td style="text-align: right;">32534</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">7.4</td>
+<td style="text-align: right;">2.24</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Modelo logístico direccional</strong></p>
+<p>Se estimó un modelo de regresión logística para la probabilidad de episodio en SE3, incorporando el rumbo del viento como factor de 16 niveles, clasificado en sectores de 22.5 grados a partir de la variable circular WDR, con el norte como categoría de referencia. Se controló por velocidad del viento mediante splines naturales de tres grados de libertad y por hora y mes mediante términos armónicos, que preservan la naturaleza cíclica de ambas variables.</p>
+<p>Se identificó que el rumbo este presenta la mayor razón de momios (6.12; IC 95%: 4.73 a 7.92), seguido por los rumbos ESE (2.58) y ENE (1.98). Por el contrario, el contraste con el cuadrante opuesto resulta pronunciado: los rumbos NO, NNO, O y ONO muestran razones de momios entre 0.08 y 0.25, lo cual representa reducciones de entre cuatro y doce veces en comparación con la categoría de referencia.</p>
+<p>Este resultado admite una interpretación de falsación. Dado que el Área Metropolitana de Monterrey se localiza al oeste de Cadereyta, si los episodios de <span class="math inline">\(SO_{2}\)</span> fueran atribuibles a la mancha urbana o al tráfico vehicular metropolitano, se esperarían razones de momios elevadas con vientos provenientes del sector oeste. No obstante, se observó el comportamiento inverso.</p>
+<p>La significancia global del modelo se evaluó mediante una prueba de razón de verosimilitudes, encontrándose una mejora significativa frente al modelo nulo (<span class="math inline">\(\chi^2\)</span> =4617.2, p&lt;0.001). Además, presentó una buena capacidad para distinguir entre horas con y sin episodios de <span class="math inline">\(SO_2\)</span> (AUC = 0.811). La prueba de Hosmer-Lemeshow resultó significativa (p&lt;0.001), indicando diferencias entre algunas probabilidades observadas y estimadas; por ello, la adecuación se interpreta en conjunto con las demás métricas y considerando que el objetivo del modelo es estimar asociaciones, no realizar pronósticos.</p>
+<p><strong>Verificación geográfica independiente</strong></p>
+<p>El sector direccional no se especificó de antemano: los 16 rumbos se introdujeron como categorías equivalentes y el modelo identificó el máximo sin recibir información sobre la ubicación de la fuente investigada. La verificación geográfica se realizó con posterioridad, calculando el azimut geodésico desde cada estación hacia el complejo refinador.</p>
+<p>Desde SE3, la refinería se localiza en un azimut de 87.3 grados, correspondiente al rumbo este, a 5.5 kilómetros de distancia. El sector que el modelo identificó de forma independiente coincide con la ubicación de la fuente. Dado que el complejo ocupa 612 hectáreas, se evaluó la sensibilidad del cálculo desplazando el centroide 1.5 kilómetros en cada dirección cardinal: el azimut resultante oscila entre 72.4 y 102.7 grados, y permanece en todos los casos dentro de la banda ENE a ESE.</p>
+<p><strong>Atenuación del efecto con la distancia</strong></p>
+<p>Las cuatro estaciones tienen el complejo refinador hacia el este o el este-sureste. Si el sector oriental estuviera asociado a concentraciones elevadas por razones meteorológicas generales, todas deberían presentar momios comparables.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/fig1-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Razón de momios del sector Este sobre la probabilidad de episodio, en función de la distancia de cada estación a la refinería. Barras: intervalo de confianza al 95%. Línea punteada: ausencia de efecto.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Una vez identificado el Este como el sector de mayor asociación, se ajustó una segunda parametrización común, Este frente al resto de direcciones, para comparar el efecto entre estaciones. La asociación disminuye conforme aumenta la distancia: OR = 3.19 en SE3 (5.5 km), OR = 1.58 en SE2 (16.4 km) y OR = 1.01 en NE (35.7 km), donde el intervalo de confianza incluye la unidad. El patrón indica que el aumento en episodios requiere la combinación de dirección y proximidad y es consistente con la dispersión y dilución de una pluma. El caso de GAR merece una precisión: a 68.5 kilómetros, el sector oriental de esa estación comprende la totalidad de la zona metropolitana antes que el complejo refinador. Su momio de 1.08, con intervalo amplio que incluye la unidad, resulta consistente con una influencia urbana difusa y respalda su función como estación de control.</p>
+<p>Esta segunda especificación también fue globalmente significativa frente al modelo nulo (<span class="math inline">\(\chi^2\)</span>=3708.2, p&lt;0.001) y presentó una capacidad discriminante razonable (AUC = 0.783).</p>
+<p><strong>Análisis de sensibilidad</strong></p>
+<p>Se replicó el modelo con umbrales correspondientes a los percentiles 90, 95 y 99 del conjunto, con el fin de verificar que las conclusiones no dependen del corte elegido.</p>
+<p>Los momios de SE3 se mantienen entre 2.57 y 3.38, y los de NE entre 0.86 y 1.01 con intervalos que siempre incluyen la unidad. SE2 muestra un momio creciente con la severidad del umbral, de 1.43 a 1.75, patrón compatible con la llegada de la pluma a Juárez únicamente durante los episodios de mayor intensidad. En GAR no fue posible estimar el modelo con el umbral más exigente por contar con menos de 30 horas por encima de 30.6 ppb en cuatro años, circunstancia que constituye en sí misma un resultado.</p>
+<p>Adicionalmente, dado que las observaciones horarias consecutivas no son independientes, se recalcularon los errores estándar agrupando por día. El intervalo del momio del sector este en SE3 pasa de 2.96 a 3.44 hacia 2.92 a 3.48, variación marginal que muestra que la estimación es estable al ajustar los errores estándar por dependencia dentro del día.</p>
+</section>
+<section id="pruebas-de-falsación-multi-contaminante" class="level3">
+<h3 class="anchored" data-anchor-id="pruebas-de-falsación-multi-contaminante"><strong>Pruebas de falsación multi-contaminante</strong></h3>
+<p><strong>Planteamiento</strong></p>
+<p>Aunque la regresión identificó una asociación entre los episodios de <span class="math inline">\(SO_2\)</span> y el sector Este, este resultado por sí solo no permite distinguir entre una fuente industrial y otras fuentes ubicadas en la misma dirección. Por ello, se comparó el comportamiento direccional del <span class="math inline">\(SO_2\)</span> con otros contaminantes asociados a combustión urbana, principalmente NOX y CO.</p>
+<p><strong>Momios por contaminante</strong></p>
+<p>Se aplicó el mismo modelo logístico a siete contaminantes en SE3, definiendo en cada caso el evento como la superación del percentil 95 de la distribución propia de cada variable. Este ajuste permite comparar contaminantes medidos en unidades distintas frente a una misma probabilidad de referencia.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Razón de momios del sector Este sobre la probabilidad de concentración elevada, por contaminante, en SE3.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Contaminante</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">Eventos</th>
+<th style="text-align: right;">OR</th>
+<th style="text-align: left;">IC 95%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SO2</td>
+<td style="text-align: right;">33977</td>
+<td style="text-align: right;">1699</td>
+<td style="text-align: right;">2.66</td>
+<td style="text-align: left;">[2.39, 2.95]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NOX</td>
+<td style="text-align: right;">33682</td>
+<td style="text-align: right;">1684</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">[0.17, 0.28]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NO</td>
+<td style="text-align: right;">33451</td>
+<td style="text-align: right;">1670</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">[0.17, 0.29]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CO</td>
+<td style="text-align: right;">31741</td>
+<td style="text-align: right;">1571</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: left;">[0.92, 1.2]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PM10</td>
+<td style="text-align: right;">33684</td>
+<td style="text-align: right;">1658</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">[0.43, 0.58]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PM2.5</td>
+<td style="text-align: right;">30686</td>
+<td style="text-align: right;">1507</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: left;">[0.51, 0.68]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">O3</td>
+<td style="text-align: right;">33697</td>
+<td style="text-align: right;">1567</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: left;">[0.8, 1.02]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>El <span class="math inline">\(SO_{2}\)</span> fue el único contaminante con una razón de momios significativamente superior a uno (OR = 2.66; IC95%: 2.39–2.95). En contraste, <span class="math inline">\(NO_x\)</span> y NO presentaron OR = 0.22, mientras que CO y <span class="math inline">\(O_3\)</span> no mostraron un incremento significativo. Por lo tanto, la masa de aire proveniente del Este presenta una señal rica en <span class="math inline">\(SO_2\)</span> pero no en contaminantes típicamente asociados con tráfico, patrón poco compatible con una explicación dominada por combustión urbana.</p>
+<p><strong>Verificación por método no paramétrico</strong></p>
+<p>Como verificación independiente se aplicó la Conditional Bivariate Probability Function (CBPF), que estima la probabilidad de concentraciones elevadas en función de la dirección y velocidad del viento sin asumir una forma paramétrica (Ashbaugh et al., 1985; Uria-Tellaetxe &amp; Carslaw, 2014).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/fig2-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>CBPF en SE3. Izquierda: SO2, con lóbulo direccional al este. Derecha: NOX, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La CBPF reproduce el patrón identificado por la regresión: el <span class="math inline">\(SO_2\)</span> presenta un máximo compacto hacia el Este a velocidades moderadas, mientras que el <span class="math inline">\(NO_x\)</span> alcanza sus mayores probabilidades bajo condiciones de viento débil y sin una orientación equivalente. La coincidencia entre ambos métodos fortalece la evidencia de una señal direccional específica para el <span class="math inline">\(SO_2\)</span>.</p>
+</section>
+<section id="estructura-multivariada-de-la-matriz-química" class="level3">
+<h3 class="anchored" data-anchor-id="estructura-multivariada-de-la-matriz-química"><strong>Estructura multivariada de la matriz química</strong></h3>
+<p><strong>Planteamiento</strong></p>
+<p>Como verificación adicional, se analizó la estructura conjunta de los contaminantes sin utilizar información meteorológica. El objetivo fue evaluar si el <span class="math inline">\(SO_2\)</span> comparte el mismo patrón de variación que los contaminantes asociados con combustión urbana.</p>
+<p><strong>Componentes principales</strong></p>
+<p>Se aplicó PCA sobre ocho contaminantes de SE3, previa transformación logarítmica y estandarización para reducir la influencia de valores extremos y hacer comparables las escalas de las variables (Gómez Muñoz &amp; Ruiz Hernández, 2026).</p>
+<p>El procedimiento requiere casos completos. De las 33,977 observaciones de SE3 se conservaron 27,938 (82.2%). De los 3,951 episodios registrados se conservaron 3,304 (83.6%). La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó preferentemente las horas de episodio.</p>
+<p>La adecuación muestral se verificó con el índice KMO, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El KMO se ubica por encima del mínimo convencional de 0.6, aunque en el rango que Kaiser califica como mediocre. Esto es esperable y no constituye una deficiencia: el índice desciende precisamente porque el <span class="math inline">\(SO_2\)</span> mantiene correlaciones bajas con el resto de las variables, que es justo la estructura que el análisis busca documentar. Dos componentes superan el criterio de Kaiser. El primero explica el 48.6% de la varianza; los cuatro primeros acumulan el 86.9%.</p>
+<p>El primer componente explicó 48.6% de la variación y agrupó principalmente a <span class="math inline">\(NO_x\)</span>, NO, <span class="math inline">\(NO_2\)</span>, <span class="math inline">\(PM_{10}\)</span> y CO, por lo que se interpretó como un eje asociado con combustión urbana. La carga del <span class="math inline">\(SO_2\)</span> sobre este componente fue de apenas 0.029, indicando una asociación muy baja con este patrón.</p>
+<p>El segundo componente explicó 19.4% de la variación y estuvo encabezado por el <span class="math inline">\(SO_2\)</span> (carga = 0.604). En conjunto, el PCA muestra que el contaminante de interés presenta una estructura de variación distinta al principal patrón químico asociado con fuentes urbanas.</p>
+<p><strong>Análisis de conglomerados</strong></p>
+<p>Sobre los cuatro primeros componentes se aplicó k-medias para identificar perfiles químicos de las observaciones. Aunque el índice de silueta favoreció dos grupos (0.418), se utilizaron cuatro conglomerados para obtener perfiles más interpretables; esta partición explicó 58.3% de la variación en el espacio de componentes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Perfil de los conglomerados en SE3. Las concentraciones son medianas expresadas en ppb, salvo PM2.5 en microgramos por metro cúbico.</caption>
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 4%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Grupo</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">%</th>
+<th style="text-align: right;">SO2</th>
+<th style="text-align: right;">NOX</th>
+<th style="text-align: right;">PM2.5</th>
+<th style="text-align: right;">O3</th>
+<th style="text-align: right;">WSR (km/h)</th>
+<th style="text-align: right;">SO2/NOX</th>
+<th style="text-align: right;">% Este</th>
+<th style="text-align: right;">% episodios</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">4111</td>
+<td style="text-align: right;">14.7</td>
+<td style="text-align: right;">16.2</td>
+<td style="text-align: right;">10.4</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">8.5</td>
+<td style="text-align: right;">1.558</td>
+<td style="text-align: right;">50.5</td>
+<td style="text-align: right;">72.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">3352</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">51.8</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3.6</td>
+<td style="text-align: right;">0.085</td>
+<td style="text-align: right;">6.2</td>
+<td style="text-align: right;">1.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">7823</td>
+<td style="text-align: right;">28.0</td>
+<td style="text-align: right;">4.2</td>
+<td style="text-align: right;">17.7</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">5.8</td>
+<td style="text-align: right;">0.237</td>
+<td style="text-align: right;">25.4</td>
+<td style="text-align: right;">0.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">12652</td>
+<td style="text-align: right;">45.3</td>
+<td style="text-align: right;">4.1</td>
+<td style="text-align: right;">8.1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">8.5</td>
+<td style="text-align: right;">0.506</td>
+<td style="text-align: right;">42.7</td>
+<td style="text-align: right;">1.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>El grupo 1 concentra las mayores concentraciones de <span class="math inline">\(SO_2\)</span>, una razón <span class="math inline">\(SO_2\)</span>/<span class="math inline">\(NO_x\)</span> elevada, 50.5% de observaciones con viento del Este y 72.2% de los episodios. En contraste, el grupo 2 presenta <span class="math inline">\(NO_x\)</span> elevado y menor velocidad del viento, consistente con un perfil de acumulación urbana. Esta separación respalda la existencia de patrones químicos distintos entre los episodios de <span class="math inline">\(SO_2\)</span> y las condiciones dominadas por <span class="math inline">\(NO_x\)</span>.</p>
+</section>
+<section id="contraste-entre-tendencia-central-y-exposición-aguda" class="level3">
+<h3 class="anchored" data-anchor-id="contraste-entre-tendencia-central-y-exposición-aguda"><strong>Contraste entre tendencia central y exposición aguda</strong></h3>
+<p><strong>Diferencia de medianas por año</strong></p>
+<p>Se evaluaron las diferencias entre estaciones para cada año mediante la prueba no paramétrica de Kruskal-Wallis, adecuada ante la marcada asimetría de las concentraciones de <span class="math inline">\(SO_2\)</span>. La prueba resultó significativa en los cuatro años. Para cuantificar específicamente la diferencia entre SE3 y GAR se utilizó el estimador de Hodges-Lehmann, obteniéndose desplazamientos entre 0.6 y 1.5 ppb según el año (Kruskal &amp; Wallis, 1952; Hodges &amp; Lehmann, 1963).</p>
+<p>La diferencia alcanzó su máximo en 2023 (1.5 ppb) y disminuyó hasta 0.6 ppb en 2025. Considerada de forma aislada, esta tendencia sugeriría una convergencia entre SE3 y GAR y una aparente mejora en Cadereyta.</p>
+<p><strong>Frecuencia de eventos agudos</strong></p>
+<p>El recuento de horas por encima del umbral de 11.1 ppb muestra una tendencia distinta. En 2023, cuando la diferencia de medianas fue máxima, SE3 registró 689 horas de episodio; en 2025, cuando la diferencia fue mínima, registró 1,172 horas. Por lo tanto, la reducción en las diferencias de tendencia central no estuvo acompañada por una reducción de los episodios agudos.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EntregaFinal_files/figure-html/fig3-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La divergencia ocurre porque la mediana representa el comportamiento típico y es poco sensible a la cola superior de la distribución, donde se concentran los episodios de interés. Por ello, una reducción del nivel de fondo puede coexistir con un aumento de eventos extremos. En el periodo completo, GAR superó el umbral en apenas 0.15% de las horas, frente a 11.63% en SE3, lo que muestra que los indicadores de tendencia central por sí solos no representan adecuadamente la exposición aguda.</p>
+<p><strong>Exceso de horas de episodio</strong></p>
+<p>Durante el periodo analizado, SE3 acumuló 3,902 horas de episodio adicionales respecto a GAR, equivalentes a un promedio de 976 horas o 40.6 días por año. Mientras GAR registró entre 9 y 20 horas anuales por encima del umbral, SE3 superó las mil horas en dos de los cuatro años. Esta diferencia cuantifica la magnitud del exceso de exposición aguda observado en la estación más cercana a la refinería, sin interpretarse como una estimación causal directa de la contribución de la fuente.</p>
+<p><strong>Implicaciones para el seguimiento de la calidad del aire</strong></p>
+<p>Los resultados muestran que un seguimiento basado únicamente en medias o medianas anuales puede ocultar cambios importantes en la frecuencia de episodios agudos. En 2025, por ejemplo, la diferencia de medianas entre SE3 y GAR fue la menor del periodo, mientras que SE3 registró 1,172 horas por encima del umbral. Por ello, el seguimiento de la calidad del aire debería incorporar métricas de frecuencia de excedencia junto con los indicadores de tendencia central.</p>
+</section>
+<section id="conclusiones" class="level3">
+<h3 class="anchored" data-anchor-id="conclusiones"><strong>Conclusiones</strong></h3>
+<p><strong>Validación de los modelos</strong></p>
+<p>Las dos especificaciones de regresión logística resultaron globalmente significativas frente a sus respectivos modelos nulos y presentaron una capacidad discriminante razonable, con AUC de 0.811 para el modelo direccional de 16 sectores y de 0.783 para la especificación Este frente al resto. Esta última mantuvo un desempeño similar al evaluarse fuera de muestra en 2025 (AUC = 0.764). La prueba de Hosmer-Lemeshow fue significativa en ambos modelos, por lo que su adecuación se interpretó junto con las demás métricas y considerando que su objetivo es estimar asociaciones y no realizar pronósticos. Por su parte, el PCA presentó KMO = 0.623 y una prueba de Bartlett significativa. En conjunto, estas verificaciones permiten utilizar los modelos como apoyo estadístico para los patrones encontrados, reconociendo sus limitaciones.</p>
+<p><strong>Síntesis de resultados</strong></p>
+<p>El análisis permite establecer cuatro hallazgos principales. Primero, los episodios de <span class="math inline">\(SO_2\)</span> presentan una asociación direccional clara con el sector Este: el modelo de 16 rumbos identificó este sector como el de mayor razón de momios (OR = 6.12 frente al Norte), coincidiendo posteriormente con el azimut de 87.3° de la refinería. Segundo, al comparar el sector Este frente al resto de direcciones entre estaciones, la asociación se atenúa conforme aumenta la distancia, pasando de OR = 3.19 en SE3 (5.5 km) a OR = 1.01 en NE (35.7 km).Tercero, los análisis multi-contaminante, CBPF, PCA y conglomerados muestran que los episodios de <span class="math inline">\(SO_2\)</span> presentan un patrón distinto al de los contaminantes asociados con combustión urbana. Finalmente, el principal contraste entre estaciones se encuentra en la frecuencia de eventos agudos y no en sus niveles típicos: las diferencias de mediana no superan 1.5 ppb, mientras que SE3 registra en promedio 976 horas de episodio adicionales por año respecto a GAR.</p>
+<p><strong>Conclusión</strong></p>
+<p>En conjunto, los resultados son consistentes con la influencia de una fuente puntual de <span class="math inline">\(SO_2\)</span> localizada en el sector Este de SE3. La asociación entre los episodios y los vientos provenientes de este sector es más fuerte en la estación más cercana y se atenúa conforme aumenta la distancia, patrón compatible con la dispersión de una pluma. Además, los análisis con otros contaminantes, CBPF, componentes principales y conglomerados muestran que el comportamiento del <span class="math inline">\(SO_2\)</span> difiere del principal patrón asociado con combustión urbana.</p>
+<p>El análisis también muestra que el principal contraste entre estaciones se encuentra en la frecuencia de eventos agudos y no necesariamente en sus niveles típicos. Mientras las diferencias de mediana entre SE3 y GAR son reducidas, SE3 acumula muchas más horas por encima del umbral. Por ello, la frecuencia de episodios aporta información relevante que podría pasar desapercibida si el seguimiento se limita a indicadores de tendencia central.</p>
+<p>El diseño es observacional y no permite establecer atribución causal en sentido estricto, ya que no se dispone de datos directos de emisión ni de un contrafactual experimental. Por lo tanto, los resultados deben interpretarse como evidencia convergente: los patrones encontrados son poco compatibles con las explicaciones alternativas evaluadas y apuntan de manera consistente hacia una misma hipótesis.</p>
+</section>
+<section id="section-1" class="level3">
+<h3 class="anchored" data-anchor-id="section-1"></h3>
+</section>
+<section id="declaratoria-de-uso-de-ia" class="level2">
+<h2 class="anchored" data-anchor-id="declaratoria-de-uso-de-ia">Declaratoria de uso de IA</h2>
+<p><strong>Opción B. Se utilizó Inteligencia Artificial durante el desarrollo del trabajo de la siguiente forma:</strong></p>
+<ul>
+<li><p><strong>Herramienta:</strong>&nbsp;ChatGPT.</p></li>
+<li><p><strong>Uso realizado:</strong>&nbsp;Se usó principalmente como apoyo para el brainstorming y la definición del objetivo del proyecto, ayudando a pasar de una idea general sobre contaminación del aire a una pregunta de investigación más clara. También se utilizó para orientar la imputación de datos faltantes y la preparación de los datos, como la creación de variables y el tratamiento de la dirección del viento.</p></li>
+<li><p><strong>Secciones donde se utilizó:</strong>&nbsp;Definición del objetivo, limpieza de datos, imputación y transformación de variables.</p></li>
+<li><p><strong>Validación:</strong>&nbsp;Todo lo sugerido por la herramienta fue revisado con lo visto en clase y con la base de datos de SIMA. Además, se comprobó que los resultados del código fueran coherentes antes de usarlos.</p></li>
+<li><p><strong>Responsabilidad:</strong>&nbsp;El equipo revisó todo el contenido y se hace responsable del trabajo final. La IA solo se usó como apoyo, no como reemplazo del análisis del grupo.</p></li>
+</ul>
+</section>
+<section id="liga-de-github" class="level2">
+<h2 class="anchored" data-anchor-id="liga-de-github">Liga de Github</h2>
+<p><a href="https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk" class="uri">https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk</a></p>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<p>Ashbaugh, L. L., Malm, W. C., &amp; Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park.<em>Atmospheric Environment, 19</em>(8), 1263–1270.<a href="https://doi.org/10.1016/0004-6981(85)90256-2" class="uri">https://doi.org/10.1016/0004-6981(85)90256-2</a></p>
+<p>Carslaw, D. C., Beevers, S. D., Ropkins, K., &amp; Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport.<em>Atmospheric Environment, 40</em>(28), 5424–5434.<a href="https://doi.org/10.1016/j.atmosenv.2006.04.062" class="uri">https://doi.org/10.1016/j.atmosenv.2006.04.062</a></p>
+<p>Carslaw, D. C., &amp; Ropkins, K. (2012). Openair—An R package for air quality data analysis. <em>Environmental Modelling &amp; Software, 27–28</em>, 52–61. <a href="#0" class="uri">https://doi.org/10.1016/j.envsoft.2011.09.008</a></p>
+<p>Clarke, K., Kwon, H.-O., &amp; Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city.<em>Atmospheric Environment, 95</em>, 239–248. <a href="#0" class="uri">https://doi.org/10.1016/j.atmosenv.2014.06.040</a></p>
+<p>Comisión Federal para la Protección contra Riesgos Sanitarios. (s. f.).<em>Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente</em>. Gobierno de México.<a href="https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente" class="uri">https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente</a></p>
+<p>Gobierno del Estado de Nuevo León. (s. f.).<em>Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey</em>. Sistema Integral de Monitoreo Ambiental.<a href="https://aire.nl.gob.mx/icars2020/map_calidad_icars.php" class="uri">https://aire.nl.gob.mx/icars2020/map_calidad_icars.php</a></p>
+<p>Holcim España. (s. f.).<em>¿Qué es la calidad del aire? Importancia y medición</em>.<a href="https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion" class="uri">https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion</a></p>
+<p>Instituto Nacional de Ecología y Cambio Climático. (s. f.).<em>Sistema Nacional de Información de la Calidad del Aire (SINAICA)</em>. Gobierno de México.<a href="https://sinaica.inecc.gob.mx/scica/" class="uri">https://sinaica.inecc.gob.mx/scica/</a></p>
+<p>National Environmental Satellite, Data, and Information Service. (s. f.).<em>How is air quality measured?</em>National Oceanic and Atmospheric Administration.<a href="https://www.nesdis.noaa.gov/about/k-12-education/dust-ash-fire-smoke/how-air-quality-measured" class="uri">https://www.nesdis.noaa.gov/about/k-12-education/dust-ash-fire-smoke/how-air-quality-measured</a></p>
+<p>National Institute of Environmental Health Sciences. (s. f.).<em>La contaminación del aire y su salud</em>. National Institutes of Health. <a href="#0" class="uri">https://www.niehs.nih.gov/health/topics/enfermedades/contaminacion</a></p>
+<p>Organización Mundial de la Salud. (2021).<em>Directrices mundiales de la OMS sobre la calidad del aire: Partículas en suspensión (PM2.5 y PM10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono</em>.<a href="https://www.who.int/es/news-room/questions-and-answers/item/who-global-air-quality-guidelines" class="uri">https://www.who.int/es/news-room/questions-and-answers/item/who-global-air-quality-guidelines</a></p>
+<p>Organización Mundial de la Salud. (2024).<em>Contaminación del aire ambiente (exterior) y salud</em>.<a href="https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health" class="uri">https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health</a></p>
+<p>Programa de las Naciones Unidas para el Medio Ambiente. (2022).<em>¿Cómo se mide la calidad del aire?</em><a href="https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire" class="uri">https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire</a></p>
+<p>Secretaría de Medio Ambiente y Recursos Naturales. (2023).<em>Proyecto de Norma Oficial Mexicana PROY-NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud</em>.&nbsp;<em>Diario Oficial de la Federación</em>. <a href="#0" class="uri">https://www.diariooficial.gob.mx/normasOficiales/9314/semarnat_1_C/semarnat_1_C.html</a></p>
+<p>Uria-Tellaetxe, I., &amp; Carslaw, D. C. (2014). Conditional bivariate probability function for source identification.<em>Environmental Modelling &amp; Software, 59</em>, 1-9. <a href="https://doi.org/10.1016/j.envsoft.2014.05.002" class="uri">https://doi.org/10.1016/j.envsoft.2014.05.002</a></p>
+<p>Xue, Y., Cui, X., Li, K., Yu, Q., &amp; Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park.<em>Atmospheric Environment, 296</em>, 119564.<a href="https://doi.org/10.1016/j.atmosenv.2022.119564" class="uri">https://doi.org/10.1016/j.atmosenv.2022.119564</a></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

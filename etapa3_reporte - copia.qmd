@@ -234,7 +234,7 @@ La diferencia alcanzó su máximo en 2023 (1.5 ppb) y disminuyó hasta 0.6 ppb e
 
 **Frecuencia de eventos agudos**
 
-El recuento de horas por encima del umbral de 11.1 ppb muestra una tendencia distinta. En 2023, cuando la diferencia de medianas fue máxima, SE3 registró 669 horas de episodio; en 2025, cuando la diferencia fue mínima, registró 1,172 horas. Por lo tanto, la reducción en las diferencias de tendencia central no estuvo acompañada por una reducción de los episodios agudos.
+El recuento de horas por encima del umbral de 11.1 ppb muestra una tendencia distinta. En 2023, cuando la diferencia de medianas fue máxima, SE3 registró 689 horas de episodio; en 2025, cuando la diferencia fue mínima, registró 1,172 horas. Por lo tanto, la reducción en las diferencias de tendencia central no estuvo acompañada por una reducción de los episodios agudos.
 
 ```{r fig3, fig.width=6.5, fig.height=3.8, out.width="60%", fig.cap="Evolución anual de la diferencia de medianas entre SE3 y GAR (línea, eje derecho) frente al número de horas de episodio en SE3 (barras, eje izquierdo). Ambas series evolucionan en sentidos opuestos."}
 comp <- hl %>%
@@ -261,7 +261,7 @@ La divergencia ocurre porque la mediana representa el comportamiento típico y e
 
 **Exceso de horas de episodio**
 
-Durante el periodo analizado, SE3 acumuló 3,902 horas de episodio adicionales respecto a GAR, equivalentes a un promedio de 976 horas o 40.6 días por año. Mientras GAR registró entre 9 y 20 horas anuales por encima del umbral, SE3 superó las mil horas en tres de los cuatro años. Esta diferencia cuantifica la magnitud del exceso de exposición aguda observado en la estación más cercana a la refinería, sin interpretarse como una estimación causal directa de la contribución de la fuente.
+Durante el periodo analizado, SE3 acumuló 3,902 horas de episodio adicionales respecto a GAR, equivalentes a un promedio de 976 horas o 40.6 días por año. Mientras GAR registró entre 9 y 20 horas anuales por encima del umbral, SE3 superó las mil horas en dos de los cuatro años. Esta diferencia cuantifica la magnitud del exceso de exposición aguda observado en la estación más cercana a la refinería, sin interpretarse como una estimación causal directa de la contribución de la fuente.
 
 **Implicaciones para el seguimiento de la calidad del aire**
 

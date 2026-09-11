@@ -1949,6 +1949,225 @@ print(
 
 Un OR mayor que 1 indica mayores momios bajo el sector oriental; un OR menor que 1 indica menores momios. La significancia individual debe evaluarse con el p-value ajustado y con el intervalo de confianza correspondiente.
 
+## Diagnóstico de dependencia temporal de los residuos
+
+```{r}
+d_conjunto <- datos %>%
+  select(
+    fecha,   # <- AGREGAR
+    episodio,
+    Estacion,
+    sector_E,
+    WSR,
+    Hora_sin,
+    Hora_cos,
+    Mes_sin,
+    Mes_cos
+  ) %>%
+  drop_na() %>%
+  mutate(
+    Estacion = factor(
+      Estacion,
+      levels = c("SE3", "SE2", "NE", "GAR")
+    ),
+    sector_E = factor(
+      sector_E,
+      levels = c("Resto", "Este")
+    )
+  )
+```
+
+## Diagnóstico de dependencia temporal de los residuos
+
+```{r}
+# ============================================================
+# DIAGNÓSTICO DE DEPENDENCIA TEMPORAL DE LOS RESIDUOS
+# Modelo conjunto flexible
+# ============================================================
+
+# 1. Obtener residuos de Pearson del modelo final
+res_temporal <- d_conjunto %>%
+  mutate(
+    residuo_pearson = residuals(
+      mod_conjunto_flexible,
+      type = "pearson"
+    )
+  ) %>%
+  select(
+    fecha,
+    Estacion,
+    residuo_pearson
+  ) %>%
+  arrange(
+    Estacion,
+    fecha
+  )
+
+# 2. Verificar que no haya fecha-hora duplicada dentro de una estación
+duplicados_tiempo <- res_temporal %>%
+  count(
+    Estacion,
+    fecha
+  ) %>%
+  filter(n > 1)
+
+cat(
+  "Número de fecha-hora duplicadas por estación:",
+  nrow(duplicados_tiempo),
+  "\n\n"
+)
+
+# 3. Autocorrelación usando separaciones temporales REALES
+# Se estudian las siguientes 48 horas.
+rezagos <- 1:48
+
+acf_temporal <- map_dfr(
+  levels(d_conjunto$Estacion),
+  function(est) {
+    
+    d_est <- res_temporal %>%
+      filter(Estacion == est)
+    
+    map_dfr(
+      rezagos,
+      function(k) {
+        
+        # Residuo observado exactamente k horas antes
+        d_lag <- d_est %>%
+          transmute(
+            fecha = fecha + hours(k),
+            residuo_anterior = residuo_pearson
+          )
+        
+        # Solo se comparan observaciones cuya separación temporal
+        # real es exactamente k horas
+        pares <- d_est %>%
+          select(
+            fecha,
+            residuo_actual = residuo_pearson
+          ) %>%
+          inner_join(
+            d_lag,
+            by = "fecha"
+          )
+        
+        n_pares <- nrow(pares)
+        
+        r <- if (n_pares > 2) {
+          cor(
+            pares$residuo_actual,
+            pares$residuo_anterior,
+            use = "complete.obs"
+          )
+        } else {
+          NA_real_
+        }
+        
+        tibble(
+          Estacion = est,
+          Rezago_horas = k,
+          N_pares = n_pares,
+          Autocorrelacion = r,
+          Limite_95 = if_else(
+            n_pares > 0,
+            1.96 / sqrt(n_pares),
+            NA_real_
+          )
+        )
+      }
+    )
+  }
+)
+
+# 4. Valores principales para interpretación
+cat("=== AUTOCORRELACIÓN EN REZAGOS SELECCIONADOS ===\n")
+
+acf_temporal %>%
+  filter(
+    Rezago_horas %in% c(1, 2, 3, 6, 12, 24, 48)
+  ) %>%
+  mutate(
+    Autocorrelacion = round(
+      Autocorrelacion,
+      3
+    ),
+    Fuera_IC95 = abs(Autocorrelacion) > Limite_95
+  ) %>%
+  select(
+    Estacion,
+    Rezago_horas,
+    N_pares,
+    Autocorrelacion,
+    Fuera_IC95
+  ) %>%
+  print(n = Inf)
+
+# 5. Mayor autocorrelación absoluta observada por estación
+cat("\n=== MAYOR AUTOCORRELACIÓN ABSOLUTA POR ESTACIÓN ===\n")
+
+acf_temporal %>%
+  group_by(Estacion) %>%
+  slice_max(
+    order_by = abs(Autocorrelacion),
+    n = 1,
+    with_ties = FALSE
+  ) %>%
+  ungroup() %>%
+  mutate(
+    Autocorrelacion = round(
+      Autocorrelacion,
+      3
+    )
+  ) %>%
+  select(
+    Estacion,
+    Rezago_horas,
+    Autocorrelacion
+  ) %>%
+  print()
+
+# 6. Gráfica
+ggplot(
+  acf_temporal,
+  aes(
+    x = Rezago_horas,
+    y = Autocorrelacion
+  )
+) +
+  geom_ribbon(
+    aes(
+      ymin = -Limite_95,
+      ymax = Limite_95
+    ),
+    alpha = 0.15
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  geom_segment(
+    aes(
+      xend = Rezago_horas,
+      y = 0,
+      yend = Autocorrelacion
+    )
+  ) +
+  facet_wrap(
+    ~ Estacion,
+    ncol = 2
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 48, 6)
+  ) +
+  labs(
+    title = "Dependencia temporal de los residuos del modelo conjunto",
+    subtitle = "Residuos de Pearson | Rezagos temporales reales de 1 a 48 horas",
+    x = "Rezago (horas)",
+    y = "Autocorrelación residual"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
 # Pendiente metodológico: dependencia temporal
 
 El siguiente paso de validación debe ser evaluar explícitamente la autocorrelación de los residuos de los modelos logísticos. Los errores estándar robustos agrupados por día ya utilizados en SE3 ajustan parte de la incertidumbre asociada a dependencia intradía, pero no sustituyen un diagnóstico temporal directo.

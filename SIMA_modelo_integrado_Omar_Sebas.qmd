@@ -1470,3 +1470,38 @@ La secuencia correcta para defender el proyecto es:
 7. Las pruebas de sensibilidad, falsación multi-contaminante y CBPF funcionan como evidencia independiente adicional.
 
 La conclusión debe mantenerse en términos de **asociación**. Una persistencia del efecto direccional después de todos estos controles fortalece la hipótesis espacial del proyecto, pero no sustituye una atribución causal formal de fuente.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+calibracion <- tibble(
+  y_obs = m_full_int_tr$y,
+  p_pred = fitted(m_full_int_tr)
+) %>%
+  mutate(decil = ntile(p_pred, 10)) %>%
+  group_by(decil) %>%
+  summarise(
+    n = n(),
+    p_promedio_predicho = mean(p_pred),
+    prop_observada = mean(y_obs),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    diferencia_pp = round(100 * (prop_observada - p_promedio_predicho), 2)
+  )
+
+print(calibracion)
+
+ggplot(calibracion, aes(x = p_promedio_predicho, y = prop_observada)) +
+  geom_point(size = 2) +
+  geom_line() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray50") +
+  labs(
+    x = "Probabilidad promedio predicha (por decil)",
+    y = "Proporción observada de episodios",
+    title = "Calibración del modelo integrado por deciles de riesgo"
+  ) +
+  theme_minimal()
+```
+La prueba de Hosmer-Lemeshow resultó significativa (p<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.

@@ -607,12 +607,13 @@ El índice de silueta favorece una partición en dos grupos, con un valor de 0.4
 #| label: tbl-perfil
 
 resultados_e3$perfil %>%
-  select(grupo, n, pct, SO2_med, NOX_med, PM25_med, O3_med, WSR_med,
-         SO2_NOX = matches("SO2.*NOX|ratio|razon"), pct_Este, pct_episodios) %>%
+  mutate(razon = SO2_med / NOX_med) %>%
+  select(grupo, n, pct, SO2_med, NOX_med, PM25_med, O3_med,
+         WSR_med, razon, pct_Este, pct_episod) %>%
   setNames(c("Grupo", "n", "%", "SO2", "NOX", "PM2.5", "O3",
              "WSR", "SO2/NOX", "% Este", "% episodios")) %>%
   tabla_reporte(
-    leyenda = "Perfil de los cuatro conglomerados en SE3. Las concentraciones corresponden a medianas, expresadas en partes por billón salvo PM2.5 en microgramos por metro cúbico y la velocidad del viento en kilómetros por hora.",
+    leyenda = "Perfil de los cuatro conglomerados en SE3. Las concentraciones corresponden a medianas, expresadas en partes por billón salvo PM2.5 en microgramos por metro cúbico y la velocidad del viento en kilómetros por hora. La razón SO2/NOX se calcula sobre las medianas de cada grupo.",
     digitos = 2
   )
 ```

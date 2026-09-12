@@ -1505,3 +1505,192 @@ ggplot(calibracion, aes(x = p_promedio_predicho, y = prop_observada)) +
   theme_minimal()
 ```
 La prueba de Hosmer-Lemeshow resultó significativa (p<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.
+
+
+
+```{r}
+# ---- Exportación de resultados para el reporte final ----
+
+objetos_etapa4 <- list(
+  umbral_episodio          = umbral_ep,
+  resumen_estaciones       = resumen_estaciones,
+  momios_16_rumbos         = or_dir_16,
+  auc_direccional          = as.numeric(auc(roc_dir)),
+  comparacion_flexibilidad = comparacion_flexibilidad,
+  comparacion_interaccion  = comparacion_interaccion,
+  contrastes_por_estacion  = as.data.frame(summary(contrastes_estacion, infer = TRUE)),
+  seleccion_meteorologica  = comparacion_seleccion_meteo,
+  formula_meteo_final      = paste(deparse(formula_met_final), collapse = " "),
+  validacion_meteo_2025    = validacion_meteo_2025,
+  autocorrelacion_meteo    = acf_meteo,
+  formula_rezagos_bic      = paste(deparse(formula(mod_lag_bic)), collapse = " "),
+  comparacion_integrada    = comparacion_integrada_train,
+  validacion_2025          = validacion_integrada_2025,
+  clasificacion_2025       = clasificacion_2025,
+  sector_este_robusto      = resultado_sector_integrado,
+  importancia_bloques      = importancia_bloques_integrada,
+  autocorrelacion_integrado = acf_integrado,
+  sensibilidad_umbral      = sensibilidad_umbral,
+  falsacion_contaminantes  = falsacion_multicontaminante,
+  duracion_rachas          = rachas,
+  resumen_movil_24h        = resumen_24h,
+  calibracion_deciles      = calibracion,
+  matriz_sustento          = matriz_sustento,
+  n_muestra_integrada      = nrow(d_integrado),
+  n_entrenamiento          = nrow(d_int_tr),
+  n_prueba                 = nrow(d_int_te)
+)
+
+faltantes <- names(objetos_etapa4)[vapply(objetos_etapa4, is.null, logical(1))]
+if (length(faltantes) > 0) cat("Objetos faltantes:", paste(faltantes, collapse = ", "), "\n")
+
+saveRDS(objetos_etapa4, "objetos_reporte_etapa4.rds")
+
+cat("Guardado. Objetos exportados:", length(objetos_etapa4), "\n")
+str(objetos_etapa4, max.level = 1, give.attr = FALSE)
+```
+```{r}
+# ---- Figuras para el reporte final: CBPF ----
+
+dir.create("figuras", showWarnings = FALSE)
+
+datos_oa <- datos %>%
+  rename(date = fecha, ws = WSR, wd = WDR)
+
+pct_por_estacion <- datos %>%
+  group_by(Estacion) %>%
+  summarise(p = 100 * mean(SO2 <= umbral_ep, na.rm = TRUE), .groups = "drop")
+
+# CBPF de SO2 en las tres estaciones con señal
+for (est in c("SE3", "SE2", "NE")) {
+
+  p_est <- pct_por_estacion$p[pct_por_estacion$Estacion == est]
+
+  png(file.path("figuras", paste0("cbpf_so2_", tolower(est), ".png")),
+      width = 1500, height = 1400, res = 240)
+  print(
+    openair::polarPlot(
+      filter(datos_oa, Estacion == est),
+      pollutant  = "SO2",
+      statistic  = "cpf",
+      percentile = p_est,
+      main       = paste0("CBPF SO2 - ", est),
+      key.title  = "Probabilidad"
+    )
+  )
+  dev.off()
+}
+
+# CBPF de NOX en SE3, para el contraste de falsación
+pct_nox_se3 <- datos %>%
+  filter(Estacion == "SE3") %>%
+  summarise(p = 100 * mean(NOX <= quantile(NOX, 0.95, na.rm = TRUE), na.rm = TRUE)) %>%
+  pull(p)
+
+png(file.path("figuras", "cbpf_nox_se3.png"),
+    width = 1500, height = 1400, res = 240)
+print(
+  openair::polarPlot(
+    filter(datos_oa, Estacion == "SE3"),
+    pollutant  = "NOX",
+    statistic  = "cpf",
+    percentile = pct_nox_se3,
+    main       = "CBPF NOX - SE3",
+    key.title  = "Probabilidad"
+  )
+)
+dev.off()
+
+cat("Figuras CBPF generadas:\n")
+print(list.files("figuras", pattern = "cbpf"))
+```
+
+```{r}
+# ---- Figuras para el reporte final: ggplot ----
+
+tema_reporte <- theme_minimal(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+
+# Figura: gradiente espacial del momio del sector Este
+datos_gradiente <- tibble(
+  Estacion  = c("SE3", "SE2", "NE", "GAR"),
+  distancia = c(5.5, 16.4, 35.7, 68.5),
+  OR        = c(3.19, 1.58, 1.01, 1.08),
+  IC_inf    = c(2.96, 1.43, 0.81, 0.54),
+  IC_sup    = c(3.44, 1.74, 1.26, 2.16)
+)
+
+fig_gradiente <- ggplot(datos_gradiente, aes(distancia, OR)) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_errorbar(aes(ymin = IC_inf, ymax = IC_sup), width = 2, color = "gray40") +
+  geom_point(size = 3) +
+  geom_text(aes(label = Estacion), vjust = -1.2, size = 3.5) +
+  labs(x = "Distancia a la refinería (km)",
+       y = "Razón de momios del sector Este (IC 95%)") +
+  tema_reporte
+
+ggsave("figuras/gradiente_distancia.png", fig_gradiente,
+       width = 6, height = 4, dpi = 300)
+
+# Figura: falsación multicontaminante
+fig_falsacion <- objetos_etapa4$falsacion_contaminantes %>%
+  mutate(Contaminante = fct_reorder(Contaminante, OR)) %>%
+  ggplot(aes(OR, Contaminante)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_errorbarh(aes(xmin = IC_inf, xmax = IC_sup), height = 0.25, color = "gray40") +
+  geom_point(size = 3) +
+  scale_x_log10() +
+  labs(x = "Razón de momios del sector Este (escala log)",
+       y = NULL) +
+  tema_reporte
+
+ggsave("figuras/falsacion_contaminantes.png", fig_falsacion,
+       width = 6, height = 4, dpi = 300)
+
+# Figura: autocorrelación residual por modelo
+datos_acf <- bind_rows(
+  objetos_etapa4$autocorrelacion_meteo,
+  objetos_etapa4$autocorrelacion_integrado
+)
+
+fig_acf <- ggplot(datos_acf, aes(Rezago_horas, Autocorrelacion,
+                                 color = Modelo, group = Modelo)) +
+  geom_hline(yintercept = 0, color = "gray70") +
+  geom_line(linewidth = 0.7) +
+  geom_point(size = 2) +
+  scale_x_continuous(breaks = c(1, 2, 3, 6, 12, 24, 48)) +
+  labs(x = "Rezago (horas)", y = "Autocorrelación de residuos", color = NULL) +
+  tema_reporte +
+  theme(legend.position = "bottom")
+
+ggsave("figuras/autocorrelacion_residual.png", fig_acf,
+       width = 6.5, height = 4, dpi = 300)
+
+# Figura: calibración del modelo integrado
+fig_calibracion <- ggplot(objetos_etapa4$calibracion_deciles,
+                          aes(p_promedio_predicho, prop_observada)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray50") +
+  geom_line(color = "gray30") +
+  geom_point(size = 2.5) +
+  labs(x = "Probabilidad promedio predicha (por decil)",
+       y = "Proporción observada de episodios") +
+  tema_reporte
+
+ggsave("figuras/calibracion_integrado.png", fig_calibracion,
+       width = 5.5, height = 4, dpi = 300)
+
+# Figura: distribución de la duración de episodios
+fig_duracion <- ggplot(objetos_etapa4$duracion_rachas, aes(duracion_h)) +
+  geom_histogram(binwidth = 1, fill = "gray40", color = "white") +
+  scale_x_continuous(limits = c(0, 15), breaks = seq(0, 15, 2)) +
+  labs(x = "Duración del episodio (horas consecutivas)",
+       y = "Número de episodios") +
+  tema_reporte
+
+ggsave("figuras/duracion_episodios.png", fig_duracion,
+       width = 5.5, height = 4, dpi = 300)
+
+cat("Figuras generadas:\n")
+print(list.files("figuras"))
+```
+

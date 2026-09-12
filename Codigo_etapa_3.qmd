@@ -745,3 +745,57 @@ pronostico_predictivo %>%
   mutate(Probabilidad = paste0(round(Probabilidad * 100, 1), "%")) %>%
   print(n = 24)
 ```
+
+```{r}
+# ---- Exportación de resultados de la etapa 3 para el reporte final ----
+
+nombres_entorno <- ls()
+
+# Se excluyen las bases grandes: se recuperan de la base limpia si hacen falta
+excluidos <- c("datos", "datos_oa", "d_se3", "d_conjunto", "base_movil",
+               "datos22", "datos23", "datos24", "datos25", "datosF")
+
+vale_la_pena <- function(nombre) {
+  if (nombre %in% excluidos) return(FALSE)
+  objeto <- get(nombre)
+  if (is.function(objeto)) return(FALSE)
+  if (inherits(objeto, c("data.frame", "prcomp", "kmeans", "htest"))) return(TRUE)
+  if (is.numeric(objeto) && length(objeto) <= 100) return(TRUE)
+  if (is.matrix(objeto) && nrow(objeto) <= 100) return(TRUE)
+  if (is.character(objeto) && length(objeto) <= 100) return(TRUE)
+  FALSE
+}
+
+seleccionados <- nombres_entorno[vapply(nombres_entorno, vale_la_pena, logical(1))]
+
+# Se descartan objetos muy pesados que no sean tablas de resultados
+seleccionados <- seleccionados[
+  vapply(seleccionados, function(n) {
+    objeto <- get(n)
+    !(inherits(objeto, "data.frame") && nrow(objeto) > 5000)
+  }, logical(1))
+]
+
+objetos_etapa3 <- mget(seleccionados)
+
+saveRDS(objetos_etapa3, "objetos_reporte_etapa3.rds")
+
+cat("Objetos exportados:", length(objetos_etapa3), "\n\n")
+str(objetos_etapa3, max.level = 1, give.attr = FALSE)
+```
+
+```{r}
+# ---- Verificación de los dos archivos de resultados ----
+
+archivos <- list.files(pattern = "objetos_reporte.*\\.rds$")
+
+for (a in archivos) {
+  contenido <- readRDS(a)
+  cat("\n===", a, "===\n")
+  cat("Objetos:", length(contenido), "| Tamaño:",
+      round(file.size(a) / 1024^2, 2), "MB\n")
+  cat("¿Tiene PCA?:", "pca" %in% names(contenido), "\n")
+  cat("¿Tiene conglomerados?:", "km" %in% names(contenido), "\n")
+  cat("¿Tiene azimuts?:", "geo" %in% names(contenido), "\n")
+}
+```

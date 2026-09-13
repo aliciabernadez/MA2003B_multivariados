@@ -19,7 +19,7 @@ format:
 ---
 
 ---
-title: "EntregaFinal"
+title: "Entrega Final: Patrones de SO2 en relación con el viento y la proximidad a Cadereyta"
 format: html
 ---
 

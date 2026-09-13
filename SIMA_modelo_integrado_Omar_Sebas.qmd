@@ -1633,7 +1633,6 @@ ggplot(calibracion, aes(x = p_promedio_predicho, y = prop_observada)) +
 ```
 La prueba de Hosmer-Lemeshow resultó significativa (p<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.
 
-<<<<<<< Updated upstream
 
 
 ```{r}
@@ -1820,3 +1819,8 @@ ggsave("figuras/duracion_episodios.png", fig_duracion,
 
 cat("Figuras generadas:\n")
 print(list.files("figuras"))
+
+```
+
+
+

@@ -75,8 +75,7 @@ Los antecedentes muestran que el análisis conjunto de concentraciones y condici
 
 ## Planteamiento
 
-El Área Metropolitana de Monterrey concentra una importante actividad industrial y presenta condiciones geográficas que hacen que la dispersión de contaminantes dependa del régimen de vientos. En este contexto, el dióxido de azufre resulta especialmente relevante, ya que se relaciona principalmente con procesos de combustión de combustibles con contenido de azufre y puede actuar como indicador de fuentes industriales puntuales.
-El problema central es que los indicadores de tendencia central pueden ocultar episodios breves de concentraciones elevadas. Si la contribución de una fuente se manifiesta principalmente mediante eventos de pocas horas, los promedios o medianas pueden mostrar condiciones relativamente estables aun cuando la frecuencia de exposición aguda sea considerable.
+El Área Metropolitana de Monterrey concentra una importante actividad industrial y presenta condiciones geográficas que hacen que la dispersión de contaminantes dependa del régimen de vientos. En este contexto, el dióxido de azufre resulta especialmente relevante, ya que se relaciona principalmente con procesos de combustión de combustibles con contenido de azufre y puede actuar como indicador de fuentes industriales puntuales. El problema central es que los indicadores de tendencia central pueden ocultar episodios breves de concentraciones elevadas. Si la contribución de una fuente se manifiesta principalmente mediante eventos de pocas horas, los promedios o medianas pueden mostrar condiciones relativamente estables aun cuando la frecuencia de exposición aguda sea considerable.
 
 ## Objetivo general
 
@@ -112,8 +111,7 @@ resultados_e3$geo %>%
   )
 ```
 
-SE3 es la estación más cercana al complejo refinador y presenta un azimut de 87.3°, correspondiente al Este, mientras que SE2 y NE permiten evaluar la atenuación de la señal conforme aumenta la distancia. GAR, ubicada a 68.5 km, se utiliza como estación de control.
-Las cuatro estaciones tienen el complejo hacia el Este o Este-Sureste. Por ello, si la asociación con este sector se debiera únicamente a un fenómeno meteorológico regional, se esperaría un comportamiento similar en todas. La ubicación aproximada del centroide no modifica esta clasificación: al desplazarlo 1.5 km en cada dirección, el azimut desde SE3 permanece dentro del rango ENE-ESE.
+SE3 es la estación más cercana al complejo refinador y presenta un azimut de 87.3°, correspondiente al Este, mientras que SE2 y NE permiten evaluar la atenuación de la señal conforme aumenta la distancia. GAR, ubicada a 68.5 km, se utiliza como estación de control. Las cuatro estaciones tienen el complejo hacia el Este o Este-Sureste. Por ello, si la asociación con este sector se debiera únicamente a un fenómeno meteorológico regional, se esperaría un comportamiento similar en todas. La ubicación aproximada del centroide no modifica esta clasificación: al desplazarlo 1.5 km en cada dirección, el azimut desde SE3 permanece dentro del rango ENE-ESE.
 
 # Preparación de la base de datos
 
@@ -123,8 +121,7 @@ La información procede de los registros horarios de SIMA correspondientes a 202
 
 ## Validación y tratamiento de datos faltantes
 
-Los registros fuera de los rangos de validación proporcionados por SIMA se transformaron en valores faltantes. Debido a cambios en la instrumentación, estos límites varían según el año, por lo que la validación se realizó considerando simultáneamente año y variable.
-Las variables meteorológicas de control se imputaron mediante vecinos más cercanos, mientras que los contaminantes conservaron sus valores faltantes para evitar introducir artificialmente patrones químicos. SO2 tampoco se depuró mediante criterios automáticos de valores extremos, ya que las concentraciones elevadas constituyen precisamente el fenómeno de interés.
+Los registros fuera de los rangos de validación proporcionados por SIMA se transformaron en valores faltantes. Debido a cambios en la instrumentación, estos límites varían según el año, por lo que la validación se realizó considerando simultáneamente año y variable. Las variables meteorológicas de control se imputaron mediante vecinos más cercanos, mientras que los contaminantes conservaron sus valores faltantes para evitar introducir artificialmente patrones químicos. SO2 tampoco se depuró mediante criterios automáticos de valores extremos, ya que las concentraciones elevadas constituyen precisamente el fenómeno de interés.
 
 ## Tratamiento de la dirección del viento
 
@@ -220,13 +217,7 @@ Si la asociación con el sector oriental respondiera a condiciones meteorológic
 knitr::include_graphics("figuras/gradiente_distancia.png")
 ```
 
-El efecto se atenúa de manera sistemática con la distancia. En SE3, a 5.5 kilómetros, la razón de momios es de 3.19. En SE2, a 16.4 kilómetros, desciende a 1.58. En NE, a 35.7 kilómetros, alcanza 1.01, con un intervalo de confianza que incluye la unidad, lo que indica ausencia de efecto detectable. En esta última estación la coincidencia direccional con la fuente no produce incremento alguno en la probabilidad de episodio.
-
-El patrón requiere la conjunción de dirección y proximidad, comportamiento característico de una pluma sujeta a dilución progresiva y no de un artefacto direccional de escala regional.
-
-El caso de la estación de control merece una precisión. Su razón de momios de 1.08, con un intervalo amplio que incluye la unidad, resulta consistente con la influencia urbana difusa señalada en la sección de contexto geográfico, dado que su sector oriental comprende la totalidad de la zona metropolitana antes de alcanzar el complejo refinador.
-
-La diferencia entre estaciones se verificó de manera formal mediante un modelo conjunto con interacción entre estación y sector. La prueba resulta significativa, con una diferencia de devianza de 195.77 sobre tres grados de libertad, y tanto el criterio de información de Akaike como el bayesiano favorecen la especificación que permite efectos distintos por estación.
+La asociación con el sector Este se atenúa conforme aumenta la distancia: la razón de momios disminuye de 3.19 en SE3 a 1.58 en SE2 y deja de ser significativa en NE y GAR. Este patrón sugiere que la señal depende simultáneamente de la dirección y la proximidad, en lugar de responder a un efecto meteorológico regional común a todas las estaciones.
 
 ```{r}
 #| label: tbl-contrastes
@@ -246,13 +237,11 @@ resultados_e4$contrastes_por_estacion %>%
   )
 ```
 
-Los contrastes por estación confirman el patrón: la asociación es significativa en SE3 y SE2, y deja de serlo en NE y GAR, donde los valores p superan ampliamente cualquier nivel convencional.
+La diferencia entre estaciones se confirmó mediante un modelo conjunto con interacción entre estación y sector (Δ devianza = 195.77; gl = 3), favorecido también por los criterios AIC y BIC. En conjunto, los resultados son consistentes con una señal que pierde intensidad conforme aumenta la distancia.
 
 ## Persistencia del patrón ante controles meteorológicos
 
-Una explicación alternativa plausible es que la asociación direccional refleje condiciones meteorológicas correlacionadas con el rumbo del viento y no la presencia de una fuente. Para evaluarla se amplió el modelo con temperatura, humedad relativa, presión atmosférica, radiación solar y precipitación, todas mediante splines naturales.
-
-La selección por criterio bayesiano de información retuvo las cinco variables meteorológicas y descartó únicamente la precipitación. La pregunta relevante es si el bloque direccional conserva capacidad explicativa una vez incorporados esos controles. La prueba de razón de verosimilitudes entre el modelo meteorológico con dirección y el mismo modelo sin ella arroja una diferencia de devianza de 1,192.7 sobre quince grados de libertad, con un valor p inferior a cualquier nivel convencional.
+Para evaluar si la asociación direccional podía explicarse por otras condiciones meteorológicas, el modelo se amplió con temperatura, humedad relativa, presión atmosférica, radiación solar y precipitación mediante splines naturales. La selección por BIC descartó la precipitación y mantuvo las variables restantes. Aun con estos controles, el bloque direccional conservó una contribución significativa (Δ devianza = 1,192.7; gl = 15; p \< 0.001).
 
 ```{r}
 #| label: tbl-valmeteo
@@ -265,15 +254,13 @@ resultados_e4$validacion_meteo_2025 %>%
   )
 ```
 
-Un resultado que conviene señalar por su carácter negativo es que la ampliación meteorológica apenas modifica la capacidad predictiva: el área bajo la curva pasa de 0.789 a 0.794 y el error de Brier se deteriora ligeramente. Es decir, las variables meteorológicas adicionales no explican los episodios por sí solas ni desplazan al sector direccional, lo cual es precisamente la conclusión que interesa. La dirección del viento aporta información que la meteorología general no contiene.
+La ampliación meteorológica apenas modificó el desempeño fuera de muestra: el AUC pasó de 0.789 a 0.794 y el error de Brier de 0.104 a 0.106. Por tanto, estas variables funcionan como controles, pero no sustituyen la información aportada por la dirección del viento.
 
 ## Persistencia del patrón ante la memoria temporal del contaminante
 
-La segunda explicación alternativa es de naturaleza temporal. Dado que las concentraciones en horas consecutivas están correlacionadas, el patrón direccional podría reflejar la simple persistencia del contaminante: si una hora presenta concentración elevada, la siguiente tenderá a presentarla también, con independencia del rumbo del viento.
+La autocorrelación residual mostró que la dependencia temporal seguía presente: a una hora fue de 0.484 en el modelo base y de 0.471 después de incorporar controles meteorológicos. Por ello, se añadieron rezagos de SO2 de 1, 2, 12 y 24 horas, seleccionados mediante BIC.
 
-El diagnóstico de autocorrelación de los residuos confirma que este mecanismo opera. En el modelo base, la correlación entre residuos separados por una hora alcanza 0.484, y la incorporación de controles meteorológicos apenas la reduce a 0.471. La meteorología no sustituye un tratamiento explícito de la dependencia temporal.
-
-Por esa razón se incorporaron rezagos horarios de la propia concentración, construidos sobre una rejilla horaria completa. La selección por criterio bayesiano retuvo los rezagos de una, dos, doce y veinticuatro horas. Su aportación es considerable, con una diferencia de devianza de 5,187.7 sobre cuatro grados de libertad. Aun así, el sector oriental conserva una razón de momios de 3.34, con intervalo de confianza entre 3.03 y 3.68.
+Los rezagos mejoraron significativamente el ajuste (Δ devianza = 5,187.7; gl = 4), pero el sector oriental mantuvo una razón de momios de 3.34 (IC 95%: 3.03-3.68). Esto indica que la asociación direccional no se explica únicamente por la persistencia temporal del contaminante.
 
 ```{r}
 #| label: fig-acf

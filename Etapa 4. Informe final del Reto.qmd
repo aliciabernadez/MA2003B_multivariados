@@ -14,12 +14,12 @@ format:
   pdf:
     documentclass: article
     geometry:
-      - top=25mm
-      - bottom=25mm
-      - left=25mm
-      - right=25mm
+      - top=22mm
+      - bottom=22mm
+      - left=22mm
+      - right=22mm
     fontsize: 11pt
-    linestretch: 1.15
+    linestretch: 1.05
     number-sections: true
     toc: false
     fig-pos: "H"
@@ -47,13 +47,9 @@ tabla_reporte <- function(datos, leyenda, digitos = 2) {
 
 # Introducción y justificación
 
-La calidad del aire condiciona de manera directa el bienestar de la población y el estado de los ecosistemas, ya que depende de la presencia y concentración de distintos contaminantes en la atmósfera. Cuando estos alcanzan niveles elevados pueden generar efectos adversos sobre la salud respiratoria y cardiovascular. Por esa razón, el monitoreo continuo permite identificar condiciones de riesgo y generar información útil para reducir la exposición de la población y apoyar la toma de decisiones públicas (Holcim España, s. f.).
+La calidad del aire condiciona de manera directa el bienestar de la población, y su deterioro se asocia con enfermedades cardiovasculares, padecimientos respiratorios y cáncer de pulmón. La Organización Mundial de la Salud estima que la contaminación del aire exterior ocasionó alrededor de 4.2 millones de muertes prematuras en 2019 (Organización Mundial de la Salud, 2024). Entre los contaminantes criterio, el dióxido de azufre presenta una particularidad relevante para este trabajo: sus efectos documentados corresponden principalmente a exposiciones de corta duración, lo que implica que su evaluación requiere métricas sensibles a eventos agudos y no únicamente a niveles promedio (Organización Mundial de la Salud, 2021; Holcim España, s. f.).
 
-La magnitud del problema es considerable. La Organización Mundial de la Salud estima que la contaminación del aire exterior ocasionó alrededor de 4.2 millones de muertes prematuras en 2019, y la asocia con enfermedades cardiovasculares, padecimientos respiratorios, accidentes cerebrovasculares y cáncer de pulmón (Organización Mundial de la Salud, 2024). Entre los contaminantes de mayor relevancia se encuentran las partículas suspendidas, el ozono, el dióxido de nitrógeno, el monóxido de carbono y el dióxido de azufre. Este último presenta una particularidad importante para el presente trabajo: sus efectos documentados corresponden principalmente a exposiciones de corta duración, lo que implica que su evaluación requiere métricas sensibles a eventos agudos y no únicamente a niveles promedio (Organización Mundial de la Salud, 2021).
-
-El marco normativo refleja esa distinción de manera parcial. A nivel internacional, las directrices de la Organización Mundial de la Salud (2021) establecen valores guía para los principales contaminantes, sin carácter legalmente vinculante. En México, los límites para la protección de la salud se definen mediante normas oficiales mexicanas, y la NOM-172-SEMARNAT establece los lineamientos para la obtención y comunicación del Índice de Calidad del Aire y Riesgos a la Salud (Secretaría de Medio Ambiente y Recursos Naturales, 2023; Comisión Federal para la Protección contra Riesgos Sanitarios, s. f.). Un aspecto que conviene señalar es que los límites nacionales no siempre coinciden con las recomendaciones internacionales, por lo que el cumplimiento normativo no implica de manera automática la ausencia de riesgo.
-
-La medición de la calidad del aire enfrenta además dificultades operativas. La cobertura espacial de las estaciones es limitada, los equipos requieren mantenimiento y calibración periódicos, y los registros presentan datos faltantes con frecuencia. Cada estación representa fundamentalmente las condiciones de su entorno inmediato, lo que obliga a validar y depurar la información antes de cualquier análisis estadístico (Instituto Nacional de Ecología y Cambio Climático, s. f.; Programa de las Naciones Unidas para el Medio Ambiente, 2022). En Nuevo León, el Sistema Integral de Monitoreo Ambiental registra contaminantes atmosféricos y variables meteorológicas en distintos puntos del Área Metropolitana de Monterrey, y sus series históricas constituyen la fuente de datos de este proyecto (Gobierno del Estado de Nuevo León, s. f.).
+El marco normativo refleja esa distinción de manera parcial. Las directrices internacionales establecen valores guía sin carácter vinculante (Organización Mundial de la Salud, 2021), mientras que en México los límites para la protección de la salud se definen mediante normas oficiales, entre ellas la NOM-172-SEMARNAT-2019, que fija los lineamientos para la obtención y comunicación del Índice de Calidad del Aire y Riesgos a la Salud (Secretaría de Medio Ambiente y Recursos Naturales, 2019; Comisión Federal para la Protección contra Riesgos Sanitarios, s. f.). La medición enfrenta además dificultades operativas: la cobertura espacial es limitada, los equipos requieren calibración periódica y los registros presentan datos faltantes con frecuencia, de modo que cada estación representa fundamentalmente las condiciones de su entorno inmediato (Instituto Nacional de Ecología y Cambio Climático, s. f.; Programa de las Naciones Unidas para el Medio Ambiente, 2022). En Nuevo León, el Sistema Integral de Monitoreo Ambiental registra contaminantes y variables meteorológicas en distintos puntos del Área Metropolitana de Monterrey, y sus series históricas constituyen la fuente de datos de este proyecto (Gobierno del Estado de Nuevo León, s. f.).
 
 ## Antecedentes
 
@@ -67,9 +63,7 @@ Por último, Xue, Cui, Li, Yu y Ma (2023) estudiaron episodios recurrentes de co
 
 ## Justificación
 
-Los antecedentes revisados coinciden en que el análisis conjunto de concentraciones y variables meteorológicas permite identificar patrones compatibles con fuentes de emisión específicas. Sin embargo, ninguno de estos trabajos aborda una cuestión que resulta central para la gestión de la calidad del aire: si los indicadores estadísticos empleados habitualmente en los instrumentos de planeación representan de manera adecuada la exposición que efectivamente experimenta la población cercana a una fuente puntual.
-
-Este proyecto aplica el enfoque direccional a los registros históricos del Sistema Integral de Monitoreo Ambiental y lo extiende en esa dirección. La aportación no se limita a establecer si existe un patrón asociado a un sector determinado, sino que cuantifica la magnitud de la exposición aguda vinculada a ese sector y la contrasta con lo que reportarían las medidas de tendencia central. El resultado tiene una aplicación concreta para el socio formador, ya que permite evaluar si los mecanismos de seguimiento vigentes capturan el fenómeno que buscan vigilar.
+Los antecedentes revisados coinciden en que el análisis conjunto de concentraciones y variables meteorológicas permite identificar patrones compatibles con fuentes de emisión específicas. Ninguno aborda, sin embargo, una cuestión central para la gestión de la calidad del aire: si los indicadores estadísticos empleados habitualmente en los instrumentos de planeación representan de manera adecuada la exposición que experimenta la población cercana a una fuente puntual. Este proyecto aplica el enfoque direccional a los registros del Sistema Integral de Monitoreo Ambiental y lo extiende en esa dirección, al cuantificar la magnitud de la exposición aguda vinculada al sector identificado y contrastarla con lo que reportarían las medidas de tendencia central. El resultado permite evaluar si los mecanismos de seguimiento vigentes capturan el fenómeno que buscan vigilar.
 
 # Problemática y objetivo
 
@@ -357,7 +351,7 @@ Si la asociación con el sector oriental respondiera a condiciones meteorológic
 ```{r}
 #| label: fig-gradiente
 #| fig-cap: "Razón de momios del sector Este sobre la probabilidad de episodio, en función de la distancia de cada estación al complejo refinador. Las barras representan el intervalo de confianza al 95 por ciento y la línea punteada corresponde a la ausencia de efecto."
-#| out-width: "80%"
+#| out-width: "60%"
 
 knitr::include_graphics("figuras/gradiente_distancia.png")
 ```
@@ -420,7 +414,7 @@ Por esa razón se incorporaron rezagos horarios de la propia concentración, con
 ```{r}
 #| label: fig-acf
 #| fig-cap: "Autocorrelación de los residuos de devianza en función del rezago horario, para el modelo base, el modelo con controles meteorológicos ampliados y el modelo integrado."
-#| out-width: "85%"
+#| out-width: "65%"
 
 knitr::include_graphics("figuras/autocorrelacion_residual.png")
 ```
@@ -479,7 +473,7 @@ El modelo integrado alcanza un área bajo la curva de 0.896 frente a 0.761 del m
 ```{r}
 #| label: fig-calibracion
 #| fig-cap: "Calibración del modelo integrado por deciles de riesgo predicho. La línea punteada representa la calibración perfecta."
-#| out-width: "70%"
+#| out-width: "55%"
 
 knitr::include_graphics("figuras/calibracion_integrado.png")
 ```
@@ -526,7 +520,7 @@ resultados_e4$falsacion_contaminantes %>%
 ```{r}
 #| label: fig-falsacion
 #| fig-cap: "Razón de momios del sector Este por contaminante, en escala logarítmica. La línea punteada corresponde a la ausencia de asociación."
-#| out-width: "80%"
+#| out-width: "60%"
 
 knitr::include_graphics("figuras/falsacion_contaminantes.png")
 ```
@@ -551,20 +545,7 @@ El contraste entre ambos paneles es diagnóstico. El dióxido de azufre presenta
 
 La interpretación es directa: un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. Ambos contaminantes muestran firmas de origen distinto.
 
-```{r}
-#| label: fig-cbpf-gradiente
-#| fig-cap: "Función de probabilidad bivariada condicional del dióxido de azufre en las tres estaciones con señal detectable. Las escalas de color son independientes en cada panel, por lo que la comparación válida es la forma del patrón y no la magnitud."
-#| layout-ncol: 3
-#| out-width: "100%"
-
-knitr::include_graphics("figuras/cbpf_so2_se3.png")
-knitr::include_graphics("figuras/cbpf_so2_se2.png")
-knitr::include_graphics("figuras/cbpf_so2_ne.png")
-```
-
-La aplicación de la función a las tres estaciones confirma el gradiente obtenido por vía paramétrica. SE3 presenta el lóbulo oriental descrito. SE2 muestra dos focos de menor intensidad, hacia el nor noreste y el sur, sin orientación hacia el azimut de la fuente. NE presenta su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor y sin contribución apreciable del sector este.
-
-La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo.
+La aplicación del mismo procedimiento a SE2 y NE, incluida en el Anexo E, confirma el gradiente obtenido por vía paramétrica: ninguna de las dos estaciones presenta un lóbulo orientado hacia el azimut de la fuente, y sus probabilidades condicionales máximas son uno y dos órdenes de magnitud menores, respectivamente.
 
 ## Estructura multivariada de la matriz química
 
@@ -663,7 +644,7 @@ Ambos resultados son válidos de manera simultánea. El nivel de fondo de dióxi
 ```{r}
 #| label: fig-duracion
 #| fig-cap: "Distribución de la duración de los episodios de dióxido de azufre en SE3, medida en horas consecutivas por encima del umbral."
-#| out-width: "70%"
+#| out-width: "55%"
 
 knitr::include_graphics("figuras/duracion_episodios.png")
 ```

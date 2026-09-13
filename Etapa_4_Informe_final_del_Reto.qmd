@@ -49,7 +49,7 @@ tabla_reporte <- function(datos, leyenda, digitos = 2) {
 
 El presente proyecto analiza el comportamiento de las concentraciones de dióxido de azufre registradas por el Sistema Integral de Monitoreo Ambiental de Nuevo León durante el periodo 2022-2025, con el objetivo de identificar patrones espaciales, direccionales y meteorológicos consistentes con la posible influencia de fuentes industriales localizadas en la zona de Cadereyta. El análisis se enfocó en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), esta última utilizada como punto de comparación por su mayor distancia respecto a la zona de interés. En particular, se buscó evaluar si los indicadores de tendencia central, como promedios y medianas anuales, representan adecuadamente la exposición a episodios agudos de SO2.
 
-La base inicial estuvo conformada por 140,236 registros y 19 variables correspondientes a contaminantes atmosféricos y condiciones meteorológicas. Como parte de la preparación de los datos se identificaron valores faltantes, registros fuera de los rangos establecidos por SIMA y posibles valores extremos. Las variables principales SO2, dirección del viento y velocidad del viento no fueron imputadas, con el fin de evitar la creación artificial de concentraciones o patrones direccionales. Para algunas variables meteorológicas secundarias se utilizó imputación mediante K vecinos más cercanos. 
+La base inicial estuvo conformada por 140,236 registros crudos y 19 variables correspondientes a contaminantes atmosféricos y condiciones meteorológicas. Como parte de la preparación de los datos se identificaron valores faltantes, registros fuera de los rangos establecidos por SIMA y posibles valores extremos. Las variables principales SO2, dirección del viento y velocidad del viento no fueron imputadas, con el fin de evitar la creación artificial de concentraciones o patrones direccionales. Para algunas variables meteorológicas secundarias se utilizó imputación mediante K vecinos más cercanos. 
 
 Para estudiar las relaciones de dependencia se utilizaron modelos de regresión logística, mientras que la estructura conjunta de los contaminantes se analizó mediante componentes principales y conglomerados. Estos métodos se complementaron con análisis descriptivos, comparaciones entre estaciones y la Conditional Bivariate Probability Function (CBPF). Se definieron como episodios elevados las horas con concentraciones de SO2 superiores a 11.1 ppb, correspondiente al percentil 95 global de las cuatro estaciones. SE3 presentó la mayor frecuencia de episodios, con 11.63% de sus horas válidas, seguida de SE2 con 5.54%, NE con 2.25% y GAR con 0.15%.
 
@@ -65,13 +65,7 @@ El marco normativo refleja esa distinción de manera parcial. Las directrices in
 
 ## Antecedentes
 
-La identificación del origen de episodios de contaminación a partir de datos de monitoreo tiene una tradición metodológica consolidada. Ashbaugh, Malm y Sadeh (1985) propusieron la función de probabilidad condicional, que relaciona las concentraciones registradas con la dirección del viento para estimar qué sectores se asocian con valores elevados. Carslaw, Beevers, Ropkins y Bell (2006) extendieron este tipo de análisis al estudio de contribuciones de fuentes específicas en entornos con múltiples emisores, y Carslaw y Ropkins (2012) incorporaron estas herramientas al paquete openair del entorno R, lo que facilitó su aplicación sistemática.
-
-Uria-Tellaetxe y Carslaw (2014) desarrollaron la función de probabilidad bivariada condicional como extensión del método anterior. Su aportación consiste en incorporar la velocidad del viento además de la dirección, lo que proporciona información sobre las características de dispersión de la fuente y no solo sobre su ubicación angular. Los autores validaron el procedimiento mediante simulaciones de dispersión. Esta metodología resulta pertinente para el presente estudio porque permite examinar si los episodios elevados de dióxido de azufre aparecen de forma repetida bajo combinaciones específicas de dirección y velocidad del viento.
-
-Clarke, Kwon y Choi (2014) aplicaron un enfoque de identificación de fuentes en Ulsan, Corea del Sur, una ciudad con actividad industrial intensa, utilizando concentraciones horarias de varios contaminantes registradas en trece estaciones automáticas. Los resultados mostraron una relación particularmente definida para el dióxido de azufre, cuyo origen los autores atribuyeron principalmente a áreas industriales locales. El trabajo constituye un antecedente directo porque demuestra que los registros rutinarios de una red de monitoreo pueden emplearse para estudiar relaciones entre fuentes y receptores, y no solo para describir niveles de concentración.
-
-Por último, Xue, Cui, Li, Yu y Ma (2023) estudiaron episodios recurrentes de contaminación por dióxido de azufre en un parque industrial químico. A partir de las mediciones de una sola estación identificaron sesenta y ocho eventos y realizaron un análisis retrospectivo de su posible origen, que asociaron con una unidad de craqueo catalítico. El estudio reconoce explícitamente la limitación de contar con un único monitor, y muestra cómo la combinación de observaciones con información meteorológica permite reducir esa incertidumbre.
+Diversos estudios han utilizado concentraciones de contaminantes y variables meteorológicas para identificar posibles fuentes de emisión. Ashbaugh, Malm y Sadeh (1985) propusieron la función de probabilidad condicional para relacionar concentraciones elevadas con la dirección del viento, mientras que Carslaw et al. (2006) y Carslaw y Ropkins (2012) extendieron este enfoque al análisis de fuentes específicas y facilitaron su implementación mediante el paquete *openair*. Posteriormente, Uria-Tellaetxe y Carslaw (2014) desarrollaron la función de probabilidad bivariada condicional (CBPF), que incorpora simultáneamente dirección y velocidad del viento para caracterizar con mayor detalle el transporte de contaminantes. Aplicaciones en zonas industriales han mostrado que estas herramientas permiten diferenciar señales asociadas a fuentes locales. Clarke et al. (2014) identificaron patrones definidos de SO2 vinculados con áreas industriales, mientras que Xue et al. (2023) analizaron episodios recurrentes de SO2 y asociaron su comportamiento con una fuente puntual mediante información meteorológica. Estos antecedentes respaldan el uso combinado de concentraciones, dirección y velocidad del viento en el presente estudio.
 
 ## Justificación
 
@@ -167,29 +161,13 @@ El análisis de componentes principales examina si el dióxido de azufre compart
 
 El análisis de conglomerados por el método de k medias se aplicó sobre las puntuaciones de los primeros cuatro componentes, con el propósito de identificar perfiles horarios concretos. La agrupación emplea exclusivamente información química, y la asociación de los grupos resultantes con el sector direccional se examina con posterioridad, de manera que el algoritmo no dispone de información que pudiera inducir el resultado buscado.
 
-## Técnicas complementarias
+## Técnicas complementarias y estrategia de validación
 
-Se emplearon tres procedimientos adicionales con funciones específicas dentro del diseño.
+Como complemento al modelo principal se emplearon la prueba de Kruskal-Wallis y el estimador de Hodges-Lehmann para comparar las concentraciones entre estaciones sin asumir normalidad, así como la función de probabilidad bivariada condicional (CBPF) para verificar de forma no paramétrica la asociación entre episodios elevados y condiciones de viento. Además, se incorporaron rezagos horarios de SO2 para evaluar si el patrón observado podía explicarse únicamente por la persistencia temporal del contaminante.
 
-La prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann permiten cuantificar diferencias típicas entre estaciones sin asumir normalidad. Su papel consiste en contrastar de manera explícita la magnitud de las diferencias de tendencia central frente a la frecuencia de eventos agudos, que constituye el argumento central del trabajo.
+La validación se realizó mediante estimación con datos de 2022-2024 y evaluación fuera de muestra en 2025, errores estándar agrupados por día, análisis de sensibilidad con los percentiles 90, 95 y 99, diagnóstico de autocorrelación residual y evaluación de calibración. Estas verificaciones permitieron contrastar explicaciones alternativas relacionadas con meteorología, dependencia temporal y elección del umbral. El esquema completo de validación se presenta en el Anexo F.
 
-La función de probabilidad bivariada condicional estima la misma cantidad que el modelo logístico, es decir, la probabilidad de concentración elevada condicionada a las condiciones de viento, pero por vía no paramétrica y sin control de covariables. Su valor reside en que parte de supuestos distintos: la coincidencia entre ambos enfoques constituye evidencia de robustez y no una duplicación del análisis.
-
-El modelo con rezagos horarios del propio contaminante responde a una explicación alternativa específica. Dado que las concentraciones en horas consecutivas están correlacionadas, el patrón direccional podría reflejar simplemente la persistencia del dióxido de azufre y no una asociación con el rumbo del viento. Los rezagos se construyeron sobre una rejilla horaria completa para evitar tratar como consecutivas dos mediciones separadas por una hora faltante.
-
-## Estrategia confirmatoria
-
-Las técnicas anteriores se organizaron en una secuencia de seis pasos en la que cada uno responde a una explicación alternativa distinta: identificación direccional sin imponer el rumbo relevante, comparación espacial entre las cuatro estaciones, control por variables meteorológicas, control por la memoria temporal del propio contaminante, modelo integrado que enfrenta ambas explicaciones sobre las mismas observaciones, y verificaciones de robustez. La correspondencia detallada entre cada pregunta de validación, el método empleado y la explicación que permite descartar se presenta en el Anexo F.
-
-El elemento central de esta estrategia es que las variables que no responden constituyen la evidencia más sólida. Si los episodios de dióxido de azufre se debieran al tráfico vehicular o a la combustión urbana difusa, los óxidos de nitrógeno y el monóxido de carbono deberían incrementarse de manera simultánea, ya que ambos procesos los generan de forma conjunta. La ausencia de respuesta direccional en esos trazadores, o su respuesta en sentido contrario, es incompatible con dichas explicaciones.
-
-## Procedimientos de validación
-
-Los modelos se sometieron a cinco verificaciones independientes. La validación fuera de muestra estimó los modelos con 2022 a 2024 y los evaluó sobre 2025, año que el ajuste nunca observó, reportando el área bajo la curva ROC como medida de discriminación y el error de Brier como medida de calibración. La inferencia robusta recalculó los errores estándar agrupando por día, para corregir la subestimación de la incertidumbre que produciría suponer independencia entre horas de una misma jornada. El análisis de sensibilidad replicó la estimación con los percentiles 90, 95 y 99. El diagnóstico de autocorrelación residual evalúa si la especificación omite estructura temporal relevante. Finalmente, la evaluación de calibración compara por deciles de riesgo la probabilidad predicha frente a la proporción observada, verificación pertinente porque un modelo puede discriminar correctamente y aun así producir probabilidades sesgadas.
-
-## Especificaciones exploradas que no resultaron viables
-
-Tres aproximaciones se descartaron durante el desarrollo. La regresión lineal sobre la concentración se abandonó por las razones expuestas al inicio de esta sección, y sus resultados se incluyen en el Anexo A. La partición en dos conglomerados, sugerida por el índice de silueta, resultó menos informativa que la de cuatro grupos, decisión que se detalla en el Anexo B. La estimación del modelo direccional en la estación de control con el umbral más exigente no fue posible, dado que registra menos de treinta horas por encima de 30.6 partes por billón en cuatro años, imposibilidad que constituye en sí misma un resultado.
+Durante el desarrollo también se exploraron alternativas que no resultaron adecuadas. La regresión lineal sobre la concentración se descartó por la asimetría de SO2 y el interés específico en eventos agudos; sus resultados se incluyen en el Anexo A. Asimismo, aunque el índice de silueta favoreció inicialmente dos conglomerados, se seleccionaron cuatro por su mayor interpretabilidad química, decisión detallada en el Anexo B.
 
 # Resultados
 
@@ -515,12 +493,6 @@ Se identificaron 1,561 episodios en SE3 durante el periodo, con duración median
 
 El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 en el periodo completo, equivalentes a 976 anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral mientras la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años. Esta cifra puede interpretarse como indicador de exposición potencialmente evitable, bajo el supuesto de que eliminar la contribución del sector identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que debe entenderse como cota superior y no como contribución neta de la fuente.
 
-### Indicador de exposición evitable
-
-El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 horas en el periodo completo, equivalentes a un promedio de 976 horas anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral de episodio mientras la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años analizados.
-
-Esta cifra puede interpretarse como un indicador de exposición potencialmente evitable, bajo el supuesto de que la eliminación de la contribución del sector direccional identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que la cifra debe entenderse como una cota superior y no como la contribución neta de la fuente.
-
 # Discusión y conclusiones
 
 ## Síntesis de los hallazgos
@@ -536,8 +508,6 @@ El diseño es observacional y no permite establecer atribución causal en sentid
 ## Implicaciones para el seguimiento de la calidad del aire
 
 El contraste entre tendencia central y exposición aguda tiene consecuencias operativas directas. Un sistema de seguimiento basado en concentraciones medias o medianas anuales, como los que emplean los instrumentos de planeación vigentes en el área metropolitana (Secretaría de Medio Ambiente de Nuevo León, 2023), habría reportado convergencia entre Cadereyta y la estación de control durante 2025, precisamente el año en que la exposición aguda repuntó con mayor intensidad. El efecto de la ventana de promediación refuerza la observación: dado que los episodios duran dos horas en mediana, un promedio móvil de veinticuatro horas reduce el percentil 99 de 55.3 a 26.0 partes por billón. La métrica no es incorrecta, pero mide un fenómeno distinto del que ocurre. Esto resulta particularmente relevante para un contaminante cuyos efectos documentados sobre la salud corresponden a exposiciones de corta duración: un indicador insensible a eventos breves resulta inadecuado para un riesgo que se materializa en eventos breves.
-
-## Recomendaciones
 
 ## Recomendaciones
 

@@ -75,9 +75,8 @@ Los antecedentes muestran que el análisis conjunto de concentraciones y condici
 
 ## Planteamiento
 
-El Área Metropolitana de Monterrey concentra una parte considerable de la actividad industrial del noreste del país, y su configuración geográfica, parcialmente delimitada por elevaciones de la Sierra Madre Oriental, genera una cuenca atmosférica semicerrada donde la dispersión depende de manera crítica del régimen de vientos. Dentro de ese contexto, el dióxido de azufre presenta un comportamiento distinto al de los demás contaminantes criterio, ya que su origen se asocia principalmente a la combustión de hidrocarburos con contenido de azufre, característica de procesos industriales específicos más que del tráfico vehicular distribuido. Esta particularidad lo convierte en un trazador útil para el estudio de fuentes puntuales.
-
-El problema que motiva el trabajo es metodológico antes que descriptivo. Las concentraciones promedio permiten caracterizar el comportamiento general del contaminante, pero pueden ocultar episodios cortos de concentraciones elevadas. Si la contribución de una fuente industrial se manifiesta en forma de eventos agudos de pocas horas, un sistema de seguimiento basado en promedios anuales podría reportar condiciones estables mientras la exposición real de la población cercana se deteriora. Conviene precisar que el objetivo del proyecto se reformuló durante su desarrollo. En las primeras etapas se planteó como una pregunta de identificación, orientada a determinar si existía un patrón direccional consistente con la influencia de una fuente industrial puntual. Los resultados de la etapa de modelado permitieron considerar esa pregunta resuelta, por lo que el énfasis se desplazó desde la atribución hacia la cuantificación de la exposición y la evaluación de los indicadores empleados para vigilarla.
+El Área Metropolitana de Monterrey concentra una importante actividad industrial y presenta condiciones geográficas que hacen que la dispersión de contaminantes dependa del régimen de vientos. En este contexto, el dióxido de azufre resulta especialmente relevante, ya que se relaciona principalmente con procesos de combustión de combustibles con contenido de azufre y puede actuar como indicador de fuentes industriales puntuales.
+El problema central es que los indicadores de tendencia central pueden ocultar episodios breves de concentraciones elevadas. Si la contribución de una fuente se manifiesta principalmente mediante eventos de pocas horas, los promedios o medianas pueden mostrar condiciones relativamente estables aun cuando la frecuencia de exposición aguda sea considerable.
 
 ## Objetivo general
 
@@ -399,7 +398,7 @@ La razón entre el momio del dióxido de azufre y el de los óxidos de nitrógen
 ```{r}
 #| label: fig-cbpf-contraste
 #| fig-cap: "Función de probabilidad bivariada condicional en SE3."
-#| fig-subcap:
+#| fig-subcap: TRUE
   #|   - "Dióxido de azufre"
   #|   - "Óxidos de nitrógeno"
 #| layout-ncol: 2
@@ -525,53 +524,174 @@ El hallazgo de mayor relevancia práctica no es, sin embargo, la identificación
 
 # Referencias
 
-Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park. *Atmospheric Environment, 19*(8), 1263–1270.\
-https://doi.org/10.1016/0004-6981(85)90256-2
+Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park. *Atmospheric Environment, 19*(8), 1263–1270.\
+<https://doi.org/10.1016/0004-6981(85)90256-2>
 
-Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport. *Atmospheric Environment, 40*(28), 5424–5434.\
+Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport. *Atmospheric Environment, 40*(28), 5424–5434.\
 [https://doi.org/10.1016/j.atmosenv.2006.04.062](https://doi.org/10.1016/j.atmosenv.2006.04.062?utm_source=chatgpt.com)
 
-Carslaw, D. C., & Ropkins, K. (2012). *openair—An R package for air quality data analysis*. *Environmental Modelling & Software, 27–28*, 52–61.\
+Carslaw, D. C., & Ropkins, K. (2012). *openair—An R package for air quality data analysis*. *Environmental Modelling & Software, 27–28*, 52–61.\
 [https://doi.org/10.1016/j.envsoft.2011.09.008](https://doi.org/10.1016/j.envsoft.2011.09.008?utm_source=chatgpt.com)
 
-Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city. *Atmospheric Environment, 95*, 239–248.\
-https://doi.org/10.1016/j.atmosenv.2014.06.040
+Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city. *Atmospheric Environment, 95*, 239–248.\
+<https://doi.org/10.1016/j.atmosenv.2014.06.040>
 
-Comisión Federal para la Protección contra Riesgos Sanitarios. (2025, 1 de julio). *Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México.\
+Comisión Federal para la Protección contra Riesgos Sanitarios. (2025, 1 de julio). *Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México.\
 [https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente](https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente?utm_source=chatgpt.com)
 
-Gobierno del Estado de Nuevo León. (s. f.). *Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental.\
+Gobierno del Estado de Nuevo León. (s. f.). *Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental.\
 [https://aire.nl.gob.mx/icars2020/map_calidad_icars.php](https://aire.nl.gob.mx/icars2020/map_calidad_icars.php?utm_source=chatgpt.com)
 
-Hodges, J. L., Jr., & Lehmann, E. L. (1963). Estimates of location based on rank tests. *The Annals of Mathematical Statistics, 34*(2), 598–611.\
+Hodges, J. L., Jr., & Lehmann, E. L. (1963). Estimates of location based on rank tests. *The Annals of Mathematical Statistics, 34*(2), 598–611.\
 https://doi.org/10.1214/aoms/1177704172
 
-Holcim España. (s. f.). *¿Qué es la calidad del aire y por qué es importante?*\
+Holcim España. (s. f.). *¿Qué es la calidad del aire y por qué es importante?*\
 [https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion](https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion?utm_source=chatgpt.com)
 
-Instituto Nacional de Ecología y Cambio Climático. (s. f.). *Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México.\
+Instituto Nacional de Ecología y Cambio Climático. (s. f.). *Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México.\
 [https://sinaica.inecc.gob.mx/index.php](https://sinaica.inecc.gob.mx/index.php?utm_source=chatgpt.com)
 
-Kruskal, W. H., & Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. *Journal of the American Statistical Association, 47*(260), 583–621.\
+Kruskal, W. H., & Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. *Journal of the American Statistical Association, 47*(260), 583–621.\
 [https://doi.org/10.1080/01621459.1952.10483441](https://doi.org/10.1080/01621459.1952.10483441?utm_source=chatgpt.com)
 
-Organización Mundial de la Salud. (2021). *Directrices mundiales de la OMS sobre la calidad del aire: Materia particulada (MP2,5 y MP10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono: Resumen ejecutivo*.\
+Organización Mundial de la Salud. (2021). *Directrices mundiales de la OMS sobre la calidad del aire: Materia particulada (MP2,5 y MP10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono: Resumen ejecutivo*.\
 [https://www.who.int/es/publications/i/item/9789240034433/](https://www.who.int/es/publications/i/item/9789240034433/?utm_source=chatgpt.com)
 
-Organización Mundial de la Salud. (2024, 24 de octubre). *Contaminación del aire ambiente (exterior) y salud*.\
+Organización Mundial de la Salud. (2024, 24 de octubre). *Contaminación del aire ambiente (exterior) y salud*.\
 [https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health](https://www.who.int/es/news-room/fact-sheets/detail/ambient-%28outdoor%29-air-quality-and-health?utm_source=chatgpt.com)
 
-Programa de las Naciones Unidas para el Medio Ambiente. (2022, 22 de septiembre). *¿Cómo se mide la calidad del aire?*\
+Programa de las Naciones Unidas para el Medio Ambiente. (2022, 22 de septiembre). *¿Cómo se mide la calidad del aire?*\
 [https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire](https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire?utm_source=chatgpt.com)
 
-Secretaría de Medio Ambiente del Estado de Nuevo León. (2024). *Programa Integral de Gestión Estratégica de la Calidad del Aire 2023–2033 para el Área Metropolitana de Monterrey (PIGECA)*. Gobierno del Estado de Nuevo León.\
+Secretaría de Medio Ambiente del Estado de Nuevo León. (2024). *Programa Integral de Gestión Estratégica de la Calidad del Aire 2023–2033 para el Área Metropolitana de Monterrey (PIGECA)*. Gobierno del Estado de Nuevo León.\
 [https://aire.nl.gob.mx/docs/reportes/PIGECA_2023_2033.pdf](https://aire.nl.gob.mx/docs/reportes/PIGECA_2023_2033.pdf?utm_source=chatgpt.com)
 
-Secretaría de Medio Ambiente y Recursos Naturales. (2024). *Norma Oficial Mexicana NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. *Diario Oficial de la Federación*.\
+Secretaría de Medio Ambiente y Recursos Naturales. (2024). *Norma Oficial Mexicana NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. *Diario Oficial de la Federación*.\
 [NOM-172-SEMARNAT-2023 en el Diario Oficial de la Federación](https://sidof.segob.gob.mx/notas/5715154?utm_source=chatgpt.com)
 
-Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1–9.\
-https://doi.org/10.1016/j.envsoft.2014.05.002
+Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1–9.\
+<https://doi.org/10.1016/j.envsoft.2014.05.002>
 
-Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564.\
-https://doi.org/10.1016/j.atmosenv.2022.119564
+Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564.\
+<https://doi.org/10.1016/j.atmosenv.2022.119564>
+
+Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. <https://doi.org/10.1016/j.atmosenv.2022.119564>
+
+# Anexos {.unnumbered}
+
+## Anexo A. Regresión lineal sobre la concentración
+
+Durante la definición de la estrategia de modelado se consideró estimar un modelo de regresión lineal que tomara como variable de respuesta la concentración horaria de dióxido de azufre, en lugar de la ocurrencia de episodio. La especificación se descartó por tres razones que conviene documentar.
+
+La primera es de correspondencia entre el método y el objeto de estudio. El fenómeno de interés consiste en eventos discretos y poco frecuentes, que representan el 11.63 por ciento de las horas en la estación más próxima a la fuente. Un modelo que estima la media condicional de la concentración distribuye el peso de la estimación entre todas las observaciones, de modo que las horas de comportamiento regular, ampliamente mayoritarias, dominan el ajuste y la contribución de los episodios queda diluida.
+
+La segunda es el incumplimiento del supuesto de normalidad de los residuos. La distribución del dióxido de azufre presenta una asimetría pronunciada, con una razón entre el percentil 99 y la mediana de 12.57 en SE3. Una variable con esa estructura genera residuos con cola derecha extensa, lo que invalida las pruebas de significancia y los intervalos de confianza construidos bajo el supuesto gaussiano. Las transformaciones habituales para corregir asimetría, como la logarítmica, comprimen precisamente el rango superior de la distribución, es decir, la región donde se manifiesta el fenómeno estudiado.
+
+La tercera es de interpretación de los resultados. Un coeficiente de regresión lineal asociado al sector oriental expresaría el incremento promedio en partes por billón atribuible a esa dirección del viento. Esa magnitud resulta de escaso valor operativo, ya que la pregunta relevante para la gestión de la calidad del aire no es cuánto aumenta la concentración media, sino con qué frecuencia se supera un umbral de riesgo. La razón de momios de un modelo logístico responde directamente a esa pregunta y permite además comparar entre contaminantes medidos en unidades distintas, comparación indispensable para las pruebas de falsación.
+
+Por estas razones la regresión lineal se descartó en la fase de diseño y no llegó a estimarse de manera definitiva.
+
+## Anexo B. Selección del número de conglomerados
+
+La determinación del número de grupos en el análisis de k medias se evaluó mediante el índice de silueta, que mide la cohesión interna de los conglomerados frente a su separación.
+
+```{r}
+#| label: tbl-silueta
+
+resultados_e3$sil %>%
+  setNames(c("Número de grupos", "Índice de silueta")) %>%
+  tabla_reporte(
+    leyenda = "Índice de silueta promedio para particiones de dos a seis grupos sobre las puntuaciones de los cuatro primeros componentes principales.",
+    digitos = 3
+  )
+```
+
+El índice favorece de manera clara la partición en dos grupos, con un valor de 0.418, frente a valores cercanos a 0.26 para las particiones de tres a seis. Pese a ello se adoptó la partición en cuatro conglomerados, decisión que responde a criterios de interpretabilidad química.
+
+La partición en dos grupos separa las horas según su nivel general de contaminación, distinguiendo esencialmente entre condiciones limpias y condiciones cargadas. Esa separación, aunque estadísticamente más nítida, no permite distinguir entre mecanismos de origen distinto: agrupa en una misma clase las horas de acumulación urbana bajo estancamiento atmosférico y las horas de transporte desde el sector oriental, que son precisamente las dos situaciones que el análisis busca diferenciar.
+
+La partición en cuatro grupos sí las separa, y produce dos conglomerados con perfiles químicos opuestos, uno con razón entre dióxido de azufre y óxidos de nitrógeno de 1.56 y otro con 0.085. Esa diferencia de factor dieciocho constituye el resultado de interés, y se pierde por completo bajo la partición de dos grupos.
+
+El descenso del índice de silueta al aumentar el número de grupos era esperable dada la estructura de los datos, ya que los perfiles de contaminación atmosférica no forman clases discretas bien separadas sino un continuo con regiones de mayor densidad. En contextos de este tipo, el criterio de interpretabilidad resulta preferible a la optimización de un índice de separación geométrica.
+
+## Anexo C. Razones de momios por rumbo del viento
+
+```{r}
+#| label: tbl-anexo-rumbos
+
+resultados_e4$momios_16_rumbos %>%
+  mutate(
+    IC = sprintf("[%.3f, %.3f]", IC_inf, IC_sup),
+    p = format.pval(p, digits = 3, eps = 1e-16)
+  ) %>%
+  select(Rumbo, OR, IC, p) %>%
+  setNames(c("Rumbo", "Razón de momios", "IC 95%", "Valor p")) %>%
+  tabla_reporte(
+    leyenda = "Razones de momios de los quince rumbos estimados en SE3, con el norte como categoría de referencia. El modelo controla por velocidad del viento mediante splines naturales y por hora y mes mediante términos armónicos.",
+    digitos = 3
+  )
+```
+
+## Anexo D. Sensibilidad al umbral de episodio
+
+```{r}
+#| label: tbl-anexo-umbral
+
+resultados_e4$sensibilidad_umbral %>%
+  mutate(IC = sprintf("[%.2f, %.2f]", IC_inf, IC_sup)) %>%
+  select(Percentil, Umbral_ppb, Estacion, OR, IC) %>%
+  setNames(c("Percentil", "Umbral (ppb)", "Estación",
+             "Razón de momios", "IC 95%")) %>%
+  tabla_reporte(
+    leyenda = "Razón de momios del sector Este bajo tres definiciones del umbral de episodio, en las cuatro estaciones. Los valores ausentes en GAR bajo el percentil 99 corresponden a la imposibilidad de estimación por número insuficiente de eventos.",
+    digitos = 2
+  )
+```
+
+La estación GAR no admite estimación bajo el percentil 99, dado que registra menos de treinta horas por encima de 30.6 partes por billón durante los cuatro años analizados. Esta limitación no constituye una deficiencia del procedimiento sino una consecuencia de la propia distribución de la variable en esa estación.
+
+## Anexo E. Verificación direccional no paramétrica en SE2 y NE
+
+```{r}
+#| label: fig-anexo-cbpf
+#| fig-cap: "Función de probabilidad bivariada condicional del dióxido de azufre en las estaciones intermedia y lejana."
+#| fig-subcap:
+#|   - "SE2, a 16.4 kilómetros"
+#|   - "NE, a 35.7 kilómetros"
+#| layout-ncol: 2
+#| out-width: "100%"
+
+knitr::include_graphics("figuras/cbpf_so2_se2.png")
+knitr::include_graphics("figuras/cbpf_so2_ne.png")
+```
+
+Las escalas de color son independientes en cada panel, por lo que la comparación válida es la forma del patrón y no la magnitud absoluta.
+
+La estación SE2 presenta dos focos de intensidad moderada, orientados hacia el nor noreste y el sur, sin correspondencia con el azimut del complejo refinador. La estación NE muestra su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor que la observada en SE3 y sin contribución apreciable del sector oriental. Ambos resultados son consistentes con el gradiente obtenido mediante el modelo logístico.
+
+## Anexo F. Matriz de sustento metodológico
+
+```{r}
+#| label: tbl-anexo-sustento
+
+resultados_e4$matriz_sustento %>%
+  setNames(c("Pregunta", "Método", "Qué comprueba")) %>%
+  tabla_reporte(
+    leyenda = "Correspondencia entre cada pregunta de validación, el método empleado para responderla y la explicación alternativa que permite descartar."
+  )
+```
+
+## Anexo G. Validación del modelo meteorológico
+
+```{r}
+#| label: tbl-anexo-meteo
+
+resultados_e4$validacion_meteo_2025 %>%
+  setNames(c("Modelo", "AUC", "Error de Brier")) %>%
+  tabla_reporte(
+    leyenda = "Desempeño fuera de muestra en 2025 del modelo direccional frente al modelo con controles meteorológicos ampliados. Ambos fueron estimados con los años 2022 a 2024.",
+    digitos = 3
+  )
+```
+
+La ampliación meteorológica produce una mejora marginal en la capacidad de discriminación, con un incremento del área bajo la curva de 0.789 a 0.794, y un ligero deterioro en la calibración, con un aumento del error de Brier de 0.104 a 0.106. La interpretación relevante es que las variables meteorológicas adicionales no explican los episodios de manera autónoma. Su incorporación al modelo resulta pertinente como control estadístico, ya que permite verificar que la asociación direccional persiste al mantenerlas constantes, pero no constituye por sí misma una mejora predictiva sustantiva. \>\>\>\>\>\>\> 73bac3a383b20cffa46c9dccfdc757f04f182a5d

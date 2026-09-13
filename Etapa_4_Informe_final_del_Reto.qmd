@@ -398,7 +398,10 @@ La razón entre el momio del dióxido de azufre y el de los óxidos de nitrógen
 
 ```{r}
 #| label: fig-cbpf-contraste
-#| fig-cap: "Función de probabilidad bivariada condicional en SE3. Panel izquierdo: dióxido de azufre, con lóbulo direccional hacia el este. Panel derecho: óxidos de nitrógeno, con máximo central en condiciones de calma. Ambos paneles emplean el mismo percentil de referencia."
+#| fig-cap: "Función de probabilidad bivariada condicional en SE3."
+#| fig-subcap:
+  #|   - "Dióxido de azufre"
+  #|   - "Óxidos de nitrógeno"
 #| layout-ncol: 2
 #| out-width: "100%"
 

@@ -287,7 +287,7 @@ resultados_e4$comparacion_integrada %>%
 
 Dos pruebas establecen que los bloques son complementarios y no redundantes. Los rezagos aportan información después de controlar por meteorología, con una diferencia de devianza de 3,364.6 sobre cuatro grados de libertad. La meteorología aporta información después de controlar por la memoria temporal, con una diferencia de 245.7 sobre doce grados de libertad.
 
-La prueba central del análisis consiste en eliminar el sector direccional del modelo integrado, conservando simultáneamente la meteorología ampliada y los rezagos. La devianza se deteriora en 401.8 puntos sobre un grado de libertad, con un valor p inferior a cualquier nivel convencional. El sector oriental aporta información que ninguna de las dos explicaciones alternativas contiene.
+La prueba central del análisis consiste en eliminar el sector direccional del modelo integrado, conservando simultáneamente la meteorología ampliada y los rezagos. La devianza se deteriora en 600.2 puntos sobre un grado de libertad, con un valor p \< 0.001. Esto confirma que el sector oriental aporta información adicional aun después de controlar por meteorología y dependencia temporal.
 
 ```{r}
 #| label: tbl-importancia

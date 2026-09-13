@@ -159,7 +159,7 @@ Como complemento al modelo principal se emplearon la prueba de Kruskal-Wallis y 
 
 La validación se realizó mediante estimación con datos de 2022-2024 y evaluación fuera de muestra en 2025, errores estándar agrupados por día, análisis de sensibilidad con los percentiles 90, 95 y 99, diagnóstico de autocorrelación residual y evaluación de calibración. Estas verificaciones permitieron contrastar explicaciones alternativas relacionadas con meteorología, dependencia temporal y elección del umbral. El esquema completo de validación se presenta en el Anexo F.
 
-Durante el desarrollo también se exploraron alternativas que no resultaron adecuadas. La regresión lineal sobre la concentración se descartó por la asimetría de SO2 y el interés específico en eventos agudos; sus resultados se incluyen en el Anexo A. Asimismo, aunque el índice de silueta favoreció inicialmente dos conglomerados, se seleccionaron cuatro por su mayor interpretabilidad química, decisión detallada en el Anexo B.
+Durante el desarrollo también se exploraron alternativas que no resultaron adecuadas. La regresión lineal sobre la concentración se descartó por la asimetría de SO2 y el interés específico en eventos agudos; la justificación de su descarte se presenta en el Anexo A. Asimismo, aunque el índice de silueta favoreció inicialmente dos conglomerados, se seleccionaron cuatro por su mayor interpretabilidad química, decisión detallada en el Anexo B.
 
 # Resultados
 

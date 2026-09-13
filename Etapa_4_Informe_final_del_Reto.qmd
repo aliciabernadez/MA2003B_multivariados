@@ -411,7 +411,7 @@ resultados_e3$cargas %>%
   )
 ```
 
-El primer componente, que explica el 48.6 por ciento de la varianza, agrupa con signo común a los óxidos de nitrógeno, el material particulado grueso y el monóxido de carbono, con cargas entre 0.278 y 0.481 en valor absoluto, mientras el ozono carga en sentido opuesto, comportamiento consistente con su titulación por óxido nítrico fresco. Se trata del eje de combustión urbana. La carga del dióxido de azufre sobre ese componente es de 0.029: el contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. Dicho de otro modo, las horas en que aumentan los trazadores de combustión no son las horas en que aumenta el dióxido de azufre. El segundo componente, con el 19.4 por ciento de la varianza, está encabezado por el propio dióxido de azufre con una carga de 0.604, acompañado del material particulado fino y del ozono, asociación con sentido químico dado que el dióxido de azufre se oxida a sulfato, componente del particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva.
+El primer componente explica 48.6% de la variabilidad y está dominado por los principales trazadores de combustión urbana, mientras que SO2 presenta una carga prácticamente nula de 0.029. En contraste, en el segundo componente, que explica 19.4%, SO2 presenta la mayor carga (0.604). Esto indica que las horas con aumentos de SO2 siguen una estructura de variación distinta a la de los principales trazadores urbanos.
 
 ### Análisis de conglomerados
 
@@ -432,7 +432,7 @@ resultados_e3$perfil %>%
   )
 ```
 
-El primer conglomerado agrupa el 14.7 por ciento de las horas, con mediana de dióxido de azufre de 16.2 partes por billón, casi cuatro veces superior a la de cualquier otro grupo, y mediana de óxidos de nitrógeno de 10.4, la más baja del conjunto. Concentra el 72.2 por ciento de todos los episodios y la mitad de sus horas corresponde a viento del sector este. El segundo conglomerado constituye su imagen especular: óxidos de nitrógeno en 51.8 partes por billón, cinco veces superior, con dióxido de azufre en apenas 4.4, velocidad de viento de 3.6 kilómetros por hora, la menor del conjunto, y solo 6.2 por ciento de horas con viento del este; el perfil corresponde a acumulación local bajo estancamiento atmosférico. La razón entre medianas resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de dióxido de azufre cuatro veces mayores y de óxidos de nitrógeno cinco veces menores. El algoritmo identificó estas horas sin disponer de información meteorológica alguna.
+Los conglomerados muestran perfiles químicos claramente diferenciados. El grupo 1 concentra 72.2% de los episodios y presenta SO2 elevado (16.2 ppb), NOX bajo (10.4 ppb) y 50.5% de horas con viento del Este. El grupo 2 presenta el comportamiento opuesto, con SO2 de 4.4 ppb, NOX de 51.8 ppb y solo 6.2% de horas del Este. La razón SO2/NOX es 1.56 frente a 0.085, respectivamente, reforzando la existencia de un perfil de SO2 distinto al de la acumulación urbana.
 
 ## Contraste entre tendencia central y exposición aguda
 
@@ -456,9 +456,7 @@ resultados_e3$hl %>%
   )
 ```
 
-El desplazamiento entre SE3 y la estación de control oscila entre 0.6 y 1.5 partes por billón según el año, con intervalos estrechos que confirman que difiere de cero, aunque de magnitud reducida en términos absolutos. Su comportamiento temporal resulta especialmente relevante: alcanza su máximo en 2023, con 1.5 partes por billón, y desciende de forma sostenida hasta 0.6 en 2025, menos de la mitad. Interpretado de manera aislada, ese resultado sugeriría una convergencia progresiva entre ambos sitios.
-
-El recuento de horas de episodio arroja la lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 689 horas de episodio, la cifra más baja del periodo; en 2025, año de mínima diferencia de medianas, registró 1,172, la segunda más alta. Ambas series evolucionan en sentidos contrarios. La divergencia se explica por la naturaleza del fenómeno: la mediana describe el comportamiento típico de la distribución y es insensible a su cola superior, que es donde reside la contribución de la fuente investigada. Ambos resultados son válidos de manera simultánea, ya que el nivel de fondo difiere poco entre ambas estaciones mientras la frecuencia de eventos agudos difiere en dos órdenes de magnitud.
+Las diferencias de medianas entre SE3 y GAR son estadísticamente significativas, pero pequeñas en términos absolutos: varían entre 0.6 y 1.5 ppb y disminuyen hasta su mínimo en 2025. Sin embargo, la frecuencia de episodios muestra el comportamiento opuesto: SE3 registró 689 horas en 2023, cuando la diferencia de medianas fue máxima, y 1,172 en 2025, cuando fue mínima. Esto evidencia que la tendencia central describe el nivel habitual, pero representa de forma limitada los cambios en la cola superior de la distribución.
 
 ### Duración de los episodios
 
@@ -557,11 +555,13 @@ Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis o
 
 Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. <https://doi.org/10.1016/j.atmosenv.2022.119564>
 
-# Declaratoria de IA {.unnumbered}
+# Declaratoria de IA
 
-# Liga al GitHub {.unnumbered}
+# Liga al GitHub
 
-# Anexos {.unnumbered}
+<https://github.com/aliciabernadez/MA2003B_multivariados/tree/trunk>
+
+# Anexos
 
 ## Anexo A. Regresión lineal sobre la concentración
 

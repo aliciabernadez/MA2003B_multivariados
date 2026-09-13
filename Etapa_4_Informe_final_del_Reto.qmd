@@ -198,11 +198,9 @@ resultados_e4$resumen_estaciones %>%
   )
 ```
 
-El contraste entre estaciones es pronunciado. SE3 registra 3,951 horas de episodio, equivalentes al 11.63 por ciento de sus registros válidos, mientras que GAR acumula 49 horas en el mismo periodo, es decir, el 0.15 por ciento. La diferencia entre ambas es de aproximadamente setenta y siete veces.
+El contraste entre estaciones es pronunciado. SE3 registra 3,951 horas de episodio, equivalentes al 11.63 por ciento de sus registros válidos, mientras que GAR acumula 49 horas en el mismo periodo, es decir, el 0.15 por ciento, una diferencia de aproximadamente setenta y siete veces.
 
-Conviene observar que esa diferencia no se refleja en los valores centrales. Las medianas de las cuatro estaciones se sitúan entre 3.3 y 4.4 partes por billón, un rango estrecho. Lo que distingue a SE3 no es su nivel habitual sino el comportamiento de la cola superior de su distribución: su percentil 99 alcanza 55.3 partes por billón, frente a 7.4 en la estación de control. La razón entre el percentil 99 y la mediana resume esta característica, con un valor de 12.57 en SE3 que desciende de manera ordenada hasta 2.24 en GAR.
-
-Este resultado anticipa el argumento central del trabajo. El fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo, de modo que cualquier indicador construido sobre medidas de tendencia central captará solo una fracción reducida de la diferencia entre ambos sitios.
+Esa diferencia no se refleja en los valores centrales. Las medianas de las cuatro estaciones se sitúan entre 3.3 y 4.4 partes por billón, un rango estrecho. Lo que distingue a SE3 no es su nivel habitual sino el comportamiento de la cola superior de su distribución: su percentil 99 alcanza 55.3 partes por billón frente a 7.4 en la estación de control, y la razón entre percentil 99 y mediana desciende de manera ordenada de 12.57 en SE3 a 2.24 en GAR. Este resultado anticipa el argumento central del trabajo, ya que el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo, de modo que cualquier indicador construido sobre medidas de tendencia central captará solo una fracción reducida de la diferencia entre ambos sitios.
 
 ## Asociación direccional
 
@@ -225,13 +223,9 @@ resultados_e4$momios_16_rumbos %>%
   )
 ```
 
-El rumbo este presenta la mayor razón de momios, con un valor de 6.12 y un intervalo de confianza al 95 por ciento comprendido entre 4.73 y 7.92. Le siguen los rumbos este sureste, con 2.58, y este noreste, con 1.98. El modelo identificó este ordenamiento sin recibir información alguna sobre la ubicación de la fuente investigada, ya que los dieciséis rumbos se introdujeron como categorías sin jerarquía previa.
+El rumbo este presenta la mayor razón de momios, con 6.12 e intervalo de confianza entre 4.73 y 7.92, seguido del este sureste con 2.58 y el este noreste con 1.98. El modelo identificó este ordenamiento sin recibir información sobre la ubicación de la fuente investigada. La tabla completa de los dieciséis rumbos se presenta en el Anexo C.
 
-El comportamiento del cuadrante opuesto resulta igualmente informativo. Los rumbos noroeste, nor noroeste, oeste y oeste noroeste presentan razones de momios comprendidas entre 0.08 y 0.25, lo que representa reducciones de entre cuatro y doce veces respecto de la categoría de referencia. Este resultado admite una lectura de falsación directa: dado que el núcleo del Área Metropolitana de Monterrey se localiza al oeste de Cadereyta, si los episodios fueran atribuibles a la mancha urbana o al tráfico vehicular metropolitano cabría esperar momios elevados con vientos de ese sector. Se observa exactamente el comportamiento inverso.
-
-El modelo completo resulta significativo frente al modelo nulo, con una diferencia de devianza de 4,617.2 sobre 22 grados de libertad, y alcanza un área bajo la curva ROC de 0.811.
-
-La verificación geográfica se realizó con posterioridad a la estimación, calculando el azimut desde cada estación hacia el complejo refinador, según se documentó en la sección de contexto. Desde SE3, la fuente se localiza en un azimut cercano a los 87 grados, correspondiente al rumbo este, que es el mismo que el modelo señaló de manera independiente.
+El comportamiento del cuadrante opuesto resulta igualmente informativo. Los rumbos noroeste, nor noroeste, oeste y oeste noroeste presentan razones de momios entre 0.08 y 0.25, lo que representa reducciones de entre cuatro y doce veces respecto de la referencia. Dado que el núcleo del Área Metropolitana se localiza al oeste de Cadereyta, si los episodios fueran atribuibles al tráfico vehicular metropolitano cabría esperar momios elevados con vientos de ese sector; se observa exactamente el comportamiento inverso. El modelo resulta significativo frente al nulo, con una diferencia de devianza de 4,617.2 sobre 22 grados de libertad, y alcanza un área bajo la curva ROC de 0.811. La verificación geográfica, realizada con posterioridad a la estimación, sitúa la fuente en un azimut cercano a los 87 grados desde SE3, el mismo rumbo que el modelo señaló de manera independiente.
 
 ## Gradiente espacial
 
@@ -406,14 +400,6 @@ resultados_e4$falsacion_contaminantes %>%
   )
 ```
 
-```{r}
-#| label: fig-falsacion
-#| fig-cap: "Razón de momios del sector Este por contaminante, en escala logarítmica. La línea punteada corresponde a la ausencia de asociación."
-#| out-width: "60%"
-
-knitr::include_graphics("figuras/falsacion_contaminantes.png")
-```
-
 El dióxido de azufre es el único contaminante con razón de momios significativamente superior a la unidad, con un valor de 2.66. El monóxido de carbono y el ozono no muestran respuesta, con intervalos que incluyen el uno. Los óxidos de nitrógeno presentan momios de 0.22, es decir, la probabilidad de concentración elevada de estos trazadores se reduce a menos de una cuarta parte cuando el viento proviene del este. El material particulado muestra reducciones intermedias.
 
 La razón entre el momio del dióxido de azufre y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire procedente del sector oriental llega pobre en trazadores vehiculares, consistente con el carácter predominantemente rural de esa zona, pero transporta dióxido de azufre. Esta combinación es incompatible con las hipótesis de tráfico o combustión urbana difusa: bajo cualquiera de ellas los óxidos de nitrógeno aumentarían junto con el dióxido de azufre, no disminuirían.
@@ -430,11 +416,7 @@ knitr::include_graphics("figuras/cbpf_so2_se3.png")
 knitr::include_graphics("figuras/cbpf_nox_se3.png")
 ```
 
-El contraste entre ambos paneles es diagnóstico. El dióxido de azufre presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. Los óxidos de nitrógeno, medidos por el mismo equipo en el mismo sitio y sobre las mismas horas, alcanzan su máximo en el centro del gráfico, es decir, en condiciones de calma o viento débil, sin orientación preferente.
-
-La interpretación es directa: un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. Ambos contaminantes muestran firmas de origen distinto.
-
-La aplicación del mismo procedimiento a SE2 y NE, incluida en el Anexo E, confirma el gradiente obtenido por vía paramétrica: ninguna de las dos estaciones presenta un lóbulo orientado hacia el azimut de la fuente, y sus probabilidades condicionales máximas son uno y dos órdenes de magnitud menores, respectivamente.
+El contraste entre ambos paneles es diagnóstico. El dióxido de azufre presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. Los óxidos de nitrógeno, medidos por el mismo equipo en el mismo sitio y sobre las mismas horas, alcanzan su máximo en el centro del gráfico, es decir, en condiciones de calma, sin orientación preferente. Un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. La aplicación del mismo procedimiento a SE2 y NE, incluida en el Anexo E, confirma el gradiente: ninguna presenta lóbulo orientado hacia el azimut de la fuente. La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo.
 
 ## Estructura multivariada de la matriz química
 
@@ -442,9 +424,7 @@ Los resultados anteriores dependen enteramente de la información meteorológica
 
 ### Componentes principales
 
-El análisis se aplicó sobre la matriz de los ocho contaminantes en SE3, con transformación logarítmica y estandarización previas. El procedimiento requiere casos completos: de las 33,977 observaciones de la estación se conservaron 27,938, equivalentes al 82.2 por ciento, y de los 3,951 episodios registrados se conservaron 3,304, es decir, el 83.6 por ciento. La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó de manera preferente las horas de episodio.
-
-La adecuación muestral se verificó mediante el índice de Kaiser-Meyer-Olkin, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El índice se sitúa por encima del mínimo convencional de 0.6, aunque en el rango que su autor califica como mediocre. Este resultado no constituye una deficiencia del análisis sino una consecuencia de su objeto: el índice desciende precisamente porque el dióxido de azufre mantiene correlaciones bajas con el resto de las variables, que es justamente la estructura que el procedimiento busca documentar.
+El análisis se aplicó sobre la matriz de los ocho contaminantes en SE3, con transformación logarítmica y estandarización previas. El procedimiento requiere casos completos: se conservaron 27,938 de las 33,977 observaciones, equivalentes al 82.2 por ciento, y 3,304 de los 3,951 episodios, es decir, el 83.6 por ciento. La similitud entre ambas proporciones indica que la exclusión por datos faltantes no eliminó de manera preferente las horas de episodio. La adecuación muestral se verificó mediante el índice de Kaiser-Meyer-Olkin, que alcanza 0.623, y la prueba de esfericidad de Bartlett, significativa. El índice se sitúa por encima del mínimo convencional aunque en el rango calificado como mediocre, resultado que no constituye una deficiencia sino una consecuencia del objeto de estudio, ya que desciende precisamente porque el dióxido de azufre mantiene correlaciones bajas con el resto de las variables.
 
 ```{r}
 #| label: tbl-cargas
@@ -457,21 +437,11 @@ resultados_e3$cargas %>%
   )
 ```
 
-Dos componentes superan el criterio de Kaiser. El primero explica el 48.6 por ciento de la varianza y los cuatro primeros acumulan el 86.9 por ciento.
-
-El primer componente agrupa con signo común a los óxidos de nitrógeno, el material particulado grueso y el monóxido de carbono, con cargas comprendidas entre 0.278 y 0.481 en valor absoluto, mientras el ozono carga en sentido opuesto, comportamiento consistente con su titulación por óxido nítrico fresco. Se trata del eje de combustión urbana.
-
-La carga del dióxido de azufre sobre este componente es de 0.029. El contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. Dicho de otro modo, las horas en que aumentan los trazadores de combustión no son las horas en que aumenta el dióxido de azufre.
-
-El segundo componente, con el 19.4 por ciento de la varianza, está encabezado por el propio dióxido de azufre, con una carga de 0.604, acompañado del material particulado fino y del ozono. Esta asociación tiene sentido químico, ya que el dióxido de azufre se oxida a sulfato, que forma parte del material particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva, cuando el ozono alcanza también sus valores más elevados.
-
-Conviene señalar que el octavo componente explica únicamente el 0.05 por ciento de la varianza, resultado esperado dado que los óxidos de nitrógeno totales se definen como la suma de óxido nítrico y dióxido de nitrógeno, lo que introduce una dirección redundante en la matriz. Esta circunstancia no afecta la interpretación de los primeros componentes.
+El primer componente, que explica el 48.6 por ciento de la varianza, agrupa con signo común a los óxidos de nitrógeno, el material particulado grueso y el monóxido de carbono, con cargas entre 0.278 y 0.481 en valor absoluto, mientras el ozono carga en sentido opuesto, comportamiento consistente con su titulación por óxido nítrico fresco. Se trata del eje de combustión urbana. La carga del dióxido de azufre sobre ese componente es de 0.029: el contaminante de interés resulta prácticamente ortogonal al eje que explica cerca de la mitad de la variación química total de la estación. Dicho de otro modo, las horas en que aumentan los trazadores de combustión no son las horas en que aumenta el dióxido de azufre. El segundo componente, con el 19.4 por ciento de la varianza, está encabezado por el propio dióxido de azufre con una carga de 0.604, acompañado del material particulado fino y del ozono, asociación con sentido químico dado que el dióxido de azufre se oxida a sulfato, componente del particulado fino secundario, y ambos procesos se favorecen durante las horas de mayor mezcla convectiva.
 
 ### Análisis de conglomerados
 
-Sobre las puntuaciones de los cuatro primeros componentes se aplicó el algoritmo de k medias. La agrupación emplea exclusivamente información química y la asociación con el sector direccional se examina con posterioridad.
-
-El índice de silueta favorece una partición en dos grupos, con un valor de 0.418, y desciende a valores cercanos a 0.26 para particiones de tres a seis grupos. Se optó por cuatro conglomerados atendiendo a criterios de interpretabilidad química y no al valor del índice. La justificación de esta decisión se detalla en el Anexo B. La partición seleccionada explica el 58.3 por ciento de la variación total en el espacio de componentes, converge en cinco iteraciones y su estabilidad se verificó incrementando el número máximo de iteraciones permitidas.
+Sobre las puntuaciones de los cuatro primeros componentes se aplicó el algoritmo de k medias, empleando exclusivamente información química. El índice de silueta favorece una partición en dos grupos, con 0.418 frente a valores cercanos a 0.26 para particiones mayores; se optó por cuatro conglomerados atendiendo a criterios de interpretabilidad química y no al valor del índice, decisión detallada en el Anexo B. La partición seleccionada explica el 58.3 por ciento de la variación en el espacio de componentes y converge en cinco iteraciones.
 
 ```{r}
 #| label: tbl-perfil
@@ -488,19 +458,15 @@ resultados_e3$perfil %>%
   )
 ```
 
-El primer conglomerado agrupa el 14.7 por ciento de las horas y presenta una mediana de dióxido de azufre de 16.2 partes por billón, casi cuatro veces superior a la de cualquier otro grupo, junto con una mediana de óxidos de nitrógeno de 10.4 partes por billón, la más baja del conjunto. Concentra el 72.2 por ciento de todos los episodios registrados y la mitad de sus horas corresponde a viento del sector este.
-
-El segundo conglomerado constituye su imagen especular: mediana de óxidos de nitrógeno de 51.8 partes por billón, cinco veces superior a la del primer grupo, con dióxido de azufre de apenas 4.4 partes por billón, velocidad de viento de 3.6 kilómetros por hora, la menor del conjunto, y ozono de 5 partes por billón. El perfil corresponde a acumulación local bajo condiciones de estancamiento atmosférico. Solo el 6.2 por ciento de sus horas presenta viento del este.
-
-La razón entre las medianas de ambos contaminantes resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce de manera simultánea concentraciones de dióxido de azufre cuatro veces mayores y de óxidos de nitrógeno cinco veces menores. El primer conglomerado corresponde a horas con azufre en ausencia de combustión vehicular, y el algoritmo lo identificó sin disponer de información meteorológica alguna.
+El primer conglomerado agrupa el 14.7 por ciento de las horas, con mediana de dióxido de azufre de 16.2 partes por billón, casi cuatro veces superior a la de cualquier otro grupo, y mediana de óxidos de nitrógeno de 10.4, la más baja del conjunto. Concentra el 72.2 por ciento de todos los episodios y la mitad de sus horas corresponde a viento del sector este. El segundo conglomerado constituye su imagen especular: óxidos de nitrógeno en 51.8 partes por billón, cinco veces superior, con dióxido de azufre en apenas 4.4, velocidad de viento de 3.6 kilómetros por hora, la menor del conjunto, y solo 6.2 por ciento de horas con viento del este; el perfil corresponde a acumulación local bajo estancamiento atmosférico. La razón entre medianas resume el contraste: 1.56 en el primer conglomerado frente a 0.085 en el segundo, una diferencia de factor dieciocho. Ningún proceso de combustión produce simultáneamente concentraciones de dióxido de azufre cuatro veces mayores y de óxidos de nitrógeno cinco veces menores. El algoritmo identificó estas horas sin disponer de información meteorológica alguna.
 
 ## Contraste entre tendencia central y exposición aguda
 
 Los resultados precedentes establecen la especificidad del fenómeno. La sección siguiente aborda su magnitud y la capacidad de los indicadores habituales para representarla.
 
-### Diferencia de medianas por año
+### Diferencia de medianas frente a frecuencia de eventos
 
-Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, alternativa no paramétrica al análisis de varianza que no requiere el supuesto de normalidad, inaplicable dada la marcada asimetría de las distribuciones. La prueba resulta significativa en los cuatro años. Para cuantificar la magnitud de la diferencia entre la estación más próxima a la fuente y la de control se empleó el estimador de desplazamiento de Hodges-Lehmann.
+Se evaluó la diferencia entre estaciones para cada año mediante la prueba de Kruskal-Wallis, significativa en los cuatro años, y se cuantificó la magnitud mediante el estimador de Hodges-Lehmann.
 
 ```{r}
 #| label: tbl-hl
@@ -516,17 +482,9 @@ resultados_e3$hl %>%
   )
 ```
 
-El desplazamiento entre ambas estaciones oscila entre 0.6 y 1.5 partes por billón según el año, con intervalos de confianza estrechos que confirman que difiere de cero. La magnitud, sin embargo, es reducida en términos absolutos.
+El desplazamiento entre SE3 y la estación de control oscila entre 0.6 y 1.5 partes por billón según el año, con intervalos estrechos que confirman que difiere de cero, aunque de magnitud reducida en términos absolutos. Su comportamiento temporal resulta especialmente relevante: alcanza su máximo en 2023, con 1.5 partes por billón, y desciende de forma sostenida hasta 0.6 en 2025, menos de la mitad. Interpretado de manera aislada, ese resultado sugeriría una convergencia progresiva entre ambos sitios.
 
-El comportamiento temporal de este indicador resulta especialmente relevante. La diferencia de medianas alcanza su máximo en 2023, con 1.5 partes por billón, y desciende de forma sostenida hasta 0.6 en 2025, el valor más bajo del periodo y menos de la mitad del observado dos años antes. Interpretado de manera aislada, este resultado sugeriría una convergencia progresiva entre ambos sitios y una mejora en la situación de Cadereyta.
-
-### Frecuencia de eventos agudos
-
-El recuento de horas que superan el umbral absoluto arroja una lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 689 horas de episodio, la cifra más baja del periodo. En 2025, año de mínima diferencia de medianas, registró 1,172 horas, la segunda más alta. Ambas series evolucionan en sentidos contrarios.
-
-La divergencia se explica por la naturaleza del fenómeno. La mediana describe el comportamiento típico de la distribución y es insensible a su cola superior, que es precisamente donde reside la contribución de la fuente investigada. Una reducción del nivel de fondo acompañada de un aumento en la frecuencia de episodios produce exactamente el patrón observado: convergencia aparente en los indicadores de tendencia central y deterioro real en la exposición aguda.
-
-Ambos resultados son válidos de manera simultánea. El nivel de fondo de dióxido de azufre difiere poco entre Cadereyta y García, mientras que la frecuencia de eventos agudos difiere en dos órdenes de magnitud, con 0.15 por ciento de las horas en la estación de control frente a 11.63 por ciento en SE3.
+El recuento de horas de episodio arroja la lectura opuesta. En 2023, año de máxima diferencia de medianas, SE3 registró 689 horas de episodio, la cifra más baja del periodo; en 2025, año de mínima diferencia de medianas, registró 1,172, la segunda más alta. Ambas series evolucionan en sentidos contrarios. La divergencia se explica por la naturaleza del fenómeno: la mediana describe el comportamiento típico de la distribución y es insensible a su cola superior, que es donde reside la contribución de la fuente investigada. Ambos resultados son válidos de manera simultánea, ya que el nivel de fondo difiere poco entre ambas estaciones mientras la frecuencia de eventos agudos difiere en dos órdenes de magnitud.
 
 ### Duración de los episodios
 
@@ -538,22 +496,9 @@ Ambos resultados son válidos de manera simultánea. El nivel de fondo de dióxi
 knitr::include_graphics("figuras/duracion_episodios.png")
 ```
 
-Se identificaron 1,561 episodios en la estación SE3 durante el periodo analizado. Su duración mediana es de dos horas, con el percentil 75 en tres horas y el percentil 95 en seis. Se trata, por tanto, de eventos breves y recurrentes antes que de periodos prolongados de concentración elevada.
+Se identificaron 1,561 episodios en SE3 durante el periodo, con duración mediana de dos horas, percentil 75 en tres y percentil 95 en seis. Se trata de eventos breves y recurrentes antes que de periodos prolongados, característica con consecuencia directa sobre las métricas de evaluación: el percentil 99 horario en SE3 alcanza 55.3 partes por billón, mientras que el del promedio móvil de veinticuatro horas desciende a 26.0, prácticamente la mitad. Un episodio de dos horas queda diluido entre veintidós horas de concentración habitual.
 
-Esta característica tiene una consecuencia directa sobre las métricas de evaluación.
-
-```{r}
-#| label: tbl-movil24
-
-resultados_e4$resumen_movil_24h %>%
-  setNames(c("Estación", "n", "Máximo del promedio móvil", "P99 del promedio móvil")) %>%
-  tabla_reporte(
-    leyenda = "Estadísticos del promedio móvil de 24 horas del dióxido de azufre por estación, en partes por billón. La comparación con los valores horarios permite evaluar el efecto de la ventana de promediación.",
-    digitos = 2
-  )
-```
-
-El percentil 99 horario en SE3 alcanza 55.3 partes por billón, mientras que el percentil 99 del promedio móvil de veinticuatro horas desciende a 26.0, prácticamente la mitad. Un episodio de dos horas con concentración elevada queda diluido entre veintidós horas de concentración habitual, de modo que la ventana de promediación amortigua el evento hasta hacerlo indistinguible.
+El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 en el periodo completo, equivalentes a 976 anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral mientras la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años. Esta cifra puede interpretarse como indicador de exposición potencialmente evitable, bajo el supuesto de que eliminar la contribución del sector identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que debe entenderse como cota superior y no como contribución neta de la fuente.
 
 ### Indicador de exposición evitable
 
@@ -565,59 +510,27 @@ Esta cifra puede interpretarse como un indicador de exposición potencialmente e
 
 ## Síntesis de los hallazgos
 
-El análisis permite establecer cuatro resultados principales.
+El análisis establece cuatro resultados. Existe una asociación direccional específica entre los episodios de dióxido de azufre en Cadereyta y el sector oriental, que persiste después de controlar de manera simultánea por cinco variables meteorológicas y por la concentración del propio contaminante en horas anteriores, con una razón de momios final de 3.38 e intervalo entre 3.06 y 3.74. El efecto decae de forma sistemática con la distancia, desde 3.19 a cinco kilómetros y medio hasta 1.01 a treinta y cinco, pese a que las cuatro estaciones tienen el complejo hacia el mismo cuadrante; esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución y difícilmente compatible con un fenómeno meteorológico de escala regional.
 
-En primer lugar, existe una asociación direccional específica entre los episodios de dióxido de azufre en Cadereyta y el sector oriental. El modelo identificó ese sector sin información previa sobre la ubicación de la fuente, y el rumbo señalado coincide con el azimut aproximado del complejo refinador. La asociación persiste después de controlar de manera simultánea por cinco variables meteorológicas y por la concentración del propio contaminante en horas anteriores, con una razón de momios final de 3.38 e intervalo de confianza entre 3.06 y 3.74.
-
-En segundo lugar, el efecto decae de forma sistemática con la distancia, desde 3.19 a cinco kilómetros y medio hasta 1.01 a treinta y cinco kilómetros, pese a que las cuatro estaciones tienen el complejo hacia el mismo cuadrante. Esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución y difícilmente compatible con un fenómeno meteorológico de escala regional.
-
-En tercer lugar, las pruebas de falsación resultan consistentes con un origen distinto a la combustión urbana. El sector oriental eleva la probabilidad de concentración alta de dióxido de azufre pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce. El análisis de componentes principales, que no emplea información meteorológica, sitúa al dióxido de azufre prácticamente ortogonal al eje de combustión urbana. El análisis de conglomerados identifica un grupo de horas con razón entre dióxido de azufre y óxidos de nitrógeno de 1.56, frente a 0.085 en el grupo de estancamiento urbano.
-
-En cuarto lugar, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo. La diferencia de medianas entre Cadereyta y la estación de control no supera 1.5 partes por billón en ningún año, mientras que el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
+Las pruebas de falsación resultan consistentes con un origen distinto a la combustión urbana: el sector oriental eleva la probabilidad de concentración alta de dióxido de azufre pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce, y las técnicas de interdependencia, que no emplean información meteorológica, sitúan al contaminante prácticamente ortogonal al eje de combustión urbana e identifican un grupo de horas con razón entre dióxido de azufre y óxidos de nitrógeno de 1.56 frente a 0.085 en el grupo de estancamiento. Finalmente, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo: la diferencia de medianas no supera 1.5 partes por billón en ningún año, mientras el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
 
 ## Alcance de las conclusiones
 
-El diseño del estudio es observacional y no permite establecer atribución causal en sentido estricto. No se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados resultan difícilmente compatibles con las explicaciones alternativas evaluadas, y que en conjunto apuntan de manera convergente hacia una misma hipótesis.
-
-Esta distinción merece precisarse. La correlación entre el sector oriental y los episodios no implica causalidad por sí misma. Lo que aproxima el análisis a una inferencia sobre la fuente es la combinación de cuatro elementos: el control estadístico de las explicaciones alternativas plausibles, la verificación de que el patrón decae con la distancia conforme a un mecanismo físico conocido, la especificidad química del contaminante que responde, y la coincidencia entre métodos que parten de supuestos distintos. Ninguno de estos elementos es concluyente de manera aislada; su convergencia es lo que sostiene la interpretación.
-
-Persisten dos limitaciones que conviene enunciar con claridad. La primera es que, sin un inventario de emisiones georreferenciado, no es posible descartar la presencia de otras fuentes industriales en el mismo sector oriental. La segunda es que las coordenadas empleadas para ubicar el complejo son aproximadas, si bien el análisis de sensibilidad muestra que esa imprecisión no altera la identificación del sector.
+El diseño es observacional y no permite establecer atribución causal en sentido estricto, ya que no se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados resultan difícilmente compatibles con las explicaciones alternativas evaluadas. La correlación entre el sector oriental y los episodios no implica causalidad por sí misma; lo que aproxima el análisis a una inferencia sobre la fuente es la combinación de cuatro elementos: el control estadístico de las explicaciones alternativas plausibles, la verificación de que el patrón decae con la distancia conforme a un mecanismo físico conocido, la especificidad química del contaminante que responde, y la coincidencia entre métodos que parten de supuestos distintos. Ninguno es concluyente de manera aislada; su convergencia es lo que sostiene la interpretación. Persisten dos limitaciones: sin un inventario de emisiones georreferenciado no es posible descartar otras fuentes industriales en el mismo sector, y las coordenadas empleadas son aproximadas, si bien el análisis de sensibilidad muestra que esa imprecisión no altera la identificación del sector.
 
 ## Implicaciones para el seguimiento de la calidad del aire
 
-El contraste entre tendencia central y exposición aguda tiene consecuencias operativas directas.
-
-Un sistema de seguimiento basado en concentraciones medias o medianas anuales habría reportado convergencia entre Cadereyta y la estación de control durante 2025, precisamente el año en que la exposición aguda repuntó con mayor intensidad. Ningún indicador de tendencia central habría registrado ese incremento en el número de horas por encima del umbral de episodio.
-
-El efecto de la ventana de promediación refuerza esta observación. Dado que los episodios tienen una duración mediana de dos horas, un promedio móvil de veinticuatro horas reduce el percentil 99 de 55.3 a 26.0 partes por billón. La métrica no es incorrecta, pero mide un fenómeno distinto del que ocurre.
-
-Esta situación resulta particularmente relevante para el dióxido de azufre, cuyos efectos documentados sobre la salud respiratoria corresponden a exposiciones de corta duración. Un indicador insensible a eventos breves resulta inadecuado para un contaminante cuyo riesgo se materializa precisamente en eventos breves.
+El contraste entre tendencia central y exposición aguda tiene consecuencias operativas directas. Un sistema de seguimiento basado en concentraciones medias o medianas anuales, como los que emplean los instrumentos de planeación vigentes en el área metropolitana (Secretaría de Medio Ambiente de Nuevo León, 2023), habría reportado convergencia entre Cadereyta y la estación de control durante 2025, precisamente el año en que la exposición aguda repuntó con mayor intensidad. El efecto de la ventana de promediación refuerza la observación: dado que los episodios duran dos horas en mediana, un promedio móvil de veinticuatro horas reduce el percentil 99 de 55.3 a 26.0 partes por billón. La métrica no es incorrecta, pero mide un fenómeno distinto del que ocurre. Esto resulta particularmente relevante para un contaminante cuyos efectos documentados sobre la salud corresponden a exposiciones de corta duración: un indicador insensible a eventos breves resulta inadecuado para un riesgo que se materializa en eventos breves.
 
 ## Recomendaciones
 
-Del análisis se derivan cuatro recomendaciones dirigidas al socio formador.
+## Recomendaciones
 
-La primera consiste en incorporar métricas de frecuencia de excedencia a los mecanismos de seguimiento, de manera complementaria a los promedios anuales. El conteo de horas por encima de un umbral absoluto, calculado por estación, capta información que las medidas de tendencia central no registran, y su cálculo no requiere información adicional a la que la red ya genera.
-
-La segunda es considerar el establecimiento de un esquema de alerta horaria condicionado a la dirección del viento en la estación SE3. El modelo integrado alcanza un área bajo la curva de 0.896 sobre un año que no participó en su estimación, con sensibilidad de 0.734 y especificidad de 0.876. Este desempeño resulta suficiente para anticipar condiciones de riesgo con antelación operativa, en lugar de documentar los episodios una vez concluidos.
-
-La tercera consiste en utilizar el exceso de horas de episodio respecto de una estación de control como indicador de exposición potencialmente evitable. La cifra de 976 horas anuales proporciona una magnitud concreta y comunicable, útil tanto para el seguimiento interno como para la comunicación pública, siempre que se acompañe de la advertencia sobre su carácter de cota superior.
-
-La cuarta es evaluar la conveniencia de reforzar el monitoreo en la zona comprendida entre Cadereyta y Juárez. El gradiente documentado muestra que la señal se atenúa de manera pronunciada en ese tramo, y la ausencia de estaciones intermedias impide caracterizar la extensión espacial efectiva de la pluma.
+Del análisis se derivan cuatro recomendaciones para el socio formador. La primera consiste en incorporar métricas de frecuencia de excedencia a los mecanismos de seguimiento del programa de gestión vigente (Secretaría de Medio Ambiente de Nuevo León, 2023), de manera complementaria a los promedios anuales; su cálculo no requiere información adicional a la que la red ya genera. La segunda es considerar un esquema de alerta horaria condicionado a la dirección del viento en SE3, dado que el modelo integrado alcanza un área bajo la curva de 0.896 sobre un año que no participó en su estimación, desempeño suficiente para anticipar condiciones de riesgo en lugar de documentar los episodios una vez concluidos. La tercera es utilizar el exceso de horas de episodio respecto de una estación de control como indicador de exposición potencialmente evitable, ya que la cifra de 976 horas anuales proporciona una magnitud concreta y comunicable. La cuarta es evaluar la conveniencia de reforzar el monitoreo entre Cadereyta y Juárez, tramo donde la señal se atenúa de manera pronunciada y donde la ausencia de estaciones intermedias impide caracterizar la extensión espacial efectiva de la pluma.
 
 ## Preguntas que surgen del análisis
 
-El trabajo deja abiertas cinco preguntas que exceden su alcance.
-
-¿A qué obedece el repunte de episodios observado en 2025? Los datos disponibles no permiten distinguir entre cambios en la operación del complejo, variaciones meteorológicas interanuales o modificaciones en los procedimientos de medición.
-
-¿Es estable el patrón direccional a lo largo del tiempo, o se está intensificando? La extensión del análisis a los años 2020 y 2021, disponibles en la base del sistema de monitoreo, permitiría evaluar esta cuestión.
-
-¿Cambia la señal entre periodos de operación normal y paros de mantenimiento del complejo? Esta es la pregunta de mayor interés metodológico. Si durante algún periodo se registraran interrupciones prolongadas en la operación, la comparación de la tasa de episodios y del momio del sector oriental entre las fases de actividad y de paro constituiría la prueba más directa de la hipótesis, al mantener constantes la ubicación de las estaciones y el régimen de vientos mientras varía únicamente la actividad de la fuente.
-
-¿Qué proporción de la población de Cadereyta se encuentra efectivamente expuesta durante los episodios? La traducción de horas de excedencia en exposición poblacional requiere información sobre densidad de habitantes y modelación de dispersión que el presente análisis no incorpora.
-
-¿Existen otras fuentes de emisión en el mismo sector oriental? La disponibilidad de un inventario de emisiones georreferenciado permitiría discriminar entre la contribución del complejo refinador y la de otros emisores potenciales ubicados en la misma dirección.
+El trabajo deja abiertas cinco preguntas. ¿A qué obedece el repunte de episodios observado en 2025? Los datos disponibles no permiten distinguir entre cambios en la operación del complejo, variaciones meteorológicas interanuales o modificaciones en los procedimientos de medición. ¿Es estable el patrón direccional a lo largo del tiempo, o se está intensificando? La extensión del análisis a 2020 y 2021, disponibles en la base del sistema de monitoreo, permitiría evaluarlo. ¿Cambia la señal entre periodos de operación normal y paros de mantenimiento del complejo? Esta es la pregunta de mayor interés metodológico, ya que la comparación entre fases de actividad y de paro mantendría constantes la ubicación de las estaciones y el régimen de vientos mientras varía únicamente la actividad de la fuente, y constituiría la prueba más directa de la hipótesis. ¿Qué proporción de la población de Cadereyta se encuentra efectivamente expuesta durante los episodios? Su estimación requiere información sobre densidad de habitantes y modelación de dispersión que este análisis no incorpora. ¿Existen otras fuentes de emisión en el mismo sector oriental? Un inventario de emisiones georreferenciado permitiría discriminar entre la contribución del complejo y la de otros emisores potenciales.
 
 ## Conclusión
 

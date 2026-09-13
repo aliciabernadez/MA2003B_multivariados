@@ -1694,3 +1694,5 @@ cat("Figuras generadas:\n")
 print(list.files("figuras"))
 ```
 
+
+

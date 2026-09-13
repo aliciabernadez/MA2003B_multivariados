@@ -554,3 +554,122 @@ Secretaría de Medio Ambiente y Recursos Naturales. (2023). *Proyecto de Norma O
 Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1-9. <https://doi.org/10.1016/j.envsoft.2014.05.002>
 
 Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. <https://doi.org/10.1016/j.atmosenv.2022.119564>
+
+# Anexos {.unnumbered}
+
+## Anexo A. Regresión lineal sobre la concentración
+
+Durante la definición de la estrategia de modelado se consideró estimar un modelo de regresión lineal que tomara como variable de respuesta la concentración horaria de dióxido de azufre, en lugar de la ocurrencia de episodio. La especificación se descartó por tres razones que conviene documentar.
+
+La primera es de correspondencia entre el método y el objeto de estudio. El fenómeno de interés consiste en eventos discretos y poco frecuentes, que representan el 11.63 por ciento de las horas en la estación más próxima a la fuente. Un modelo que estima la media condicional de la concentración distribuye el peso de la estimación entre todas las observaciones, de modo que las horas de comportamiento regular, ampliamente mayoritarias, dominan el ajuste y la contribución de los episodios queda diluida.
+
+La segunda es el incumplimiento del supuesto de normalidad de los residuos. La distribución del dióxido de azufre presenta una asimetría pronunciada, con una razón entre el percentil 99 y la mediana de 12.57 en SE3. Una variable con esa estructura genera residuos con cola derecha extensa, lo que invalida las pruebas de significancia y los intervalos de confianza construidos bajo el supuesto gaussiano. Las transformaciones habituales para corregir asimetría, como la logarítmica, comprimen precisamente el rango superior de la distribución, es decir, la región donde se manifiesta el fenómeno estudiado.
+
+La tercera es de interpretación de los resultados. Un coeficiente de regresión lineal asociado al sector oriental expresaría el incremento promedio en partes por billón atribuible a esa dirección del viento. Esa magnitud resulta de escaso valor operativo, ya que la pregunta relevante para la gestión de la calidad del aire no es cuánto aumenta la concentración media, sino con qué frecuencia se supera un umbral de riesgo. La razón de momios de un modelo logístico responde directamente a esa pregunta y permite además comparar entre contaminantes medidos en unidades distintas, comparación indispensable para las pruebas de falsación.
+
+Por estas razones la regresión lineal se descartó en la fase de diseño y no llegó a estimarse de manera definitiva.
+
+## Anexo B. Selección del número de conglomerados
+
+La determinación del número de grupos en el análisis de k medias se evaluó mediante el índice de silueta, que mide la cohesión interna de los conglomerados frente a su separación.
+
+```{r}
+#| label: tbl-silueta
+
+resultados_e3$sil %>%
+  setNames(c("Número de grupos", "Índice de silueta")) %>%
+  tabla_reporte(
+    leyenda = "Índice de silueta promedio para particiones de dos a seis grupos sobre las puntuaciones de los cuatro primeros componentes principales.",
+    digitos = 3
+  )
+```
+
+El índice favorece de manera clara la partición en dos grupos, con un valor de 0.418, frente a valores cercanos a 0.26 para las particiones de tres a seis. Pese a ello se adoptó la partición en cuatro conglomerados, decisión que responde a criterios de interpretabilidad química.
+
+La partición en dos grupos separa las horas según su nivel general de contaminación, distinguiendo esencialmente entre condiciones limpias y condiciones cargadas. Esa separación, aunque estadísticamente más nítida, no permite distinguir entre mecanismos de origen distinto: agrupa en una misma clase las horas de acumulación urbana bajo estancamiento atmosférico y las horas de transporte desde el sector oriental, que son precisamente las dos situaciones que el análisis busca diferenciar.
+
+La partición en cuatro grupos sí las separa, y produce dos conglomerados con perfiles químicos opuestos, uno con razón entre dióxido de azufre y óxidos de nitrógeno de 1.56 y otro con 0.085. Esa diferencia de factor dieciocho constituye el resultado de interés, y se pierde por completo bajo la partición de dos grupos.
+
+El descenso del índice de silueta al aumentar el número de grupos era esperable dada la estructura de los datos, ya que los perfiles de contaminación atmosférica no forman clases discretas bien separadas sino un continuo con regiones de mayor densidad. En contextos de este tipo, el criterio de interpretabilidad resulta preferible a la optimización de un índice de separación geométrica.
+
+## Anexo C. Razones de momios por rumbo del viento
+
+```{r}
+#| label: tbl-anexo-rumbos
+
+resultados_e4$momios_16_rumbos %>%
+  mutate(
+    IC = sprintf("[%.3f, %.3f]", IC_inf, IC_sup),
+    p = format.pval(p, digits = 3, eps = 1e-16)
+  ) %>%
+  select(Rumbo, OR, IC, p) %>%
+  setNames(c("Rumbo", "Razón de momios", "IC 95%", "Valor p")) %>%
+  tabla_reporte(
+    leyenda = "Razones de momios de los quince rumbos estimados en SE3, con el norte como categoría de referencia. El modelo controla por velocidad del viento mediante splines naturales y por hora y mes mediante términos armónicos.",
+    digitos = 3
+  )
+```
+
+## Anexo D. Sensibilidad al umbral de episodio
+
+```{r}
+#| label: tbl-anexo-umbral
+
+resultados_e4$sensibilidad_umbral %>%
+  mutate(IC = sprintf("[%.2f, %.2f]", IC_inf, IC_sup)) %>%
+  select(Percentil, Umbral_ppb, Estacion, OR, IC) %>%
+  setNames(c("Percentil", "Umbral (ppb)", "Estación",
+             "Razón de momios", "IC 95%")) %>%
+  tabla_reporte(
+    leyenda = "Razón de momios del sector Este bajo tres definiciones del umbral de episodio, en las cuatro estaciones. Los valores ausentes en GAR bajo el percentil 99 corresponden a la imposibilidad de estimación por número insuficiente de eventos.",
+    digitos = 2
+  )
+```
+
+La estación GAR no admite estimación bajo el percentil 99, dado que registra menos de treinta horas por encima de 30.6 partes por billón durante los cuatro años analizados. Esta limitación no constituye una deficiencia del procedimiento sino una consecuencia de la propia distribución de la variable en esa estación.
+
+## Anexo E. Verificación direccional no paramétrica en SE2 y NE
+
+```{r}
+#| label: fig-anexo-cbpf
+#| fig-cap: "Función de probabilidad bivariada condicional del dióxido de azufre en las estaciones intermedia y lejana."
+#| fig-subcap:
+#|   - "SE2, a 16.4 kilómetros"
+#|   - "NE, a 35.7 kilómetros"
+#| layout-ncol: 2
+#| out-width: "100%"
+
+knitr::include_graphics("figuras/cbpf_so2_se2.png")
+knitr::include_graphics("figuras/cbpf_so2_ne.png")
+```
+
+Las escalas de color son independientes en cada panel, por lo que la comparación válida es la forma del patrón y no la magnitud absoluta.
+
+La estación SE2 presenta dos focos de intensidad moderada, orientados hacia el nor noreste y el sur, sin correspondencia con el azimut del complejo refinador. La estación NE muestra su máximo hacia el sur, con probabilidad condicional un orden de magnitud menor que la observada en SE3 y sin contribución apreciable del sector oriental. Ambos resultados son consistentes con el gradiente obtenido mediante el modelo logístico.
+
+## Anexo F. Matriz de sustento metodológico
+
+```{r}
+#| label: tbl-anexo-sustento
+
+resultados_e4$matriz_sustento %>%
+  setNames(c("Pregunta", "Método", "Qué comprueba")) %>%
+  tabla_reporte(
+    leyenda = "Correspondencia entre cada pregunta de validación, el método empleado para responderla y la explicación alternativa que permite descartar."
+  )
+```
+
+## Anexo G. Validación del modelo meteorológico
+
+```{r}
+#| label: tbl-anexo-meteo
+
+resultados_e4$validacion_meteo_2025 %>%
+  setNames(c("Modelo", "AUC", "Error de Brier")) %>%
+  tabla_reporte(
+    leyenda = "Desempeño fuera de muestra en 2025 del modelo direccional frente al modelo con controles meteorológicos ampliados. Ambos fueron estimados con los años 2022 a 2024.",
+    digitos = 3
+  )
+```
+
+La ampliación meteorológica produce una mejora marginal en la capacidad de discriminación, con un incremento del área bajo la curva de 0.789 a 0.794, y un ligero deterioro en la calibración, con un aumento del error de Brier de 0.104 a 0.106. La interpretación relevante es que las variables meteorológicas adicionales no explican los episodios de manera autónoma. Su incorporación al modelo resulta pertinente como control estadístico, ya que permite verificar que la asociación direccional persiste al mantenerlas constantes, pero no constituye por sí misma una mejora predictiva sustantiva.

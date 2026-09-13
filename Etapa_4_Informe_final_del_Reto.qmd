@@ -183,9 +183,7 @@ resultados_e4$resumen_estaciones %>%
   )
 ```
 
-El contraste entre estaciones es pronunciado. SE3 registra 3,951 horas de episodio, equivalentes al 11.63 por ciento de sus registros válidos, mientras que GAR acumula 49 horas en el mismo periodo, es decir, el 0.15 por ciento, una diferencia de aproximadamente setenta y siete veces.
-
-Esa diferencia no se refleja en los valores centrales. Las medianas de las cuatro estaciones se sitúan entre 3.3 y 4.4 partes por billón, un rango estrecho. Lo que distingue a SE3 no es su nivel habitual sino el comportamiento de la cola superior de su distribución: su percentil 99 alcanza 55.3 partes por billón frente a 7.4 en la estación de control, y la razón entre percentil 99 y mediana desciende de manera ordenada de 12.57 en SE3 a 2.24 en GAR. Este resultado anticipa el argumento central del trabajo, ya que el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo, de modo que cualquier indicador construido sobre medidas de tendencia central captará solo una fracción reducida de la diferencia entre ambos sitios.
+La frecuencia de episodios disminuye de manera marcada entre estaciones. SE3 registra 11.63% de horas de episodio frente a 0.15% en GAR, una diferencia cercana a 77 veces. En contraste, las medianas se mantienen entre 3.3 y 4.4 ppb, mientras que la cola superior muestra diferencias mucho mayores. Esto indica que el principal contraste entre sitios se encuentra en la frecuencia y severidad de los eventos agudos, no en sus niveles típicos.
 
 ## Asociación direccional
 
@@ -208,9 +206,7 @@ resultados_e4$momios_16_rumbos %>%
   )
 ```
 
-El rumbo este presenta la mayor razón de momios, con 6.12 e intervalo de confianza entre 4.73 y 7.92, seguido del este sureste con 2.58 y el este noreste con 1.98. El modelo identificó este ordenamiento sin recibir información sobre la ubicación de la fuente investigada. La tabla completa de los dieciséis rumbos se presenta en el Anexo C.
-
-El comportamiento del cuadrante opuesto resulta igualmente informativo. Los rumbos noroeste, nor noroeste, oeste y oeste noroeste presentan razones de momios entre 0.08 y 0.25, lo que representa reducciones de entre cuatro y doce veces respecto de la referencia. Dado que el núcleo del Área Metropolitana se localiza al oeste de Cadereyta, si los episodios fueran atribuibles al tráfico vehicular metropolitano cabría esperar momios elevados con vientos de ese sector; se observa exactamente el comportamiento inverso. El modelo resulta significativo frente al nulo, con una diferencia de devianza de 4,617.2 sobre 22 grados de libertad, y alcanza un área bajo la curva ROC de 0.811. La verificación geográfica, realizada con posterioridad a la estimación, sitúa la fuente en un azimut cercano a los 87 grados desde SE3, el mismo rumbo que el modelo señaló de manera independiente.
+El Este presentó la mayor asociación con los episodios (OR = 6.12; IC 95%: 4.73-7.92), seguido por ESE y ENE, mientras que los rumbos occidentales mostraron razones de momios inferiores a uno. Este patrón resulta opuesto al esperado si los episodios provinieran principalmente del núcleo urbano localizado al oeste de Cadereyta. El modelo fue significativo frente al nulo (Δ devianza = 4,617.2; gl = 22) y alcanzó AUC = 0.811. El rumbo de mayor asociación coincide además con el azimut aproximado del complejo desde SE3, cercano a 87°.
 
 ## Gradiente espacial
 

@@ -20,19 +20,6 @@ execute:
   error: false
 ---
 
-# Propósito del archivo
-
-Este QMD integra en una sola secuencia reproducible dos líneas de trabajo complementarias:
-
-1. **Validación espacial y meteorológica**: comprobar que el patrón direccional de los episodios de SO₂ persiste al controlar por meteorología y que su magnitud puede cambiar entre estaciones.
-2. **Validación temporal**: comprobar que el patrón direccional no es un artefacto de la persistencia del SO₂ entre horas consecutivas.
-
-La lógica confirmatoria es:
-
-**dirección → meteorología → diferencias entre estaciones → memoria temporal → modelo integrado → robustez → validación fuera de muestra.**
-
-El análisis es observacional. Los resultados permiten hablar de **asociación espacial, meteorológica y temporal consistente con la hipótesis del proyecto**, pero no de atribución causal definitiva a una fuente específica.
-
 # 1. Preparación general
 
 ```{r}
@@ -1588,13 +1575,13 @@ cat("Objetos integrados guardados en objetos_SIMA_modelo_integrado.rds\n")
 
 La secuencia correcta para defender el proyecto es:
 
-1. **Primero se identificó el patrón direccional** sin imponer de antemano cuál rumbo debía ser el relevante.
-2. **Después se verificó espacialmente** que la relación no debía forzarse a ser idéntica en todas las estaciones.
-3. **Se añadieron controles meteorológicos** para descartar que la asociación direccional fuera simplemente una consecuencia de temperatura, humedad, presión, radiación o velocidad del viento.
-4. **El diagnóstico residual mostró que la meteorología no sustituye la memoria temporal**, por lo que se incorporaron rezagos del propio SO₂.
-5. **El modelo integrado prueba simultáneamente ambas explicaciones alternativas**: condiciones meteorológicas y persistencia del contaminante.
-6. **El efecto del sector Este debe interpretarse con errores estándar robustos por día** y comprobarse fuera de muestra en 2025.
-7. Las pruebas de sensibilidad, falsación multi-contaminante y CBPF funcionan como evidencia independiente adicional.
+1.  **Primero se identificó el patrón direccional** sin imponer de antemano cuál rumbo debía ser el relevante.
+2.  **Después se verificó espacialmente** que la relación no debía forzarse a ser idéntica en todas las estaciones.
+3.  **Se añadieron controles meteorológicos** para descartar que la asociación direccional fuera simplemente una consecuencia de temperatura, humedad, presión, radiación o velocidad del viento.
+4.  **El diagnóstico residual mostró que la meteorología no sustituye la memoria temporal**, por lo que se incorporaron rezagos del propio SO₂.
+5.  **El modelo integrado prueba simultáneamente ambas explicaciones alternativas**: condiciones meteorológicas y persistencia del contaminante.
+6.  **El efecto del sector Este debe interpretarse con errores estándar robustos por día** y comprobarse fuera de muestra en 2025.
+7.  Las pruebas de sensibilidad, falsación multi-contaminante y CBPF funcionan como evidencia independiente adicional.
 
 La conclusión debe mantenerse en términos de **asociación**. Una persistencia del efecto direccional después de todos estos controles fortalece la hipótesis espacial del proyecto, pero no sustituye una atribución causal formal de fuente.
 
@@ -1631,9 +1618,8 @@ ggplot(calibracion, aes(x = p_promedio_predicho, y = prop_observada)) +
   ) +
   theme_minimal()
 ```
-La prueba de Hosmer-Lemeshow resultó significativa (p<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.
 
-
+La prueba de Hosmer-Lemeshow resultó significativa (p\<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.
 
 ```{r}
 # ---- Exportación de resultados para el reporte final ----
@@ -1676,6 +1662,7 @@ saveRDS(objetos_etapa4, "objetos_reporte_etapa4.rds")
 cat("Guardado. Objetos exportados:", length(objetos_etapa4), "\n")
 str(objetos_etapa4, max.level = 1, give.attr = FALSE)
 ```
+
 ```{r}
 # ---- Figuras para el reporte final: CBPF ----
 
@@ -1821,6 +1808,3 @@ cat("Figuras generadas:\n")
 print(list.files("figuras"))
 
 ```
-
-
-

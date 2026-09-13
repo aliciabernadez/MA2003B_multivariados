@@ -559,6 +559,20 @@ Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis o
 
 # Declaratoria de IA {.unnumbered}
 
+Se utilizó inteligencia artificial generativa como herramienta de apoyo durante el desarrollo del presente proyecto.
+
+**1. Herramienta utilizada:** ChatGPT
+
+**2. Uso realizado:** La herramienta se utilizó como apoyo para la generación, revisión y depuración de código en R; propuesta de alternativas de modelación y validación; organización de resultados; y revisión de redacción, claridad y estructura del documento. La IA también se utilizó para apoyar la búsqueda de errores, comparar posibles enfoques metodológicos y facilitar la interpretación de resultados obtenidos por el equipo.
+
+**3. Secciones donde se utilizó:** Principalmente en la preparación y tratamiento de los datos, modelación y validación estadística, interpretación de resultados, elaboración de gráficos y tablas mediante código, discusión, conclusiones y revisión de la redacción general del reporte y sus anexos.
+
+**4. Validación realizada por los estudiantes:** Todo el código utilizado fue ejecutado por los integrantes del equipo sobre las bases de datos del proyecto. Los resultados numéricos, modelos, gráficos y pruebas estadísticas fueron revisados y contrastados con las salidas obtenidas directamente en R. Asimismo, el equipo verificó la congruencia entre los resultados obtenidos, su interpretación estadística y las conclusiones presentadas. Las decisiones metodológicas finales fueron tomadas por los integrantes del equipo.
+
+**5. Responsabilidad sobre el contenido:** Los integrantes del equipo revisaron y verificaron el contenido generado o sugerido mediante inteligencia artificial antes de incorporarlo al documento. El equipo asume la responsabilidad académica por el análisis, las decisiones metodológicas, las interpretaciones, las fuentes utilizadas y el contenido final entregado.
+
+**6. Otro:** La inteligencia artificial se utilizó únicamente como herramienta de apoyo y no sustituyó la ejecución de los análisis, la revisión de los resultados ni el criterio académico de los integrantes del equipo. No se consideraron como resultados válidos afirmaciones, cálculos o referencias generadas por IA que no pudieran ser verificadas mediante los datos, el código ejecutado o las fuentes consultadas.
+
 # Liga al GitHub {.unnumbered}
 
 # Anexos {.unnumbered}

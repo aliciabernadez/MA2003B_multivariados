@@ -557,6 +557,10 @@ Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis o
 
 Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. <https://doi.org/10.1016/j.atmosenv.2022.119564>
 
+# Declaratoria de IA {.unnumbered}
+
+# Liga al GitHub {.unnumbered}
+
 # Anexos {.unnumbered}
 
 ## Anexo A. Regresión lineal sobre la concentración

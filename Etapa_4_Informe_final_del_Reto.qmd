@@ -167,29 +167,13 @@ El análisis de componentes principales examina si el dióxido de azufre compart
 
 El análisis de conglomerados por el método de k medias se aplicó sobre las puntuaciones de los primeros cuatro componentes, con el propósito de identificar perfiles horarios concretos. La agrupación emplea exclusivamente información química, y la asociación de los grupos resultantes con el sector direccional se examina con posterioridad, de manera que el algoritmo no dispone de información que pudiera inducir el resultado buscado.
 
-## Técnicas complementarias
+## Técnicas complementarias y estrategia de validación
 
-Se emplearon tres procedimientos adicionales con funciones específicas dentro del diseño.
+Como complemento al modelo principal se emplearon la prueba de Kruskal-Wallis y el estimador de Hodges-Lehmann para comparar las concentraciones entre estaciones sin asumir normalidad, así como la función de probabilidad bivariada condicional (CBPF) para verificar de forma no paramétrica la asociación entre episodios elevados y condiciones de viento. Además, se incorporaron rezagos horarios de SO2 para evaluar si el patrón observado podía explicarse únicamente por la persistencia temporal del contaminante.
 
-La prueba de Kruskal-Wallis y el estimador de desplazamiento de Hodges-Lehmann permiten cuantificar diferencias típicas entre estaciones sin asumir normalidad. Su papel consiste en contrastar de manera explícita la magnitud de las diferencias de tendencia central frente a la frecuencia de eventos agudos, que constituye el argumento central del trabajo.
+La validación se realizó mediante estimación con datos de 2022-2024 y evaluación fuera de muestra en 2025, errores estándar agrupados por día, análisis de sensibilidad con los percentiles 90, 95 y 99, diagnóstico de autocorrelación residual y evaluación de calibración. Estas verificaciones permitieron contrastar explicaciones alternativas relacionadas con meteorología, dependencia temporal y elección del umbral. El esquema completo de validación se presenta en el Anexo F.
 
-La función de probabilidad bivariada condicional estima la misma cantidad que el modelo logístico, es decir, la probabilidad de concentración elevada condicionada a las condiciones de viento, pero por vía no paramétrica y sin control de covariables. Su valor reside en que parte de supuestos distintos: la coincidencia entre ambos enfoques constituye evidencia de robustez y no una duplicación del análisis.
-
-El modelo con rezagos horarios del propio contaminante responde a una explicación alternativa específica. Dado que las concentraciones en horas consecutivas están correlacionadas, el patrón direccional podría reflejar simplemente la persistencia del dióxido de azufre y no una asociación con el rumbo del viento. Los rezagos se construyeron sobre una rejilla horaria completa para evitar tratar como consecutivas dos mediciones separadas por una hora faltante.
-
-## Estrategia confirmatoria
-
-Las técnicas anteriores se organizaron en una secuencia de seis pasos en la que cada uno responde a una explicación alternativa distinta: identificación direccional sin imponer el rumbo relevante, comparación espacial entre las cuatro estaciones, control por variables meteorológicas, control por la memoria temporal del propio contaminante, modelo integrado que enfrenta ambas explicaciones sobre las mismas observaciones, y verificaciones de robustez. La correspondencia detallada entre cada pregunta de validación, el método empleado y la explicación que permite descartar se presenta en el Anexo F.
-
-El elemento central de esta estrategia es que las variables que no responden constituyen la evidencia más sólida. Si los episodios de dióxido de azufre se debieran al tráfico vehicular o a la combustión urbana difusa, los óxidos de nitrógeno y el monóxido de carbono deberían incrementarse de manera simultánea, ya que ambos procesos los generan de forma conjunta. La ausencia de respuesta direccional en esos trazadores, o su respuesta en sentido contrario, es incompatible con dichas explicaciones.
-
-## Procedimientos de validación
-
-Los modelos se sometieron a cinco verificaciones independientes. La validación fuera de muestra estimó los modelos con 2022 a 2024 y los evaluó sobre 2025, año que el ajuste nunca observó, reportando el área bajo la curva ROC como medida de discriminación y el error de Brier como medida de calibración. La inferencia robusta recalculó los errores estándar agrupando por día, para corregir la subestimación de la incertidumbre que produciría suponer independencia entre horas de una misma jornada. El análisis de sensibilidad replicó la estimación con los percentiles 90, 95 y 99. El diagnóstico de autocorrelación residual evalúa si la especificación omite estructura temporal relevante. Finalmente, la evaluación de calibración compara por deciles de riesgo la probabilidad predicha frente a la proporción observada, verificación pertinente porque un modelo puede discriminar correctamente y aun así producir probabilidades sesgadas.
-
-## Especificaciones exploradas que no resultaron viables
-
-Tres aproximaciones se descartaron durante el desarrollo. La regresión lineal sobre la concentración se abandonó por las razones expuestas al inicio de esta sección, y sus resultados se incluyen en el Anexo A. La partición en dos conglomerados, sugerida por el índice de silueta, resultó menos informativa que la de cuatro grupos, decisión que se detalla en el Anexo B. La estimación del modelo direccional en la estación de control con el umbral más exigente no fue posible, dado que registra menos de treinta horas por encima de 30.6 partes por billón en cuatro años, imposibilidad que constituye en sí misma un resultado.
+Durante el desarrollo también se exploraron alternativas que no resultaron adecuadas. La regresión lineal sobre la concentración se descartó por la asimetría de SO2 y el interés específico en eventos agudos; sus resultados se incluyen en el Anexo A. Asimismo, aunque el índice de silueta favoreció inicialmente dos conglomerados, se seleccionaron cuatro por su mayor interpretabilidad química, decisión detallada en el Anexo B.
 
 # Resultados
 

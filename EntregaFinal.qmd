@@ -1,5 +1,5 @@
 ---
-title: "Entrega Final"
+title: "Entrega Final: Patrones de SO2 en relación con el viento y la proximidad a Cadereyta"
 subtitle: "Equipo 6"
 author:
   - name: "Alicia Bernádez A01562634"

@@ -522,32 +522,53 @@ El hallazgo de mayor relevancia práctica no es, sin embargo, la identificación
 
 # Referencias
 
-Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park. *Atmospheric Environment, 19*(8), 1263-1270. <https://doi.org/10.1016/0004-6981(85)90256-2>
+Ashbaugh, L. L., Malm, W. C., & Sadeh, W. Z. (1985). A residence time probability analysis of sulfur concentrations at Grand Canyon National Park. *Atmospheric Environment, 19*(8), 1263–1270.\
+https://doi.org/10.1016/0004-6981(85)90256-2
 
-Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport. *Atmospheric Environment, 40*(28), 5424-5434. <https://doi.org/10.1016/j.atmosenv.2006.04.062>
+Carslaw, D. C., Beevers, S. D., Ropkins, K., & Bell, M. C. (2006). Detecting and quantifying aircraft and other on-airport contributions to ambient nitrogen oxides in the vicinity of a large international airport. *Atmospheric Environment, 40*(28), 5424–5434.\
+[https://doi.org/10.1016/j.atmosenv.2006.04.062](https://doi.org/10.1016/j.atmosenv.2006.04.062?utm_source=chatgpt.com)
 
-Carslaw, D. C., & Ropkins, K. (2012). Openair: An R package for air quality data analysis. *Environmental Modelling & Software, 27-28*, 52-61. <https://doi.org/10.1016/j.envsoft.2011.09.008>
+Carslaw, D. C., & Ropkins, K. (2012). *openair—An R package for air quality data analysis*. *Environmental Modelling & Software, 27–28*, 52–61.\
+[https://doi.org/10.1016/j.envsoft.2011.09.008](https://doi.org/10.1016/j.envsoft.2011.09.008?utm_source=chatgpt.com)
 
-Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city. *Atmospheric Environment, 95*, 239-248. <https://doi.org/10.1016/j.atmosenv.2014.06.040>
+Clarke, K., Kwon, H.-O., & Choi, S.-D. (2014). Fast and reliable source identification of criteria air pollutants in an industrial city. *Atmospheric Environment, 95*, 239–248.\
+https://doi.org/10.1016/j.atmosenv.2014.06.040
 
-Comisión Federal para la Protección contra Riesgos Sanitarios. (s. f.). *Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México. <https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente>
+Comisión Federal para la Protección contra Riesgos Sanitarios. (2025, 1 de julio). *Normas Oficiales Mexicanas (NOM) de calidad del aire ambiente*. Gobierno de México.\
+[https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente](https://www.gob.mx/cofepris/acciones-y-programas/4-normas-oficiales-mexicanas-nom-de-calidad-del-aire-ambiente?utm_source=chatgpt.com)
 
-Gobierno del Estado de Nuevo León. (s. f.). *Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental. <https://aire.nl.gob.mx/icars2020/map_calidad_icars.php>
+Gobierno del Estado de Nuevo León. (s. f.). *Índice Aire y Salud: Reporte de la calidad del aire en la Zona Metropolitana de Monterrey*. Sistema Integral de Monitoreo Ambiental.\
+[https://aire.nl.gob.mx/icars2020/map_calidad_icars.php](https://aire.nl.gob.mx/icars2020/map_calidad_icars.php?utm_source=chatgpt.com)
 
-Holcim España. (s. f.). *¿Qué es la calidad del aire? Importancia y medición*. <https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion>
+Hodges, J. L., Jr., & Lehmann, E. L. (1963). Estimates of location based on rank tests. *The Annals of Mathematical Statistics, 34*(2), 598–611.\
+https://doi.org/10.1214/aoms/1177704172
 
-Instituto Nacional de Ecología y Cambio Climático. (s. f.). *Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México. <https://sinaica.inecc.gob.mx/scica/>
+Holcim España. (s. f.). *¿Qué es la calidad del aire y por qué es importante?*\
+[https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion](https://www.holcim.es/que-es-la-calidad-del-aire-importancia-y-medicion?utm_source=chatgpt.com)
 
-Organización Mundial de la Salud. (2021). *Directrices mundiales de la OMS sobre la calidad del aire: Partículas en suspensión (PM2.5 y PM10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono*. <https://www.who.int/es/news-room/questions-and-answers/item/who-global-air-quality-guidelines>
+Instituto Nacional de Ecología y Cambio Climático. (s. f.). *Sistema Nacional de Información de la Calidad del Aire (SINAICA)*. Gobierno de México.\
+[https://sinaica.inecc.gob.mx/index.php](https://sinaica.inecc.gob.mx/index.php?utm_source=chatgpt.com)
 
-Organización Mundial de la Salud. (2024). *Contaminación del aire ambiente (exterior) y salud*. <https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health>
+Kruskal, W. H., & Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. *Journal of the American Statistical Association, 47*(260), 583–621.\
+[https://doi.org/10.1080/01621459.1952.10483441](https://doi.org/10.1080/01621459.1952.10483441?utm_source=chatgpt.com)
 
-Programa de las Naciones Unidas para el Medio Ambiente. (2022). *¿Cómo se mide la calidad del aire?* <https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire>
+Organización Mundial de la Salud. (2021). *Directrices mundiales de la OMS sobre la calidad del aire: Materia particulada (MP2,5 y MP10), ozono, dióxido de nitrógeno, dióxido de azufre y monóxido de carbono: Resumen ejecutivo*.\
+[https://www.who.int/es/publications/i/item/9789240034433/](https://www.who.int/es/publications/i/item/9789240034433/?utm_source=chatgpt.com)
 
-Secretaría de Medio Ambiente de Nuevo León. (2023). Programa de Gestión para Mejorar la Calidad del Aire del Área Metropolitana de Monterrey 2023-2033 (PIGECA). Gobierno del Estado de Nuevo León. <https://aire.nl.gob.mx/PIGECA.html>
+Organización Mundial de la Salud. (2024, 24 de octubre). *Contaminación del aire ambiente (exterior) y salud*.\
+[https://www.who.int/es/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health](https://www.who.int/es/news-room/fact-sheets/detail/ambient-%28outdoor%29-air-quality-and-health?utm_source=chatgpt.com)
 
-Secretaría de Medio Ambiente y Recursos Naturales. (2023). *Proyecto de Norma Oficial Mexicana PROY-NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. Diario Oficial de la Federación. <https://www.diariooficial.gob.mx/normasOficiales/9314/semarnat_1_C/semarnat_1_C.html>
+Programa de las Naciones Unidas para el Medio Ambiente. (2022, 22 de septiembre). *¿Cómo se mide la calidad del aire?*\
+[https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire](https://www.unep.org/es/noticias-y-reportajes/reportajes/como-se-mide-la-calidad-del-aire?utm_source=chatgpt.com)
 
-Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1-9. <https://doi.org/10.1016/j.envsoft.2014.05.002>
+Secretaría de Medio Ambiente del Estado de Nuevo León. (2024). *Programa Integral de Gestión Estratégica de la Calidad del Aire 2023–2033 para el Área Metropolitana de Monterrey (PIGECA)*. Gobierno del Estado de Nuevo León.\
+[https://aire.nl.gob.mx/docs/reportes/PIGECA_2023_2033.pdf](https://aire.nl.gob.mx/docs/reportes/PIGECA_2023_2033.pdf?utm_source=chatgpt.com)
 
-Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564. <https://doi.org/10.1016/j.atmosenv.2022.119564>
+Secretaría de Medio Ambiente y Recursos Naturales. (2024). *Norma Oficial Mexicana NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del índice de calidad del aire y riesgos a la salud*. *Diario Oficial de la Federación*.\
+[NOM-172-SEMARNAT-2023 en el Diario Oficial de la Federación](https://sidof.segob.gob.mx/notas/5715154?utm_source=chatgpt.com)
+
+Uria-Tellaetxe, I., & Carslaw, D. C. (2014). Conditional bivariate probability function for source identification. *Environmental Modelling & Software, 59*, 1–9.\
+https://doi.org/10.1016/j.envsoft.2014.05.002
+
+Xue, Y., Cui, X., Li, K., Yu, Q., & Ma, W. (2023). Statistical source analysis of recurring sulfur dioxide pollution events in a chemical industrial park. *Atmospheric Environment, 296*, 119564.\
+https://doi.org/10.1016/j.atmosenv.2022.119564

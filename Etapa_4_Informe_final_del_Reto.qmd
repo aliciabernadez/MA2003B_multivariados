@@ -123,9 +123,8 @@ La información procede de los archivos horarios de la red del Sistema Integral 
 
 ## Validación y tratamiento de datos faltantes
 
-La revisión inicial identificó registros fuera de los intervalos físicamente posibles, entre ellos códigos de falla del equipo en temperatura y humedad, y presiones fuera del rango barométrico de la región. Toda observación situada fuera del rango de validación correspondiente se convirtió a valor faltante, utilizando la tabla de referencia del socio formador. Esos rangos no son constantes a lo largo del periodo, ya que reflejan cambios en la instrumentación: el límite superior de validación del dióxido de azufre pasa de 200 partes por billón en 2022 a 250 en 2023, 150 en 2024 y 405 en 2025. Por esa razón la validación se aplicó mediante la combinación de año y variable, dado que imponer el criterio de un solo año al periodo completo habría invalidado mediciones legítimas o conservado registros que el propio catálogo considera fuera de operación.
-
-El criterio de imputación se estableció de manera diferenciada según la función de cada variable, por consideraciones de validez antes que de completitud. Las variables meteorológicas de control recibieron imputación por vecinos más cercanos, procedimiento razonable dado que son continuas, con alta autocorrelación temporal y fuerte estructura cíclica. Los contaminantes conservaron sus valores faltantes sin imputación alguna, decisión que constituye un requisito del diseño: imputar los trazadores de falsación equivaldría a fabricar precisamente los contrastes que el análisis busca someter a prueba, ya que la ausencia de respuesta en un trazador solo constituye evidencia si corresponde a mediciones reales. Por la misma razón, el dióxido de azufre no fue objeto de depuración por valores extremos, pues un criterio automático basado en el rango intercuartílico habría suprimido las horas de concentración elevada, que son el objeto mismo del estudio.
+Los registros fuera de los rangos de validación proporcionados por SIMA se transformaron en valores faltantes. Debido a cambios en la instrumentación, estos límites varían según el año, por lo que la validación se realizó considerando simultáneamente año y variable.
+Las variables meteorológicas de control se imputaron mediante vecinos más cercanos, mientras que los contaminantes conservaron sus valores faltantes para evitar introducir artificialmente patrones químicos. SO2 tampoco se depuró mediante criterios automáticos de valores extremos, ya que las concentraciones elevadas constituyen precisamente el fenómeno de interés.
 
 ## Tratamiento de la dirección del viento
 
@@ -133,7 +132,7 @@ La dirección del viento es una variable circular, en la cual los valores cero y
 
 ## Estructura del panel
 
-El conjunto resultante constituye un panel deliberadamente no balanceado. Las cuatro estaciones no registran el mismo número de observaciones válidas, con un rango de 32,534 horas en GAR a 33,977 en SE3, diferencia que refleja la disponibilidad efectiva de los sensores y no un error de construcción. No se aplicó procedimiento de igualación alguno, ya que implicaría descartar información válida para satisfacer una simetría que el análisis no requiere. Conviene señalar, finalmente, una corrección respecto a documentos de etapas previas: las concentraciones de dióxido de azufre se expresan en partes por billón y la velocidad del viento en kilómetros por hora, conforme al catálogo del sistema de monitoreo, unidades que en materiales anteriores aparecieron de forma incorrecta sin afectar los resultados.
+La base final constituye un panel no balanceado, ya que las cuatro estaciones no cuentan con exactamente el mismo número de observaciones válidas durante el periodo analizado. La disponibilidad de datos varía entre 32,534 horas en GAR y 33,977 horas en SE3, diferencias que responden principalmente a la disponibilidad efectiva de los sensores y a los registros descartados durante el proceso de validación. No se realizó ningún procedimiento para igualar artificialmente el número de observaciones entre estaciones, ya que esto habría implicado eliminar información válida. Por esta razón, los análisis se realizaron utilizando todas las mediciones disponibles para cada estación, manteniendo la estructura real de la base de datos.
 
 # Modelación y validación
 
@@ -396,15 +395,20 @@ La razón entre el momio del dióxido de azufre y el de los óxidos de nitrógen
 
 ```{r}
 #| label: fig-cbpf-contraste
-#| fig-cap: "Función de probabilidad bivariada condicional en SE3."
-#| fig-subcap: TRUE
-  #|   - "Dióxido de azufre"
-  #|   - "Óxidos de nitrógeno"
+#| fig-cap: "Función de probabilidad bivariada condicional en SE3: SO2 (izquierda) y NOx (derecha)."
+#| fig-subcap:
+#|   - "Dióxido de azufre"
+#|   - "Óxidos de nitrógeno"
 #| layout-ncol: 2
-#| out-width: "100%"
+#| fig-show: hold
+#| out-width: "47%"
+#| fig-pos: "htbp"
+#| fig-align: center
 
-knitr::include_graphics("figuras/cbpf_so2_se3.png")
-knitr::include_graphics("figuras/cbpf_nox_se3.png")
+knitr::include_graphics(c(
+  "figuras/cbpf_so2_se3.png",
+  "figuras/cbpf_nox_se3.png"
+))
 ```
 
 El contraste entre ambos paneles es diagnóstico. El dióxido de azufre presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. Los óxidos de nitrógeno, medidos por el mismo equipo en el mismo sitio y sobre las mismas horas, alcanzan su máximo en el centro del gráfico, es decir, en condiciones de calma, sin orientación preferente. Un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. La aplicación del mismo procedimiento a SE2 y NE, incluida en el Anexo E, confirma el gradiente: ninguna presenta lóbulo orientado hacia el azimut de la fuente. La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo.

@@ -49,7 +49,7 @@ tabla_reporte <- function(datos, leyenda, digitos = 2) {
 
 El presente proyecto analiza el comportamiento de las concentraciones de dióxido de azufre registradas por el Sistema Integral de Monitoreo Ambiental de Nuevo León durante el periodo 2022-2025, con el objetivo de identificar patrones espaciales, direccionales y meteorológicos consistentes con la posible influencia de fuentes industriales localizadas en la zona de Cadereyta. El análisis se enfocó en las estaciones SE3 (Cadereyta), SE2 (Juárez), NE (San Nicolás) y GAR (García), esta última utilizada como punto de comparación por su mayor distancia respecto a la zona de interés. En particular, se buscó evaluar si los indicadores de tendencia central, como promedios y medianas anuales, representan adecuadamente la exposición a episodios agudos de SO2.
 
-La base inicial estuvo conformada por 140,236 registros y 19 variables correspondientes a contaminantes atmosféricos y condiciones meteorológicas. Como parte de la preparación de los datos se identificaron valores faltantes, registros fuera de los rangos establecidos por SIMA y posibles valores extremos. Las variables principales SO2, dirección del viento y velocidad del viento no fueron imputadas, con el fin de evitar la creación artificial de concentraciones o patrones direccionales. Para algunas variables meteorológicas secundarias se utilizó imputación mediante K vecinos más cercanos. 
+La base inicial estuvo conformada por 140,236 registros crudos y 19 variables correspondientes a contaminantes atmosféricos y condiciones meteorológicas. Como parte de la preparación de los datos se identificaron valores faltantes, registros fuera de los rangos establecidos por SIMA y posibles valores extremos. Las variables principales SO2, dirección del viento y velocidad del viento no fueron imputadas, con el fin de evitar la creación artificial de concentraciones o patrones direccionales. Para algunas variables meteorológicas secundarias se utilizó imputación mediante K vecinos más cercanos. 
 
 Para estudiar las relaciones de dependencia se utilizaron modelos de regresión logística, mientras que la estructura conjunta de los contaminantes se analizó mediante componentes principales y conglomerados. Estos métodos se complementaron con análisis descriptivos, comparaciones entre estaciones y la Conditional Bivariate Probability Function (CBPF). Se definieron como episodios elevados las horas con concentraciones de SO2 superiores a 11.1 ppb, correspondiente al percentil 95 global de las cuatro estaciones. SE3 presentó la mayor frecuencia de episodios, con 11.63% de sus horas válidas, seguida de SE2 con 5.54%, NE con 2.25% y GAR con 0.15%.
 
@@ -512,12 +512,6 @@ Se identificaron 1,561 episodios en SE3 durante el periodo, con duración median
 
 El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 en el periodo completo, equivalentes a 976 anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral mientras la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años. Esta cifra puede interpretarse como indicador de exposición potencialmente evitable, bajo el supuesto de que eliminar la contribución del sector identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que debe entenderse como cota superior y no como contribución neta de la fuente.
 
-### Indicador de exposición evitable
-
-El exceso de horas de episodio de SE3 respecto de la estación de control asciende a 3,902 horas en el periodo completo, equivalentes a un promedio de 976 horas anuales, es decir, 40.6 días al año en que Cadereyta supera el umbral de episodio mientras la estación de control no lo hace. GAR acumula entre 9 y 20 horas anuales; SE3 supera las mil en tres de los cuatro años analizados.
-
-Esta cifra puede interpretarse como un indicador de exposición potencialmente evitable, bajo el supuesto de que la eliminación de la contribución del sector direccional identificado aproximaría el comportamiento de SE3 al de una estación sin influencia industrial próxima. El supuesto es fuerte, por lo que la cifra debe entenderse como una cota superior y no como la contribución neta de la fuente.
-
 # Discusión y conclusiones
 
 ## Síntesis de los hallazgos
@@ -533,8 +527,6 @@ El diseño es observacional y no permite establecer atribución causal en sentid
 ## Implicaciones para el seguimiento de la calidad del aire
 
 El contraste entre tendencia central y exposición aguda tiene consecuencias operativas directas. Un sistema de seguimiento basado en concentraciones medias o medianas anuales, como los que emplean los instrumentos de planeación vigentes en el área metropolitana (Secretaría de Medio Ambiente de Nuevo León, 2023), habría reportado convergencia entre Cadereyta y la estación de control durante 2025, precisamente el año en que la exposición aguda repuntó con mayor intensidad. El efecto de la ventana de promediación refuerza la observación: dado que los episodios duran dos horas en mediana, un promedio móvil de veinticuatro horas reduce el percentil 99 de 55.3 a 26.0 partes por billón. La métrica no es incorrecta, pero mide un fenómeno distinto del que ocurre. Esto resulta particularmente relevante para un contaminante cuyos efectos documentados sobre la salud corresponden a exposiciones de corta duración: un indicador insensible a eventos breves resulta inadecuado para un riesgo que se materializa en eventos breves.
-
-## Recomendaciones
 
 ## Recomendaciones
 

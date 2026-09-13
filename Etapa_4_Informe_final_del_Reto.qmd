@@ -368,9 +368,7 @@ resultados_e4$falsacion_contaminantes %>%
   )
 ```
 
-El dióxido de azufre es el único contaminante con razón de momios significativamente superior a la unidad, con un valor de 2.66. El monóxido de carbono y el ozono no muestran respuesta, con intervalos que incluyen el uno. Los óxidos de nitrógeno presentan momios de 0.22, es decir, la probabilidad de concentración elevada de estos trazadores se reduce a menos de una cuarta parte cuando el viento proviene del este. El material particulado muestra reducciones intermedias.
-
-La razón entre el momio del dióxido de azufre y el de los óxidos de nitrógeno es de aproximadamente doce. La masa de aire procedente del sector oriental llega pobre en trazadores vehiculares, consistente con el carácter predominantemente rural de esa zona, pero transporta dióxido de azufre. Esta combinación es incompatible con las hipótesis de tráfico o combustión urbana difusa: bajo cualquiera de ellas los óxidos de nitrógeno aumentarían junto con el dióxido de azufre, no disminuirían.
+SO2 fue el único contaminante con una asociación significativamente positiva con el sector Este (OR = 2.66). CO y O3 no mostraron asociación significativa, mientras que NO y NOX presentaron razones de momios cercanas a 0.22. Este comportamiento opuesto al de los principales trazadores vehiculares es consistente con un perfil distinto al de la combustión urbana difusa.
 
 ## Verificación por método no paramétrico
 
@@ -392,7 +390,7 @@ knitr::include_graphics(c(
 ))
 ```
 
-El contraste entre ambos paneles es diagnóstico. El dióxido de azufre presenta un lóbulo compacto orientado al este franco, con probabilidad condicional superior a 0.6, centrado en velocidades de viento moderadas. Los óxidos de nitrógeno, medidos por el mismo equipo en el mismo sitio y sobre las mismas horas, alcanzan su máximo en el centro del gráfico, es decir, en condiciones de calma, sin orientación preferente. Un máximo direccional corresponde a transporte desde una fuente externa, mientras que un máximo central corresponde a acumulación local bajo estancamiento atmosférico. La aplicación del mismo procedimiento a SE2 y NE, incluida en el Anexo E, confirma el gradiente: ninguna presenta lóbulo orientado hacia el azimut de la fuente. La coincidencia entre un método paramétrico con control de covariables y uno no paramétrico sin controles, que parten de supuestos distintos, refuerza la robustez del hallazgo.
+La CBPF confirmó el contraste direccional: SO2 presenta un lóbulo definido hacia el Este y velocidades moderadas, mientras que NOX alcanza su máximo en condiciones de calma y sin orientación preferente. La coincidencia entre este método no paramétrico y la regresión logística refuerza la robustez del patrón. Los resultados para SE2 y NE se presentan en el Anexo E.
 
 ## Estructura multivariada de la matriz química
 
@@ -480,13 +478,11 @@ El exceso de horas de episodio de SE3 respecto de la estación de control ascien
 
 ## Síntesis de los hallazgos
 
-El análisis establece cuatro resultados. Existe una asociación direccional específica entre los episodios de dióxido de azufre en Cadereyta y el sector oriental, que persiste después de controlar de manera simultánea por cinco variables meteorológicas y por la concentración del propio contaminante en horas anteriores, con una razón de momios final de 3.38 e intervalo entre 3.06 y 3.74. El efecto decae de forma sistemática con la distancia, desde 3.19 a cinco kilómetros y medio hasta 1.01 a treinta y cinco, pese a que las cuatro estaciones tienen el complejo hacia el mismo cuadrante; esta conjunción necesaria de dirección y proximidad es característica de una pluma sujeta a dilución y difícilmente compatible con un fenómeno meteorológico de escala regional.
-
-Las pruebas de falsación resultan consistentes con un origen distinto a la combustión urbana: el sector oriental eleva la probabilidad de concentración alta de dióxido de azufre pero la reduce en óxidos de nitrógeno, con una razón entre ambos momios de aproximadamente doce, y las técnicas de interdependencia, que no emplean información meteorológica, sitúan al contaminante prácticamente ortogonal al eje de combustión urbana e identifican un grupo de horas con razón entre dióxido de azufre y óxidos de nitrógeno de 1.56 frente a 0.085 en el grupo de estancamiento. Finalmente, el fenómeno reside en la frecuencia de eventos agudos y no en el nivel de fondo: la diferencia de medianas no supera 1.5 partes por billón en ningún año, mientras el exceso de horas de episodio asciende a 976 anuales, equivalentes a 40.6 días.
+En conjunto, los resultados muestran que los episodios elevados de SO2 en SE3 presentan una asociación específica con el sector Este, cuya intensidad disminuye con la distancia y persiste después de controlar por meteorología y dependencia temporal. La ausencia de un patrón equivalente en los principales trazadores urbanos, junto con los resultados de PCA, conglomerados y CBPF, respalda la existencia de un perfil químico y direccional diferenciado. El principal hallazgo práctico es que esta señal se manifiesta en la frecuencia de eventos agudos: mientras las medianas entre estaciones son similares, SE3 registra un exceso aproximado de 976 horas de episodio al año respecto de GAR.
 
 ## Alcance de las conclusiones
 
-El diseño es observacional y no permite establecer atribución causal en sentido estricto, ya que no se dispone de datos de emisión de la fuente ni de un contrafactual experimental. Lo que el análisis establece es que los patrones documentados resultan difícilmente compatibles con las explicaciones alternativas evaluadas. La correlación entre el sector oriental y los episodios no implica causalidad por sí misma; lo que aproxima el análisis a una inferencia sobre la fuente es la combinación de cuatro elementos: el control estadístico de las explicaciones alternativas plausibles, la verificación de que el patrón decae con la distancia conforme a un mecanismo físico conocido, la especificidad química del contaminante que responde, y la coincidencia entre métodos que parten de supuestos distintos. Ninguno es concluyente de manera aislada; su convergencia es lo que sostiene la interpretación. Persisten dos limitaciones: sin un inventario de emisiones georreferenciado no es posible descartar otras fuentes industriales en el mismo sector, y las coordenadas empleadas son aproximadas, si bien el análisis de sensibilidad muestra que esa imprecisión no altera la identificación del sector.
+Debido al carácter observacional del estudio, los resultados no permiten atribuir causalidad directa a una instalación específica. Sin embargo, la combinación del gradiente espacial, los controles meteorológicos y temporales, la especificidad química y la concordancia entre métodos independientes reduce la plausibilidad de las explicaciones alternativas evaluadas. Persisten como limitaciones la ausencia de un inventario georreferenciado de emisiones y el uso de coordenadas aproximadas del complejo.
 
 ## Implicaciones para el seguimiento de la calidad del aire
 
@@ -498,7 +494,7 @@ Del análisis se derivan cuatro recomendaciones para el socio formador. La prime
 
 ## Preguntas que surgen del análisis
 
-El trabajo deja abiertas cinco preguntas. ¿A qué obedece el repunte de episodios observado en 2025? Los datos disponibles no permiten distinguir entre cambios en la operación del complejo, variaciones meteorológicas interanuales o modificaciones en los procedimientos de medición. ¿Es estable el patrón direccional a lo largo del tiempo, o se está intensificando? La extensión del análisis a 2020 y 2021, disponibles en la base del sistema de monitoreo, permitiría evaluarlo. ¿Cambia la señal entre periodos de operación normal y paros de mantenimiento del complejo? Esta es la pregunta de mayor interés metodológico, ya que la comparación entre fases de actividad y de paro mantendría constantes la ubicación de las estaciones y el régimen de vientos mientras varía únicamente la actividad de la fuente, y constituiría la prueba más directa de la hipótesis. ¿Qué proporción de la población de Cadereyta se encuentra efectivamente expuesta durante los episodios? Su estimación requiere información sobre densidad de habitantes y modelación de dispersión que este análisis no incorpora. ¿Existen otras fuentes de emisión en el mismo sector oriental? Un inventario de emisiones georreferenciado permitiría discriminar entre la contribución del complejo y la de otros emisores potenciales.
+Los resultados abren varias líneas de investigación: identificar las causas del repunte de episodios observado en 2025; evaluar la estabilidad temporal del patrón direccional; comparar periodos de operación normal y mantenimiento del complejo; estimar la población potencialmente expuesta; e incorporar un inventario georreferenciado de emisiones para distinguir entre posibles fuentes ubicadas en el mismo sector oriental.
 
 ## Conclusión
 

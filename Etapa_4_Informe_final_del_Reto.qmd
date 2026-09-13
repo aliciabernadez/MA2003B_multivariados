@@ -69,7 +69,7 @@ Diversos estudios han utilizado concentraciones de contaminantes y variables met
 
 ## Justificación
 
-Los antecedentes revisados coinciden en que el análisis conjunto de concentraciones y variables meteorológicas permite identificar patrones compatibles con fuentes de emisión específicas. Ninguno aborda, sin embargo, una cuestión central para la gestión de la calidad del aire: si los indicadores estadísticos empleados habitualmente en los instrumentos de planeación representan de manera adecuada la exposición que experimenta la población cercana a una fuente puntual. Este proyecto aplica el enfoque direccional a los registros del Sistema Integral de Monitoreo Ambiental y lo extiende en esa dirección, al cuantificar la magnitud de la exposición aguda vinculada al sector identificado y contrastarla con lo que reportarían las medidas de tendencia central. El resultado permite evaluar si los mecanismos de seguimiento vigentes capturan el fenómeno que buscan vigilar.
+Los antecedentes muestran que el análisis conjunto de concentraciones y condiciones meteorológicas permite detectar patrones compatibles con fuentes de emisión específicas. Sin embargo, para la gestión de la calidad del aire también es necesario evaluar si los indicadores de tendencia central representan adecuadamente exposiciones breves pero elevadas. Este proyecto aplica métodos direccionales a los registros de SIMA para cuantificar la exposición aguda asociada al sector identificado y contrastarla con las medidas de tendencia central utilizadas habitualmente, con el fin de valorar si los mecanismos actuales de seguimiento capturan adecuadamente este fenómeno.
 
 # Problemática y objetivo
 

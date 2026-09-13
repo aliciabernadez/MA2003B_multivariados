@@ -1227,6 +1227,133 @@ falsacion_multicontaminante <- map_dfr(
 print(falsacion_multicontaminante)
 ```
 
+```{r}
+# ============================================================
+# SIGNIFICANCIA DEL SECTOR ESTE POR CONTAMINANTE
+# ============================================================
+
+prueba_contaminante <- function(df, var) {
+
+  d <- df %>%
+    filter(
+      Estacion == "SE3",
+      !is.na(.data[[var]])
+    ) %>%
+    mutate(
+      # Episodio = superar el P95 propio de cada contaminante
+      y = as.integer(
+        .data[[var]] >
+          quantile(.data[[var]], 0.95, na.rm = TRUE)
+      ),
+      dia = as.Date(fecha)
+    ) %>%
+    drop_na(
+      y, sector_E, WSR,
+      Hora_sin, Hora_cos,
+      Mes_sin, Mes_cos,
+      dia
+    )
+
+  # Modelo SIN sector Este
+  m0 <- glm(
+    y ~
+      ns(WSR, 3) +
+      Hora_sin + Hora_cos +
+      Mes_sin + Mes_cos,
+    data = d,
+    family = binomial
+  )
+
+  # Modelo CON sector Este
+  m1 <- glm(
+    y ~
+      sector_E +
+      ns(WSR, 3) +
+      Hora_sin + Hora_cos +
+      Mes_sin + Mes_cos,
+    data = d,
+    family = binomial
+  )
+
+  # 1. Prueba de razón de verosimilitudes
+  lrt <- anova(
+    m0,
+    m1,
+    test = "Chisq"
+  )
+
+  # 2. Errores estándar robustos agrupados por día
+  V_rob <- vcovCL(
+    m1,
+    cluster = d$dia
+  )
+
+  rob <- coeftest(
+    m1,
+    vcov. = V_rob
+  )
+
+  beta <- rob["sector_EEste", "Estimate"]
+  se   <- rob["sector_EEste", "Std. Error"]
+  p_rob <- rob["sector_EEste", "Pr(>|z|)"]
+
+  tibble(
+    Contaminante = var,
+    n = nrow(d),
+    Eventos = sum(d$y),
+
+    OR = exp(beta),
+    IC_inf = exp(beta - 1.96 * se),
+    IC_sup = exp(beta + 1.96 * se),
+
+    Deviance_LRT = lrt$Deviance[2],
+    p_LRT = lrt$`Pr(>Chi)`[2],
+
+    p_robusto = p_rob
+  )
+}
+
+
+# Ejecutar para todos los contaminantes
+significancia_contaminantes <- map_dfr(
+  c("SO2", "NOX", "NO", "CO", "PM10", "PM2.5", "O3"),
+  ~ prueba_contaminante(datos, .x)
+) %>%
+
+  # Corrección por comparaciones múltiples
+  mutate(
+    p_Holm = p.adjust(
+      p_robusto,
+      method = "holm"
+    ),
+
+    Significativo = if_else(
+      p_Holm < 0.05,
+      "Sí",
+      "No"
+    ),
+
+    Tipo_asociacion = case_when(
+      IC_inf > 1 ~ "Positiva",
+      IC_sup < 1 ~ "Negativa",
+      TRUE ~ "No significativa"
+    )
+  ) %>%
+
+  mutate(
+    across(
+      c(OR, IC_inf, IC_sup, Deviance_LRT),
+      ~ round(.x, 3)
+    ),
+    p_LRT = signif(p_LRT, 3),
+    p_robusto = signif(p_robusto, 3),
+    p_Holm = signif(p_Holm, 3)
+  )
+
+
+print(significancia_contaminantes, n = Inf)
+```
+
 # 16. Verificación independiente CBPF
 
 Este bloque es opcional. Solo se ejecuta si `openair` está instalado.
@@ -1506,6 +1633,7 @@ ggplot(calibracion, aes(x = p_promedio_predicho, y = prop_observada)) +
 ```
 La prueba de Hosmer-Lemeshow resultó significativa (p<0.05), resultado esperable dado el tamaño de muestra, ya que esta prueba es conocida por rechazar la hipótesis de buen ajuste incluso ante desviaciones triviales cuando N es grande. Al examinar la calibración por deciles de riesgo, las diferencias entre probabilidad predicha y proporción observada se mantuvieron por debajo de 3.5 puntos porcentuales en todos los casos, con la mayor desviación en el noveno decil (predicho 18.5%, observado 22.0%). El modelo tiende a subestimar ligeramente el riesgo en las categorías de riesgo medio-alto y recupera buena precisión en el decil de mayor riesgo, lo cual es relevante para su uso como herramienta de alerta temprana.
 
+<<<<<<< Updated upstream
 
 
 ```{r}
@@ -1692,5 +1820,3 @@ ggsave("figuras/duracion_episodios.png", fig_duracion,
 
 cat("Figuras generadas:\n")
 print(list.files("figuras"))
-```
-
